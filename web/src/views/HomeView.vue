@@ -17,16 +17,16 @@
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <!-- Left column -->
                     <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-                        <WelcomeView />
+                        <WelcomePanel />
 
                         <ActivityPanel />
                     </div>
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <BlockRewards />
+                        <PayoutsPanel />
 
-                        <RecentPayouts />
+                        <BlockRewardsPanel />
                     </div>
                 </div>
             </div>
@@ -39,20 +39,20 @@
 <script>
 /* Import components. */
 import ActivityPanel from '@/components/ActivityPanel'
-import BlockRewards from '@/components/BlockRewards'
+import BlockRewardsPanel from '@/components/BlockRewardsPanel'
 import FooterView from '@/components/FooterView'
 import HeaderView from '@/components/HeaderView'
-import RecentPayouts from '@/components/RecentPayouts'
-import WelcomeView from '@/components/WelcomeView'
+import PayoutsPanel from '@/components/PayoutsPanel'
+import WelcomePanel from '@/components/WelcomePanel'
 
 export default {
     components: {
         ActivityPanel,
-        BlockRewards,
+        BlockRewardsPanel,
         FooterView,
         HeaderView,
-        RecentPayouts,
-        WelcomeView,
+        PayoutsPanel,
+        WelcomePanel,
     }
 }
 </script>

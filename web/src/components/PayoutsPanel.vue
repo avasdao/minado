@@ -2,8 +2,8 @@
     <main aria-labelledby="recent-hires-title">
         <div class="rounded-lg bg-white overflow-hidden shadow">
             <div class="p-6">
-                <h2 class="text-base font-medium text-gray-900" id="recent-hires-title">
-                    Recent Payouts
+                <h2 class="text-xl font-medium text-gray-900" id="recent-hires-title">
+                    Payouts
                 </h2>
 
                 <div class="flow-root mt-6">
@@ -18,8 +18,8 @@
                                     />
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 truncate">Leonard Krasner</p>
-                                    <p class="text-sm text-gray-500 truncate">@leonardkrasner</p>
+                                    <p class="text-base font-medium text-gray-900 truncate">8 432 192 NEX</p>
+                                    <p class="text-sm text-gray-500 truncate italic">paid to 48 users 10 mins ago</p>
                                 </div>
                                 <div>
                                     <a href="javascript://" class="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"> View </a>

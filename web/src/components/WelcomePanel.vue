@@ -15,41 +15,73 @@
                         <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
                             <p class="text-sm font-medium text-gray-600">Nexa Rocks!</p>
                             <p class="text-xl font-bold text-gray-900 sm:text-2xl">Welcome Guest</p>
-                            <p class="text-sm font-medium text-gray-600">Human Resources Manager</p>
+                            <p class="text-sm font-medium text-gray-600">NEXA Premier Mining Pool</p>
                         </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                        <a href="#" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> View profile </a>
+                        <a href="javascript://" @click="startMiner" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
+                            Start Web Miner
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
                 <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-gray-900">
-                        1.2MH/s
+                    <span class="text-2xl text-green-500">
+                        3.2KH/s
                     </span>
 
                     <span class="text-gray-600">
-                        Hash Rate
+                        Your Hash Rate
+                    </span>
+
+                    <hr class="my-2" />
+
+                    <span class="text-base text-gray-900">
+                        1.2MH/s
+                    </span>
+
+                    <span class="text-xs text-gray-600">
+                        Pool Hash Rate
                     </span>
                 </div>
 
                 <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-gray-900">
+                    <span class="text-2xl text-red-500">
                         4
                     </span>
 
                     <span class="text-gray-600">
-                        Active Miners
+                        Your Active Miners
+                    </span>
+
+                    <hr class="my-2" />
+
+                    <span class="text-base text-gray-900">
+                        42
+                    </span>
+
+                    <span class="text-xs text-gray-600">
+                        Active Pool Miners
                     </span>
                 </div>
 
                 <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-gray-900">
-                        4 mins 20 secs
+                    <span class="text-2xl text-red-500">
+                        6 mins 40 secs
                     </span>
 
                     <span class="text-gray-600">
+                        Estimated Next Payout
+                    </span>
+
+                    <hr class="my-2" />
+
+                    <span class="text-base text-gray-900">
+                        4 mins 20 secs
+                    </span>
+
+                    <span class="text-xs text-gray-600">
                         Last Block Reward
                     </span>
                 </div>
@@ -67,7 +99,19 @@ export default {
         //
     },
     methods: {
-        //
+        startMiner() {
+            const address = prompt(
+                'Please enter your NEXA address 👇',
+                'nexa:<address-goes-here>'
+            )
+
+            if (address !== null) {
+                alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
+            } else {
+                alert('🚨 A valid NEXA address is required to continue 🚨')
+            }
+        },
+
     },
     created: function () {
         //

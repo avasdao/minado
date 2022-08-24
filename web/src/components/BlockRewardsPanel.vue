@@ -2,7 +2,7 @@
     <main aria-labelledby="announcements-title">
         <div class="rounded-lg bg-white overflow-hidden shadow">
             <div class="p-6">
-                <h2 class="text-base font-medium text-gray-900" id="announcements-title">
+                <h2 class="text-xl font-medium text-gray-900" id="announcements-title">
                     Block Rewards
                 </h2>
 
@@ -14,10 +14,11 @@
                                     <a href="javascript://" class="hover:underline focus:outline-none">
                                         <!-- Extend touch target to entire panel -->
                                         <span class="absolute inset-0" aria-hidden="true"></span>
-                                        Office closed on July 2nd
+                                        Block #88572
                                     </a>
                                 </h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                                    Solved 8 minutes ago.
                                     Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex tempora neque cum consectetur dolores.
                                 </p>
                             </div>

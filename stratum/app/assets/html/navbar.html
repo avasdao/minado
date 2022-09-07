@@ -1,0 +1,43 @@
+<style>
+  .page-container {
+    max-width: 1260px;
+    margin: 0 auto;
+  }
+  .navIcon {
+    margin-right: 10px;
+  }
+</style>
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img :src="brandImageUrl" />
+    </a>
+  </div>
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/account"><i class="fas fa-dollar-sign navIcon"></i>View Account Shares</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/overview"><i class="fas fa-users navIcon"></i>Pool Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://discord.gg/G7twxAg" target="_blank"><i class="fab fa-discord navIcon"></i>Mike.rs Pool Official Discord</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/privacy_policy" target="_blank">Mike.rs Pool Privacy Policy</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/terms_of_service" target="_blank">Mike.rs Pool Terms of Service</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

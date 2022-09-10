@@ -105,9 +105,10 @@ export default {
     },
     methods: {
         test() {
-            console.log('trying the wasm')
+            console.log('Starting test...')
 
-            miner.greet('Britney')
+            /* Display welcome. */
+            miner.welcome('Britney')
         },
 
         startMiner() {

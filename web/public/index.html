@@ -21,14 +21,14 @@
 
 <script type="module">
 /* Import WASM miner. */
-import init, { greet } from "./bin/wasm_miner.js"
+import init, { welcome } from "./bin/miner.js"
 
 /* Initialize miner. */
 init()
     .then(() => {
         /* Create a global miner object. */
         window.miner = {
-            greet,
+            welcome,
         }
     })
 </script>

@@ -14,6 +14,6 @@ extern {
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("Hi, {}!", name));
+pub fn welcome(name: &str) {
+    alert(&format!("Welcome, {}!", name));
 }

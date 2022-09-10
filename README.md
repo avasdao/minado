@@ -2,4 +2,4 @@
 
 ### https://nexa.rocks
 
-The premier NEXA mining pool.
+The premier Nexa (NEX) mining pool and software suite.

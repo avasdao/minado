@@ -19,5 +19,19 @@
 <div id="app"></div>
 <!-- built files will be auto injected -->
 
+<script type="module">
+/* Import WASM miner. */
+import init, { greet } from "./js/wasm_miner.js"
+
+/* Initialize miner. */
+init()
+    .then(() => {
+        /* Create a global miner object. */
+        window.miner = {
+            greet,
+        }
+    })
+</script>
+
 </body>
 </html>

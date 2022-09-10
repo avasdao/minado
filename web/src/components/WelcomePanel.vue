@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                        <a href="javascript://" @click="startMiner" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
+                        <a href="javascript://" @click="test" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
                             Start Web Miner
                         </a>
                     </div>
@@ -28,7 +28,7 @@
             <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
                 <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
                     <span class="text-2xl text-green-500">
-                        3.2KH/s
+                        30,226 H/s
                     </span>
 
                     <span class="text-gray-600">
@@ -91,6 +91,11 @@
 </template>
 
 <script>
+/* global miner */
+/* Import modules. */
+// import * as miner from 'wasm-miner'
+// import * as miner from 'wasm-miner'
+
 export default {
     data: () => ({
         //
@@ -99,17 +104,33 @@ export default {
         //
     },
     methods: {
+        test() {
+            console.log('trying the wasm')
+
+            miner.greet('Britney')
+        },
+
         startMiner() {
+            /* Set placeholder. */
+            const placeholder = 'nexa:<address-goes-here>'
+
+            /* Request address. */
             const address = prompt(
                 'Please enter your NEXA address 👇',
-                'nexa:<address-goes-here>'
+                placeholder,
             )
 
-            if (address !== null) {
-                alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
-            } else {
-                alert('🚨 A valid NEXA address is required to continue 🚨')
+            /* Handle canceled request. */
+            if (address === null) {
+                return
             }
+
+            /* Handle empty address. */
+            if (address === '' || address === placeholder) {
+                return alert('🚨 A valid NEXA address is required to continue 🚨')
+            }
+
+            alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
         },
 
     },

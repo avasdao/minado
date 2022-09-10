@@ -1,7 +1,9 @@
 <template>
     <main aria-labelledby="quick-links-title">
         <div class="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
-            <h2 class="sr-only" id="quick-links-title">Quick links</h2>
+            <h2 class="sr-only" id="quick-links-title">
+                Quick links
+            </h2>
 
             <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500">
                 <div>
@@ -12,16 +14,35 @@
                         </svg>
                     </span>
                 </div>
+
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
                         <a href="javascript://" class="focus:outline-none">
                             <!-- Extend touch target to entire panel -->
                             <span class="absolute inset-0" aria-hidden="true"></span>
-                            Request time off
+                            Order New Miner
                         </a>
                     </h3>
-                    <p class="mt-2 text-sm text-gray-500">Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.</p>
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        We offer a range of miners from young and ambitious, to the strength of Hurcules.
+                    </p>
+
+                    <div class="my-3 mx-10 border-t border-gray-300" />
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Ayers Rock (Gen1): <strong>7,000 - 8,000</strong> H/s
+                    </p>
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Bryce Canyon (Gen2): <strong>9,000 - 10,000</strong> H/s
+                    </p>
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Camel Rock (Gen3): <strong>14,000 - 15,000</strong> H/s
+                    </p>
                 </div>
+
                 <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path
@@ -44,16 +65,21 @@
                         </svg>
                     </span>
                 </div>
+
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
                         <a href="javascript://" class="focus:outline-none">
                             <!-- Extend touch target to entire panel -->
                             <span class="absolute inset-0" aria-hidden="true"></span>
-                            Benefits
+                            Get Started in 5 Mins
                         </a>
                     </h3>
-                    <p class="mt-2 text-sm text-gray-500">Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.</p>
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Our team has taken nearly 2 years to create the easiest mining system in crypto.
+                    </p>
                 </div>
+
                 <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path
@@ -72,16 +98,21 @@
                         </svg>
                     </span>
                 </div>
+
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
                         <a href="javascript://" class="focus:outline-none">
                             <!-- Extend touch target to entire panel -->
                             <span class="absolute inset-0" aria-hidden="true"></span>
-                            Schedule a one-on-one
+                             Block Rewards
                         </a>
                     </h3>
-                    <p class="mt-2 text-sm text-gray-500">Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.</p>
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.
+                    </p>
                 </div>
+
                 <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path
@@ -138,6 +169,7 @@
                         </svg>
                     </span>
                 </div>
+
                 <div class="mt-8">
                     <h3 class="text-lg font-medium">
                         <a href="javascript://" class="focus:outline-none">

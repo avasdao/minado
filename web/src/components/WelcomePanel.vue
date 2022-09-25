@@ -20,11 +20,12 @@
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
                         <a href="javascript://" @click="test" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
-                            Start Web Miner
+                            Start Web Mining
                         </a>
                     </div>
                 </div>
             </div>
+
             <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
                 <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
                     <span class="text-2xl text-green-500">
@@ -86,6 +87,29 @@
                     </span>
                 </div>
             </div>
+
+            <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
+                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-2xl text-green-500">
+                        $0.0125
+                    </span>
+
+                    <span class="text-gray-600">
+                        Asset Mining Value (AMV)
+                    </span>
+                </div>
+
+                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-2xl text-green-500">
+                        n/a
+                    </span>
+
+                    <span class="text-gray-600">
+                        Free Market Value (FMV)
+                    </span>
+                </div>
+            </div>
+
         </div>
     </main>
 </template>
@@ -108,10 +132,10 @@ export default {
             console.log('Starting test...')
 
             /* Display welcome. */
-            miner.welcome('Britney')
+            miner.welcome('Anon')
         },
 
-        startMiner() {
+        startWebMining() {
             /* Set placeholder. */
             const placeholder = 'nexa:<address-goes-here>'
 
@@ -136,7 +160,13 @@ export default {
 
     },
     created: function () {
-        //
+        const bech32 = require('../libs/bech32')
+        console.log('BECH32', bech32);
+
+        const test = 'split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w'
+
+        const ret = bech32.decode(test, bech32.encodings.BECH32)
+        console.log('RET', ret)
     },
     mounted: function () {
         //

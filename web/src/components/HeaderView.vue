@@ -4,14 +4,14 @@
             <div class="relative flex flex-wrap items-center justify-center lg:justify-between">
                 <!-- Logo -->
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
-                    <a href="javascript://" class="flex flex-row items-center">
+                    <router-link to="/" class="flex flex-row items-center">
                         <span class="sr-only">Nexa Rocks</span>
                         <img class="w-16 h-16" :src="require('../assets/logo.png')" />
 
                         <h1 class="hidden lg:block ml-3 text-4xl text-gray-200 font-bold">
                             NEXA ROCKS!
                         </h1>
-                    </a>
+                    </router-link>
                 </div>
 
                 <!-- Right section on desktop -->
@@ -83,6 +83,10 @@
 
                                 <router-link to="/solo" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Solo Mining
+                                </router-link>
+
+                                <router-link to="/order" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    New Order
                                 </router-link>
 
                                 <router-link to="/help" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">

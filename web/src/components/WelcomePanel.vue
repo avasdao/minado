@@ -95,7 +95,7 @@
                     </span>
 
                     <span class="text-gray-600">
-                        Asset Mining Value (AMV)
+                        Cost Per Million (CPM)
                     </span>
                 </div>
 
@@ -105,7 +105,7 @@
                     </span>
 
                     <span class="text-gray-600">
-                        Free Market Value (FMV)
+                        Value Per Million (VPM)
                     </span>
                 </div>
             </div>
@@ -116,8 +116,8 @@
 
 <script>
 /* global miner */
+
 /* Import modules. */
-// import * as miner from 'wasm-miner'
 // import * as miner from 'wasm-miner'
 
 export default {
@@ -158,15 +158,19 @@ export default {
             alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
         },
 
+        decodeAddress() {
+            const bech32 = require('../libs/bech32')
+            console.log('BECH32', bech32);
+
+            const test = 'split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w'
+
+            const ret = bech32.decode(test, bech32.encodings.BECH32)
+            console.log('RET', ret)
+        },
+
     },
     created: function () {
-        const bech32 = require('../libs/bech32')
-        console.log('BECH32', bech32);
-
-        const test = 'split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w'
-
-        const ret = bech32.decode(test, bech32.encodings.BECH32)
-        console.log('RET', ret)
+        // this.decodeAddress()
     },
     mounted: function () {
         //

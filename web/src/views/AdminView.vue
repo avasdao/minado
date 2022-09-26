@@ -2,7 +2,7 @@
     <main class="grid grid-cols-1 gap-4 lg:col-span-2">
         <section aria-labelledby="profile-overview-title">
             <div class="rounded-lg bg-white overflow-hidden shadow">
-                <h2 class="sr-only" id="profile-overview-title">Cloud Mining</h2>
+                <h2 class="sr-only" id="profile-overview-title">Admin Area</h2>
 
                 <div class="bg-white p-6">
                     <div class="sm:flex sm:items-center sm:justify-between">
@@ -15,8 +15,8 @@
                                 />
                             </div>
                             <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
-                                <p class="text-sm font-medium text-gray-600">Cloud Mining</p>
-                                <p class="text-xl font-bold text-gray-900 sm:text-2xl">Cloud Mining</p>
+                                <p class="text-sm font-medium text-gray-600">Admin Area</p>
+                                <p class="text-xl font-bold text-gray-900 sm:text-2xl">Admin Area</p>
                                 <p class="text-sm font-medium text-gray-600">NEXA Premier Mining Pool</p>
                             </div>
                         </div>

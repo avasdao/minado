@@ -7,7 +7,12 @@ import CloudMining from '../views/CloudMining'
 import HelpView from '../views/HelpView'
 
 import OrderView from '../views/OrderView'
+import OrderCheckout from '../views/OrderCheckout'
 import OrderHistory from '../views/OrderHistory'
+import OrderPending from '../views/OrderPending'
+import OrderQueue from '../views/OrderQueue'
+
+import MinersDetail from '../views/MinersDetail'
 
 import PoolMining from '../views/PoolMining'
 import SoloMining from '../views/SoloMining'
@@ -37,8 +42,25 @@ const routes = [
         component: OrderView,
     },
     {
+        path: '/order/checkout',
+        component: OrderCheckout,
+    },
+    {
         path: '/order/history',
         component: OrderHistory,
+    },
+    {
+        path: '/order/pending',
+        component: OrderPending,
+    },
+    {
+        path: '/queue',
+        component: OrderQueue,
+    },
+
+    {
+        path: '/miners/:minerid',
+        component: MinersDetail,
     },
 
     {

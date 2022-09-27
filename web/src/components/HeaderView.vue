@@ -8,8 +8,8 @@
                         <span class="sr-only">Nexa Rocks</span>
                         <img class="w-16 h-16" :src="require('../assets/logo.png')" />
 
-                        <h1 class="hidden lg:block ml-3 text-4xl text-gray-200 font-bold">
-                            NEXA ROCKS!
+                        <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
+                            Nexa Rocks!
                         </h1>
                     </router-link>
                 </div>
@@ -73,20 +73,20 @@
                                     Home
                                 </router-link>
 
-                                <router-link to="/cloud" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    Cloud Mining
+                                <router-link to="/solo" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Solo
                                 </router-link>
 
                                 <router-link to="/pool" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    Pool Mining
+                                    Pool
                                 </router-link>
 
-                                <router-link to="/solo" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    Solo Mining
+                                <router-link to="/cloud" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Cloud
                                 </router-link>
 
                                 <router-link to="/order" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    New Order
+                                    Place an Order
                                 </router-link>
 
                                 <router-link to="/help" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">

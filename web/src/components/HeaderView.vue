@@ -69,27 +69,27 @@
                         <!-- Left nav -->
                         <div class="hidden lg:block lg:col-span-2">
                             <nav class="flex space-x-4">
-                                <router-link to="/" class="text-white text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
+                                <router-link to="/" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
                                     Home
                                 </router-link>
 
-                                <router-link to="/solo" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <router-link to="/solo" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Solo
                                 </router-link>
 
-                                <router-link to="/pool" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <router-link to="/pool" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Pool
                                 </router-link>
 
-                                <router-link to="/cloud" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <router-link to="/cloud" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Cloud
                                 </router-link>
 
-                                <router-link to="/order" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <router-link to="/order" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Place an Order
                                 </router-link>
 
-                                <router-link to="/help" class="text-cyan-100 text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <router-link to="/help" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Need help?
                                 </router-link>
                             </nav>
@@ -109,8 +109,8 @@
                                     </div>
                                     
                                     <input
-                                        class="block w-full text-white bg-white bg-opacity-20 py-2 pl-10 pr-3 border border-transparent rounded-md leading-5 focus:text-gray-900 placeholder-white focus:outline-none focus:bg-opacity-100 focus:border-transparent focus:placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                        placeholder="Enter a Nexa address"
+                                        class="block w-full text-white text-lg bg-white bg-opacity-20 py-2 pl-10 pr-3 border border-transparent rounded-md leading-5 focus:text-gray-900 placeholder-white focus:outline-none focus:bg-opacity-100 focus:border-transparent focus:placeholder-gray-500 focus:ring-0"
+                                        placeholder="Type of paste your nexa: address"
                                         type="search"
                                         v-model="search"
                                     />

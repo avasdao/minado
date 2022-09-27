@@ -21,9 +21,15 @@
                             disabled
                         />
 
-                        <span class="text-sm">
-                            https://
-                        </span>
+                        <ol class="pl-5 pt-3 list-disc list-inside">
+                            <li class="text-yellow-600">
+                                https://nexa.rocks/<span class="text-red-500 font-medium">{{referralid}}</span>
+                            </li>
+
+                            <li class="text-yellow-600">
+                                https://nexa.rocks/<span class="text-yellow-800 italic">&lt;page-name-or-location&gt;</span>/<span class="text-red-500 font-medium">{{referralid}}</span>
+                            </li>
+                        </ol>
                             
                     </div>
 
@@ -63,7 +69,7 @@ export default {
         //
     },
     created: function () {
-        this.referralid = 'aBc123De45'
+        this.referralid = 'ab12c3'
     },
     mounted: function () {
         //

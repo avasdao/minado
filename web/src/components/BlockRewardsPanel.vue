@@ -8,18 +8,18 @@
 
                 <div class="flow-root mt-6">
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
-                        <li class="py-5">
+                        
+                        <li class="py-5" v-for="reward of rewards" :key="reward.id">
                             <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
                                 <h3 class="text-sm font-semibold text-gray-800">
                                     <a href="javascript://" class="hover:underline focus:outline-none">
                                         <!-- Extend touch target to entire panel -->
                                         <span class="absolute inset-0" aria-hidden="true"></span>
-                                        Block #88572
+                                        Block #{{reward.height}}
                                     </a>
                                 </h3>
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                                    Solved 8 minutes ago.
-                                    Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex tempora neque cum consectetur dolores.
+                                    Solved {{reward.timeAgo}}.
                                 </p>
                             </div>
                         </li>
@@ -68,7 +68,7 @@
 <script>
 export default {
     data: () => ({
-        //
+        rewards: null,
     }),
     computed: {
         //
@@ -77,7 +77,14 @@ export default {
         //
     },
     created: function () {
-        //
+        this.rewards = []
+
+        this.rewards.push({
+            id: 'reward-id-1',
+            height: 88572,
+            timeAgo: '8 minutes ago',
+            updatedAt: 1234567890,
+        })
     },
     mounted: function () {
         //

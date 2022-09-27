@@ -3,10 +3,13 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <h1 class="sr-only">Pool Mining</h1>
 
-            <!-- Main 3 column grid -->
             <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                <section class="p-5 col-span-2 bg-yellow-100 border-2 border-yellow-300 rounded-lg shadow">
-                    <p class="text-yellow-800">
+                <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+                    <h1 class="text-4xl font-bold text-yellow-900">
+                        Pool Mining
+                    </h1>
+
+                    <p class="text-yellow-900">
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum aliquam maiores animi iusto est laborum quas dolore assumenda voluptate quis! Quaerat corrupti enim autem iusto voluptates dolorum quae voluptate eligendi.
                     </p>
                 </section>

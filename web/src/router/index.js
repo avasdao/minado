@@ -15,6 +15,8 @@ import OrderQueue from '../views/OrderQueue'
 import MinersDetail from '../views/MinersDetail'
 
 import PoolMining from '../views/PoolMining'
+import ProfileManager from '../views/ProfileManager'
+import ReferralManager from '../views/ReferralManager'
 import SoloMining from '../views/SoloMining'
 import StartView from '../views/StartView'
 import StatsView from '../views/StatsView'
@@ -66,6 +68,14 @@ const routes = [
     {
         path: '/pool',
         component: PoolMining,
+    },
+    {
+        path: '/profile',
+        component: ProfileManager,
+    },
+    {
+        path: '/referrals',
+        component: ReferralManager,
     },
     {
         path: '/solo',

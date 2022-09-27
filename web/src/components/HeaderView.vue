@@ -6,6 +6,7 @@
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
                     <router-link to="/" class="flex flex-row items-center">
                         <span class="sr-only">Nexa Rocks</span>
+                        
                         <img class="w-16 h-16" :src="require('../assets/logo.png')" />
 
                         <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
@@ -15,7 +16,13 @@
                 </div>
 
                 <!-- Right section on desktop -->
-                <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5">
+                <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5 gap-5">
+                    <router-link to="/referrals" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                        <span class="sr-only">Referral Manager</span>
+
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"></path></svg>
+                    </router-link>
+
                     <router-link to="/help" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Support Center</span>
 
@@ -23,13 +30,11 @@
                     </router-link>
 
                     <!-- Profile dropdown -->
-                    <div class="ml-4 relative flex-shrink-0">
-                        <div>
-                            <button type="button" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                            </button>
-                        </div>
+                    <div class="relative flex-shrink-0">
+                        <router-link to="/profile" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span class="sr-only">Open user menu</span>
+                            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                        </router-link>
 
                         <!--
               Dropdown menu, show/hide based on menu state.
@@ -49,11 +54,17 @@
                             tabindex="-1"
                         >
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                                Your Profile
+                            </a>
 
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                                Settings
+                            </a>
 
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                                Sign out
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -86,13 +97,11 @@
                         </div>
 
                         <div class="px-12 lg:px-0">
-                            <!-- Search -->
                             <div class="max-w-xs mx-auto w-full lg:max-w-md">
                                 <label for="search" class="sr-only">Enter Nexa address</label>
                                 
                                 <div class="relative text-white focus-within:text-gray-600">
                                     <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                        <!-- Heroicon name: solid/search -->
                                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                                         </svg>
@@ -107,6 +116,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

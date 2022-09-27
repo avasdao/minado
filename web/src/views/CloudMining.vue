@@ -35,5 +35,20 @@ export default {
         BlockRewardsPanel,
         PayoutsPanel,
     },
+    data: () => ({
+        //
+    }),
+    computed: {
+        //
+    },
+    methods: {
+        //
+    },
+    created: function () {
+        //
+    },
+    mounted: function () {
+        //
+    },
 }
 </script>

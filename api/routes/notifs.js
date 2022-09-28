@@ -30,14 +30,14 @@ const txtTemplate = (_msgDetails) => {
         ${_msgDetails.txid}
 
         ________________________________________
-        https://nexa.events
+        https://nexa.rocks
         brought to you with ❤️ from Ava's DAO
     `
 }
 
 const htmlTemplate = (_msgDetails) => {
     return `
-        <h2>NEXA Transaction Event</h2>
+        <h2>Nexa Rocks! Event</h2>
 
         <p>
             i have a <strong>BOLD</strong> body!
@@ -54,8 +54,8 @@ const htmlTemplate = (_msgDetails) => {
         <div style="text-align: center;">
             <hr />
 
-            <a href="https://nexa.events" style="text-decoration: none;">
-                https://nexa.events
+            <a href="https://nexa.rocks" style="text-decoration: none;">
+                https://nexa.rocks
             </a>
 
             <br />

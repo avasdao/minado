@@ -1,7 +1,7 @@
 {
-  "name": "nexa-events-api",
-  "version": "22.9.2",
-  "description": "NEXA Events Manager API",
+  "name": "nexa-rocks-api",
+  "version": "22.9.27",
+  "description": "Nexa Rocks! API",
   "author": "Ava's DAO <support@avasdao.org>",
   "main": "server.js",
   "scripts": {

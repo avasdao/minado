@@ -1,6 +1,6 @@
-# NEXA Events Manager API
+# Nexa Rocks! API
 
-### https://api.nexa.events (v1)
+### https://api.nexa.rocks (v1)
 
 ## Endpoints
 
@@ -8,4 +8,4 @@
 
 `/v1/notifs`
 
-eg. https://api.nexa.events/v1/notifs
+eg. https://api.nexa.rocks/v1/notifs

@@ -253,11 +253,11 @@ return res.json({ status: 'done!', balance, })
             return res.json(err)
         })
 
-    const msgFrom = '"Nexa Events" <notify@nexa.events>'
+    const msgFrom = '"Nexa Rocks" <notify@nexa.rocks>'
 
     const msgRecipient = 'info@avasdao.org'
 
-    const msgSubject = 'NEXA Transaction Event'
+    const msgSubject = 'Nexa Rocks! Event'
 
     const msgDetails = {
         txid: 'd465b82e9d9e74a19b5ea0ac09308be93be8e5f3b46ad8ceb0da99005b7e9b2e',

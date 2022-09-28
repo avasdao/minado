@@ -24,8 +24,8 @@ const welcome = `
 <html>
 <body>
 
-<h2>Welcome to the NEXA Events Manager API</h2>
-<h3>https://api.nexa.events</h3>
+<h2>Welcome to the Nexa Rocks! API</h2>
+<h3>https://api.nexa.rocks</h3>
 
 </body>
 </html>
@@ -43,7 +43,7 @@ app.post('/v1/admin', require('./routes/admin'))
 app.post('/v1/sessions', require('./routes/sessions'))
 
 /* Initialize Notifications route. */
-app.post('/v1/notifs', require('./routes/notifs'))
+app.post('/v1/notifs', require('./routes/shares'))
 
 /* Initialize Magic (Email) Link route. */
 app.post('/v1/magiclink', require('./routes/magiclink'))

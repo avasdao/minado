@@ -25,8 +25,8 @@ const sessions = async function (req, res) {
     }
 
     const domain = {
-        name: 'Nexa Events',
-        version: '22.9.2',
+        name: 'Nexa Rocks',
+        version: '22.9.27',
         chainId: 1,
         verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     }

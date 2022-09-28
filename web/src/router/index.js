@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView'
 
 import AdminView from '../views/AdminView'
 import CloudMining from '../views/CloudMining'
+import GuaranteeView from '../views/GuaranteeView'
 import HelpView from '../views/HelpView'
 
 import OrderView from '../views/OrderView'
@@ -17,6 +18,7 @@ import MinersDetail from '../views/MinersDetail'
 import PoolMining from '../views/PoolMining'
 import ProfileManager from '../views/ProfileManager'
 import ReferralManager from '../views/ReferralManager'
+import RefundView from '../views/RefundView'
 import SoloMining from '../views/SoloMining'
 import StartView from '../views/StartView'
 import StatsView from '../views/StatsView'
@@ -33,6 +35,10 @@ const routes = [
     {
         path: '/cloud',
         component: CloudMining,
+    },
+    {
+        path: '/guarantee',
+        component: GuaranteeView,
     },
     {
         path: '/help',
@@ -76,6 +82,10 @@ const routes = [
     {
         path: '/referrals',
         component: ReferralManager,
+    },
+    {
+        path: '/refund',
+        component: RefundView,
     },
     {
         path: '/solo',

@@ -28,7 +28,11 @@
                             </div>
 
                             <div class="mt-5 md:col-span-2 md:mt-0">
-                                <div class="grid grid-cols-6 gap-6">
+                                <h1 class="px-3 py-1 text-2xl text-yellow-800 font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                                    {{profileid}}
+                                </h1>
+                                
+                                <div class="mt-5 grid grid-cols-6 gap-6">
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="first-name" class="block text-sm font-medium text-gray-700">
                                             First name
@@ -169,11 +173,11 @@ export default {
                 return
             }
 
-            const profileid = _to.params.profileid
-            console.log('ROUTE (profileid):', profileid)
+            this.profileid = _to.params.profileid
+            console.log('ROUTE (profileid):', this.profileid)
 
             this.profile = this.profiles.find(_profile => {
-                return _profile._id === profileid
+                return _profile._id === this.profileid
             })
 
             /* Set first name. */

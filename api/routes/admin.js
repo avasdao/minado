@@ -99,66 +99,21 @@ const admin = async function (req, res) {
         })
     }
 
-    /* Request existing user. */
-    results = await profilesDb.query('api/byEmail', {
-        key: email,
-        include_docs: true,
-    }).catch(err => {
-        console.error('DATA ERROR:', err)
-    })
-    console.log('PROFILES RESULT (byEmail)', util.inspect(results, false, null, true))
+    /* Validate (authorized) administrator. */
+    if (email !== 'info@modenero.com' && email !== 's.prince@modenero.com') {
+        /* Set status. */
+        res.status(401)
 
-    if (!results || results.rows.length === 0) {
-        id = uuidv4()
-        createdAt = moment().unix()
-
-        pkg = {
-            _id: id,
-            account,
-            email,
-            createdAt,
-            updatedAt: createdAt,
-        }
-
-        /* Retrieve results. */
-        results = await profilesDb.put(pkg)
-            .catch(err => {
-                console.error('PROFILES ERROR:', err)
-            })
-        console.log('RESULT (new profile)', util.inspect(results, false, null, true))
+        /* Return error. */
+        return res.json({
+            error: 'You are NOT authorized to be here!'
+        })
     }
 
-    /* Set (created) timestamp. */
-    // createdAt = moment().unix()
-
-    /* Build (data) package. */
-    // pkg = {
-    //     _id: uuidv4(),
-    //     account,
-    //     email,
-    //     metadata,
-    //     issuer,
-    //     createdAt,
-    // }
-    // console.log('PKG', pkg)
-
-    /* Retrieve results. */
-    // results = await sessionsDb.put(pkg)
-    //     .catch(err => {
-    //         console.error('AUTH ERROR:', err)
-    //     })
-    // console.log('RESULT (sessions)', util.inspect(results, false, null, true))
-
-    // if (!results) {
-    //     /* Set status. */
-    //     res.status(400)
-
-    //     /* Return error. */
-    //     return res.json([])
-    // }
-
+    /* Set action. */
     action = body.action
 
+    /* Validate action. */
     if (!action) {
         /* Set status. */
         res.status(400)
@@ -187,6 +142,17 @@ const admin = async function (req, res) {
             })
         }
 
+    }
+
+    if (action === 'update_profile') {
+        /* Request existing user. */
+        results = await profilesDb.query('api/byEmail', {
+            key: email,
+            include_docs: true,
+        }).catch(err => {
+            console.error('DATA ERROR:', err)
+        })
+        console.log('PROFILES RESULT (byEmail)', util.inspect(results, false, null, true))
     }
 
     /* Build (result) package. */

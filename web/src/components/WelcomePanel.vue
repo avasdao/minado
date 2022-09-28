@@ -139,7 +139,7 @@ export default {
 
             const strDifficulty = this.difficulty.toFixed(6)
 
-            return `<span class="text-gray-500">0.</span><span class="text-red-500 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span>`
+            return `<span class="text-gray-500">0.</span><span class="px-1 text-red-500 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span>`
         },
 
         displayHashRate() {

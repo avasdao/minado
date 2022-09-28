@@ -43,7 +43,10 @@ app.post('/v1/admin', require('./routes/admin'))
 app.post('/v1/sessions', require('./routes/sessions'))
 
 /* Initialize Notifications route. */
-app.post('/v1/notifs', require('./routes/shares'))
+app.post('/v1/notifs', require('./routes/notifs'))
+
+/* Initialize RPC route. */
+app.post('/v1/rpc', require('./routes/rpc'))
 
 /* Initialize Magic (Email) Link route. */
 app.post('/v1/magiclink', require('./routes/magiclink'))

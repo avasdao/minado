@@ -60,18 +60,23 @@ const config = {
         title: 'Nexa Rocks!',
         logo: {
           alt: 'Nexa Rocks! Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Mining 101',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            // to: '/blog', 
+            href: 'https://blog.nexa.rocks',
+            label: 'Blog', 
+            position: 'left'
+          },
+          {
+            href: 'https://github.com/avasdao/nexa-rocks',
             label: 'GitHub',
             position: 'right',
           },
@@ -81,10 +86,10 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Guides',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Mining 101',
                 to: '/docs/intro',
               },
             ],
@@ -93,16 +98,16 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Nexa Homepage',
+                href: 'https://nexa.org',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Matrix Chat',
+                href: 'https://matrix.to/#/#nexacoin:matrix.org',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/Nexamoney',
               },
             ],
           },
@@ -111,16 +116,16 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                to: 'https://blog.nexa.rocks',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/avasdao/nexa-rocks',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright &copy; ${new Date().getFullYear()} Nexa Rocks! All rights reserved.`,
       },
       prism: {
         theme: lightCodeTheme,

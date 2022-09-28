@@ -30,6 +30,9 @@
 import BlockRewardsPanel from '@/components/BlockRewardsPanel'
 import PayoutsPanel from '@/components/PayoutsPanel'
 
+/* Set API endpoint. */
+const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+
 export default {
     components: {
         BlockRewardsPanel,
@@ -42,10 +45,33 @@ export default {
         //
     },
     methods: {
-        //
+        async init() {
+            /* Set issuer. */
+            const didToken = this.$store.state.didToken
+            // console.log('STORE (didToken):', didToken)
+
+            /* Validate issuer. */
+            if (didToken) {
+                const rawResponse = await fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        didToken,
+                        action: 'get_profiles',
+                    })
+                })
+                // console.log('RAW RESPONSE', rawResponse)
+    
+                const content = await rawResponse.json()
+                console.log('CONTENT', content)
+            }
+        },
     },
     created: function () {
-        //
+        this.init()
     },
     mounted: function () {
         //

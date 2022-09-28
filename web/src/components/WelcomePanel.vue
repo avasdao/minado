@@ -38,12 +38,19 @@
 
                     <hr class="my-2" />
 
-                    <span class="text-base text-gray-900">
-                        1.2MH/s
+                    <span class="text-base text-gray-900" v-html="displayDifficulty">
                     </span>
 
                     <span class="text-xs text-gray-600">
-                        Pool Hash Rate
+                        Network Difficulty
+                    </span>
+
+                    <span class="text-base text-gray-900">
+                        {{displayHashRate}}
+                    </span>
+
+                    <span class="text-xs text-gray-600">
+                        Network Hash Rate
                     </span>
                 </div>
 
@@ -119,13 +126,27 @@
 
 /* Import modules. */
 // import * as miner from 'wasm-miner'
+import numeral from 'numeral'
 
 export default {
     data: () => ({
-        //
+        difficulty: null,
+        networkhashps: null,
     }),
     computed: {
-        //
+        displayDifficulty() {
+            if (!this.difficulty) return
+
+            const strDifficulty = this.difficulty.toFixed(6)
+
+            return `<span class="text-gray-500">0.</span><span class="text-red-500 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span>`
+        },
+
+        displayHashRate() {
+            if (!this.networkhashps) return
+
+            return numeral(this.networkhashps / 1000000.0).format('0,0.00') + ' MH/s'
+        },
     },
     methods: {
         test() {
@@ -168,9 +189,32 @@ export default {
             console.log('RET', ret)
         },
 
+        async getDifficulty() {
+            const endpoint = 'https://api.nexa.rocks/v1/rpc/'
+            const rawResponse = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'get_profiles',
+                    })
+                })
+            console.log('RAW RESPONSE', rawResponse)
+
+            const content = await rawResponse.json()
+            console.log('CONTENT', content)
+
+            this.difficulty = content.result.difficulty
+            this.networkhashps = content.result.networkhashps
+
+        },
+
     },
     created: function () {
         // this.decodeAddress()
+        this.getDifficulty()
     },
     mounted: function () {
         //

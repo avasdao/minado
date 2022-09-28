@@ -28,10 +28,16 @@ const routes = [
         path: '/',
         component: HomeView,
     },
+
     {
         path: '/admin',
         component: AdminView,
     },
+    {
+        path: '/admin/:profileid',
+        component: AdminView,
+    },
+
     {
         path: '/cloud',
         component: CloudMining,

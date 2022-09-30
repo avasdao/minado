@@ -189,7 +189,7 @@ export default {
             console.log('RET', ret)
         },
 
-        async getDifficulty() {
+        async getMiningInfo() {
             const endpoint = 'https://api.nexa.rocks/v1/rpc/'
             const rawResponse = await fetch(endpoint, {
                     method: 'POST',
@@ -198,7 +198,7 @@ export default {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        action: 'get_profiles',
+                        action: 'getmininginfo',
                     })
                 })
             console.log('RAW RESPONSE', rawResponse)
@@ -214,7 +214,7 @@ export default {
     },
     created: function () {
         // this.decodeAddress()
-        this.getDifficulty()
+        this.getMiningInfo()
     },
     mounted: function () {
         //

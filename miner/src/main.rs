@@ -1,21 +1,23 @@
 use std::io;
 use std::io::Write;
 
+use colored::Colorize;
+
 fn main() -> std::io::Result<()> {
     let username = "Simba";
 
-    welcome2();
+    welcome3();
 
-    print!("\n  Initializing your system. Please wait...");
+    print!("\n  {}", "Initializing your system. Please wait...".yellow());
     io::stdout().flush();
     sleep(2000);
     
-    print!("\n\n  Auto-detecting the location of your Nexa data directory...");
+    print!("\n\n  {}", "Auto-detecting the location of your Nexa data directory...".yellow());
     io::stdout().flush();
     sleep(3000);
 
-    println!("\n\n  Found it!");
-    println!(r"  👉 C:\Users\{}\AppData\Roaming\nexa-data", username);
+    println!("\n\n  {}", "Found it!".truecolor(30, 30, 30));
+    println!("  👉 {}{}{}", r"C:\Users\".on_red(), username.on_red().bold(), r"\AppData\Roaming\nexa-data".on_red());
     println!();
   
     println!("  _______________________________________________________________________________\n");
@@ -23,7 +25,7 @@ fn main() -> std::io::Result<()> {
     println!("    Will this appear directly under?");
     println!("  _______________________________________________________________________________");
 
-    println!("\n  Type (help) for a list of options.");
+    println!("\n  {}", "Type (help) for a list of options.".blue().bold());
 
     print!("\n  Enter your Nexa (destination) address: ");
     io::stdout().flush();
@@ -45,7 +47,7 @@ fn main() -> std::io::Result<()> {
 
     println!("  Okay, we're all set .. Let's GO!");
     println!("  🙌 🚀 🤑\n");
-    
+
     Ok(())
 }
 
@@ -93,4 +95,25 @@ fn welcome2() {
        ██║     ██║  ██║╚██████╔╝    ██║ ╚═╝ ██║██║██║ ╚████║███████╗██║  ██║
        ╚═╝     ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
                                                v20.9.30 (alpha)");
+}
+
+fn welcome3() {
+    println!(r"
+
+
+   ____     ___  __ __   ____      ____   ___     __  __  _  _____ __ 
+  |    \   /  _]|  |  | /    |    |    \ /   \   /  ]|  |/ ]/ ___/|  |
+  |  _  | /  [_ |  |  ||  o  |    |  D  )     | /  / |  ' /(   \_ |  |
+  |  |  ||    _]|_   _||     |    |    /|  O  |/  /  |    \ \__  ||__|
+  |  |  ||   [_ |     ||  _  |    |    \|     /   \_ |     \/  \ | __ 
+  |  |  ||     ||  |  ||  |  |    |  .  \     \     ||  .  |\    ||  |
+  |__|__||_____||__|__||__|__|    |__|\_|\___/ \____||__|\_| \___||__|
+          ____  ____   ___       ___ ___  ____  ____     ___  ____  
+         |    \|    \ /   \     |   |   ||    ||    \   /  _]|    \ 
+         |  o  )  D  )     |    | _   _ | |  | |  _  | /  [_ |  D  )
+         |   _/|    /|  O  |    |  \_/  | |  | |  |  ||    _]|    / 
+         |  |  |    \|     |    |   |   | |  | |  |  ||   [_ |    \ 
+         |  |  |  .  \     |    |   |   | |  | |  |  ||     ||  .  \
+         |__|  |__|\_|\___/     |___|___||____||__|__||_____||__|\_|
+                                            v20.9.30 (alpha)");
 }

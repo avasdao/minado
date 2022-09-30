@@ -1,16 +1,23 @@
 /* Import modules. */
-const ethers = require('ethers')
 const moment = require('moment')
-const superagent = require('superagent')
+const PouchDB = require('pouchdb')
 const { v4: uuidv4 } = require('uuid')
 
-/**
- * Sessions Module
- */
-const sessions = async function (req, res) {
-    console.log('BODY', req.body)
+/* Initialize databases. */
+const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
+const stratumDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/shares`)
 
-    const body = req.body
+/**
+ * Stratum Module
+ */
+const stratum = async function (req, res) {
+    let body
+    let createdAt
+    let id
+    let pkg
+    let result
+
+    body = req.body
     console.log('BODY', body)
 
     /* Validate body. */
@@ -24,8 +31,48 @@ const sessions = async function (req, res) {
         })
     }
 
-    return res.json(body)
+    id = uuidv4()
+    createdAt = moment().unix()
+
+    pkg = {
+        _id: id,
+        src: 'stratum',
+        ...body,
+        createdAt,
+    }
+
+    result = await logsDb.put(pkg)
+        .catch(err => console.error('LOGS ERROR:', err))
+
+    pkg = {
+        _id: id,
+        ...body,
+        createdAt,
+    }
+
+    result = await stratumDb.put(pkg)
+        .catch(err => console.error('STRATUM ERROR:', err))
+
+    /* Set response id. */
+    id = body.id
+    
+    /* Set response error. */
+    error = [
+        0,
+        '',
+        null,
+    ]
+
+    /* Build response package. */
+    pkg = {
+        id,
+        result,
+        error: error[0] ? error : null,
+    }
+
+    /* Return package. */
+    return res.json(pkg)
 }
 
 /* Export module. */
-module.exports = sessions
+module.exports = stratum

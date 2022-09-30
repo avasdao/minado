@@ -8,9 +8,12 @@ const { v4: uuidv4 } = require('uuid')
  * RPC Module
  */
 const rpc = async function (req, res) {
-    console.log('BODY', req.body)
+    let body
+    let endpoint
+    let pkg
+    let response
 
-    const body = req.body
+    body = req.body
     console.log('BODY', body)
 
     /* Validate body. */
@@ -25,14 +28,26 @@ const rpc = async function (req, res) {
     }
 
     /* Set endpoint. */
-    const endpoint = `http://user:password@127.0.0.1:7227`
+    endpoint = `http://user:password@127.0.0.1:7227`
     // console.log('ENDPOINT', endpoint)
 
-    const pkg = {
-        "jsonrpc": "2.0", 
-        "id": "api", 
-        "method": "getmininginfo", 
-        "params": [],
+    if (body.action === 'getmininginfo') {
+        pkg = {
+            "jsonrpc": "2.0", 
+            "id": "api", 
+            "method": "getmininginfo", 
+            "params": [],
+        }
+    }
+
+    if (!pkg) {
+        /* Set status. */
+        res.status(400)
+
+        /* Return error. */
+        return res.json({
+            error: 'Invalid action requested.'
+        })
     }
 
     /* Request Elasticsearch query. */
@@ -41,10 +56,14 @@ const rpc = async function (req, res) {
         .send(pkg)
         .set('accept', 'json')
         .catch(err => console.error(err))
-    console.log('\nRPC CALL (getmininginfo):', response.body)
+    console.log('\nRPC CALL:', response.body)
 
+    if (response && response.body) {
+        return res.json(response.body)
+    }
 
-    return res.json(response.body)
+    /* Fallback. */
+    return res.end('Oops! Something went wrong.')
 }
 
 /* Export module. */

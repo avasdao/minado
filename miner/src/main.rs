@@ -1,23 +1,25 @@
 use std::io;
 use std::io::Write;
 
-use colored::Colorize;
+use termcolor::{Color};
+
+mod utils;
 
 fn main() -> std::io::Result<()> {
     let username = "Simba";
 
     welcome3();
 
-    print!("\n  {}", "Initializing your system. Please wait...".yellow());
+    print!("\n  {}", "Initializing your system. Please wait...");
     io::stdout().flush();
     sleep(2000);
     
-    print!("\n\n  {}", "Auto-detecting the location of your Nexa data directory...".yellow());
+    print!("\n\n  {}", "Auto-detecting the location of your Nexa data directory...");
     io::stdout().flush();
     sleep(3000);
 
-    println!("\n\n  {}", "Found it!".truecolor(30, 30, 30));
-    println!("  👉 {}{}{}", r"C:\Users\".on_red(), username.on_red().bold(), r"\AppData\Roaming\nexa-data".on_red());
+    println!("\n\n  {}", "Found it!");
+    println!("  → {}{}{}", r"C:\Users\", username, r"\AppData\Roaming\nexa-data");
     println!();
   
     println!("  _______________________________________________________________________________\n");
@@ -25,7 +27,7 @@ fn main() -> std::io::Result<()> {
     println!("    Will this appear directly under?");
     println!("  _______________________________________________________________________________");
 
-    println!("\n  {}", "Type (help) for a list of options.".blue().bold());
+    println!("\n  {}", "Type (help) for a list of options.");
 
     print!("\n  Enter your Nexa (destination) address: ");
     io::stdout().flush();
@@ -45,8 +47,14 @@ fn main() -> std::io::Result<()> {
     print!("\n  Your Nexa address is     : {}", nexa_address);
     println!("  Your email address is    : {}", email_address);
 
-    println!("  Okay, we're all set .. Let's GO!");
-    println!("  🙌 🚀 🤑\n");
+    println!("  Okay, we're all set .. Let's GO!\n");
+
+    utils::c_print("C Print is working".to_string(), Color::Yellow);
+
+    utils::c_print(String::from("We all gonna make it!"), Color::Green);
+    utils::c_print(String::from("time to clear out the bad"), Color::Rgb(100, 0, 90));
+
+    testShnorr();
 
     Ok(())
 }
@@ -63,7 +71,7 @@ pub fn sleep(dur: u64) {
     assert!(now.elapsed() >= ten_millis);
 }
 
-fn welcome1() {
+pub fn welcome1() {
     println!(r"
    _   _                  ____            _        _ 
   | \ | | _____  ____ _  |  _ \ ___   ___| | _____| |
@@ -78,7 +86,7 @@ fn welcome1() {
                                        v20.9.30 (alpha)");
 }
 
-fn welcome2() {
+pub fn welcome2() {
     println!(r"
 
 ███╗   ██╗███████╗██╗  ██╗ █████╗     ██████╗  ██████╗  ██████╗██╗  ██╗███████╗██╗
@@ -97,7 +105,7 @@ fn welcome2() {
                                                v20.9.30 (alpha)");
 }
 
-fn welcome3() {
+pub fn welcome3() {
     println!(r"
 
 
@@ -116,4 +124,27 @@ fn welcome3() {
          |  |  |  .  \     |    |   |   | |  | |  |  ||     ||  .  \
          |__|  |__|\_|\___/     |___|___||____||__|__||_____||__|\_|
                                             v20.9.30 (alpha)");
+}
+
+
+use rand::rngs::OsRng;
+use schnorrkel::{Keypair, signing_context};
+
+fn testShnorr() {
+    // Setup pair of keys, message, and signing context
+    let keypair = Keypair::generate_with(OsRng);
+    let message = String::from("Hello, world!");
+    let context = signing_context(b"Role signature plays in protocol");
+
+    // Signature generation
+    let signature = keypair.sign(context.bytes(message.as_bytes()));
+
+    // Signature verification
+    let public_key = keypair.public;
+    public_key
+        .verify(context.bytes(message.as_bytes()), &signature)
+        .expect("This program crashed due to signature mismatch");
+
+    // Console success output
+    println!("Signature verified");
 }

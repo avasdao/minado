@@ -3,6 +3,7 @@ use std::io::Write;
 
 use termcolor::{Color};
 
+mod crypto;
 mod utils;
 
 fn main() -> std::io::Result<()> {
@@ -54,7 +55,8 @@ fn main() -> std::io::Result<()> {
     utils::c_print(String::from("We all gonna make it!"), Color::Green);
     utils::c_print(String::from("time to clear out the bad"), Color::Rgb(100, 0, 90));
 
-    testShnorr();
+    crypto::test_shnorr();
+    crypto::test_sha256();
 
     Ok(())
 }
@@ -124,27 +126,4 @@ pub fn welcome3() {
          |  |  |  .  \     |    |   |   | |  | |  |  ||     ||  .  \
          |__|  |__|\_|\___/     |___|___||____||__|__||_____||__|\_|
                                             v20.9.30 (alpha)");
-}
-
-
-use rand::rngs::OsRng;
-use schnorrkel::{Keypair, signing_context};
-
-fn testShnorr() {
-    // Setup pair of keys, message, and signing context
-    let keypair = Keypair::generate_with(OsRng);
-    let message = String::from("Hello, world!");
-    let context = signing_context(b"Role signature plays in protocol");
-
-    // Signature generation
-    let signature = keypair.sign(context.bytes(message.as_bytes()));
-
-    // Signature verification
-    let public_key = keypair.public;
-    public_key
-        .verify(context.bytes(message.as_bytes()), &signature)
-        .expect("This program crashed due to signature mismatch");
-
-    // Console success output
-    println!("Signature verified");
 }

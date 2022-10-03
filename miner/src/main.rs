@@ -1,5 +1,6 @@
 use std::io;
 use std::io::Write;
+use std::process;
 
 use termcolor::{Color};
 
@@ -10,6 +11,9 @@ fn main() -> std::io::Result<()> {
     let username = "Simba";
 
     welcome3();
+    crypto::test_sha256();
+    // crypto::test_shnorr();
+    // process::exit(1);
 
     print!("\n  {}", "Initializing your system. Please wait...");
     io::stdout().flush();
@@ -55,7 +59,7 @@ fn main() -> std::io::Result<()> {
     utils::c_print(String::from("We all gonna make it!"), Color::Green);
     utils::c_print(String::from("time to clear out the bad"), Color::Rgb(100, 0, 90));
 
-    crypto::test_shnorr();
+    // crypto::test_shnorr();
     crypto::test_sha256();
 
     Ok(())

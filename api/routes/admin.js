@@ -30,6 +30,7 @@ const admin = async function (req, res) {
     let metadata
     let pkg
     let results
+    let updatedAt
 
     body = req.body
     console.log('BODY', body)
@@ -149,7 +150,7 @@ const admin = async function (req, res) {
 
         // TODO: Validate `body.email`.
 
-        const pkg = {
+        pkg = {
             _id: uuidv4(),
             nickname: 'anon',
             createdAt,
@@ -165,14 +166,20 @@ const admin = async function (req, res) {
     }
 
     if (action === 'update_profile') {
+        updatedAt = moment().unix()
+
+        pkg = {
+            ...body.profile,
+            updatedAt,
+        }
+        console.log('UPDATE PROFILE (pkg):', pkg);
         /* Request existing profile. */
-        results = await profilesDb.query('api/byEmail', {
-            key: email,
-            include_docs: true,
-        }).catch(err => {
-            console.error('DATA ERROR:', err)
-        })
-        console.log('PROFILES RESULT (byEmail)', util.inspect(results, false, null, true))
+        results = await profilesDb
+            .put(pkg)
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('PROFILES RESULT (byId)', util.inspect(results, false, null, true))
     }
 
     /* Build (result) package. */

@@ -16,6 +16,18 @@
             </h1>
             
             <div class="mt-5 grid grid-cols-6 gap-6">
+                <div class="col-span-6 sm:col-span-4">
+                    <label for="nickname" class="block text-sm font-medium text-gray-700">
+                        Nickname
+                    </label>
+                    
+                    <input 
+                        type="text" 
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                        v-model="nickname"
+                    />
+                </div>
+
                 <div class="col-span-6 sm:col-span-3">
                     <label for="first-name" class="block text-sm font-medium text-gray-700">
                         First name
@@ -106,15 +118,30 @@
                 </div>
             </div>
         </div>
+
+        <footer class="col-span-3 flex justify-end">
+            <button 
+                @click="updateProfile" 
+                class="px-3 py-1 text-xl font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg hover:text-yellow-800 bg-yellow-300"
+            >
+                Update Profile
+            </button>
+
+        </footer>
+
     </main>
 </template>
 
 <script>
+/* Set API endpoint. */
+const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+
 export default {
     props: {
         profile: Object,
     },
     data: () => ({
+        nickname: null,
         firstName: null,
         lastName: null,
         email: null,
@@ -124,14 +151,53 @@ export default {
         profile: function (_profile) {
             console.log('PROFILE CHANGED', _profile)
 
+            this.nickname = _profile.nickname
             this.firstName = _profile.firstName
+            this.lastName = _profile.lastName
+            this.email = _profile.email
+            this.address = _profile.address
         }
     },
     computed: {
         //
     },
     methods: {
-        //
+        async updateProfile() {
+            /* Request issuer. */
+            const didToken = this.$store.state.didToken
+
+            const nickname = this.nickname
+            const firstName = this.firstName
+            const lastName = this.lastName
+            const email = this.email
+            const address = this.address
+
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    didToken,
+                    action: 'update_profile',
+                    profile: {
+                        ...this.profile,
+                        nickname,
+                        firstName,
+                        lastName,
+                        email,
+                        address,
+                    }
+                })
+            })
+            // console.log('RAW RESPONSE', rawResponse)
+
+            const content = await rawResponse.json()
+            console.log('CONTENT', content)
+
+            alert('update local')
+        },
     },
     created: function () {
         this.firstName = this.profile.firstName

@@ -13,12 +13,16 @@ const stratumDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984
 const stratum = async function (req, res) {
     let body
     let createdAt
+    let headers
     let id
     let pkg
     let result
 
     body = req.body
     console.log('BODY', body)
+
+    headers = req.headers
+    console.log('HEADERS', headers)
 
     /* Validate body. */
     if (!body) {
@@ -36,7 +40,8 @@ const stratum = async function (req, res) {
 
     pkg = {
         _id: id,
-        src: 'stratum',
+        src: headers['host'] ? headers['host'] : 'stratum',
+        headers,
         ...body,
         createdAt,
     }
@@ -47,6 +52,7 @@ const stratum = async function (req, res) {
     pkg = {
         _id: id,
         ...body,
+        ip: headers['cf-connecting-ip'] ? headers['cf-connecting-ip'] : null,
         createdAt,
     }
 

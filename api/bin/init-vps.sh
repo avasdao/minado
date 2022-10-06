@@ -2,7 +2,7 @@
 
 apt update && apt upgrade -y
 
-apt install build-essential libtool autotools-dev autoconf automake pkg-config libssl-dev libevent-dev libgmp-dev bsdmainutils git -y
+apt install build-essential curl libtool autotools-dev autoconf automake pkg-config libssl-dev libevent-dev libgmp-dev bsdmainutils git -y
 
 apt install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev -y
 

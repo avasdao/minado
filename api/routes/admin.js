@@ -127,12 +127,12 @@ const admin = async function (req, res) {
     if (action === 'get_profiles') {
 
         /* Request existing user. */
-        results = await profilesDb.query('api/byAddress', {
+        results = await profilesDb.query('api/byNickname', {
             include_docs: true,
         }).catch(err => {
             console.error('DATA ERROR:', err)
         })
-        console.log('PROFILES RESULT (byEmail)', util.inspect(results, false, null, true))
+        console.log('PROFILES RESULT (byNickname)', util.inspect(results, false, null, true))
 
         /* Validate data. */
         if (results && results.rows.length !== 0) {
@@ -147,9 +147,11 @@ const admin = async function (req, res) {
     if (action === 'add_profile') {
         createdAt = moment().unix()
 
+        // TODO: Validate `body.email`.
+
         const pkg = {
             _id: uuidv4(),
-            nickname: "anon",
+            nickname: 'anon',
             createdAt,
         }
 

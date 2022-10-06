@@ -39,14 +39,16 @@
                         </h1>
                         
                         <input 
-                            @click="login"
                             class="mt-3 px-3 py-1 bg-yellow-200 text-xl border-4 border-yellow-400 rounded-lg"
                             type="text"
                             placeholder="Enter your email address"
                             v-model="email"
                         />
 
-                        <button class="mt-3 block px-3 py-1 bg-blue-200 text-blue-800 text-xl border-2 border-blue-400 rounded-lg hover:bg-blue-300">
+                        <button 
+                            @click="login"
+                            class="mt-3 block px-3 py-1 bg-blue-200 text-blue-800 text-xl border-2 border-blue-400 rounded-lg hover:bg-blue-300"
+                        >
                             Request a 'Magic' email link
                         </button>
                     </div>

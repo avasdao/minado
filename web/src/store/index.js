@@ -11,6 +11,7 @@ export default createStore({
         didToken: null,
         email: null,
         issuer: null,
+        magic: null,
     },
     getters: {
         // 
@@ -31,6 +32,10 @@ export default createStore({
         saveIssuer (_state, _issuer) {
             _state.issuer = _issuer
         },
+
+        saveMagic (_state, _magic) {
+            _state.magic = _magic
+        },
     },
     actions: {
         setAccount ({ commit }, _account) {
@@ -47,6 +52,10 @@ export default createStore({
 
         setIssuer ({ commit }, _issuer) {
             commit('saveIssuer', _issuer)
+        },
+
+        setMagic ({ commit }, _magic) {
+            commit('saveMagic', _magic)
         },
     },
     modules: {

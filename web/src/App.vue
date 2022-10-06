@@ -33,6 +33,9 @@ export default {
             /* Initialize new instance. */
             this.magic = new Magic('pk_live_CAF7378F498C1F81')
 
+            /* Set magic. */
+            // this.$store.dispatch('setMagic', this.magic)
+
             /* Validate login auth. */
             const isLoggedIn = await this.magic.user.isLoggedIn()
             console.info('Magic Link (isLoggedIn):', isLoggedIn)

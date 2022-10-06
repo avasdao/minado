@@ -144,8 +144,26 @@ const admin = async function (req, res) {
 
     }
 
+    if (action === 'add_profile') {
+        createdAt = moment().unix()
+
+        const pkg = {
+            _id: uuidv4(),
+            nickname: "anon",
+            createdAt,
+        }
+
+        /* Add new profile. */
+        results = await profilesDb
+            .put(pkg)
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('PROFILES RESULT (addProfile)', util.inspect(results, false, null, true))
+    }
+
     if (action === 'update_profile') {
-        /* Request existing user. */
+        /* Request existing profile. */
         results = await profilesDb.query('api/byEmail', {
             key: email,
             include_docs: true,

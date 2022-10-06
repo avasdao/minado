@@ -25,17 +25,18 @@ pub fn test_sha256() {
     println!("\nheader_commitment: {:?}", header_commitment);
 
     let message = "hello world";
+    println!("\nmessage {}: ", message);
     let header_commitment = "c70b1d1b5e8f2eae220b7ee55d194a3b48820cfa1c58fe7a4c934603805d10b6";
 
     // let double_hasher = DoubleHash256::new_with_prefix(message.as_bytes());
     let double_hasher = DoubleHash256::new_with_prefix(header_commitment);
     let double_hash = double_hasher.finalize();
+    println!("\ndouble_hash {:x}: ", double_hash);
 
-    let hasher_one = Sha256::new_with_prefix(message.as_bytes());
+    let hasher_one = Sha256::new_with_prefix(header_commitment.as_bytes());
     let hash_one = hasher_one.finalize();
     let hasher_two = Sha256::new_with_prefix(hash_one);
     let hash_two = hasher_two.finalize();
-    println!("\nmessage {}: ", message);
     println!("\nhash_one {:x}: ", hash_one);
     println!("\nhash_two {:x}: ", hash_two);
 

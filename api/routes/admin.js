@@ -224,13 +224,30 @@ const admin = async function (req, res) {
             updatedAt,
         }
         console.log('UPDATE PROFILE (pkg):', pkg);
-        /* Request existing profile. */
+        /* Update existing profile. */
         results = await profilesDb
             .put(pkg)
             .catch(err => {
                 console.error('DATA ERROR:', err)
             })
         console.log('PROFILES RESULT (byId)', util.inspect(results, false, null, true))
+    }
+
+    if (action === 'update_miner') {
+        updatedAt = moment().unix()
+
+        pkg = {
+            ...body.miner,
+            updatedAt,
+        }
+        console.log('UPDATE MINER (pkg):', pkg);
+        /* Update existing miner. */
+        results = await minersDb
+            .put(pkg)
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('MINERS RESULT (byId)', util.inspect(results, false, null, true))
     }
 
     /* Build (result) package. */

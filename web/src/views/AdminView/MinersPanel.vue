@@ -37,14 +37,78 @@
                         </div>
                         
                         <p class="mt-2 text-sm text-red-600" id="email-error">
-                            Your password must be less than 4 characters.
+                            Your hostname must be valid.
                         </p>
 
-                        <div class="flex justify-end bg-pink-500">
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            Location / Ip address
+                        </label>
+                        <div class="mt-1">
+                            <input 
+                                type="text" 
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                                placeholder="127.0.0.1" 
+                                aria-describedby="email-description"
+                                v-model="location"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500" id="email-description">
+                            We'll only use this for spam.
+                        </p>
+
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            Authorization / Password
+                        </label>
+                        <div class="mt-1">
+                            <input 
+                                type="password" 
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                                placeholder="auth/login password" 
+                                aria-describedby="email-description"
+                                v-model="auth"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500" id="email-description">
+                            We'll only use this for spam.
+                        </p>
+
+                        <label for="email" class="block text-sm font-medium text-gray-700">
+                            PID
+                        </label>
+                        <div class="mt-1">
+                            <input 
+                                type="text" 
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                                placeholder="123456" 
+                                aria-describedby="email-description"
+                                v-model="pid"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500" id="email-description">
+                            We'll only use this for spam.
+                        </p>
+
+                        <label for="location" class="block text-sm font-medium text-gray-700">Miner Count</label>
+                        <select v-model="count" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="4" selected>4</option>
+                            <option value="8">8</option>
+                        </select>
+
+                        <div class="flex justify-end">
                             <button @click="updateMiner" class="px-3 py-1 bg-yellow-500 border-2 border-yellow-700 rounded-lg">
                                 Update miner
                             </button>
                         </div>
+
+                        <div class="mt-1">
+                            <textarea 
+                                rows="4" 
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                :value="startMinerCmd"
+                            ></textarea>
+                        </div>                        
                     </div>
 
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
@@ -61,7 +125,7 @@
                                 
                                 <div class="flex-1 min-w-0">
                                     <p class="text-base font-medium text-gray-900 truncate">
-                                        {{profile ? profile.nickname : "n/a"}} |
+                                        {{profile ? profile.nickname : "n/a"}} | {{miner.hostname}}
                                         
                                     </p>
                                     
@@ -103,6 +167,10 @@ export default {
         payouts: null,
         minerid: null,
         hostname: null,
+        location: null,
+        auth: null,
+        pid: null,
+        count: null,
     }),
     watch: {
         minerid: function(_minerid) {
@@ -112,10 +180,19 @@ export default {
 
             this.miner = miner
             this.hostname = miner.hostname
+            this.location = miner.location
+            this.auth = miner.auth
+            this.pid = miner.pid
+            this.count = miner.count
         },
     },
     computed: {
-        // 
+        startMinerCmd() {
+            return `/root/nexa-miner -cpus=4 -address="${this.profile.address}" -pool="stratum.nexa.rocks:443:${this.profile.nickname}" &
+sleep 1
+disown %1
+exit`            
+        }
     },
     methods: {
         toggleEdit(_minerid) {
@@ -127,8 +204,6 @@ export default {
         },
 
         async updateMiner() {
-            alert('update miner')
-
             /* Request issuer. */
             const didToken = this.$store.state.didToken
 
@@ -142,8 +217,12 @@ export default {
                     didToken,
                     action: 'update_miner',
                     miner: {
-                        minerid: this.minerid,
+                        ...this.miner,
                         hostname: this.hostname,
+                        location: this.location,
+                        auth: this.auth,
+                        pid: Number(this.pid),
+                        count: Number(this.count),
                     }
                 })
             })

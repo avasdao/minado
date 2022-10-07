@@ -90,9 +90,11 @@
 
                         <label for="location" class="block text-sm font-medium text-gray-700">Miner Count</label>
                         <select v-model="count" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                            <option value="-1">Disabled</option>
+                            <option value="0">Offline</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
-                            <option value="4" selected>4</option>
+                            <option value="4">4</option>
                             <option value="8">8</option>
                         </select>
 
@@ -106,14 +108,14 @@
                             <textarea 
                                 rows="4" 
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                :value="startMinerCmd"
+                                :value="minerCmds"
                             ></textarea>
                         </div>                        
                     </div>
 
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
                         
-                        <li class="py-4" v-for="miner of miners" :key="miner._id">
+                        <li class="py-4" v-for="miner of recentMiners" :key="miner._id">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
                                     <img
@@ -187,11 +189,37 @@ export default {
         },
     },
     computed: {
-        startMinerCmd() {
-            return `/root/nexa-miner -cpus=4 -address="${this.profile.address}" -pool="stratum.nexa.rocks:443:${this.profile.nickname}" &
+        minerCmds() {
+            return `# Provisioning
+./provision.sh ${this.miner.location} ${this.miner.auth}
+
+# Connect
+./connect.sh ${this.miner.location} ${this.miner.auth}
+
+# Start (x4) miners
+/root/nexa-miner -cpus=4 -address="${this.profile.address}" -pool="stratum.nexa.rocks:443:${this.profile.nickname}" &
 sleep 1
 disown %1
 exit`            
+        },
+
+        /**
+         * Recent Miners
+         * 
+         * Retrieves the 10 most recent miners.
+         */
+         recentMiners() {
+            if (!this.miners) return []
+
+            const miners = JSON.parse(JSON.stringify(this.miners))
+
+            /* Sort by most recent. */
+            const recent = miners.sort(function (a, b) {
+                return b.updatedAt - a.updatedAt
+            })
+
+            /* Return most recent 10. */
+            return recent.slice(0, 10)
         }
     },
     methods: {

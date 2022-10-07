@@ -15,8 +15,18 @@
                         </p>
                     </section>
 
-                    <section v-if="profile" class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-                        <ProfileView :profile="profile" />
+                    <section v-if="profile">
+                        <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+                            <ProfileView :profile="profile" />
+                        </div>
+
+                        <MinersPanel 
+                            :miners="miners" 
+                            :profile="profile" 
+                            @addMiner="addMiner"
+                            class="mt-3"
+                        />
+
                     </section>
 
 <pre v-if="profile" class="mt-5 p-3 bg-pink-300 border-4 border-pink-500 rounded-lg">
@@ -30,17 +40,14 @@
 
                 <!-- Right column -->
                 <div class="grid grid-cols-1 gap-4">
-                    <ProfilesPanel :profiles="profiles" />
-
-                    <button @click="addProfile" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
+                    <button 
+                        @click="addProfile" 
+                        class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
+                    >
                         Add New Profile
                     </button>
 
-                    <MinersPanel :miners="miners" :profile="profile" />
-
-                    <button @click="addMiner" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
-                        Add New Miner
-                    </button>
+                    <ProfilesPanel :profiles="profiles" />
 
                     <BlockRewardsPanel />
                 </div>
@@ -51,12 +58,12 @@
 
 <script>
 /* Import views. */
+import MinersPanel from './AdminView/MinersPanel'
+import ProfilesPanel from './AdminView/ProfilesPanel'
 import ProfileView from './AdminView/ProfileView'
 
 /* Import components. */
 import BlockRewardsPanel from '@/components/BlockRewardsPanel'
-import MinersPanel from '@/components/MinersPanel'
-import ProfilesPanel from '@/components/ProfilesPanel'
 
 /* Set API endpoint. */
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
@@ -94,26 +101,7 @@ export default {
             this.profileid = _to.params.profileid
             console.log('ROUTE (profileid):', this.profileid)
 
-            this.getMiners()
-
-            const profile = this.profiles.find(_profile => {
-                return _profile._id === this.profileid
-            })
-
-            /* Set first name. */
-            this.firstName = profile.firstName
-
-            /* Set last name. */
-            this.lastName = profile.lastName
-
-            /* Set email. */
-            this.email = profile.email
-
-            /* Set address. */
-            this.address = profile.address
-
-            /* Set profile display. */
-            this.profile = profile
+            this.loadProfile(this.profileid)
         },
     },
     computed: {
@@ -148,8 +136,36 @@ export default {
 
                 /* Set profiles. */
                 this.profiles = content.data
+
+                if (this.$route.params && this.$route.params.profileid) {
+                    this.loadProfile(this.$route.params.profileid)
+                }
             }
 
+
+        },
+
+        loadProfile(_profileid) {
+            this.getMiners()
+
+            const profile = this.profiles.find(_profile => {
+                return _profile._id === _profileid
+            })
+
+            /* Set first name. */
+            this.firstName = profile.firstName
+
+            /* Set last name. */
+            this.lastName = profile.lastName
+
+            /* Set email. */
+            this.email = profile.email
+
+            /* Set address. */
+            this.address = profile.address
+
+            /* Set profile display. */
+            this.profile = profile
 
         },
 

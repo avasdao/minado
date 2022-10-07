@@ -6,6 +6,10 @@
                     Miners
                 </h2>
 
+                <button @click="$emit('addMiner')" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
+                    Add New Miner
+                </button>
+
                 <div class="flow-root mt-6">
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
                         

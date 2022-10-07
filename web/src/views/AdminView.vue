@@ -28,14 +28,6 @@
                         />
 
                     </section>
-
-<pre v-if="profile" class="mt-5 p-3 bg-pink-300 border-4 border-pink-500 rounded-lg">
-<code class="text-xs" v-html="JSON.stringify(profile, null, 2)"></code>
-</pre>
-
-<pre v-if="miner" class="mt-5 p-3 bg-pink-300 border-4 border-pink-500 rounded-lg">
-<code class="text-xs" v-html="JSON.stringify(miner, null, 2)"></code>
-</pre>
                 </div>
 
                 <!-- Right column -->

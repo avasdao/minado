@@ -11,8 +11,9 @@ const magicAdmin = new Magic(process.env.MAGIC_LINK_KEY)
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
+const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/miners`)
 const profilesDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/profiles`)
-const sessionsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/sessions`)
+// const sessionsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/sessions`)
 
 /**
  * Administration Module
@@ -29,6 +30,7 @@ const admin = async function (req, res) {
     let issuer
     let metadata
     let pkg
+    let profileid
     let results
     let updatedAt
 
@@ -125,14 +127,40 @@ const admin = async function (req, res) {
         })
     }
 
-    if (action === 'get_profiles') {
+    if (action === 'get_miners') {
+        /* Set profile id. */
+        profileid = body.profileid
 
         /* Request existing user. */
-        results = await profilesDb.query('api/byNickname', {
-            include_docs: true,
-        }).catch(err => {
-            console.error('DATA ERROR:', err)
-        })
+        results = await minersDb
+            .query('api/byProfile', {
+                key: profileid,
+                include_docs: true,
+            })
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('PROFILES RESULT (byProfile)', util.inspect(results, false, null, true))
+
+        /* Validate data. */
+        if (results && results.rows.length !== 0) {
+            /* Map data (doc) results. */
+            data = results.rows.map(_miner => {
+                return _miner.doc
+            })
+        }
+
+    }
+
+    if (action === 'get_profiles') {
+        /* Request existing user. */
+        results = await profilesDb
+            .query('api/byNickname', {
+                include_docs: true,
+            })
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
         console.log('PROFILES RESULT (byNickname)', util.inspect(results, false, null, true))
 
         /* Validate data. */
@@ -162,7 +190,30 @@ const admin = async function (req, res) {
             .catch(err => {
                 console.error('DATA ERROR:', err)
             })
-        console.log('PROFILES RESULT (addProfile)', util.inspect(results, false, null, true))
+        console.log('PROFILES RESULT (add_profile)', util.inspect(results, false, null, true))
+    }
+
+    if (action === 'add_miner') {
+        createdAt = moment().unix()
+
+        pkg = {
+            _id: uuidv4(),
+            profileid: body.profileid,
+            hostname: body.hostname,
+            location: body.location,
+            auth: body.auth,
+            pid: body.pid,
+            count: body.count,
+            createdAt,
+        }
+
+        /* Add new profile. */
+        results = await minersDb
+            .put(pkg)
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('PROFILES RESULT (add_miner)', util.inspect(results, false, null, true))
     }
 
     if (action === 'update_profile') {

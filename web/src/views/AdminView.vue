@@ -22,6 +22,10 @@
 <pre v-if="profile" class="mt-5 p-3 bg-pink-300 border-4 border-pink-500 rounded-lg">
 <code class="text-xs" v-html="JSON.stringify(profile, null, 2)"></code>
 </pre>
+
+<pre v-if="miner" class="mt-5 p-3 bg-pink-300 border-4 border-pink-500 rounded-lg">
+<code class="text-xs" v-html="JSON.stringify(miner, null, 2)"></code>
+</pre>
                 </div>
 
                 <!-- Right column -->
@@ -30,6 +34,12 @@
 
                     <button @click="addProfile" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
                         Add New Profile
+                    </button>
+
+                    <MinersPanel :miners="miners" :profile="profile" />
+
+                    <button @click="addMiner" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
+                        Add New Miner
                     </button>
 
                     <BlockRewardsPanel />
@@ -45,6 +55,7 @@ import ProfileView from './AdminView/ProfileView'
 
 /* Import components. */
 import BlockRewardsPanel from '@/components/BlockRewardsPanel'
+import MinersPanel from '@/components/MinersPanel'
 import ProfilesPanel from '@/components/ProfilesPanel'
 
 /* Set API endpoint. */
@@ -54,6 +65,7 @@ export default {
     components: {
         ProfileView,
         BlockRewardsPanel,
+        MinersPanel,
         ProfilesPanel,
     },
     data: () => ({
@@ -61,6 +73,15 @@ export default {
         profileid: null,
         profile: null,
         magic: null,
+
+        miner: null,
+        miners: null,
+
+        hostname: null,
+        location: null,
+        auth: null,
+        pid: null,
+        count: null,
     }),
     watch: {
         $route: function (_to) {
@@ -72,6 +93,8 @@ export default {
 
             this.profileid = _to.params.profileid
             console.log('ROUTE (profileid):', this.profileid)
+
+            this.getMiners()
 
             const profile = this.profiles.find(_profile => {
                 return _profile._id === this.profileid
@@ -121,15 +144,41 @@ export default {
                 // console.log('RAW RESPONSE', rawResponse)
     
                 const content = await rawResponse.json()
-                console.log('CONTENT', content)
+                console.log('CONTENT (get_profiles):', content)
 
                 /* Set profiles. */
                 this.profiles = content.data
             }
 
-            /* Validate login auth. */
-            // const isLoggedIn = await this.magic.user.isLoggedIn()
-            // console.info('Magic Link (isLoggedIn):', isLoggedIn)
+
+        },
+
+        async getMiners() {
+            /* Request issuer. */
+            const didToken = this.$store.state.didToken
+
+            /* Validate issuer. */
+            if (didToken) {
+                const rawResponse = await fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        didToken,
+                        action: 'get_miners',
+                        profileid: this.profileid,
+                    })
+                })
+                // console.log('RAW RESPONSE', rawResponse)
+    
+                const content = await rawResponse.json()
+                console.log('CONTENT (get_miners):', content)
+
+                /* Set profiles. */
+                this.miners = content.data
+            }
 
         },
 
@@ -156,6 +205,36 @@ export default {
             /* Set profiles. */
             this.init()
         },
+
+        async addMiner() {
+            /* Request issuer. */
+            const didToken = this.$store.state.didToken
+
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    didToken,
+                    action: 'add_miner',
+                    profileid: this.profileid,
+                    hostname: this.hostname,
+                    location: this.location,
+                    auth: this.auth,
+                    pid: this.pid,
+                    count: this.count,
+                })
+            })
+            // console.log('RAW RESPONSE', rawResponse)
+
+            const content = await rawResponse.json()
+            console.log('CONTENT', content)
+
+            /* Set profiles. */
+            // this.init()
+        },
     },
     created: function () {
         this.profiles = []
@@ -167,6 +246,9 @@ export default {
         
         this.profileid = params.profileid
         console.log('PROFILE ID', this.profileid)
+
+        this.getMiners()
+
     },
     mounted: function () {
         //

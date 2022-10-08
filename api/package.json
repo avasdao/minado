@@ -1,11 +1,12 @@
 {
   "name": "nexa-rocks-api",
-  "version": "22.9.27",
+  "version": "22.10.8",
   "description": "Nexa Rocks! API",
   "author": "Ava's DAO <support@avasdao.org>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build-public": "cd slate && bundle exec middleman build --build-dir ../public"
   },
   "dependencies": {
     "@magic-sdk/admin": "1.4.1",

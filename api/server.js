@@ -19,28 +19,14 @@ app.use(express.json())
 /* Initialize URL parser. */
 app.use(express.urlencoded({ extended: true }))
 
-/* Build welcome message. */
-const welcome = `
-<html>
-<body>
-
-<h2>Welcome to the Nexa Rocks! API</h2>
-<h3>https://api.nexa.rocks</h3>
-
-</body>
-</html>
-`
-
-// TODO: Replace with a "static" site.
-app.get('/', (req, res) => {
-    res.end(welcome)
-})
+/* Initialize public folder. */
+app.use(express.static('public'))
 
 /* Initialize Administration route. */
 app.post('/v1/admin', require('./routes/admin'))
 
-/* Initialize Sessions route. */
-app.post('/v1/sessions', require('./routes/sessions'))
+/* Initialize Magic (Email) Link route. */
+app.post('/v1/magiclink', require('./routes/magiclink'))
 
 /* Initialize Notifications route. */
 app.post('/v1/notifs', require('./routes/notifs'))
@@ -48,8 +34,11 @@ app.post('/v1/notifs', require('./routes/notifs'))
 /* Initialize RPC route. */
 app.post('/v1/rpc', require('./routes/rpc'))
 
-/* Initialize Magic (Email) Link route. */
-app.post('/v1/magiclink', require('./routes/magiclink'))
+/* Initialize Sessions route. */
+app.post('/v1/sessions', require('./routes/sessions'))
+
+/* Initialize Sideshift route. */
+app.post('/v1/sideshift', require('./routes/sideshift'))
 
 // TODO: Offer help.
 app.get('/v1', (req, res) => {

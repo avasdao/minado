@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build-public": "cd slate && bundle exec middleman build --build-dir ../public"
+    "build": "cd slate && bundle exec middleman build --build-dir ../public",
+    "public": "cd slate && bundle exec middleman serve"
   },
   "dependencies": {
     "@magic-sdk/admin": "1.4.1",

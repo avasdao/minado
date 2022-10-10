@@ -17,7 +17,7 @@
         <section class="bg-white">
             <div class="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    Shopping Cart
+                    Cloud Mining Locations
                 </h1>
                 
                 <div class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
@@ -77,9 +77,9 @@
                                                 id="quantity-0"
                                                 name="quantity-0"
                                                 class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                v-model="numVaalserberg"
                                             >
                                                 <option value="0">0</option>
-                                                <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
@@ -89,9 +89,14 @@
                                                 <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
                                             </select>
 
-                                            <div class="absolute top-0 right-0">
+                                            <div class="hidden absolute top-0 right-0">
                                                 <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                                                     <span class="sr-only">Remove</span>
                                                     <!-- Heroicon name: mini/x-mark -->
@@ -165,9 +170,9 @@
                                                 id="quantity-1"
                                                 name="quantity-1"
                                                 class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                v-model="numTransfagarasan"
                                             >
                                                 <option value="0">0</option>
-                                                <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
@@ -177,9 +182,14 @@
                                                 <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
                                             </select>
 
-                                            <div class="absolute top-0 right-0">
+                                            <div class="hidden absolute top-0 right-0">
                                                 <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                                                     <span class="sr-only">Remove</span>
                                                     <!-- Heroicon name: mini/x-mark -->
@@ -201,7 +211,7 @@
                                 </div>
                             </li>
 
-                            <li class="flex py-6 sm:py-10">
+                            <li class="flex py-6 sm:py-10 opacity-50 cursor-not-allowed">
                                 <div class="flex-shrink-0">
                                     <img
                                         src="https://i.ibb.co/jVZZqmm/image.png"
@@ -253,10 +263,10 @@
                                                 id="quantity-2"
                                                 name="quantity-2"
                                                 class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                v-model="numKekesteto"
                                                 disabled
                                             >
                                                 <option value="0">0</option>
-                                                <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
@@ -266,9 +276,14 @@
                                                 <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
                                             </select>
 
-                                            <div class="absolute top-0 right-0">
+                                            <div class="hidden absolute top-0 right-0">
                                                 <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                                                     <span class="sr-only">Remove</span>
                                                     <!-- Heroicon name: mini/x-mark -->
@@ -292,16 +307,27 @@
 
                     <!-- Order summary -->
                     <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
-                        <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
+                        <h2 id="summary-heading" class="text-lg font-medium text-gray-900">
+                            Mining Contract Summary
+                        </h2>
 
                         <dl class="mt-6 space-y-4">
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">Subtotal</dt>
-                                <dd class="text-sm font-medium text-gray-900">$99.00</dd>
+                                <dt class="text-sm text-gray-600">
+                                    Total Contracts
+                                </dt>
+                                
+                                <dd class="text-sm font-medium text-gray-900">
+                                    {{totalMiners}}
+                                </dd>
                             </div>
+                            
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                                 <dt class="flex items-center text-sm text-gray-600">
-                                    <span>Shipping estimate</span>
+                                    <span>
+                                        Cost per Miner
+                                    </span>
+                                    
                                     <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                                         <span class="sr-only">Learn more about how shipping is calculated</span>
                                         <!-- Heroicon name: mini/question-mark-circle -->
@@ -314,11 +340,18 @@
                                         </svg>
                                     </a>
                                 </dt>
-                                <dd class="text-sm font-medium text-gray-900">$5.00</dd>
+                                
+                                <dd class="text-sm font-medium text-gray-900">
+                                    $5.00 per month
+                                </dd>
                             </div>
+                            
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                                 <dt class="flex text-sm text-gray-600">
-                                    <span>Tax estimate</span>
+                                    <span>
+                                        Est. Total Hashrate
+                                    </span>
+                                    
                                     <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
                                         <span class="sr-only">Learn more about how tax is calculated</span>
                                         <!-- Heroicon name: mini/question-mark-circle -->
@@ -331,11 +364,44 @@
                                         </svg>
                                     </a>
                                 </dt>
-                                <dd class="text-sm font-medium text-gray-900">$8.32</dd>
+                                
+                                <dd class="text-sm font-medium text-gray-900">
+                                    <span class="uppercase">{{estTotalHashrateLower}}</span> to <span class="uppercase">{{estTotalHashrateUpper}}</span> H/s
+                                </dd>
                             </div>
+                            
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-                                <dt class="text-base font-medium text-gray-900">Order total</dt>
-                                <dd class="text-base font-medium text-gray-900">$112.32</dd>
+                                <dt class="flex text-sm text-gray-600">
+                                    <span>
+                                        Est. Mining Total
+                                    </span>
+                                    
+                                    <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                                        <span class="sr-only">Learn more about how tax is calculated</span>
+                                        <!-- Heroicon name: mini/question-mark-circle -->
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </a>
+                                </dt>
+                                
+                                <dd class="text-sm font-medium text-gray-900">
+                                    <span class="uppercase">{{estMiningTotalLower}}</span> to <span class="uppercase">{{estMiningTotalUpper}}</span> NEX
+                                </dd>
+                            </div>
+                            
+                            <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                                <dt class="text-base font-medium text-gray-900">
+                                    Order total
+                                </dt>
+                                
+                                <dd class="text-base font-medium text-gray-900">
+                                    {{orderTotal}}
+                                </dd>
                             </div>
                         </dl>
 
@@ -358,6 +424,9 @@
 </template>
 
 <script>
+/* Import modules. */
+import numeral from 'numeral'
+
 /* Import components. */
 import OrderIncentives from './OrderView/OrderIncentives'
 import PaymentOptions from './OrderView/PaymentOptions'
@@ -369,9 +438,66 @@ export default {
     },
     data: () => ({
         coins: null,
+        numVaalserberg: null,
+        numTransfagarasan: null,
+        numKekesteto: null,
     }),
     computed: {
-        //
+        totalMiners() {
+            if (!this.numVaalserberg && !this.numTransfagarasan) return 0
+
+            let total = 0
+
+            if (this.numVaalserberg) {
+                total += Number(this.numVaalserberg)
+            }
+
+            if (this.numTransfagarasan) {
+                total += Number(this.numTransfagarasan)
+            }
+
+            return total
+        },
+
+        estTotalHashrateLower() {
+            if (this.totalMiners === 0) return 0
+
+            const total = numeral(this.totalMiners * 6121.88).format('0.0a')
+
+            return total
+        },
+
+        estTotalHashrateUpper() {
+            if (this.totalMiners === 0) return 0
+
+            const total = numeral(this.totalMiners * 7230.12).format('0.0a')
+
+            return total
+        },
+
+        estMiningTotalLower() {
+            if (this.totalMiners === 0) return 0
+
+            const total = numeral(this.totalMiners * 281518304).format('0.00a')
+
+            return total
+        },
+
+        estMiningTotalUpper() {
+            if (this.totalMiners === 0) return 0
+
+            const total = numeral(this.totalMiners * 508119449).format('0.00a')
+
+            return total
+        },
+
+        orderTotal() {
+            if (this.totalMiners === 0) return '$0.00'
+
+            const total = this.totalMiners * 5.00
+
+            return numeral(total).format('$0,0.00')
+        },
     },
     methods: {
         /**

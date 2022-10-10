@@ -226,7 +226,7 @@
 
 <script>
 /* Import components. */
-import OrderIncentives from '@/components/OrderIncentives'
+import OrderIncentives from './OrderView/OrderIncentives'
 
 export default {
     components: {

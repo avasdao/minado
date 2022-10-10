@@ -2,12 +2,6 @@
     <main class="-mt-24 pb-8 flex flex-col gap-3 max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <OrderIncentives />
 
-        <section>
-
-
-        </section>
-
-
         <section aria-labelledby="mt-48 quick-links-title">
             <div class="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
                 <h2 class="sr-only" id="quick-links-title">
@@ -21,216 +15,357 @@
         </section>
 
         <section class="bg-white">
-            <div class="mx-auto max-w-7xl px-4 pt-4 pb-16 sm:px-6 sm:pt-8 sm:pb-24 lg:px-8 xl:px-2 xl:pt-14">
-                <h1 class="sr-only">Checkout</h1>
+            <div class="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Shopping Cart
+                </h1>
+                
+                <div class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+                    <section aria-labelledby="cart-heading" class="lg:col-span-7">
+                        <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
 
-                <div class="mx-auto grid max-w-lg grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
-                    <div class="mx-auto w-full max-w-lg">
-                        <h2 class="sr-only">Order summary</h2>
-
-                        <div class="flow-root">
-                            <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                <li class="flex space-x-6 py-6">
+                        <ul role="list" class="divide-y divide-gray-200 border-t border-b border-gray-200">
+                            <li class="flex py-6 sm:py-10">
+                                <div class="flex-shrink-0">
                                     <img
-                                        src="https://tailwindui.com/img/ecommerce-images/checkout-page-05-product-01.jpg"
-                                        alt="Front of women&#039;s basic tee in heather gray."
-                                        class="h-24 w-24 flex-none rounded-md bg-gray-100 object-cover object-center"
+                                        src="https://i.ibb.co/fkNh9Jg/image.png"
+                                        alt="The Vaalserberg"
+                                        class="h-18 w-24 rounded-md object-cover object-center sm:h-36 sm:w-48"
                                     />
-                                    <div class="flex-auto">
-                                        <div class="space-y-1 sm:flex sm:items-start sm:justify-between sm:space-x-6">
-                                            <div class="flex-auto space-y-1 text-sm font-medium">
-                                                <h3 class="text-gray-900">
-                                                    <a href="#">Women&#039;s Basic Tee</a>
+                                </div>
+
+                                <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                                    <div class="relative pr-9 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:pr-0">
+                                        <div class="col-span-2">
+                                            <div class="flex justify-between">
+                                                <h3 class="text-2xl text-gray-700">
+                                                    The Vaalserberg
                                                 </h3>
-                                                <p class="text-gray-900">$32.00</p>
-                                                <p class="hidden text-gray-500 sm:block">Gray</p>
-                                                <p class="hidden text-gray-500 sm:block">S</p>
                                             </div>
-                                            <div class="flex flex-none space-x-4">
-                                                <button type="button" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Edit</button>
-                                                <div class="flex border-l border-gray-300 pl-4">
-                                                    <button type="button" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                                </div>
+                                            
+                                            <div class="mt-1 flex text-sm">
+                                                <p class="text-gray-500">
+                                                    Limburg, Netherlands
+                                                </p>
+                                            </div>
+                                            
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ 30-day contract:
+                                                <span class="text-indigo-500 font-bold">
+                                                    US$5.00
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Hashrate: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    6K - 7K H/s
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Est. mining total: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    300M - 450M NEX
+                                                </span>
+                                            </p>
+                                        </div>
+
+                                        <div class="mt-4 sm:mt-0 sm:pr-9">
+                                            <label for="quantity-0" class="sr-only">Quantity, Basic Tee</label>
+                                            <select
+                                                id="quantity-0"
+                                                name="quantity-0"
+                                                class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                            >
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+
+                                            <div class="absolute top-0 right-0">
+                                                <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
+                                                    <span class="sr-only">Remove</span>
+                                                    <!-- Heroicon name: mini/x-mark -->
+                                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                </li>
 
-                                <!-- More products... -->
-                            </ul>
-                        </div>
+                                    <p class="mt-4 flex space-x-2 text-sm text-gray-700">
+                                        <svg class="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                        </svg>
 
-                        <dl class="mt-10 space-y-6 text-sm font-medium text-gray-500">
-                            <div class="flex justify-between">
-                                <dt>Subtotal</dt>
-                                <dd class="text-gray-900">$104.00</dd>
+                                        <span>In stock</span>
+                                    </p>
+                                </div>
+                            </li>
+
+                            <li class="flex py-6 sm:py-10">
+                                <div class="flex-shrink-0">
+                                    <img
+                                        src="https://i.ibb.co/9GZrXnK/image.png"
+                                        alt="The Vaalserberg"
+                                        class="h-18 w-24 rounded-md object-cover object-center sm:h-36 sm:w-48"
+                                    />
+                                </div>
+
+                                <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                                    <div class="relative pr-9 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:pr-0">
+                                        <div class="col-span-2">
+                                            <div class="flex justify-between">
+                                                <h3 class="text-2xl text-gray-700">
+                                                    Transfagarasan
+                                                </h3>
+                                            </div>
+                                            
+                                            <div class="mt-1 flex text-sm">
+                                                <p class="text-gray-500">
+                                                    Transylvania, Romania
+                                                </p>
+                                            </div>
+                                            
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ 30-day contract:
+                                                <span class="text-indigo-500 font-bold">
+                                                    US$5.00
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Hashrate: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    6K - 7K H/s
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Est. mining total: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    300M - 450M NEX
+                                                </span>
+                                            </p>
+                                        </div>
+
+                                        <div class="mt-4 sm:mt-0 sm:pr-9">
+                                            <label for="quantity-1" class="sr-only">Quantity, Basic Tee</label>
+                                            <select
+                                                id="quantity-1"
+                                                name="quantity-1"
+                                                class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                            >
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+
+                                            <div class="absolute top-0 right-0">
+                                                <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
+                                                    <span class="sr-only">Remove</span>
+                                                    <!-- Heroicon name: mini/x-mark -->
+                                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="mt-4 flex space-x-2 text-sm text-gray-700">
+                                        <svg class="h-5 w-5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                        </svg>
+
+                                        <span>In stock</span>
+                                    </p>
+                                </div>
+                            </li>
+
+                            <li class="flex py-6 sm:py-10">
+                                <div class="flex-shrink-0">
+                                    <img
+                                        src="https://i.ibb.co/jVZZqmm/image.png"
+                                        alt="Kékestető"
+                                        class="h-18 w-24 rounded-md object-cover object-center sm:h-36 sm:w-48"
+                                    />
+                                </div>
+
+                                <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                                    <div class="relative pr-9 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:pr-0">
+                                        <div class="col-span-2">
+                                            <div class="flex justify-between">
+                                                <h3 class="text-2xl text-gray-700">
+                                                    Kékestető
+                                                </h3>
+                                            </div>
+                                            
+                                            <div class="mt-1 flex text-sm">
+                                                <p class="text-gray-500">
+                                                    Mátra Mountains, Hungary
+                                                </p>
+                                            </div>
+                                            
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ 30-day contract:
+                                                <span class="text-indigo-500 font-bold">
+                                                    US$5.00
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Hashrate: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    6K - 7K H/s
+                                                </span>
+                                            </p>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                ↳ Est. mining total: 
+                                                <span class="text-indigo-500 font-bold">
+                                                    300M - 450M NEX
+                                                </span>
+                                            </p>
+                                        </div>
+
+                                        <div class="mt-4 sm:mt-0 sm:pr-9">
+                                            <label for="quantity-2" class="sr-only">Quantity, Nomad Tumbler</label>
+                                            <select
+                                                id="quantity-2"
+                                                name="quantity-2"
+                                                class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                disabled
+                                            >
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+
+                                            <div class="absolute top-0 right-0">
+                                                <button type="button" class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
+                                                    <span class="sr-only">Remove</span>
+                                                    <!-- Heroicon name: mini/x-mark -->
+                                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="mt-4 flex space-x-2 text-sm text-gray-700">
+                                        <svg class="w-5 h-5 flex-shrink-0 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        
+                                        <span>Out of stock</span>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- Order summary -->
+                    <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+                        <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
+
+                        <dl class="mt-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <dt class="text-sm text-gray-600">Subtotal</dt>
+                                <dd class="text-sm font-medium text-gray-900">$99.00</dd>
                             </div>
-                            <div class="flex justify-between">
-                                <dt>Taxes</dt>
-                                <dd class="text-gray-900">$8.32</dd>
+                            <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                                <dt class="flex items-center text-sm text-gray-600">
+                                    <span>Shipping estimate</span>
+                                    <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                                        <span class="sr-only">Learn more about how shipping is calculated</span>
+                                        <!-- Heroicon name: mini/question-mark-circle -->
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </a>
+                                </dt>
+                                <dd class="text-sm font-medium text-gray-900">$5.00</dd>
                             </div>
-                            <div class="flex justify-between">
-                                <dt>Shipping</dt>
-                                <dd class="text-gray-900">$14.00</dd>
+                            <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                                <dt class="flex text-sm text-gray-600">
+                                    <span>Tax estimate</span>
+                                    <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                                        <span class="sr-only">Learn more about how tax is calculated</span>
+                                        <!-- Heroicon name: mini/question-mark-circle -->
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </a>
+                                </dt>
+                                <dd class="text-sm font-medium text-gray-900">$8.32</dd>
                             </div>
-                            <div class="flex justify-between border-t border-gray-200 pt-6 text-gray-900">
-                                <dt class="text-base">Total</dt>
-                                <dd class="text-base">$126.32</dd>
+                            <div class="flex items-center justify-between border-t border-gray-200 pt-4">
+                                <dt class="text-base font-medium text-gray-900">Order total</dt>
+                                <dd class="text-base font-medium text-gray-900">$112.32</dd>
                             </div>
                         </dl>
-                    </div>
 
-                    <div class="mx-auto w-full max-w-lg">
-                        <button type="button" class="flex w-full items-center justify-center rounded-md border border-transparent bg-black py-2 text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">
-                            <span class="sr-only">Pay with Apple Pay</span>
-                            <svg class="h-5 w-auto" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 20">
-                                <path
-                                    d="M9.536 2.579c-.571.675-1.485 1.208-2.4 1.132-.113-.914.334-1.884.858-2.484C8.565.533 9.564.038 10.374 0c.095.951-.276 1.884-.838 2.579zm.829 1.313c-1.324-.077-2.457.751-3.085.751-.638 0-1.6-.713-2.647-.694-1.362.019-2.628.79-3.323 2.017-1.429 2.455-.372 6.09 1.009 8.087.676.99 1.485 2.075 2.552 2.036 1.009-.038 1.409-.656 2.628-.656 1.228 0 1.58.656 2.647.637 1.104-.019 1.8-.99 2.475-1.979.771-1.122 1.086-2.217 1.105-2.274-.02-.019-2.133-.828-2.152-3.263-.02-2.036 1.666-3.007 1.742-3.064-.952-1.408-2.437-1.56-2.951-1.598zm7.645-2.76v14.834h2.305v-5.072h3.19c2.913 0 4.96-1.998 4.96-4.89 0-2.893-2.01-4.872-4.885-4.872h-5.57zm2.305 1.941h2.656c2 0 3.142 1.066 3.142 2.94 0 1.875-1.142 2.95-3.151 2.95h-2.647v-5.89zM32.673 16.08c1.448 0 2.79-.733 3.4-1.893h.047v1.779h2.133V8.582c0-2.14-1.714-3.52-4.351-3.52-2.447 0-4.256 1.399-4.323 3.32h2.076c.171-.913 1.018-1.512 2.18-1.512 1.41 0 2.2.656 2.2 1.865v.818l-2.876.171c-2.675.162-4.123 1.256-4.123 3.159 0 1.922 1.495 3.197 3.637 3.197zm.62-1.76c-1.229 0-2.01-.59-2.01-1.494 0-.933.752-1.475 2.19-1.56l2.562-.162v.837c0 1.39-1.181 2.379-2.743 2.379zM41.1 20c2.247 0 3.304-.856 4.227-3.454l4.047-11.341h-2.342l-2.714 8.763h-.047l-2.714-8.763h-2.409l3.904 10.799-.21.656c-.352 1.114-.923 1.542-1.942 1.542-.18 0-.533-.02-.676-.038v1.779c.133.038.705.057.876.057z"
-                                />
-                            </svg>
-                        </button>
-
-                        <div class="relative mt-8">
-                            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                                <div class="w-full border-t border-gray-200"></div>
-                            </div>
-                            <div class="relative flex justify-center">
-                                <span class="bg-white px-4 text-sm font-medium text-gray-500">or</span>
-                            </div>
-                        </div>
-
-                        <form class="mt-6">
-                            <h2 class="text-lg font-medium text-gray-900">Contact information</h2>
-
-                            <div class="mt-6">
-                                <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <div class="mt-1">
-                                    <input type="email" id="email-address" name="email-address" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                </div>
-                            </div>
-
-                            <div class="mt-6">
-                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone number</label>
-                                <div class="mt-1">
-                                    <input type="text" name="phone" id="phone" autocomplete="tel" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                </div>
-                            </div>
-
-                            <div class="mt-6 flex space-x-2">
-                                <div class="flex h-5 items-center">
-                                    <input id="terms" name="terms" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                                </div>
-                                <label for="terms" class="text-sm text-gray-500">I have read the terms and conditions and agree to the sale of my personal information to the highest bidder.</label>
-                            </div>
-
-                            <!-- Submit button, enable/disable based on form state -->
+                        <div class="mt-6">
                             <button
                                 type="submit"
-                                disabled
-                                class="mt-6 w-full rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500"
+                                class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                             >
-                                Continue
-                            </button>
-                        </form>
-
-                        <div class="mt-10 divide-y divide-gray-200 border-t border-b border-gray-200">
-                            <button type="button" disabled class="w-full cursor-auto py-6 text-left text-lg font-medium text-gray-500">
-                                Stablecoins
-                            </button>
-
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <img
-                                        src="https://assets.telr.io/coins/svg/usdt-ethereum.svg"
-                                        alt="Tether (USDT)"
-                                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                                    />
-
-                                    <span class="mt-1 block text-sm text-gray-600">
-                                        Tether (USDT)
-                                    </span>
-
-                                    <span class="mt-0 block text-xs text-gray-400 italic">
-                                        Ethereum
-                                    </span>
-                                </div>
-
-                                <div class="flex flex-col items-center">
-                                    <img
-                                        src="https://assets.telr.io/coins/svg/usdt-ethereum.svg"
-                                        alt="Tether (USDT)"
-                                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                                    />
-
-                                    <span class="mt-1 block text-sm text-gray-600">
-                                        Tether (USDT)
-                                    </span>
-
-                                    <span class="mt-0 block text-xs text-gray-400 italic">
-                                        Ethereum
-                                    </span>
-                                </div>
-
-                            </div>
-
-                            <button type="button" disabled class="w-full cursor-auto py-6 text-left text-lg font-medium text-gray-500">
-                                Coins
-                            </button>
-
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <img
-                                        src="https://assets.telr.io/coins/svg/btc.svg"
-                                        alt="Bitcoin (BTC)"
-                                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                                    />
-
-                                    <span class="mt-1 block text-sm text-gray-600">
-                                        Bitcoin (BTC)
-                                    </span>
-                                </div>
-
-                                <div class="flex flex-col items-center">
-                                    <img
-                                        src="https://assets.telr.io/coins/svg/btc.svg"
-                                        alt="Tether (USDT)"
-                                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                                    />
-
-                                    <span class="mt-1 block text-sm text-gray-600">
-                                        Tether
-                                    </span>
-
-                                    <span class="mt-0 block text-xs text-gray-400 italic">
-                                        Ethereum
-                                    </span>
-                                </div>
-
-                            </div>
-
-                            <button type="button" disabled class="w-full cursor-auto py-6 text-left text-lg font-medium text-gray-500">
-                                Tokens
-                            </button>
-
-                            <button type="button" disabled class="w-full cursor-auto py-6 text-left text-lg font-medium text-gray-500">
-                                Review
+                                Checkout
                             </button>
                         </div>
-                    </div>
+
+                        <PaymentOptions />
+                    </section>
                 </div>
+
             </div>
         </section>
-
     </main>
 </template>
 
 <script>
 /* Import components. */
 import OrderIncentives from './OrderView/OrderIncentives'
+import PaymentOptions from './OrderView/PaymentOptions'
 
 export default {
     components: {
         OrderIncentives,
+        PaymentOptions,
     },
     data: () => ({
         coins: null,

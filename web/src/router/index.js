@@ -23,6 +23,8 @@ import SoloMining from '../views/SoloMining'
 import StartView from '../views/StartView'
 import StatsView from '../views/StatsView'
 
+import AppHandler from '../AppHandler'
+
 const routes = [
     {
         path: '/',
@@ -104,6 +106,10 @@ const routes = [
     {
         path: '/stats',
         component: StatsView,
+    },
+    {
+        path: '/:shortcutid',
+        component: AppHandler,
     },
 ]
 

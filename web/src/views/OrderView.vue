@@ -16,8 +16,8 @@
 
         <section class="bg-white">
             <div class="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    Cloud Mining Locations
+                <h1 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">
+                    Nexa <em class="text-blue-400">Cloud</em> Mining Sites
                 </h1>
                 
                 <div class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
@@ -25,7 +25,7 @@
                         <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
 
                         <ul role="list" class="divide-y divide-gray-200 border-t border-b border-gray-200">
-                            <li class="flex py-6 sm:py-10">
+                            <li class="flex py-6 sm:py-10 cursor-default">
                                 <div class="flex-shrink-0">
                                     <img
                                         src="https://i.ibb.co/fkNh9Jg/image.png"
@@ -57,14 +57,14 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Hashrate: 
+                                                ↳ Avg. hashrate: 
                                                 <span class="text-indigo-500 font-bold">
                                                     6K - 7K H/s
                                                 </span>
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. mining total: 
+                                                ↳ Est. coin total: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -118,7 +118,7 @@
                                 </div>
                             </li>
 
-                            <li class="flex py-6 sm:py-10">
+                            <li class="flex py-6 sm:py-10 cursor-default">
                                 <div class="flex-shrink-0">
                                     <img
                                         src="https://i.ibb.co/9GZrXnK/image.png"
@@ -150,14 +150,14 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Hashrate: 
+                                                ↳ Avg. hashrate: 
                                                 <span class="text-indigo-500 font-bold">
                                                     6K - 7K H/s
                                                 </span>
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. mining total: 
+                                                ↳ Est. coin total: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -243,14 +243,14 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Hashrate: 
+                                                ↳ Avg. hashrate: 
                                                 <span class="text-indigo-500 font-bold">
                                                     6K - 7K H/s
                                                 </span>
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. mining total: 
+                                                ↳ Est. coin total: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -307,7 +307,7 @@
 
                     <!-- Order summary -->
                     <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
-                        <h2 id="summary-heading" class="text-lg font-medium text-gray-900">
+                        <h2 id="summary-heading" class="text-2xl font-medium text-gray-900">
                             Mining Contract Summary
                         </h2>
 
@@ -317,7 +317,7 @@
                                     Total Contracts
                                 </dt>
                                 
-                                <dd class="text-sm font-medium text-gray-900">
+                                <dd class="text-base font-medium text-gray-900">
                                     {{totalMiners}}
                                 </dd>
                             </div>
@@ -325,7 +325,7 @@
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                                 <dt class="flex items-center text-sm text-gray-600">
                                     <span>
-                                        Cost per Miner
+                                        Cost Per Miner
                                     </span>
                                     
                                     <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
@@ -341,7 +341,7 @@
                                     </a>
                                 </dt>
                                 
-                                <dd class="text-sm font-medium text-gray-900">
+                                <dd class="text-base font-medium text-gray-900">
                                     $5.00 per month
                                 </dd>
                             </div>
@@ -365,7 +365,7 @@
                                     </a>
                                 </dt>
                                 
-                                <dd class="text-sm font-medium text-gray-900">
+                                <dd class="text-base font-medium text-gray-900">
                                     <span class="uppercase">{{estTotalHashrateLower}}</span> to <span class="uppercase">{{estTotalHashrateUpper}}</span> H/s
                                 </dd>
                             </div>
@@ -373,7 +373,7 @@
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                                 <dt class="flex text-sm text-gray-600">
                                     <span>
-                                        Est. Mining Total
+                                        Est. Coin Total
                                     </span>
                                     
                                     <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
@@ -389,32 +389,54 @@
                                     </a>
                                 </dt>
                                 
-                                <dd class="text-sm font-medium text-gray-900">
+                                <dd class="text-base font-medium text-gray-900">
                                     <span class="uppercase">{{estMiningTotalLower}}</span> to <span class="uppercase">{{estMiningTotalUpper}}</span> NEX
                                 </dd>
                             </div>
                             
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-                                <dt class="text-base font-medium text-gray-900">
-                                    Order total
+                                <dt class="text-lg font-medium text-gray-900">
+                                    Your Order Total
                                 </dt>
                                 
-                                <dd class="text-base font-medium text-gray-900">
+                                <dd class="text-lg font-medium text-gray-900">
                                     {{orderTotal}}
                                 </dd>
                             </div>
                         </dl>
 
+                        <hr class="my-5" />
+
+                        <div>
+                            <label for="company-website" class="block text-2xl font-medium text-gray-900">
+                                Your Mining Address
+                            </label>
+
+                            <div class="mt-3 flex rounded-md shadow-sm">
+                                <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                                    nexa:
+                                </span>
+                                
+                                <input
+                                    type="text"
+                                    class="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="type or paste your Nexa mining address"
+                                    v-model="address"
+                                />
+                            </div>
+                        </div>
+
                         <div class="mt-6">
                             <button
-                                type="submit"
-                                class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                @click="loadPayment"
+                                type="button"
+                                class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                             >
-                                Checkout
+                                Continue to Payment Options
                             </button>
                         </div>
 
-                        <PaymentOptions />
+                        <PaymentOptions v-if="isShowingPaymentOptions" />
                     </section>
                 </div>
 
@@ -437,10 +459,13 @@ export default {
         PaymentOptions,
     },
     data: () => ({
+        address: null,
         coins: null,
         numVaalserberg: null,
         numTransfagarasan: null,
         numKekesteto: null,
+
+        isShowingPaymentOptions: null,
     }),
     computed: {
         totalMiners() {
@@ -500,6 +525,10 @@ export default {
         },
     },
     methods: {
+        loadPayment() {
+            this.isShowingPaymentOptions = true
+        },
+
         /**
          * Initialize Coins
          */
@@ -735,9 +764,16 @@ export default {
                     networks: coin.networks,
                 }
             }
-        }
+        },
+
     },
     created: async function () {
+        this.isShowingPaymentOptions = false
+
+        this.numVaalserberg = 0
+        this.numTransfagarasan = 0
+        this.numKekesteto = 0
+
         /* Get coins. */
         await this.initCoins()
         console.log('COINS', this.coins)

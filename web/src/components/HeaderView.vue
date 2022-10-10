@@ -112,6 +112,8 @@
                                         placeholder="Type or paste your nexa: address"
                                         type="search"
                                         v-model="search"
+                                        @keyup="showAddress"
+                                        @paste="showAddress"
                                     />
                                 </div>
                             </div>
@@ -250,7 +252,23 @@
             //
         },
         methods: {
-            //
+            showAddress() {
+                let address
+
+                if (!this.search) return
+
+                /* Set address (to lowercase). */
+                address = this.search.toLowerCase()
+                console.log('ADDRESS', address)
+
+                /* Normalize address. */
+                if (address.slice(0, 4) === 'nexa') {
+                    address = address.slice(4)
+                }
+                console.log('ADDRESS (norm):', address)
+
+                this.$router.push(address)
+            }
         },
         created: function () {
             //

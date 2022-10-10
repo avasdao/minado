@@ -12,6 +12,10 @@ export default createStore({
         email: null,
         issuer: null,
         magic: null,
+
+        seed: null,
+        address: null,
+        cachedAddress: null,
     },
     getters: {
         // 

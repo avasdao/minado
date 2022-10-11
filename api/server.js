@@ -31,14 +31,14 @@ app.post('/v1/magiclink', require('./routes/magiclink'))
 /* Initialize Notifications route. */
 app.post('/v1/notifs', require('./routes/notifs'))
 
+/* Initialize Orders route. */
+app.post('/v1/orders', require('./routes/orders'))
+
 /* Initialize RPC route. */
 app.post('/v1/rpc', require('./routes/rpc'))
 
 /* Initialize Sessions route. */
 app.post('/v1/sessions', require('./routes/sessions'))
-
-/* Initialize Sideshift route. */
-app.post('/v1/sideshift', require('./routes/sideshift'))
 
 // TODO: Offer help.
 app.get('/v1', (req, res) => {

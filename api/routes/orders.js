@@ -8,12 +8,12 @@ const { v4: uuidv4 } = require('uuid')
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
-const sideshiftDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/sideshift`)
+const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/orders`)
 
 /**
- * Sideshift Module
+ * Orders Module
  */
-const sideshift = async function (req, res) {
+const orders = async function (req, res) {
     let body
     let createdAt
     let id
@@ -30,7 +30,7 @@ const sideshift = async function (req, res) {
 
         pkg = {
             _id: id,
-            src: 'sideshift',
+            src: 'orders',
             ...body,
             createdAt,
         }
@@ -161,11 +161,11 @@ const sideshift = async function (req, res) {
     console.log('PKG', pkg)
 
     /* Retrieve results. */
-    results = await sideshiftDb.put(pkg)
+    results = await ordersDb.put(pkg)
         .catch(err => {
             console.error('AUTH ERROR:', err)
         })
-    console.log('RESULT (sideshift)', util.inspect(results, false, null, true))
+    console.log('RESULT (orders)', util.inspect(results, false, null, true))
 
     if (!results) {
         /* Set status. */
@@ -187,4 +187,4 @@ const sideshift = async function (req, res) {
 }
 
 /* Export module. */
-module.exports = sideshift
+module.exports = orders

@@ -214,7 +214,7 @@
                             <li class="flex py-6 sm:py-10 opacity-50 cursor-not-allowed">
                                 <div class="flex-shrink-0">
                                     <img
-                                        src="https://i.ibb.co/jVZZqmm/image.png"
+                                        src="https://i.ibb.co/K7rJ5ny/image.png"
                                         alt="Kékestető"
                                         class="h-18 w-24 rounded-md object-cover object-center sm:h-36 sm:w-48"
                                     />

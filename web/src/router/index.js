@@ -22,6 +22,7 @@ import RefundView from '../views/RefundView'
 import SoloMining from '../views/SoloMining'
 import StartView from '../views/StartView'
 import StatsView from '../views/StatsView'
+import TransparencyView from '../views/TransparencyView'
 
 import AppHandler from '../AppHandler'
 
@@ -106,6 +107,10 @@ const routes = [
     {
         path: '/stats',
         component: StatsView,
+    },
+    {
+        path: '/transparency',
+        component: TransparencyView,
     },
     {
         path: '/:shortcutid',

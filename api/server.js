@@ -25,6 +25,9 @@ app.use(express.static('public'))
 /* Initialize Administration route. */
 app.post('/v1/admin', require('./routes/admin'))
 
+/* Initialize Core (Node) route. */
+app.post('/v1/core', require('./routes/core'))
+
 /* Initialize Magic (Email) Link route. */
 app.post('/v1/magiclink', require('./routes/magiclink'))
 
@@ -33,9 +36,6 @@ app.post('/v1/notifs', require('./routes/notifs'))
 
 /* Initialize Orders route. */
 app.post('/v1/orders', require('./routes/orders'))
-
-/* Initialize RPC route. */
-app.post('/v1/rpc', require('./routes/rpc'))
 
 /* Initialize Sessions route. */
 app.post('/v1/sessions', require('./routes/sessions'))

@@ -5,9 +5,9 @@ const superagent = require('superagent')
 const { v4: uuidv4 } = require('uuid')
 
 /**
- * RPC Module
+ * Core (Node) Module
  */
-const rpc = async function (req, res) {
+const core = async function (req, res) {
     let body
     let endpoint
     let pkg
@@ -67,4 +67,4 @@ const rpc = async function (req, res) {
 }
 
 /* Export module. */
-module.exports = rpc
+module.exports = core

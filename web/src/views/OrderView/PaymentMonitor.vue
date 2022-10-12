@@ -38,8 +38,24 @@ export default {
             console.log('FIND ASSET', this.search)
         },
 
-        payInWallet() {
-            alert('pay in wallet')
+        async payInWallet() {
+            const body = {
+                action: 'payment_request',
+                profileid: 'satoshi',
+                totalMiners: 2,
+            }
+
+            const endpoint = 'https://api.nexa.rocks/v1/orders/'
+            const rawResponse = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                })
+            console.log('RAW RESPONSE', rawResponse)
+
         },
 
     },

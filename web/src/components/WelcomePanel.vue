@@ -190,7 +190,7 @@ export default {
         },
 
         async getMiningInfo() {
-            const endpoint = 'https://api.nexa.rocks/v1/rpc/'
+            const endpoint = 'https://api.nexa.rocks/v1/core/'
             const rawResponse = await fetch(endpoint, {
                     method: 'POST',
                     headers: {

@@ -101,6 +101,7 @@ export default {
     data: () => ({
         dataUrl: null,
         search: null,
+        orderid: null,
         isShowingPaymentMonitor: null,
     }),
     computed: {
@@ -111,13 +112,42 @@ export default {
             console.log('FIND ASSET', this.search)
         },
 
-        loadAsset(_asset) {
+        async loadAsset(_asset) {
             console.log('LOAD ASSET', _asset)
-            this.isShowingPaymentMonitor = true
+
+            /* Build request body. */
+            const body = {
+                action: 'get_sideshift',
+                orderid: this.orderid,
+            }
+
+            /* Set endpoint. */
+            const endpoint = 'https://api.nexa.rocks/v1/orders/'
+
+            const rawResponse = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                })
+            // console.log('RAW RESPONSE', rawResponse)
+
+            if (rawResponse) {
+                const json = await rawResponse.json()
+                console.log('BODY (get_sideshift)', json)
+
+                /* Set display flag. */
+                this.isShowingPaymentMonitor = true
+            }
         },
     },
     created: function () {
         this.isShowingPaymentMonitor = false
+
+        // FOR DEV ONLY
+        this.orderid = 'fbbf33e2fe986ab83afe'
     },
     mounted: function () {
         // 

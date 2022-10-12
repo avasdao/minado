@@ -40,7 +40,8 @@ const magic = async function (req, res) {
             createdAt,
         }
 
-        results = await logsDb.put(pkg)
+        results = await logsDb
+            .put(pkg)
             .catch(err => console.error('LOGS ERROR:', err))
     }
 
@@ -135,7 +136,8 @@ const magic = async function (req, res) {
     console.log('PKG', pkg)
 
     /* Retrieve results. */
-    results = await sessionsDb.put(pkg)
+    results = await sessionsDb
+        .put(pkg)
         .catch(err => {
             console.error('AUTH ERROR:', err)
         })

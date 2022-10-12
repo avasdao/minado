@@ -49,7 +49,8 @@ const admin = async function (req, res) {
             createdAt,
         }
 
-        results = await logsDb.put(pkg)
+        results = await logsDb
+            .put(pkg)
             .catch(err => console.error('LOGS ERROR:', err))
     }
 

@@ -16,6 +16,7 @@ const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
 const orders = async function (req, res) {
     let body
     let createdAt
+    let endpoint
     let id
     let pkg
     let results
@@ -35,7 +36,8 @@ const orders = async function (req, res) {
             createdAt,
         }
 
-        results = await logsDb.put(pkg)
+        results = await logsDb
+            .put(pkg)
             .catch(err => console.error('LOGS ERROR:', err))
     }
 
@@ -51,6 +53,27 @@ const orders = async function (req, res) {
         return res.json({
             error: 'Missing an action.'
         })
+    }
+
+    if (action === 'get_sideshift') {
+        /* Set id. */
+        id = body.orderid
+
+        // TODO Validate order id.
+
+        /* Set endpoint. */
+        endpoint = `https://sideshift.ai/api/v2/shifts/${id}`
+
+        /* Request status. */
+        response = await superagent
+            .get(endpoint)
+            .set('accept', 'json')
+            .catch(err => console.error(err))
+        console.log('\nSIDESHIFT CALL:', response.body)
+
+        if (response && response.body) {
+            return res.json(response.body)
+        }
     }
 
     if (action === 'get_orders') {
@@ -91,7 +114,8 @@ const orders = async function (req, res) {
     console.log('PKG', pkg)
 
     /* Retrieve results. */
-    results = await ordersDb.put(pkg)
+    results = await ordersDb
+        .put(pkg)
         .catch(err => {
             console.error('AUTH ERROR:', err)
         })

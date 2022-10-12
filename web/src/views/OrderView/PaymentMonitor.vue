@@ -54,7 +54,12 @@ export default {
                     },
                     body: JSON.stringify(body)
                 })
-            console.log('RAW RESPONSE', rawResponse)
+            // console.log('RAW RESPONSE', rawResponse)
+
+            if (rawResponse) {
+                const json = await rawResponse.json()
+                console.log('BODY', json)
+            }
 
         },
 

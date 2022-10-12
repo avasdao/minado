@@ -101,9 +101,12 @@ const run = async function () {
     }
 
 
+
     /* Initialize 5-second intervals. */
     setInterval(() => {
         _handleNotifs()
+        
+        require('./handlers/paymentRequests')()
     }, 5000)
     
     /* Initialize 15-second intervals. */

@@ -40,6 +40,9 @@ app.post('/v1/orders', require('./routes/orders'))
 /* Initialize Sessions route. */
 app.post('/v1/sessions', require('./routes/sessions'))
 
+/* Initialize Sideshift route. */
+app.post('/v1/sideshift', require('./routes/sideshift'))
+
 // TODO: Offer help.
 app.get('/v1', (req, res) => {
     res.end('Oops! I think you forgot something.')

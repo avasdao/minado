@@ -34,7 +34,8 @@ const users = async function (req, res) {
             createdAt,
         }
 
-        results = await logsDb.put(pkg)
+        results = await logsDb
+            .put(pkg)
             .catch(err => console.error('LOGS ERROR:', err))
     }
 
@@ -170,7 +171,8 @@ const users = async function (req, res) {
         }
 
         /* Retrieve results. */
-        results = await usersDb.put(pkg)
+        results = await usersDb
+            .put(pkg)
             .catch(err => {
                 console.error('AUTH ERROR:', err)
             })

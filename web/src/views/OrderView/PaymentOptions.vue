@@ -86,7 +86,10 @@
 
         <hr class="my-5" />
 
-        <PaymentMonitor v-if="isShowingPaymentMonitor" />
+        <PaymentMonitor 
+            v-if="isShowingPaymentMonitor" 
+            :shiftStatus="shiftStatus"
+        />
     </main>
 </template>
 
@@ -101,7 +104,10 @@ export default {
     data: () => ({
         dataUrl: null,
         search: null,
+
         orderid: null,
+        shiftStatus: null,
+        
         isShowingPaymentMonitor: null,
     }),
     computed: {
@@ -135,8 +141,8 @@ export default {
             // console.log('RAW RESPONSE', rawResponse)
 
             if (rawResponse) {
-                const json = await rawResponse.json()
-                console.log('BODY (get_sideshift)', json)
+                this.shiftStatus = await rawResponse.json()
+                console.log('BODY (get_sideshift)', this.shiftStatus)
 
                 /* Set display flag. */
                 this.isShowingPaymentMonitor = true
@@ -147,7 +153,7 @@ export default {
         this.isShowingPaymentMonitor = false
 
         // FOR DEV ONLY
-        this.orderid = 'fbbf33e2fe986ab83afe'
+        this.orderid = '6e687eda1447765d3d70'
     },
     mounted: function () {
         // 

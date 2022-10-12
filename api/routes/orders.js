@@ -55,6 +55,7 @@ const orders = async function (req, res) {
         })
     }
 
+    /* Handle Sideshift status request. */
     if (action === 'get_sideshift') {
         /* Set id. */
         id = body.orderid
@@ -69,10 +70,27 @@ const orders = async function (req, res) {
             .get(endpoint)
             .set('accept', 'json')
             .catch(err => console.error(err))
-        console.log('\nSIDESHIFT CALL:', response.body)
+        // console.log('\nSIDESHIFT CALL:', response.body)
 
+        /* Validate response body. */
         if (response && response.body) {
-            return res.json(response.body)
+            /* Set body. */
+            const body = response.body
+
+            /* Build package. */
+            const pkg = {
+                id: body.id,
+                status: body.status,
+                depositCoin: body.depositCoin,
+                depositNetwork: body.depositNetwork,
+                depositAddress: body.depositAddress,
+                depositAmount: body.depositAmount,
+                createdAt: body.createdAt,
+                expiresAt: body.expiresAt
+            }
+
+            /* Return package. */
+            return res.json(pkg)
         }
     }
 

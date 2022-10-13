@@ -1,5 +1,5 @@
 <template>
-    <main class="mt-10 border-t border-b border-gray-200">
+    <main class="mt-10 border-t border-gray-200">
 
         <input
             class="hidden block w-full text-indogo-800 text-lg bg-indigo-100 py-2 pl-10 pr-3 border-2 border-indigo-500 rounded-lg leading-5 focus:text-gray-900 placeholder-indogo-800 focus:outline-none focus:bg-opacity-100 focus:border-transparent focus:placeholder-gray-500 focus:ring-0"
@@ -11,25 +11,32 @@
         />
     
         <h1 class="w-full cursor-auto py-6 text-left text-lg font-medium text-gray-500">
-            Payment Coins
+            Payment &amp; Privacy Coins
         </h1>
 
         <div class="flex grid grid-cols-3 gap-10">
             <div 
                 v-for="coin of coins" 
                 :key="coin.id" 
-                @click="loadAsset(coin.id)" 
-                class="flex flex-col items-center"
             >
-                <img
-                    :src="coin.iconUrl"
-                    :alt="coin.alt"
-                    class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                />
+                <div 
+                    @click="loadAsset(coin.id)" 
+                    class="flex flex-col p-3 items-center bg-gray-100 border border-gray-200 rounded-lg cursor-pointer"
+                >
+                    <img
+                        :src="coin.iconUrl"
+                        :alt="coin.alt"
+                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
+                    />
 
-                <span class="mt-1 block text-sm text-gray-600 text-center">
-                    {{coin.name}} ({{coin.id}})
-                </span>
+                    <span class="mt-1 block text-sm text-gray-600 text-center whitespace-nowrap">
+                        {{coin.name}}
+                    </span>
+
+                    <span class="mt-1 block text-xs text-gray-400 text-center">
+                        ( {{coin.id}} )
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -38,43 +45,43 @@
         </h1>
 
         <div class="flex grid grid-cols-3 gap-10">
-            <div 
-                v-for="coin of stablecoins" 
-                :key="coin.id" 
-                @click="loadAsset(coin.id)" 
-                class="flex flex-col items-center"
-            >
-                <img
-                    :src="coin.iconUrl"
-                    :alt="coin.alt"
-                    class="h-16 w-16 flex-none rounded-md object-cover object-center"
-                />
-
-                <span class="mt-1 block text-sm text-gray-600 text-center">
-                    {{coin.name}}
-                </span>
-
-                <span class="mt-1 block text-xs text-gray-400 text-center">
-                    ( {{coin.id}} )
-                </span>
-
-                <span v-if="coin.network" class="mt-0 flex items-center text-xs text-gray-600 text-center italic">
-                    {{coin.network.name}}
-                    <img :src="coin.network.iconUrl" class="ml-1 w-3 h-3" />
-                </span>
-
-                <div v-if="coin.networks" class="mt-1 px-1 py-1 grid grid-cols-3 gap-2 bg-gray-200 border border-gray-400 rounded-xl shadow">
-                    <img 
-                        v-for="url of coin.networks" 
-                        :key="url" 
-                        :src="url" 
-                        class="w-4 h-4" 
+            <div v-for="coin of stablecoins" :key="coin.id">
+                <div 
+                    @click="loadAsset(coin.id)" 
+                    class="flex flex-col p-3 items-center bg-gray-100 border border-gray-200 rounded-lg cursor-pointer"
+                >
+                    <img
+                        :src="coin.iconUrl"
+                        :alt="coin.alt"
+                        class="h-16 w-16 flex-none rounded-md object-cover object-center"
                     />
+
+                    <span class="mt-1 block text-sm text-gray-600 text-center">
+                        {{coin.name}}
+                    </span>
+
+                    <span class="mt-1 block text-xs text-gray-400 text-center">
+                        ( {{coin.id}} )
+                    </span>
+
+                    <span v-if="coin.network" class="mt-0 flex items-center text-xs text-gray-600 text-center italic">
+                        {{coin.network.name}}
+                        <img :src="coin.network.iconUrl" class="ml-1 w-3 h-3" />
+                    </span>
+
+                    <div v-if="coin.networks" class="mt-1 px-1 py-1 grid grid-cols-3 gap-2 bg-gray-200 border border-gray-400 rounded-xl shadow">
+                        <img 
+                            v-for="url of coin.networks" 
+                            :key="url" 
+                            :src="url" 
+                            class="w-4 h-4" 
+                        />
+                    </div>
                 </div>
             </div>
         </div>
 
-        <hr class="my-5" />
+        <hr v-if="isShowingPaymentMonitor" class="my-5" />
 
         <PaymentMonitor 
             v-if="isShowingPaymentMonitor" 
@@ -151,18 +158,12 @@ export default {
         this.coins = []
         this.stablecoins = []
 
-        /* PAYMENT COINS */
+        /* PAYMENT & PRIVACY COINS */
 
         this.coins.push({
             id: 'BCH',
             name: 'Bitcoin Cash',
             iconUrl: 'https://assets.telr.io/coins/svg/bch.svg',
-        })
-
-        this.coins.push({
-            id: 'BTC',
-            name: 'Bitcoin',
-            iconUrl: 'https://assets.telr.io/coins/svg/btc.svg',
         })
 
         this.coins.push({
@@ -172,9 +173,9 @@ export default {
         })
 
         this.coins.push({
-            id: 'AVAX',
-            name: 'Avalanche',
-            iconUrl: 'https://assets.telr.io/coins/svg/avax.svg',
+            id: 'BTC',
+            name: 'Bitcoin',
+            iconUrl: 'https://assets.telr.io/coins/svg/btc.svg',
         })
 
         this.coins.push({
@@ -189,21 +190,14 @@ export default {
             iconUrl: 'https://assets.telr.io/coins/svg/zec.svg',
         })
 
+        this.coins.push({
+            id: 'AVAX',
+            name: 'Avalanche',
+            iconUrl: 'https://assets.telr.io/coins/svg/avax.svg',
+        })
+
 
         /* STABLE COINS */
-
-        this.stablecoins.push({
-            id: 'USDT',
-            name: 'Tether',
-            networks: [
-                'https://assets.telr.io/coins/svg/bnb.svg',
-                'https://assets.telr.io/coins/svg/trx.svg',
-                'https://assets.telr.io/coins/svg/avax.svg',
-                'https://assets.telr.io/coins/svg/sol.svg',
-                'https://assets.telr.io/coins/svg/eth.svg',
-            ],
-            iconUrl: 'https://assets.telr.io/coins/svg/usdt.svg',
-        })
 
         this.stablecoins.push({
             id: 'USDC',
@@ -219,13 +213,26 @@ export default {
         })
 
         this.stablecoins.push({
-            id: 'DAI',
-            name: 'Dai',
+            id: 'USDT',
+            name: 'Tether',
+            networks: [
+                'https://assets.telr.io/coins/svg/bnb.svg',
+                'https://assets.telr.io/coins/svg/trx.svg',
+                'https://assets.telr.io/coins/svg/avax.svg',
+                'https://assets.telr.io/coins/svg/sol.svg',
+                'https://assets.telr.io/coins/svg/eth.svg',
+            ],
+            iconUrl: 'https://assets.telr.io/coins/svg/usdt.svg',
+        })
+
+        this.stablecoins.push({
+            id: 'MIM',
+            name: 'Matic Internet Money',
             network: {
-                name: 'Ethereum',
-                iconUrl: 'https://assets.telr.io/coins/svg/eth.svg',    
+                name: 'Avalanche',
+                iconUrl: 'https://assets.telr.io/coins/svg/avax.svg',    
             },
-            iconUrl: 'https://assets.telr.io/coins/svg/dai.svg',
+            iconUrl: 'https://assets.telr.io/coins/svg/mim.svg',
         })
 
         this.stablecoins.push({
@@ -239,13 +246,13 @@ export default {
         })
 
         this.stablecoins.push({
-            id: 'MIM',
-            name: 'Matic Internet Money',
+            id: 'DAI',
+            name: 'Dai',
             network: {
-                name: 'Avalanche',
-                iconUrl: 'https://assets.telr.io/coins/svg/avax.svg',    
+                name: 'Ethereum',
+                iconUrl: 'https://assets.telr.io/coins/svg/eth.svg',    
             },
-            iconUrl: 'https://assets.telr.io/coins/svg/mim.svg',
+            iconUrl: 'https://assets.telr.io/coins/svg/dai.svg',
         })
 
         this.stablecoins.push({

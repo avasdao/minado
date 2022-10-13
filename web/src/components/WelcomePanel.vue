@@ -206,8 +206,12 @@ export default {
             const content = await rawResponse.json()
             console.log('CONTENT', content)
 
-            this.difficulty = content.result.difficulty
-            this.networkhashps = content.result.networkhashps
+            /* Validate content. */
+            if (content) {
+                this.difficulty = content.difficulty
+                this.networkhashps = content.networkhashps
+            }
+
 
         },
 

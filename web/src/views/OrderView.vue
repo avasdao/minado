@@ -313,11 +313,11 @@
 
                         <dl class="mt-6 space-y-4">
                             <div class="flex items-center justify-between">
-                                <dt class="text-sm text-gray-600">
-                                    Total Contracts
+                                <dt :class="[ hasQuantityError ? 'text-base font-medium text-red-500' : 'text-sm text-gray-600' ]">
+                                    Total Mining Contracts
                                 </dt>
                                 
-                                <dd class="text-base font-medium text-gray-900">
+                                <dd :class="[ hasQuantityError ? 'text-lg font-bold text-red-500' : 'text-base font-medium text-gray-900' ]">
                                     {{totalMiners}}
                                 </dd>
                             </div>
@@ -395,11 +395,11 @@
                             </div>
                             
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-                                <dt class="text-lg font-medium text-gray-900">
+                                <dt :class="[ hasQuantityError ? 'text-xl font-bold text-red-500' : 'text-lg font-medium text-gray-900' ]">
                                     Your Order Total
                                 </dt>
                                 
-                                <dd class="text-lg font-medium text-gray-900">
+                                <dd :class="[ hasQuantityError ? 'text-xl font-bold text-red-500' : 'text-lg font-medium text-gray-900' ]">
                                     {{orderTotal}}
                                 </dd>
                             </div>
@@ -412,7 +412,10 @@
                                 Your Mining Address
                             </label>
 
-                            <div class="relative flex mt-3 rounded-md shadow-sm">
+                            <div 
+                                class="relative flex mt-3 rounded-md shadow-sm"
+                                :class="{ 'opacity-30': isAddressConfirmed }"
+                            >
                                 <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
                                     nexa:
                                 </span>
@@ -422,6 +425,8 @@
                                     class="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                     placeholder="type or paste your Nexa mining address"
                                     v-model="address"
+                                    @keyup="validateAddress"
+                                    :disabled="isAddressConfirmed"
                                 />
                                 
                                 <div v-if="hasAddressError" class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -441,7 +446,7 @@
                             <button
                                 @click="loadPayment"
                                 type="button"
-                                class="w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                :class="[ isAddressConfirmed ? validClass : errorClass ]"
                             >
                                 Continue to Payment Options
                             </button>
@@ -478,8 +483,30 @@ export default {
 
         isShowingPaymentOptions: null,
         hasAddressError: null,
+        hasQuantityError: null,
+        isAddressConfirmed: null,
     }),
+    watch: {
+        totalMiners: function (_totalMiners) {
+            console.log('CHANGED TOTAL MINERS', _totalMiners)
+
+            if (_totalMiners < 2) {
+                this.hasQuantityError = true
+
+                return
+            }
+
+            this.hasQuantityError = false
+        }
+    },
     computed: {
+        validClass() {
+            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
+        },
+        errorClass() {
+            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm opacity-30 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
+        },
+
         totalMiners() {
             if (!this.numVaalserberg && !this.numTransfagarasan) return 0
 
@@ -538,13 +565,74 @@ export default {
     },
     methods: {
         loadPayment() {
-            if (!this.address) {
+            if (this.totalMiners < 2) {
+                this.hasQuantityError = true
+                
+                return
+            }
+
+            if (!this.validateAddress()) {
                 this.hasAddressError = true
                 
                 return
             }
 
             this.isShowingPaymentOptions = true
+        },
+
+        /**
+         * Validate Address
+         * 
+         * Makes a remote call to the the Core endpoint of the API.
+         */
+        async validateAddress() {
+            // NOTE Reset this each time to protect against bad Order data.
+            this.isAddressConfirmed = false
+
+            if (!this.address || this.address === '') {
+                this.hasAddressError = false
+
+                return false
+            }
+
+            const endpoint = 'https://api.nexa.rocks/v1/core/'
+            const rawResponse = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'validateaddress',
+                        params: [this.address]
+                    })
+                })
+            // console.log('RAW RESPONSE', rawResponse)
+
+            const content = await rawResponse.json()
+            console.log('CONTENT', content)
+
+            if (!content) {
+                console.error('API ERROR!')
+
+                return false
+            }
+
+            /* Validate content. */
+            if (content.isvalid) {
+                /* Set error flag. */
+                this.hasAddressError = false
+
+                /* Set confirmation flag. */
+                this.isAddressConfirmed = true
+
+                return true
+            }
+
+            /* Set error flag. */
+            this.hasAddressError = true
+
+            return false
         },
 
         /**
@@ -789,6 +877,8 @@ export default {
         this.isShowingPaymentOptions = false
 
         this.hasAddressError = false
+        this.hasQuantityError = false
+        this.isAddressConfirmed = false
 
         this.numVaalserberg = 0
         this.numTransfagarasan = 0

@@ -21,32 +21,62 @@ const client = new Client({
  * @returns 
  */
 const rpc = async (_method, _params) => {
-    /* Set endpoint. */
-    endpoint = `http://user:password@127.0.0.1:7227`
-    
-    /* Build package. */
-    const pkg = {
-        "jsonrpc": "2.0", 
-        "id": "api", 
-        "method": _method, 
-        "params": _params,
+    let endpoint
+    let error
+    let response
+
+    try {
+        /* Set endpoint. */
+        endpoint = `http://user:password@127.0.0.1:7227`
+        
+        /* Build package. */
+        const pkg = {
+            "jsonrpc": "2.0", 
+            "id": "core", 
+            "method": _method, 
+            "params": _params,
+        }
+
+        /* Request Elasticsearch query. */
+        response = await superagent
+            .post(endpoint)
+            .send(pkg)
+            .set('accept', 'json')
+            .catch(_err => {
+                console.error(_err)
+
+                if (_err && _err.response && _err.response.text) {
+                    error = JSON.parse(_err.response.text)
+                } else if (_err && _err.response) {
+                    error = _err.response
+                } else {
+                    error = _err
+                }
+            })
+
+        /* Validate error. */
+        if (error) {
+            return error
+        }
+
+        /* Validate response. */
+        if (!response) {
+            return null
+        }
+        console.log('\nRPC CALL (response):', response)
+
+        /* Validate response. */
+        if (response.body && response.body.result) {
+            return response.body.result
+        } else if (response.text) {
+            return response.text
+        } else {
+            return null
+        }
+        
+    } catch (err) {
+        return err
     }
-
-    /* Request Elasticsearch query. */
-    response = await superagent
-        .post(endpoint)
-        .send(pkg)
-        .set('accept', 'json')
-        .catch(err => console.error(err))
-    console.log('\nRPC CALL:', response.body)
-
-    /* Validate response. */
-    if (response && response.body && response.body.result) {
-        return response.body.result
-    } else {
-        return null
-    }
-
 }
 
 /**
@@ -57,14 +87,21 @@ const rpc = async (_method, _params) => {
  * @returns 
  */
 const core = async function (req, res) {
+    let action
+    let address
     let body
     let endpoint
+    let params
     let pkg
     let response
 
     try {
         body = req.body
         console.log('BODY', body)
+
+        action = body.action
+        address = body.address
+        params = body.params
     
         /* Validate body. */
         if (!body) {
@@ -77,7 +114,7 @@ const core = async function (req, res) {
             })
         }
     
-        if (body.action === 'getbalance') {
+        if (action === 'getbalance') {
             const balance = await client
                 .getBalance('*', 0)
                 .catch(err => {
@@ -88,35 +125,27 @@ const core = async function (req, res) {
         }
     
         /* Handle mining candidate. */
-        if (body.action === 'getminingcandidate') {
-            const method = 'getminingcandidate'
-            const params = []
-
+        if (action === 'getminingcandidate') {
             /* Make core request. */
-            response = await rpc(method, params)
+            response = await rpc(action, params)
             // console.log('RPC RESPONSE', response)
             
             /* Return response. */
             return res.json(response)
         }
     
-        if (body.action === 'getmininginfo') {
-            const method = 'getmininginfo'
-            const params = []
-            const miningInfo = await rpc(method, params)
-            // const miningInfo = await client
-            //     .getMiningInfo()
-            //     .catch(err => {
-            //         console.error('ERROR (getmininginfo):', err)
-            //     })
+        if (action === 'getmininginfo') {
+            const miningInfo = await rpc(action, params)
             console.log('MINING INFO', miningInfo)
+
             return res.json(miningInfo)
         }
     
-        if (body.action === 'validateaddress') {
-            const isValid = await client.validateaddress(body.address)
-            console.log('IS VALID', isValid)
-            return res.end(isValid)
+        if (action === 'validateaddress') {
+            const miningInfo = await rpc(action, params)
+            console.log('MINING INFO', miningInfo)
+
+            return res.json(miningInfo)
         }
 
         if (!pkg) {

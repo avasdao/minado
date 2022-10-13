@@ -3,18 +3,23 @@
         <OrderIncentives />
 
         <section aria-labelledby="mt-48 quick-links-title">
-            <div class="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
-                <h2 class="sr-only" id="quick-links-title">
-                    Pool Mining links
-                </h2>
+            <div class="sm:w-3/4 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
+                <h2 class="sr-only" id="quick-links-title">System Notice</h2>
 
                 <div class="bg-white p-6">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate debitis aut exercitationem quas enim eaque. Ipsam saepe, sunt cum debitis, est illum assumenda non laboriosam nesciunt aperiam labore optio officiis!
+                    <h2 class="text-2xl text-gray-800 font-medium">
+                        System Notice
+                    </h2>
+
+                    <span class="text-gray-500">
+                        Our team is still working to upgrade all of our system to the newest v1.0.2.0 of Nexa Core.
+                        We will send out emails as soon as pending deployments are completed.
+                    </span>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white">
+        <section class="bg-white rounded-lg">
             <div class="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">
                     Nexa <em class="text-blue-400">Cloud</em> Mining Sites
@@ -64,7 +69,7 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. coin total: 
+                                                ↳ Est. coins earned: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -157,7 +162,7 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. coin total: 
+                                                ↳ Est. coins earned: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -250,7 +255,7 @@
                                             </p>
 
                                             <p class="mt-1 text-sm text-gray-600">
-                                                ↳ Est. coin total: 
+                                                ↳ Est. coins earned: 
                                                 <span class="text-indigo-500 font-bold">
                                                     300M - 450M NEX
                                                 </span>
@@ -306,7 +311,7 @@
                     </section>
 
                     <!-- Order summary -->
-                    <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+                    <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 shadow sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
                         <h2 id="summary-heading" class="text-2xl font-medium text-gray-900">
                             Mining Contract Summary
                         </h2>
@@ -373,7 +378,7 @@
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                                 <dt class="flex text-sm text-gray-600">
                                     <span>
-                                        Est. Coin Total
+                                        Est. Coins Earned
                                     </span>
                                     
                                     <a href="javascript://" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
@@ -395,11 +400,11 @@
                             </div>
                             
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-                                <dt :class="[ hasQuantityError ? 'text-xl font-bold text-red-500' : 'text-lg font-medium text-gray-900' ]">
+                                <dt :class="[ hasQuantityError ? 'text-xl font-bold text-red-500' : 'text-lg font-medium text-indigo-700' ]">
                                     Your Order Total
                                 </dt>
                                 
-                                <dd :class="[ hasQuantityError ? 'text-xl font-bold text-red-500' : 'text-lg font-medium text-gray-900' ]">
+                                <dd :class="[ hasQuantityError ? 'text-2xl font-bold text-red-500' : 'text-xl font-medium text-indigo-700' ]">
                                     {{orderTotal}}
                                 </dd>
                             </div>
@@ -452,7 +457,10 @@
                             </button>
                         </div>
 
-                        <PaymentOptions v-if="isShowingPaymentOptions" />
+                        <PaymentOptions 
+                            v-if="isShowingPaymentOptions" 
+                            :order="order"
+                        />
                     </section>
                 </div>
 
@@ -500,11 +508,16 @@ export default {
         }
     },
     computed: {
+        order() {
+            return {
+                totalMiners: this.totalMiners,
+            }
+        },
         validClass() {
-            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
+            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
         },
         errorClass() {
-            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow-sm opacity-30 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
+            return 'w-full rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-xl font-medium text-white shadow opacity-30 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
         },
 
         totalMiners() {

@@ -1,5 +1,6 @@
 /* Import modules. */
 const { LogDescription } = require('ethers/lib/utils')
+const { response } = require('express')
 const moment = require('moment')
 const PouchDB = require('pouchdb')
 const superagent = require('superagent')
@@ -19,6 +20,7 @@ const orders = async function (req, res) {
     let createdAt
     let endpoint
     let id
+    let order
     let pkg
     let results
     let tradePair
@@ -125,63 +127,54 @@ const orders = async function (req, res) {
         if (action === 'payment_request') {
             /* Set base pair. */
             basePair = body.basePair || 'btc-mainnet'
+            basePair = basePair.toLowerCase()
+
+            order = body.order
+
+            // TODO Validate user-info.
     
-            /* Set trade pair. */
-            tradePair = 'xmr-mainnet'
+            id = uuidv4()
+            createdAt = moment().unix()
     
-            // TODO Validate order id.
-    
-            /* Set endpoint. */
-            endpoint = `https://sideshift.ai/api/v2/pair/${basePair}/${tradePair}`
-    
-            /* Request status. */
-            response = await superagent
-                .get(endpoint)
-                .set('accept', 'json')
-                .catch(err => console.error(err))
-            // console.log('\nSIDESHIFT CALL:', response.body)
-    
-            /* Validate response body. */
-            if (response && response.body) {
-                /* Set body. */
-                const body = response.body
-    
-                /* Build package. */
-                const pkg = {
-                    id: body.id,
-                    status: body.status,
-                    depositCoin: body.depositCoin,
-                    depositNetwork: body.depositNetwork,
-                    depositAddress: body.depositAddress,
-                    depositAmount: body.depositAmount,
-                    createdAt: body.createdAt,
-                    expiresAt: body.expiresAt
-                }
-    
-                /* Return package. */
-                return res.json(pkg)
+            pkg = {
+                _id: id,
+                ...order,
+                createdAt,
             }
+    
+            results = await ordersDb
+                .put(pkg)
+                .catch(err => console.error('ORDERS ERROR:', err))
+            console.log('RESULT (orders)', util.inspect(results, false, null, true))
+
+            const MAX_TRIES = 30
+            const DELAY = 1000
+            let tries = 0
+
+            // TODO While loop for 30 seconds
+
+            return res.json(results)
         }
     
     
         /* Set (created) timestamp. */
-        createdAt = moment().unix()
+        // createdAt = moment().unix()
     
         /* Build (data) package. */
-        pkg = {
-            _id: uuidv4(),
-            ...body,
-            createdAt,
-        }
-        console.log('PKG', pkg)
+        // pkg = {
+        //     _id: uuidv4(),
+        //     ...body,
+        //     createdAt,
+        // }
+        // console.log('PKG', pkg)
     
         /* Retrieve results. */
-        results = await ordersDb
-            .put(pkg)
-            .catch(err => {
-                console.error('AUTH ERROR:', err)
-            })
-        console.log('RESULT (orders)', util.inspect(results, false, null, true))
+        // results = await ordersDb
+        //     .put(pkg)
+        //     .catch(err => {
+        //         console.error('AUTH ERROR:', err)
+        //     })
+        // console.log('RESULT (orders)', util.inspect(results, false, null, true))
     
         if (!results) {
             /* Set status. */
@@ -206,6 +199,7 @@ const orders = async function (req, res) {
         return res.json(err)
     }
 }
+
 
 /* Export module. */
 module.exports = orders

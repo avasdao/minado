@@ -11,12 +11,12 @@
             class="mt-5 w-64 h-64 border-4 border-indigo-500 rounded-lg cursor-pointer" 
         />
 
-        <div v-if="shiftStatus.depositAddress" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
-            {{shiftStatus.depositAddress}}
+        <div v-if="shiftStatus && shiftStatus.depositAddress" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
+            {{shiftStatus ? shiftStatus.depositAddress : ''}}
         </div>
 
-        <div v-if="shiftStatus.depositAmount" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
-            {{shiftStatus.depositAmount}} {{shiftStatus.depositCoin}}
+        <div v-if="shiftStatus && shiftStatus.depositAmount" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
+            {{shiftStatus ? shiftStatus.depositAmount : 0}} {{shiftStatus ? shiftStatus.depositCoin : ''}}
         </div>
 
         <section class="p-3 flex items-center grid grid-cols-5 gap-1 space-x-5">
@@ -24,21 +24,21 @@
                 Order ID
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus.id}}
+                {{shiftStatus ? shiftStatus.id : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
                 Status
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus.status}}
+                {{shiftStatus ? shiftStatus.status : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
                 Payment Network
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus.depositNetwork}}
+                {{shiftStatus ? shiftStatus.depositNetwork : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
@@ -48,7 +48,7 @@
                 {{paymentCreated}}
             </span>
 
-            <div v-if="shiftStatus.status !== 'expired'" class="mt-3 px-3 py-1 col-span-5 text-center bg-yellow-100 border-2 border-yellow-300 rounded-lg">
+            <div v-if="shiftStatus && shiftStatus.status !== 'expired'" class="mt-3 px-3 py-1 col-span-5 text-center bg-yellow-100 border-2 border-yellow-300 rounded-lg">
                 <span class="text-xl font-medium text-red-600">
                     Invoice expires {{timeLeftToPay}}
                 </span>

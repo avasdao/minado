@@ -8,6 +8,101 @@ const util = require('util')
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
 const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/orders`)
 
+const AFFILIATE_ID = 'sujKhKjvl'
+const COMMISSION_RATE = '0.001'
+
+const getQuote = async (
+    _depositCoin, 
+    _depositNetwork = 'mainnet', 
+    _depositAmount
+) => {
+    const pkg = {
+        depositCoin: _depositCoin,
+        depositNetwork: _depositNetwork,
+        settleCoin: _depositCoin === 'xmr' ? 'bch' : 'xmr',
+        settleNetwork: 'mainnet',
+        depositAmount: _depositAmount,
+        settleAmount: null,
+        affiliateId: AFFILIATE_ID,
+        commissionRate: COMMISSION_RATE,
+    }
+    console.log('GET QUOTE (pkg):', pkg)
+
+    /* Set endpoint. */
+    endpoint = `https://sideshift.ai/api/v2/quotes`
+
+    /* Request status. */
+    response = await superagent
+        .post(endpoint)
+        .send(pkg)
+        .set('x-sideshift-secret', process.env.SIDESHIFT_SECRET)
+        .set('accept', 'json')
+        .catch(err => console.error(err))
+    console.log('\nSIDESHIFT CALL:', response.body)
+
+    return response.body
+
+    /* Validate response body. */
+    // if (response && response.body) {
+    //     /* Set body. */
+    //     const body = response.body
+
+    //     /* Build package. */
+    //     const pkg = {
+    //         // id: body.id,
+    //         min: body.min,
+    //         max: body.max,
+    //         depositCoin: body.depositCoin,
+    //         depositNetwork: body.depositNetwork,
+    //     }
+    //     console.log('SIDESHIFT PKG', pkg)
+
+    //     await getQuote(basePair)
+
+    //     /* Return package. */
+    //     return res.json(pkg)
+    // }
+
+}
+
+const getPair = async () => {
+    /* Set trade pair. */
+    tradePair = basePair === 'xmr' ? 'bch-mainnet' : 'xmr-mainnet'
+
+    // TODO Validate order id.
+
+    /* Set endpoint. */
+    endpoint = `https://sideshift.ai/api/v2/pair/${basePair}/${tradePair}`
+
+    /* Request status. */
+    response = await superagent
+        .get(endpoint)
+        .set('accept', 'json')
+        .catch(err => console.error(err))
+    console.log('\nSIDESHIFT CALL:', response.body)
+
+    /* Validate response body. */
+    if (response && response.body) {
+        /* Set body. */
+        const body = response.body
+
+        /* Build package. */
+        const pkg = {
+            // id: body.id,
+            min: body.min,
+            max: body.max,
+            depositCoin: body.depositCoin,
+            depositNetwork: body.depositNetwork,
+        }
+        console.log('SIDESHIFT PKG', pkg)
+
+        // await getQuote(basePair)
+
+        /* Return package. */
+        return res.json(pkg)
+    }
+}
+
 /**
  * Daemon Handler
  */
@@ -69,6 +164,7 @@ const handler = async () => {
         // TODO Handle email delivery success.
     })
 }
+
 
 /* Export module. */
 module.exports = handler

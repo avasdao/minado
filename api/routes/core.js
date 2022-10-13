@@ -40,8 +40,8 @@ const rpc = async (_method, _params) => {
         /* Request Elasticsearch query. */
         response = await superagent
             .post(endpoint)
-            .send(pkg)
             .set('accept', 'json')
+            .send(pkg)
             .catch(_err => {
                 console.error(_err)
 

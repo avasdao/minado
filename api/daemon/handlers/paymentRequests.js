@@ -2,6 +2,7 @@
 const moment = require('moment')
 const nodemailer = require('nodemailer')
 const PouchDB = require('pouchdb')
+const superagent = require('superagent')
 const util = require('util')
 
 /* Initialize databases. */
@@ -11,11 +12,51 @@ const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
 const AFFILIATE_ID = 'sujKhKjvl'
 const COMMISSION_RATE = '0.001'
 
+
+const requestShift = async (_asset, _quoteId) => {
+    let settleAddress
+    let refundAddress
+    let response
+
+    /* Handle settlement address. */
+    if (_asset === 'xmr') {
+        settleAddress = 'qpqq6euaeldz9hllja3n7ejzk97myhlw8urajzjeqc' // Electron Cash wallet
+        refundAddress = '371ygdo1eNSaHPZe82zYw4d41QrixidfLT'
+    } else {
+        settleAddress = '83tWpsNNjv73TN9bKG7dsU5WPGZE3tax9dACehCduHMMg6k3yVVyxmiL8nRaEvTCAthzoHSbqpMJkYN5abxojQqBD6DfUNd' // Monero GUI wallet
+        refundAddress = '371ygdo1eNSaHPZe82zYw4d41QrixidfLT'
+    }
+
+    const pkg = {
+        settleAddress,
+        affiliateId: AFFILIATE_ID,
+        quoteId: _quoteId,
+        // refundAddress,
+    }
+    console.log('FIXED SHIFT (pkg):', pkg)
+
+    /* Set endpoint. */
+    endpoint = `https://sideshift.ai/api/v2/shifts/fixed`
+
+    /* Request status. */
+    response = await superagent
+        .post(endpoint)
+        .set('x-sideshift-secret', process.env.SIDESHIFT_SECRET)
+        .set('accept', 'json')
+        .send(pkg)
+        .catch(err => console.error(err))
+    console.log('\nSIDESHIFT CALL:', response.body)
+
+    return response.body
+}
+
 const getQuote = async (
     _depositCoin, 
     _depositNetwork = 'mainnet', 
     _depositAmount
 ) => {
+    let response
+
     const pkg = {
         depositCoin: _depositCoin,
         depositNetwork: _depositNetwork,
@@ -34,45 +75,30 @@ const getQuote = async (
     /* Request status. */
     response = await superagent
         .post(endpoint)
-        .send(pkg)
         .set('x-sideshift-secret', process.env.SIDESHIFT_SECRET)
         .set('accept', 'json')
+        .send(pkg)
         .catch(err => console.error(err))
-    console.log('\nSIDESHIFT CALL:', response.body)
 
-    return response.body
+    if (response && response.body) {
+        console.log('\nSIDESHIFT CALL:', response.body)
 
-    /* Validate response body. */
-    // if (response && response.body) {
-    //     /* Set body. */
-    //     const body = response.body
+        return response.body
+    }
 
-    //     /* Build package. */
-    //     const pkg = {
-    //         // id: body.id,
-    //         min: body.min,
-    //         max: body.max,
-    //         depositCoin: body.depositCoin,
-    //         depositNetwork: body.depositNetwork,
-    //     }
-    //     console.log('SIDESHIFT PKG', pkg)
-
-    //     await getQuote(basePair)
-
-    //     /* Return package. */
-    //     return res.json(pkg)
-    // }
-
+    return null
 }
 
-const getPair = async () => {
+const getPair = async (_asset) => {
+    let response
+
     /* Set trade pair. */
-    tradePair = basePair === 'xmr' ? 'bch-mainnet' : 'xmr-mainnet'
+    const settlement = _asset === 'xmr' ? 'bch-mainnet' : 'xmr-mainnet'
 
     // TODO Validate order id.
 
     /* Set endpoint. */
-    endpoint = `https://sideshift.ai/api/v2/pair/${basePair}/${tradePair}`
+    endpoint = `https://sideshift.ai/api/v2/pair/${_asset}/${settlement}`
 
     /* Request status. */
     response = await superagent
@@ -96,19 +122,22 @@ const getPair = async () => {
         }
         console.log('SIDESHIFT PKG', pkg)
 
-        // await getQuote(basePair)
-
         /* Return package. */
-        return res.json(pkg)
+        return pkg
     }
+
+    return null
 }
 
 /**
  * Daemon Handler
  */
 const handler = async () => {
+    let asset
     let doc
     let error
+    let paymentAmount
+    let response
     let results
 
     console.info('\nHandling payment requests..')
@@ -135,23 +164,41 @@ const handler = async () => {
         doc = JSON.parse(JSON.stringify(_row.doc))
         console.log('PAYMENT REQUEST', doc)
 
+        paymentAmount = doc.totalMiners * 5.00
+        console.log('PAYMENT AMOUNT', paymentAmount)
+
         // const destination = doc.destination
 
         // TODO Perform basic (email) verification [TRUSTED DB SOURCE].
+        asset = doc.asset
 
-        /* Set delivered flag. */
-        // doc.isDelivered = true
+        /* Request trade pair. */
+        const pair = await getPair(asset)
+
+        /* Request trade quote. */
+        const quote = await getQuote(pair.depositCoin, pair.depositNetwork, pair.min)
+
+        /* Request shift. */
+        const shift = await requestShift(pair.depositCoin, quote.id)
+
+        /* Build payment package. */
+        doc.payment = {
+            address: shift.depositAddress,
+            pair,
+            quote,
+            shift,
+        }
 
         /* Update timestamp. */
-        // doc.updateAt = moment.unix()
+        doc.updatedAt = moment().unix()
 
         /* Update record in database. */
-        // response = await notifsDb
-        //     .put(doc)
-        //     .catch(err => {
-        //         error = err
-        //         console.error(err)
-        //     })
+        response = await ordersDb
+            .put(doc)
+            .catch(err => {
+                error = err
+                console.error(err)
+            })
 
         /* Validate error. */
         if (error) {

@@ -90,8 +90,8 @@ const sessions = async function (req, res) {
         /* Request Elasticsearch query. */
         response = await superagent
             .put(endpoint)
-            .send(session)
             .set('accept', 'json')
+            .send(session)
             .catch(err => console.error(err))
         console.log('\nSESSIONS ADD/UPDATE', response.body)
     

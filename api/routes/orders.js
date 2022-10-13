@@ -7,6 +7,8 @@ const superagent = require('superagent')
 const util = require('util')
 const { v4: uuidv4 } = require('uuid')
 
+const { sleep } = require('../libs/utils')
+
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
 const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/orders`)
@@ -22,8 +24,8 @@ const orders = async function (req, res) {
     let id
     let order
     let pkg
+    let result
     let results
-    let tradePair
 
     try {
         body = req.body
@@ -152,34 +154,45 @@ const orders = async function (req, res) {
             const MAX_TRIES = 30
             const DELAY = 1000
             let tries = 0
+            let ready = false
 
             // TODO While loop for 30 seconds
+            while (!ready || tries > MAX_TRIES) {
+                await sleep(1000)
+                tries++
+    
+                /* Request existing user. */
+                result = await ordersDb
+                    .get(id)
+                    .catch(err => {
+                        console.error('DATA ERROR:', err)
+                    })
+                console.log('ORDERS RESULT (id)', util.inspect(result, false, null, true))
 
-            const { sleep } = require('../libs/utils')
-            await sleep(1000)
-
-            /* Request existing user. */
-            results = await ordersDb
-                .query('api/NoPaymentAddress', {
-                    include_docs: true,
-                })
-                .catch(err => {
-                    console.error('DATA ERROR:', err)
-                })
-            console.log('ORDERS RESULT (NoPaymentAddress)', util.inspect(results, false, null, true))
-
-            if (results && results.rows) {
-                const data = results.rows.map(_rs => {
-                    return _rs.doc
-                })
-                
-                return res.json(data)
-            } else {
-                return res.json({
-                    error: 'Oops! Something went wrong.'
-                })
+                if (result && result.payment && result.payment.address) {
+                    console.log('WE ARE READY!')
+                    ready = true
+                }
             }
 
+            if (ready) {
+                pkg = {
+                    id: result._id,
+                    shiftid: result.payment.shift.id,
+                    status: result.payment.shift.status,
+                    paymentAddress: result.payment.shift.depositAddress,
+                    depositCoin: result.payment.shift.depositCoin,
+                    depositNetwork: result.payment.shift.depositNetwork,
+                    depositAmount: result.payment.shift.depositAmount,
+                    expiresAt: result.payment.shift.expiresAt,
+                }
+
+                return res.json(pkg)
+            }
+
+            return res.json({
+                error: 'Oops! Something went wrong.'
+            })
         }
     
     
@@ -211,7 +224,7 @@ const orders = async function (req, res) {
         }
     
         /* Build (result) package. */
-        const result = {
+        result = {
             error: null,
             success: true,
             results,

@@ -104,7 +104,7 @@
             <div class="mt-5 flex grid grid-cols-3 gap-7">
                 <div class="p-3 flex flex-col items-center bg-gray-100 border-2 border-gray-200 rounded-lg cursor-pointer">
                     <img 
-                        @click="loadAsset('avax')"
+                        @click="loadAsset('usdc-avax')"
                         src="https://assets.telr.io/coins/svg/avax.svg" 
                         class="w-16 h-16" 
                     />

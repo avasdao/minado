@@ -81,7 +81,7 @@ export default {
     },
     computed: {
         paymentCreated() {
-            if (!this.shiftStatus.createdAt) return 'n/a'
+            if (!this.shiftStatus || !this.shiftStatus.createdAt) return 'n/a'
 
             return moment(this.shiftStatus.createdAt).format('lll')
         },

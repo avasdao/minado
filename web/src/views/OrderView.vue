@@ -511,6 +511,10 @@ export default {
         order() {
             return {
                 totalMiners: this.totalMiners,
+                address: this.address,
+                numVaalserberg: this.numVaalserberg,
+                numTransfagarasan: this.numTransfagarasan,
+                numKekesteto: this.numKekesteto,
             }
         },
         validClass() {

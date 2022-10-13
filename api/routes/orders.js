@@ -15,7 +15,7 @@ const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
  * Orders Module
  */
 const orders = async function (req, res) {
-    let basePair
+    let asset
     let body
     let createdAt
     let endpoint
@@ -126,8 +126,8 @@ const orders = async function (req, res) {
     
         if (action === 'payment_request') {
             /* Set base pair. */
-            basePair = body.basePair || 'btc-mainnet'
-            basePair = basePair.toLowerCase()
+            asset = body.asset || 'btc-mainnet'
+            asset = asset.toLowerCase()
 
             order = body.order
 
@@ -138,6 +138,8 @@ const orders = async function (req, res) {
     
             pkg = {
                 _id: id,
+                action: 'payment_request',
+                asset,
                 ...order,
                 createdAt,
             }
@@ -153,7 +155,31 @@ const orders = async function (req, res) {
 
             // TODO While loop for 30 seconds
 
-            return res.json(results)
+            const { sleep } = require('../libs/utils')
+            await sleep(1000)
+
+            /* Request existing user. */
+            results = await ordersDb
+                .query('api/NoPaymentAddress', {
+                    include_docs: true,
+                })
+                .catch(err => {
+                    console.error('DATA ERROR:', err)
+                })
+            console.log('ORDERS RESULT (NoPaymentAddress)', util.inspect(results, false, null, true))
+
+            if (results && results.rows) {
+                const data = results.rows.map(_rs => {
+                    return _rs.doc
+                })
+                
+                return res.json(data)
+            } else {
+                return res.json({
+                    error: 'Oops! Something went wrong.'
+                })
+            }
+
         }
     
     

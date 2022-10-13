@@ -18,62 +18,68 @@ const sideshift = async function (req, res) {
     let pkg
     let results
 
-    body = req.body
-    console.log('BODY', body)
-
-    /* Validate body. */
-    if (body) {
-        id = uuidv4()
+    try {
+        body = req.body
+        console.log('BODY', body)
+    
+        /* Validate body. */
+        if (body) {
+            id = uuidv4()
+            createdAt = moment().unix()
+    
+            pkg = {
+                _id: id,
+                src: 'sideshift',
+                ...body,
+                createdAt,
+            }
+    
+            results = await logsDb
+                .put(pkg)
+                .catch(err => console.error('LOGS ERROR:', err))
+        }
+    
+        /* Set (created) timestamp. */
         createdAt = moment().unix()
-
+    
+        /* Build (data) package. */
         pkg = {
-            _id: id,
-            src: 'sideshift',
+            _id: uuidv4(),
             ...body,
             createdAt,
         }
-
-        results = await logsDb
+        console.log('PKG', pkg)
+    
+        /* Retrieve results. */
+        results = await sideshiftDb
             .put(pkg)
-            .catch(err => console.error('LOGS ERROR:', err))
+            .catch(err => {
+                console.error('AUTH ERROR:', err)
+            })
+        console.log('RESULT (sideshift)', util.inspect(results, false, null, true))
+    
+        if (!results) {
+            /* Set status. */
+            res.status(400)
+    
+            /* Return error. */
+            return res.json([])
+        }
+    
+        /* Build (result) package. */
+        const result = {
+            error: null,
+            success: true,
+            results,
+        }
+    
+        /* Return params. */
+        res.json(result)
+    } catch (err) {
+        console.error('SIDESHIFT ERROR', err)
+
+        return res.json(err)
     }
-
-    /* Set (created) timestamp. */
-    createdAt = moment().unix()
-
-    /* Build (data) package. */
-    pkg = {
-        _id: uuidv4(),
-        ...body,
-        createdAt,
-    }
-    console.log('PKG', pkg)
-
-    /* Retrieve results. */
-    results = await sideshiftDb
-        .put(pkg)
-        .catch(err => {
-            console.error('AUTH ERROR:', err)
-        })
-    console.log('RESULT (sideshift)', util.inspect(results, false, null, true))
-
-    if (!results) {
-        /* Set status. */
-        res.status(400)
-
-        /* Return error. */
-        return res.json([])
-    }
-
-    /* Build (result) package. */
-    const result = {
-        error: null,
-        success: true,
-        results,
-    }
-
-    /* Return params. */
-    res.json(result)
 }
 
 /* Export module. */

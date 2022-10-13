@@ -412,7 +412,7 @@
                                 Your Mining Address
                             </label>
 
-                            <div class="mt-3 flex rounded-md shadow-sm">
+                            <div class="relative flex mt-3 rounded-md shadow-sm">
                                 <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
                                     nexa:
                                 </span>
@@ -423,7 +423,18 @@
                                     placeholder="type or paste your Nexa mining address"
                                     v-model="address"
                                 />
+                                
+                                <div v-if="hasAddressError" class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <!-- Heroicon name: mini/exclamation-circle -->
+                                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
                             </div>
+
+                            <p v-if="hasAddressError" class="mt-2 text-sm text-red-600" id="email-error">
+                                You MUST provide a destination nexa: address for your mining rewards.
+                            </p>
                         </div>
 
                         <div class="mt-6">
@@ -466,6 +477,7 @@ export default {
         numKekesteto: null,
 
         isShowingPaymentOptions: null,
+        hasAddressError: null,
     }),
     computed: {
         totalMiners() {
@@ -526,6 +538,12 @@ export default {
     },
     methods: {
         loadPayment() {
+            if (!this.address) {
+                this.hasAddressError = true
+                
+                return
+            }
+
             this.isShowingPaymentOptions = true
         },
 
@@ -769,6 +787,8 @@ export default {
     },
     created: async function () {
         this.isShowingPaymentOptions = false
+
+        this.hasAddressError = false
 
         this.numVaalserberg = 0
         this.numTransfagarasan = 0

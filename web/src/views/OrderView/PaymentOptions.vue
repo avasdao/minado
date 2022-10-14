@@ -116,6 +116,7 @@
                 
                 <div class="p-3 flex flex-col items-center bg-gray-100 border-2 border-gray-200 rounded-lg cursor-pointer">
                     <img 
+                        @click="loadAsset('usdc-bsc')"
                         src="https://assets.telr.io/coins/svg/bnb.svg" 
                         class="w-16 h-16" 
                     />
@@ -127,6 +128,7 @@
                 
                 <div class="p-3 flex flex-col items-center bg-gray-100 border-2 border-gray-200 rounded-lg cursor-pointer">
                     <img 
+                        @click="loadAsset('usdc-eth')"
                         src="https://assets.telr.io/coins/svg/eth.svg" 
                         class="w-16 h-16" 
                     />
@@ -138,6 +140,7 @@
 
                 <div class="p-3 flex flex-col items-center bg-gray-100 border-2 border-gray-200 rounded-lg cursor-pointer">
                     <img 
+                        @click="loadAsset('usdc-sol')"
                         src="https://assets.telr.io/coins/svg/sol.svg" 
                         class="w-16 h-16" 
                     />
@@ -149,6 +152,7 @@
                 
                 <div class="p-3 flex flex-col items-center bg-gray-100 border-2 border-gray-200 rounded-lg cursor-pointer">
                     <img 
+                        @click="loadAsset('usdc-trx')"
                         src="https://assets.telr.io/coins/svg/trx.svg" 
                         class="w-16 h-16" 
                     />
@@ -166,6 +170,7 @@
         <PaymentMonitor 
             v-if="isShowingPaymentMonitor" 
             :shiftStatus="shiftStatus"
+            :paymentRequest="paymentRequest"
         />
     </main>
 </template>
@@ -241,6 +246,9 @@ export default {
                 this.paymentRequest = await rawResponse.json()
                 console.log('BODY (paymentRequest):', this.paymentRequest)
 
+                /* Set order id. */
+                this.orderid = this.paymentRequest.shiftid
+
                 /* Set display flag. */
                 this.isShowingPaymentMonitor = true
             }
@@ -282,7 +290,7 @@ export default {
         this.isShowingNetworks = false
 
         // FOR DEV ONLY
-        this.orderid = '6e687eda1447765d3d70'
+        // this.orderid = '6e687eda1447765d3d70'
 
         this.coins = []
         this.stablecoins = []

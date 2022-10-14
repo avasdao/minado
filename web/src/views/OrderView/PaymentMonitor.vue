@@ -21,24 +21,24 @@
 
         <section class="p-3 flex items-center grid grid-cols-5 gap-1 space-x-5">
             <span class="col-span-2 text-right text-base text-gray-600">
-                Order ID
+                Order ID <em class="text-xs">(Sideshift)</em>
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus ? shiftStatus.id : ''}}
+                {{paymentRequest ? paymentRequest.shiftid : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
                 Status
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus ? shiftStatus.status : ''}}
+                {{paymentRequest ? paymentRequest.status : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
                 Payment Network
             </span>
             <span class="col-span-3 text-lg text-gray-800">
-                {{shiftStatus ? shiftStatus.depositNetwork : ''}}
+                {{paymentRequest ? paymentRequest.depositNetwork : ''}}
             </span>
 
             <span class="col-span-2 text-right text-base text-gray-600">
@@ -48,7 +48,7 @@
                 {{paymentCreated}}
             </span>
 
-            <div v-if="shiftStatus && shiftStatus.status !== 'expired'" class="mt-3 px-3 py-1 col-span-5 text-center bg-yellow-100 border-2 border-yellow-300 rounded-lg">
+            <div v-if="paymentRequest && paymentRequest.status !== 'expired'" class="mt-3 px-3 py-1 col-span-5 text-center bg-yellow-100 border-2 border-yellow-300 rounded-lg">
                 <span class="text-xl font-medium text-red-600">
                     Invoice expires {{timeLeftToPay}}
                 </span>
@@ -65,6 +65,7 @@ import QRCode from 'qrcode'
 
 export default {
     props: {
+        paymentRequest: Object,
         shiftStatus: Object,
     },
     data: () => ({
@@ -73,11 +74,17 @@ export default {
     }),
     watch: {
         shiftStatus: function (_status) {
-            console.log('CHANGED (status):', _status)
+            console.log('CHANGED (shiftStatus):', _status)
 
             /* Update data URL. */
             this.updateDataUrl()
-        }
+        },
+        paymentRequest: function (_status) {
+            console.log('CHANGED (paymentRequest):', _status)
+
+            /* Update data URL. */
+            this.updateDataUrl()
+        },
     },
     computed: {
         paymentCreated() {
@@ -87,9 +94,9 @@ export default {
         },
 
         timeLeftToPay() {
-            if (!this.shiftStatus || !this.shiftStatus.expiresAt) return 'unknown'
+            if (!this.paymentRequest || !this.paymentRequest.expiresAt) return 'unknown'
 
-            return moment(this.shiftStatus.expiresAt).fromNow()
+            return moment(this.paymentRequest.expiresAt).fromNow()
         }
     },
     methods: {
@@ -103,13 +110,13 @@ export default {
             let currencyPrefix = 'bitcoin:'
 
             /* Validate deposit address. */
-            if (this.shiftStatus && this.shiftStatus.depositAddress) {
-                depositAddress = this.shiftStatus.depositAddress
+            if (this.paymentRequest && this.paymentRequest.depositAddress) {
+                depositAddress = this.paymentRequest.depositAddress
             }
 
             /* Validate deposit amount. */
-            if (this.shiftStatus && this.shiftStatus.depositAmount) {
-                depositAmount = this.shiftStatus.depositAmount
+            if (this.paymentRequest && this.paymentRequest.depositAmount) {
+                depositAmount = this.paymentRequest.depositAmount
             }
 
             console.info('Updated deposit info:', depositAddress, depositAmount)
@@ -141,6 +148,7 @@ export default {
         /* Update data URL. */
         this.updateDataUrl()
 
+        console.log('paymentRequest', this.paymentRequest)
         console.log('shiftStatus', this.shiftStatus)
     },
     mounted: function () {

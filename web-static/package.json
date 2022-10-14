@@ -1,6 +1,6 @@
 {
   "name": "nexa-rocks-web",
-  "version": "22.10.13",
+  "version": "22.10.14",
   "license": "MIT",
   "scripts": {
     "dev": "nuxt",
@@ -22,6 +22,7 @@
     "numeral": "2.0.6",
     "nuxt": "2.15.8",
     "qrcode": "1.5.1",
+    "uuid": "9.0.0",
     "vue": "2.7.12",
     "vue-server-renderer": "2.7.12",
     "vue-template-compiler": "2.7.12"

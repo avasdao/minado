@@ -13,7 +13,7 @@ echo "All libraries have been installed!"
 echo
 
 mkdir /root/.nexa
-echo -e "server=1\nrpcuser=user\nrpcpassword=password" > /root/.nexa/nexa.conf
+echo -e "server=1\nrpcuser=user\nrpcpassword=password\nmining.comment=/Nexa.Rocks/" > /root/.nexa/nexa.conf
 
 echo
 echo "Nexa has been configured successfully!"
@@ -28,6 +28,5 @@ echo "Waiting for node to start..."
 echo
 
 sleep 10
-/root/nexa-cli setminercomment "Nexa.Rocks"
 /root/nexa-cli getblockcount
 echo

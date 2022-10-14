@@ -8,23 +8,11 @@
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
-                        <h1 class="text-4xl font-bold text-yellow-900">
-                            {{pageTitle}}
-                        </h1>
-
-                        <p class="text-yellow-900">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum aliquam maiores animi iusto est laborum quas dolore assumenda voluptate quis! Quaerat corrupti enim autem iusto voluptates dolorum quae voluptate eligendi.
-                        </p>
-
-                        <h2>
-                            {{id}}
-                        </h2>
-
-                        <h2>
-                            {{balance}}
-                        </h2>
-                    </section>
+                    <!-- Address View -->
+                    <AppHandlerAddressView
+                        v-if="address"
+                        :address="address"
+                    />
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
@@ -55,6 +43,7 @@ export default {
         socket: null,
         requests: null,
 
+        address: null,
         pageTitle: null,
         balance: null
     }),
@@ -280,6 +269,12 @@ export default {
         /* Validate application handler. */
         if (params && params.app_handler) {
             this.id = params.app_handler
+
+            const id = params.app_handler
+
+            if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
+                this.address = params.app_handler
+            }
         }
     },
     mounted: function () {

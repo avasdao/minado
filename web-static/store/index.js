@@ -1,10 +1,10 @@
 export const state = () => ({
-    counter: 0
+    version: 20221014
 })
 
 export const getters = {
-    getCounter (state) {
-        return state.counter
+    getVersion (state) {
+        return state.version
     }
 }
 

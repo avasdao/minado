@@ -186,7 +186,12 @@
                 Enter <em>(at least)</em> the first 3 lines:
             </p>
 
-<pre class="p-3 bg-yellow-200 rounded-lg border-4 border-yellow-500"><code class="text-lg">server=1
+<pre class="lg:hidden p-3 bg-yellow-200 rounded-lg border-4 border-yellow-500"><code class="text-lg">server=1
+rpcuser=user
+rpcpassword=password
+txindex=1 # (optional)
+</code></pre>
+<pre class="hidden lg:flex p-3 bg-yellow-200 rounded-lg border-4 border-yellow-500"><code class="text-lg">server=1
 rpcuser=user
 rpcpassword=password
 txindex=1 # (optional) for more advanced use-cases

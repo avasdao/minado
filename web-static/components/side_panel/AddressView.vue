@@ -2,13 +2,20 @@
     <main class="h-full overflow-y-auto bg-white p-8">
         <div class="space-y-6 pb-16">
             <div>
-                <div class="aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
+                <div class="grid grid-cols-2 gap-5 aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg">
                     <img
                         src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
                         alt=""
                         class="object-cover w-full h-32"
                     />
+
+                    <img
+                        src="https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                        alt=""
+                        class="object-cover w-full h-32"
+                    />
                 </div>
+
                 <div class="mt-4 flex items-start justify-between">
                     <div>
                         <h2 class="text-lg font-medium text-gray-900"><span class="sr-only">Details for </span>IMG_4985.HEIC</h2>

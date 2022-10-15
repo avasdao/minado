@@ -1,5 +1,5 @@
 export const state = () => ({
-    cachedAddress: null,
+    searchAddress: null,
     notifs: null,
 
     isPanelOpen: true,
@@ -7,6 +7,10 @@ export const state = () => ({
 })
 
 export const getters = {
+    getSearchAddress (state) {
+        return state.searchAddress
+    },
+
     getPanelState (state) {
         return state.isPanelOpen
     },
@@ -28,6 +32,10 @@ export const mutations = {
     },
     toggle (state, todo) {
         todo.done = !todo.done
+    },
+
+    saveSearchAddress (state, _searchAddress) {
+        state.searchAddress = _searchAddress
     },
 
     savePanelState (state, _isPanelOpen) {
@@ -54,6 +62,10 @@ export const actions = {
         setTimeout(() => {
             commit('savePanelVisibility', false)
         }, 700)
+    },
+
+    setSearchAddress ({ state, commit }, _searchAddress) {
+        commit('saveSearchAddress', _searchAddress)
     },
 
     setBalance ({ state, commit }, _balance) {

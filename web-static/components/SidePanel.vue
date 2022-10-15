@@ -13,9 +13,13 @@
         ></div>
 
         <div class="fixed inset-0 overflow-hidden">
-            <div class="absolute inset-0 overflow-hidden">
+            <div
+                @click="closePanel()"
+                class="absolute inset-0 overflow-hidden"
+            >
                 <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
                     <div
+                        @click.stop="noop()"
                         class="pointer-events-auto w-screen max-w-2xl transform transition ease-in-out duration-500 sm:duration-700"
                         :class="[ panelIsOpen ? 'translate-x-0' : 'translate-x-full' ]"
                     >
@@ -87,6 +91,8 @@ export default {
         }
     },
     methods: {
+        noop () {},
+
         closePanel () {
             this.$store.dispatch('system/closePanel')
         },

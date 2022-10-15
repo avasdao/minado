@@ -13,22 +13,27 @@ export default {
 
       // Open graph
       {
+        vmid: 'og:url',
         property: 'og:url',
         content: 'https://nexa.rocks',
       },
       {
+        vmid: 'og:title',
         property: 'og:title',
         content: 'Nexa Rocks!',
       },
       {
+        vmid: 'og:type',
         property: 'og:type',
         content: 'website',
       },
       {
+        vmid: 'og:description',
         property: 'og:description',
         content: 'The premier NEXA mining pool offering solo, pool & cloud mining for ALL Nexa assets.',
       },
       {
+        vmid: 'og:image',
         property: 'og:image',
         content: 'poster.jpg?1665846493',
       },
@@ -36,18 +41,22 @@ export default {
       // Twitter
       {
         vmid: 'twitter:card',
+        property: 'twitter:card',
         content: 'summary_large_image'
       },
       {
         vmid: 'twitter:title',
+        property: 'twitter:title',
         content: 'Nexa Rocks!'
       },
       {
         vmid: 'twitter:description',
+        property: 'twitter:description',
         content: 'The premier NEXA mining pool offering solo, pool & cloud mining for ALL Nexa assets.'
       },
       {
         vmid: 'twitter:image',
+        property: 'twitter:image',
         content: 'poster.jpg?1665846493'
       }
     ],

@@ -62,8 +62,8 @@ export const mutations = {
      * @param {Object} state
      */
     connect (state) {
-        const target = 'electrum.nexa.org:20003'
-        // const target = 'rostrum.devops.cash:20003'
+        // const target = 'electrum.nexa.org:20003'
+        const target = 'rostrum.devops.cash:20003'
 
         /* Initialize socket connection to Electrum/Rostrum server. */
         console.info('Connecting to Rostrum...') // eslint-disable-line no-console
@@ -124,11 +124,9 @@ export const actions = {
         /* Handle message. */
         state.socket.onmessage = (msg) => {
             console.log('ROSTRUM SOCKET ONMESSAGE', msg)
-            console.log('ROSTRUM PROMISES', state.promises)
+            // console.log('ROSTRUM PROMISES', state.promises)
 
             let data
-            // let request
-            // let pkg
             let result
             let params
 
@@ -141,22 +139,20 @@ export const actions = {
                         result = data.result
                         // console.log('MESSAGE RESULT', data.id, result)
 
-                        // console.log('STATE REQUESTS', state.requests)
-
+                        /* Validate promise. */
                         if (state.promises[data.id]) {
                             // console.log('FOUND', state.requests[data.id])
 
+                            /* Retrieve the promise. */
                             const promise = state.promises[data.id]
+
+                            /* Call the resolver. */
                             promise.resolve(result)
 
-                            // commit('saveRequest', pkg)
+                            /* Delete the promise. */
+                            delete state.promises[data.id]
                         }
                     }
-
-                    // if (data && data.params) {
-                    //     params = data.params
-                    //     console.log('PARAMS', params)
-                    // }
 
                     if (params && params[0].height) {
                         console.log('NEW BLOCK', params[0])
@@ -166,13 +162,6 @@ export const actions = {
 
                         const height = parseInt(params[0].height)
                         console.log('HEIGHT', height)
-
-                        if (height > 0) {
-                            // let request
-
-                            // request = `{"method":"blockchain.block.header","params":[${height}],"id":"${uuidv4()}"}`
-                            // state.socket.send(request + '\n')
-                        }
                     }
                 } catch (err) {
                     console.error(err)

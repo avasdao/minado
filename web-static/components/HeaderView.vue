@@ -37,10 +37,10 @@
 
                     <!-- Profile dropdown -->
                     <div class="relative flex-shrink-0">
-                        <router-link to="/profile" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <button @click="openProfile" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open user menu</span>
                             <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                        </router-link>
+                        </button>
 
                         <!--
               Dropdown menu, show/hide based on menu state.
@@ -53,7 +53,7 @@
                 To: "transform opacity-0 scale-95"
             -->
                         <div
-                            class="hidden origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu"
                             aria-orientation="vertical"
                             aria-labelledby="user-menu-button"
@@ -304,6 +304,10 @@ export default {
             console.log('ADDRESS (norm):', address)
 
             this.$router.push(address)
+        },
+
+        openProfile () {
+            this.$store.dispatch('system/openPanel', 'profile')
         }
     },
     created: function () {

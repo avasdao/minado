@@ -28,13 +28,13 @@
             </div>
 
             <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
-                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
+                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
                     <span class="text-2xl text-green-500">
                         30,226 H/s
                     </span>
 
                     <span class="text-gray-600">
-                        Your Hash Rate
+                        Pool Hashrate
                     </span>
 
                     <hr class="my-2" />
@@ -55,27 +55,35 @@
                     </span>
                 </div>
 
-                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-red-500">
-                        4
+                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-gray-600 text-xl">
+                        Market Value
                     </span>
 
-                    <span class="text-gray-600">
-                        Your Active Miners
+                    <span class="text-2xl text-green-500">
+                        n/a
+                    </span>
+
+                    <span class="text-gray-600 text-xs">
+                        Value Per Million (VPM)
                     </span>
 
                     <hr class="my-2" />
 
-                    <span class="text-base text-gray-900">
-                        42
+                    <span class="text-gray-600 text-xl">
+                        Mining Cost
                     </span>
 
-                    <span class="text-xs text-gray-600">
-                        Active Pool Miners
+                    <span class="text-2xl text-green-500">
+                        $0.0125
+                    </span>
+
+                    <span class="text-gray-600 text-xs">
+                        Cost Per Million (CPM)
                     </span>
                 </div>
 
-                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
+                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
                     <span class="text-2xl text-red-500">
                         6 mins 40 secs
                     </span>
@@ -95,29 +103,6 @@
                     </span>
                 </div>
             </div>
-
-            <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
-                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-green-500">
-                        $0.0125
-                    </span>
-
-                    <span class="text-gray-600">
-                        Cost Per Million (CPM)
-                    </span>
-                </div>
-
-                <div class="flex flex-col px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-green-500">
-                        n/a
-                    </span>
-
-                    <span class="text-gray-600">
-                        Value Per Million (VPM)
-                    </span>
-                </div>
-            </div>
-
         </div>
     </main>
 </template>

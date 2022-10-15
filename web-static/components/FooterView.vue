@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <SidePanel v-if="panelIsShowing" />
+        <SidePanel />
     </main>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     }),
     computed: {
         ...mapGetters({
-            panelIsShowing: 'system/getPanelState'
+            panelIsOpen: 'system/getPanelState'
         })
     },
     methods: {

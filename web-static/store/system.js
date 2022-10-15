@@ -2,12 +2,17 @@ export const state = () => ({
     cachedAddress: null,
     notifs: null,
 
-    isPanelShowing: true
+    isPanelOpen: true,
+    isPanelVisible: true
 })
 
 export const getters = {
     getPanelState (state) {
-        return state.isPanelShowing
+        return state.isPanelOpen
+    },
+
+    getPanelVisibility (state) {
+        return state.isPanelVisible
     }
 }
 
@@ -25,19 +30,30 @@ export const mutations = {
         todo.done = !todo.done
     },
 
-    savePanelState (state, _isPanelShowing) {
-        state.isPanelShowing = _isPanelShowing
+    savePanelState (state, _isPanelOpen) {
+        state.isPanelOpen = _isPanelOpen
+    },
+
+    savePanelVisibility (state, _isPanelVisible) {
+        state.isPanelVisible = _isPanelVisible
     }
 }
 
 export const actions = {
     openPanel ({ state, commit }) {
-        commit('savePanelState', true)
+        commit('savePanelVisibility', true)
+
+        setTimeout(() => {
+            commit('savePanelState', true)
+        }, 0)
     },
 
     closePanel ({ state, commit }) {
-        console.log('closing panel')
         commit('savePanelState', false)
+
+        setTimeout(() => {
+            commit('savePanelVisibility', false)
+        }, 150)
     },
 
     setBalance ({ state, commit }, _balance) {

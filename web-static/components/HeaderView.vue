@@ -29,46 +29,38 @@
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"></path></svg>
                     </router-link>
 
-                    <router-link to="/help" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button @click="openHelp" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Support Center</span>
 
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
-                    </router-link>
+                    </button>
 
                     <!-- Profile dropdown -->
                     <div class="relative flex-shrink-0">
-                        <button @click="openProfile" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <button @click="toggleMenu" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open user menu</span>
                             <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                         </button>
 
-                        <!--
-              Dropdown menu, show/hide based on menu state.
-
-              Entering: ""
-                From: ""
-                To: ""
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
                         <div
-                            class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            v-if="isMenuVisible"
+                            class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in duration-150"
+                            :class="[ isMenuOpen ? 'transform opacity-100 scale-100' : 'transform opacity-0 scale-95' ]"
                             role="menu"
                             aria-orientation="vertical"
                             aria-labelledby="user-menu-button"
                             tabindex="-1"
                         >
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                            <button @click="openProfile" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
                                 Your Profile
-                            </a>
+                            </button>
 
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                            <a href="javascript://" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
                                 Settings
                             </a>
 
-                            <a href="javascript://" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                            <a href="javascript://" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
                                 Sign out
                             </a>
                         </div>
@@ -280,7 +272,9 @@
 <script>
 export default {
     data: () => ({
-        search: null
+        search: null,
+        isMenuOpen: null,
+        isMenuVisible: null
     }),
     computed: {
         //
@@ -306,12 +300,44 @@ export default {
             this.$router.push(address)
         },
 
+        openMenu () {
+            this.isMenuVisible = true
+            setTimeout(() => {
+                this.isMenuOpen = true
+            }, 0)
+        },
+
+        closeMenu () {
+            this.isMenuOpen = false
+            setTimeout(() => {
+                this.isMenuVisible = false
+            }, 150)
+        },
+
+        toggleMenu () {
+            if (this.isMenuOpen) {
+                this.closeMenu()
+            } else {
+                this.openMenu()
+            }
+        },
+
         openProfile () {
+            /* Close menu. */
+            this.closeMenu()
+
+            /* Request profile panel. */
             this.$store.dispatch('system/openPanel', 'profile')
+        },
+
+        openHelp () {
+            /* Request help panel. */
+            this.$store.dispatch('system/openPanel', 'help')
         }
     },
     created: function () {
-        //
+        this.isMenuOpen = false
+        this.isMenuVisible = false
     },
     mounted: function () {
         //

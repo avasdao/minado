@@ -36,6 +36,16 @@ export default {
         BlockRewardsPanel,
         PayoutsPanel
     },
+    head: () => ({
+        title: 'Solo Mining — Nexa Rocks!',
+        meta: [
+            {
+                hid: 'description', // `vmid` for it as it will not work
+                name: 'description',
+                content: 'Learn how to setup and start solo mining Nexa (NEX) assets.'
+            }
+        ]
+    }),
     data: () => ({
         //
     }),

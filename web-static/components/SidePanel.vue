@@ -1,5 +1,5 @@
 <template>
-    <div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+    <div v-if="panelIsOpen" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
         <!-- Background backdrop, show/hide based on slide-over state. -->
         <div class="fixed inset-0 bg-indigo-500 opacity-80"></div>
 
@@ -162,16 +162,30 @@ import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
-        //
+        isPanelOpen: null,
+        isPanelVisible: null
     }),
     computed: {
         ...mapGetters({
-            panelIsShowing: 'system/getPanelState'
+            panelIsOpen: 'system/getPanelState',
+            panelIsVisible: 'system/getPanelState'
         })
     },
     methods: {
         closePanel () {
             this.$store.dispatch('system/closePanel')
+        },
+
+        openPanel () {
+            this.$store.dispatch('system/openPanel')
+        },
+
+        togglePanel () {
+            if (this.panelIsOpen) {
+                this.closePanel()
+            } else {
+                this.openPanel()
+            }
         }
     },
     created: function () {

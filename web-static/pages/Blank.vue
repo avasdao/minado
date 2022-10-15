@@ -28,6 +28,16 @@
 
 <script>
 export default {
+    head: () => ({
+        title: 'Blank — Nexa Rocks!',
+        meta: [
+            {
+                hid: 'description', // `vmid` for it as it will not work
+                name: 'description',
+                content: 'TBD..'
+            }
+        ]
+    }),
     data: () => ({
         //
     }),

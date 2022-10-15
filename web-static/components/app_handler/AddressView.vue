@@ -30,19 +30,16 @@ import sha256 from 'crypto-js/sha256'
 import hexEnc from 'crypto-js/enc-hex'
 
 export default {
-    props: {
-        address: String
-    },
     data: () => ({
         pageTitle: null
         // balance: null
     }),
     watch: {
-        balance: {
-            function (_balance) {
-                console.log('BALANCE HAS CHANGED (from AddressView):', _balance)
-            },
-            deep: true
+        address: function (_address) {
+            console.log('ADDRESS HAS CHANGED (from AddressView):', _address)
+        },
+        balance: function (_balance) {
+            console.log('BALANCE HAS CHANGED (from AddressView):', _balance)
         },
         requests: {
             function (_requests) {
@@ -53,6 +50,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            address: 'rostrum/getAddress',
             balance: 'rostrum/getBalance',
             requests: 'rostrum/getRequests'
         }),

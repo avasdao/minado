@@ -11,7 +11,6 @@
                     <!-- Address View -->
                     <AppHandlerAddressView
                         v-if="address"
-                        :address="address"
                     />
 
                     <!-- Right column -->
@@ -198,27 +197,6 @@ export default {
             }
         },
 
-        /*
-
-        Block # 56241
-
-        Raw Data
-        9fcf961578ca8a7a2a99a02ec5e279b295498284ae85dffd33ebbec442dacb90f055091d0d5e3d9771a01061a4d5002b8ac49c27d33f45ec492b1a2f8e16f40536a5ffc20f9fba807ac9794a87d796cf827452c29a095a4dde5df050462e450e4c32c518000000000000000000000000000000000000000000000000000000000000000008150c6382b63118283bf668160000000000000000000000000000000000000000000000000000f90000000000000001000000046a659130
-
-        Parsed Data
-        9fcf961578ca8a7a2a99a02ec5e279b295498284ae85dffd33ebbec442dacb90 <-- previous hash
-        f055091d <-- bits (BE)
-        0d5e3d9771a01061a4d5002b8ac49c27d33f45ec492b1a2f8e16f40536a5ffc2 <-- ancestor hash
-        0f9fba807ac9794a87d796cf827452c29a095a4dde5df050462e450e4c32c518 <-- coinbase txid (LE) / merkle root
-        0000000000000000000000000000000000000000000000000000000000000000 <-- ??
-        08150c6382b631 <-- ??
-        18283bf668160000000000000000000000000000000000000000000000000000 <-- chainwork (BE)
-        f900000000000000 <-- size (249 bytes)
-        01 <-- # of transactions??
-        00000004 <-- xx type??
-        6a659130 <-- nonce
-
-        */
         parseBlock (_rawBlock) {
             if (!this.isHex(_rawBlock)) {
                 return
@@ -272,13 +250,26 @@ export default {
 
             if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
                 this.address = params.app_handler
+
+                this.$store.dispatch('rostrum/setAddress', params.app_handler)
             }
         }
     },
-    mounted: function () {
-        this.$store.dispatch('rostrum/connect')
-        // this.$store.commit('rostrum/connect')
-        // this.initRostrum()
+    mounted: async function () {
+        await this.$store.dispatch('rostrum/init')
+
+        const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
+        console.log('scriptPubkey', scriptPubkey)
+
+        const scriptHash = await this.$store.dispatch('utils/getScriptHash', scriptPubkey)
+        console.log('SCRIPT HASH', scriptHash)
+
+        const request = {
+            method: 'blockchain.scripthash.get_balance',
+            params: [scriptHash]
+        }
+        const requestid = await this.$store.dispatch('rostrum/makeRequest', request)
+        console.log('REQUEST ID', requestid)
     }
 }
 </script>

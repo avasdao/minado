@@ -1,18 +1,12 @@
-// const sha256 = require('crypto-js/sha256')
-// const hexEnc = require('crypto-js/enc-hex')
 const { v4: uuidv4 } = require('uuid')
 
 const requests = {}
 
-// let balance
-
-// const getScriptHash = (_scriptPubkey) => {
-//     let addrScripthash = hexEnc.stringify(sha256(hexEnc.parse(_scriptPubkey)))
-
-//     addrScripthash = addrScripthash.match(/[a-fA-F0-9]{2}/g).reverse().join('')
-
-//     return addrScripthash
-// }
+function sleep (_ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, _ms)
+    })
+}
 
 const parseBlock = (_rawBlock) => {
     if (!this.isHex(_rawBlock)) {
@@ -33,11 +27,16 @@ const parseBlock = (_rawBlock) => {
 
 export const state = () => ({
     socket: null,
+    address: null,
     balance: 0,
     requests: {}
 })
 
 export const getters = {
+    getAddress (state) {
+        return state.address
+    },
+
     getBalance (state) {
         return state.balance
     },
@@ -54,8 +53,8 @@ export const mutations = {
      * @param {Object} state
      */
     connect (state) {
-        // const target = 'electrum.nexa.org:20003'
-        const target = 'rostrum.devops.cash:20003'
+        const target = 'electrum.nexa.org:20003'
+        // const target = 'rostrum.devops.cash:20003'
 
         /* Initialize socket connection to Electrum/Rostrum server. */
         console.info('Connecting to Rostrum...') // eslint-disable-line no-console
@@ -77,6 +76,10 @@ export const mutations = {
         todo.done = !todo.done
     },
 
+    saveAddress (state, _address) {
+        state.address = _address
+    },
+
     saveBalance (state, _balance) {
         state.balance = _balance
     },
@@ -88,7 +91,7 @@ export const mutations = {
 }
 
 export const actions = {
-    async connect ({ state, commit }) {
+    async init ({ state, commit }) {
         await commit('connect')
 
         /* Handle open connection. */
@@ -110,18 +113,16 @@ export const actions = {
             // const params = []
             // handleRequest('blockchain.headers.subscribe', params)
 
-            // const params = [90712]
-            // handleRequest('blockchain.block.header', params)
+            const id = uuidv4()
+            console.log('DESPERATE ID', id)
 
-            // const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
-            // console.log('scriptPubkey', scriptPubkey)
-
-            // const params = [getScriptHash(scriptPubkey)]
-            // handleRequest(state.socket, 'blockchain.scripthash.get_balance', params)
-
-            // setTimeout(() => {
-            //     // handleRequest(state.socket, 'blockchain.scripthash.get_balance', params)
-            // }, 5000)
+            /* Build request. */
+            const request = {
+                id,
+                method: 'blockchain.scripthash.get_balance',
+                params: ['0e33d265daaf366401c44995e37b7757d46fb0fef8430524766e56a608c5a54e']
+            }
+            state.socket.send(JSON.stringify(request) + '\n')
         }
 
         /* Handle message. */
@@ -207,7 +208,7 @@ export const actions = {
      * @param {*Object _request
      * @returns
      */
-    makeRequest ({ state, commit }, _request) {
+    async makeRequest ({ state, commit }, _request) {
         // state.socket.send(JSON.stringify(_request) + '\n')
 
         /* Generate unique id. */
@@ -219,15 +220,26 @@ export const actions = {
             method: _request.method,
             params: _request.params
         }
-        console.log('ROPSTEN (makeRequest):', request)
+        // console.log('ROSTRUM (makeRequest):', request)
 
         /* Save request. */
         commit('saveRequest', request)
 
         /* Make request. */
+        // console.log('SOCKET READY STATE', state.socket.readyState)
+        // FIXME Add protection against infinite loop.
+        while (state.socket.readyState !== 1) {
+            console.log('sleeping..')
+            await sleep(1000)
+        }
+        // console.log('SOCKET READY STATE', state.socket.readyState)
         state.socket.send(JSON.stringify(request) + '\n')
 
         /* Return request id. */
         return id
+    },
+
+    setAddress ({ state, commit }, _address) {
+        commit('saveAddress', _address)
     }
 }

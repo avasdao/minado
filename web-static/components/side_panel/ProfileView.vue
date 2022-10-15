@@ -101,7 +101,12 @@
                     </dt>
 
                     <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
-                        <BarChart />
+                        <highchart
+                            :options="chartOptions"
+                            :modules="['exporting']"
+                            :update="watchers"
+                            style="width:100%;"
+                        />
 
                         <p>
                             Enim feugiat ut ipsum, neque ut. Tristique mi id elementum praesent. Gravida in tempus feugiat netus enim aliquet a, quam scelerisque. Dictumst in convallis nec in bibendum aenean arcu.
@@ -150,12 +155,119 @@ import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
-        //
+        caption: 'Chart caption here',
+        title: 'Basic Chart',
+        subtitle: 'More details here',
+        points: [10, 0, 8, 2, 6, 4, 5, 5],
+        seriesColor: '',
+        animationDuration: 1000,
+        chartType: '',
+        colorInputIsSupported: null,
+        chartTypes: [],
+        durations: [0, 500, 1000, 2000],
+        seriesName: 'My Data',
+        yAxis: 'My Values',
+        watchers: [
+            'options.title',
+            'options.series'
+        ],
+        colors: [
+            'Red',
+            'Green',
+            'Blue',
+            'Pink',
+            'Orange',
+            'Brown',
+            'Black',
+            'Purple'
+        ],
+        lastPointClicked: {
+            timestamp: '',
+            x: '',
+            y: ''
+        },
+        sexy: false
     }),
     computed: {
         ...mapGetters({
             // panelIsShowing: 'system/getPanelState'
-        })
+        }),
+
+        chartOptions () {
+            const ctx = this
+            return {
+                caption: {
+                    text: this.caption,
+                    style: {
+                        color: this.sexy ? this.invertedColor(0) : '#black'
+                    }
+                },
+                chart: {
+                    backgroundColor: this.sexy
+                        ? {
+                            linearGradient: {
+                                x1: 0,
+                                x2: 0,
+                                y1: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0, this.seriesColor],
+                                [0.5, '#ffffff'],
+                                [1, this.seriesColor]
+                            ]
+                        }
+                        : '#ffffff',
+                    className: 'my-chart',
+                    type: this.chartType.toLowerCase()
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click () {
+                                    ctx.$emit('pointClicked', this)
+                                }
+                            }
+                        }
+                    }
+                },
+                yAxis: [{
+                    title: {
+                        text: this.yAxis,
+                        style: {
+                            color: '#000000'
+                        }
+                    }
+                }],
+                title: {
+                    style: {
+                        color: this.sexy ? this.invertedColor(0) : '#black'
+                    },
+                    text: `${this.title} ` +
+                        (this.lastPointClicked.timestamp !== ''
+                            ? `(Point clicked: ${this.lastPointClicked.timestamp})`
+                            : '')
+                },
+                subtitle: {
+                    style: {
+                        color: this.sexy ? this.invertedColor(0) : '#black'
+                    },
+                    text: `${this.subtitle}`
+                },
+                legend: {
+                    itemStyle: {
+                        color: this.sexy ? this.invertedColor(0) : '#black'
+                    }
+                },
+                series: [{
+                    name: this.seriesName,
+                    data: this.points,
+                    color: this.seriesColor
+                }]
+            }
+        }
     },
     methods: {
         //

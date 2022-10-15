@@ -29,8 +29,6 @@
 </template>
 
 <script>
-/* global WebSocket */
-
 /* Import modules. */
 import { v4 as uuidv4 } from 'uuid'
 
@@ -82,111 +80,111 @@ export default {
             return addrScripthash
         },
 
-        initRostrum () {
-            /* Initialize socket connection to Electrum server. */
-            // this.socket = new WebSocket('ws://electrum.nexa.org:20003')
-            this.socket = new WebSocket('ws://rostrum.devops.cash:20003')
+        // initRostrum () {
+        //     /* Initialize socket connection to Electrum server. */
+        //     // this.socket = new WebSocket('ws://electrum.nexa.org:20003')
+        //     this.socket = new WebSocket('ws://rostrum.devops.cash:20003')
 
-            // const request = `{"method":"blockchain.address.get_balance","params":["nexa:nqtsq5g5mtglrfqmnr45s0x364pxcg2uw88h72hl9c864cyj", true],"id":"${uuidv4()}"}`
+        //     // const request = `{"method":"blockchain.address.get_balance","params":["nexa:nqtsq5g5mtglrfqmnr45s0x364pxcg2uw88h72hl9c864cyj", true],"id":"${uuidv4()}"}`
 
-            /* Handle open connection. */
-            this.socket.onopen = () => {
-                // console.log('ONOPEN');
+        //     /* Handle open connection. */
+        //     this.socket.onopen = () => {
+        //         // console.log('ONOPEN');
 
-                // const txBytes = '3feb2e20a908ccd7d31f84224276b02f2c3951ed3448da58722a107ec4ab393c'
-                // const txid = txBytes.match(/[a-fA-F0-9]{2}/g).reverse().join('')
+        //         // const txBytes = '3feb2e20a908ccd7d31f84224276b02f2c3951ed3448da58722a107ec4ab393c'
+        //         // const txid = txBytes.match(/[a-fA-F0-9]{2}/g).reverse().join('')
 
-                // request = `{"method":"blockchain.transaction.get","params":["66ce81cec5a010e151c68d63bd135133cd54cc5f4904817c738a4a19986ccb0c",true],"id":"${uuidv4()}"}`
-                // request = `{"method":"blockchain.transaction.get","params":["${txid}",true],"id":"${uuidv4()}"}`
-                // this.socket.send(request + '\n')
+        //         // request = `{"method":"blockchain.transaction.get","params":["66ce81cec5a010e151c68d63bd135133cd54cc5f4904817c738a4a19986ccb0c",true],"id":"${uuidv4()}"}`
+        //         // request = `{"method":"blockchain.transaction.get","params":["${txid}",true],"id":"${uuidv4()}"}`
+        //         // this.socket.send(request + '\n')
 
-                // NOTE: Subscribe to receive block headers when a new block is found.
-                // const request = `{"method":"","params":[""],"id":"${uuidv4()}"}`
-                // console.log('REQUEST-002', request)
-                // this.socket.send(request + '\n')
+        //         // NOTE: Subscribe to receive block headers when a new block is found.
+        //         // const request = `{"method":"","params":[""],"id":"${uuidv4()}"}`
+        //         // console.log('REQUEST-002', request)
+        //         // this.socket.send(request + '\n')
 
-                // const params = []
-                // this.makeRequest('blockchain.headers.subscribe', params)
+        //         // const params = []
+        //         // this.makeRequest('blockchain.headers.subscribe', params)
 
-                // const params = [90712]
-                // this.makeRequest('blockchain.block.header', params)
+        //         // const params = [90712]
+        //         // this.makeRequest('blockchain.block.header', params)
 
-                const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
-                console.log('scriptPubkey', scriptPubkey)
+        //         const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
+        //         console.log('scriptPubkey', scriptPubkey)
 
-                const params = [this.getScriptHash(scriptPubkey)]
-                this.makeRequest('blockchain.scripthash.get_balance', params)
-            }
+        //         const params = [this.getScriptHash(scriptPubkey)]
+        //         this.makeRequest('blockchain.scripthash.get_balance', params)
+        //     }
 
-            /* Handle message. */
-            this.socket.onmessage = (msg) => {
-                // console.log('ONMESSAGE', msg);
+        //     /* Handle message. */
+        //     this.socket.onmessage = (msg) => {
+        //         // console.log('ONMESSAGE', msg);
 
-                let data
-                let request
-                let result
-                let params
+        //         let data
+        //         let request
+        //         let result
+        //         let params
 
-                if (msg && msg.data) {
-                    try {
-                        data = JSON.parse(msg.data)
-                        console.log('DATA MESSAGE', data)
+        //         if (msg && msg.data) {
+        //             try {
+        //                 data = JSON.parse(msg.data)
+        //                 console.log('DATA MESSAGE', data)
 
-                        if (data && data.result) {
-                            result = data.result
-                            console.log('MESSAGE RESULT', data.id, result)
+        //                 if (data && data.result) {
+        //                     result = data.result
+        //                     console.log('MESSAGE RESULT', data.id, result)
 
-                            if (this.requests[data.id]) {
-                                console.log('FOUND', this.requests[data.id])
+        //                     if (this.requests[data.id]) {
+        //                         console.log('FOUND', this.requests[data.id])
 
-                                request = this.requests[data.id]
+        //                         request = this.requests[data.id]
 
-                                if (request && request.method === 'blockchain.scripthash.get_balance') {
-                                    this.balance = result.confirmed
-                                }
-                            }
+        //                         if (request && request.method === 'blockchain.scripthash.get_balance') {
+        //                             this.balance = result.confirmed
+        //                         }
+        //                     }
 
-                            // TODO: Validate result isHex
-                            // this.parseTx(result)
-                        }
+        //                     // TODO: Validate result isHex
+        //                     // this.parseTx(result)
+        //                 }
 
-                        if (data && data.params) {
-                            params = data.params
-                            console.log('PARAMS', params)
-                        }
+        //                 if (data && data.params) {
+        //                     params = data.params
+        //                     console.log('PARAMS', params)
+        //                 }
 
-                        if (params && params[0].height) {
-                            console.log('NEW BLOCK', params[0])
+        //                 if (params && params[0].height) {
+        //                     console.log('NEW BLOCK', params[0])
 
-                            // TODO: Validate result isHex
-                            this.parseBlock(params[0].hex)
+        //                     // TODO: Validate result isHex
+        //                     this.parseBlock(params[0].hex)
 
-                            const height = parseInt(params[0].height)
-                            console.log('HEIGHT', height)
+        //                     const height = parseInt(params[0].height)
+        //                     console.log('HEIGHT', height)
 
-                            if (height > 0) {
-                                // let request
+        //                     if (height > 0) {
+        //                         // let request
 
-                                // request = `{"method":"blockchain.block.header","params":[${height}],"id":"${uuidv4()}"}`
-                                // this.socket.send(request + '\n')
-                            }
-                        }
-                    } catch (err) {
-                        console.error(err)
-                    }
-                }
-            }
+        //                         // request = `{"method":"blockchain.block.header","params":[${height}],"id":"${uuidv4()}"}`
+        //                         // this.socket.send(request + '\n')
+        //                     }
+        //                 }
+        //             } catch (err) {
+        //                 console.error(err)
+        //             }
+        //         }
+        //     }
 
-            /* Handle connection close. */
-            this.socket.onclose = function () {
-                console.log('ONCLOSE')
-            }
+        //     /* Handle connection close. */
+        //     this.socket.onclose = function () {
+        //         console.log('ONCLOSE')
+        //     }
 
-            /* Handle connection error. */
-            this.socket.onerror = function (e) {
-                console.log('ONERROR', e)
-            }
-        },
+        //     /* Handle connection error. */
+        //     this.socket.onerror = function (e) {
+        //         console.log('ONERROR', e)
+        //     }
+        // },
 
         isHex (_str) {
             /* Define regex. */
@@ -278,7 +276,9 @@ export default {
         }
     },
     mounted: function () {
-        this.initRostrum()
+        this.$store.dispatch('rostrum/connect')
+        // this.$store.commit('rostrum/connect')
+        // this.initRostrum()
     }
 }
 </script>

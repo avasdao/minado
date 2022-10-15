@@ -106,7 +106,7 @@ export default {
     },
     created: function () {
         /* Initialize Magic Link. */
-        this.initMagic()
+        // this.initMagic()
     },
     mounted: function () {
         //

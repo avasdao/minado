@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 /* Import modules. */
 import numeral from 'numeral'
 import { v4 as uuidv4 } from 'uuid'
@@ -32,10 +34,33 @@ export default {
         address: String
     },
     data: () => ({
-        pageTitle: null,
-        balance: null
+        pageTitle: null
+        // balance: null
     }),
+    watch: {
+        balance: {
+            function (_balance) {
+                console.log('BALANCE HAS CHANGED (from AddressView):', _balance)
+            },
+            deep: true
+        },
+        requests: {
+            function (_requests) {
+                console.log('REQUESTS HAVE CHANGED (from AddressView):', _requests)
+            },
+            deep: true
+        }
+    },
     computed: {
+        ...mapGetters({
+            balance: 'rostrum/getBalance',
+            requests: 'rostrum/getRequests'
+        }),
+
+        requests () {
+            return this.$store.state.rostrum.requests
+        },
+
         displayBalance () {
             if (!this.balance) {
                 return '0.00 NEX'
@@ -63,9 +88,10 @@ export default {
             }
             console.log('RPC makeRequest', request)
 
-            this.requests[id] = request
+            // this.requests[id] = request
+            this.$store.dispatch('rostrum/makeRequest', request)
 
-            this.socket.send(JSON.stringify(request) + '\n')
+            // this.socket.send(JSON.stringify(request) + '\n')
         },
 
         getScriptHash (_scriptPubkey) {
@@ -142,14 +168,20 @@ export default {
 
     },
     created: function () {
-        this.pageTitle = 'Oops! Not sure what to do here..'
+        // this.pageTitle = 'Oops! Not sure what to do here..'
 
-        this.requests = {}
+        // this.requests = {}
 
         // this.initRostrum()
     },
     mounted: function () {
-        //
+        // setTimeout(() => {
+        //     /* Handle message. */
+        //     // console.log('this.$store.state.rostrum', this.$store.state.rostrum)
+        //     this.$store.state.rostrum.socket.onmessage = (msg) => {
+        //         console.log('ROSTRUM SOCKET ONMESSAGE (from AddressView)', msg)
+        //     }
+        // }, 2000)
     }
 }
 </script>

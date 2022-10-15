@@ -23,9 +23,9 @@
                         class="pointer-events-auto w-screen max-w-2xl transform transition ease-in-out duration-500 sm:duration-700"
                         :class="[ panelIsOpen ? 'translate-x-0' : 'translate-x-full' ]"
                     >
-                        <!-- NOTE: Always show vertical scrollbar. -->
+                        <!-- FIXME: Should we "always" show the vertical scrollbar? -->
                         <!-- <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"> -->
-                        <div class="flex h-full flex-col bg-white shadow-xl">
+                        <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
                             <div class="px-4 py-6 sm:px-6">
                                 <div class="flex items-start justify-between">
                                     <h2 class="text-2xl font-medium text-gray-700" id="slide-over-title">
@@ -110,7 +110,7 @@ export default {
         }
     },
     created: function () {
-        this.tab = 'address'
+        this.tab = 'profile'
     },
     mounted: function () {
         //

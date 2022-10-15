@@ -89,7 +89,9 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    // https://www.npmjs.com/package/nuxt-highcharts
+    'nuxt-highcharts',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -103,6 +105,11 @@ export default {
     manifest: {
       lang: 'en'
     }
+  },
+
+  // https://www.npmjs.com/package/nuxt-highcharts
+  highcharts: {
+    /* module options */
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

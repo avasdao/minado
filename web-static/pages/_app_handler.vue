@@ -36,42 +36,44 @@ export default {
         //
     },
     methods: {
-        //
-    },
-    created: function () {
-        let params
+        init () {
+            let params
 
-        /* Set route. */
-        const route = this.$route
+            /* Set route. */
+            const route = this.$route
 
-        /* Validate route. */
-        if (route) {
-            params = route.params
-            console.log('PARAMS', params)
-        }
-
-        /* Validate application handler. */
-        if (params && params.app_handler) {
-            /* Set id of app handler. */
-            const id = params.app_handler
-
-            /* Handle Nexa address. */
-            if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
-                this.addressStub = params.app_handler
-
-                /* Set the application (active) address. */
-                this.$store.dispatch('rostrum/setAddress', params.app_handler)
+            /* Validate route. */
+            if (route) {
+                params = route.params
+                console.log('PARAMS', params)
             }
 
-            // TODO: Add more handlers.
-            //         - first bits (short addresses)
-            //         - referall
+            /* Validate application handler. */
+            if (params && params.app_handler) {
+                /* Set id of app handler. */
+                const id = params.app_handler
+
+                /* Handle Nexa address. */
+                if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
+                    this.addressStub = params.app_handler
+
+                    /* Set the application (active) address. */
+                    this.$store.dispatch('rostrum/setAddress', params.app_handler)
+                }
+
+                // TODO: Add more handlers.
+                //         - first bits (short addresses)
+                //         - referall
+            }
         }
     },
-    mounted: async function () {
+    created: function () {
+        this.init()
+    },
+    mounted: function () {
         // NOTE: We have to wait for the page to be mounted (loaded)
         //       before attempting to create a WebSocket connection.
-        await this.$store.dispatch('rostrum/init')
+        this.$store.dispatch('rostrum/init')
     }
 }
 </script>

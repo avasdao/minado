@@ -16,6 +16,17 @@
         <h2 class="text-xl font-medium text-indigo-600">
             {{displayBalance}}
         </h2>
+
+        <section class="space-y-5">
+            <div
+                v-for="(tx, index) of sortedTxHistory"
+                :key="tx.tx_hash"
+                class="px-3 py-1 bg-yellow-200 border-2 border-yellow-400 rounded-lg"
+            >
+                <span class="block">#{{(index + 1)}} {{tx.height}}</span>
+                <span class="block">{{tx.tx_hash}}</span>
+            </div>
+        </section>
     </main>
 </template>
 
@@ -31,7 +42,8 @@ import numeral from 'numeral'
 export default {
     data: () => ({
         pageTitle: null,
-        balance: null
+        balance: null,
+        txHistory: null
     }),
     watch: {
         address: function (_address) {
@@ -49,133 +61,51 @@ export default {
             }
 
             return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
+        },
+
+        sortedTxHistory () {
+            if (!this.txHistory) {
+                return []
+            }
+
+            const history = [...this.txHistory]
+
+            const sorted = history.sort((a, b) => {
+                return b.height - a.height
+            })
+
+            return sorted.slice(0, 20)
         }
     },
     methods: {
-        /**
-         * Make Request
-         *
-         * Performs an RPC request to an ElectrumX server.
-         *
-         * @param {*} _method
-         * @param {*} _params
-         */
-        // makeRequest (_method, _params) {
-        //     const id = uuidv4()
+        async init () {
+            let request
 
-        //     const request = {
-        //         id,
-        //         method: _method,
-        //         params: _params
-        //     }
-        //     console.log('RPC makeRequest', request)
+            const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
+            console.log('scriptPubkey', scriptPubkey)
 
-        //     // this.requests[id] = request
-        //     this.$store.dispatch('rostrum/makeRequest', request)
+            const scriptHash = await this.$store.dispatch('utils/getScriptHash', scriptPubkey)
+            console.log('SCRIPT HASH', scriptHash)
 
-        //     // this.socket.send(JSON.stringify(request) + '\n')
-        // },
+            request = {
+                method: 'blockchain.scripthash.get_balance',
+                params: [scriptHash]
+            }
+            const balance = await this.$store.dispatch('rostrum/makeRequest', request)
+            console.log('REQUESTED BALANCE', balance)
 
-        // getScriptHash (_scriptPubkey) {
-        //     let addrScripthash = hexEnc.stringify(sha256(hexEnc.parse(_scriptPubkey)))
+            this.balance = balance
 
-        //     addrScripthash = addrScripthash.match(/[a-fA-F0-9]{2}/g).reverse().join('')
-
-        //     return addrScripthash
-        // }
-
-        // initRostrum () {
-        //     /* Initialize socket connection to Electrum server. */
-        //     // this.socket = new WebSocket('ws://electrum.nexa.org:20003')
-        //     this.socket = new WebSocket('ws://rostrum.devops.cash:20003')
-
-        //     /* Handle open connection. */
-        //     this.socket.onopen = () => {
-        //         const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
-        //         console.log('scriptPubkey', scriptPubkey)
-
-        //         const params = [this.getScriptHash(scriptPubkey)]
-        //         this.makeRequest('blockchain.scripthash.get_balance', params)
-        //     }
-
-        //     /* Handle message. */
-        //     this.socket.onmessage = (msg) => {
-        //         // console.log('ONMESSAGE', msg);
-
-        //         let data
-        //         let request
-        //         let result
-        //         let params
-
-        //         if (msg && msg.data) {
-        //             try {
-        //                 data = JSON.parse(msg.data)
-        //                 console.log('DATA MESSAGE', data)
-
-        //                 if (data && data.result) {
-        //                     result = data.result
-        //                     console.log('MESSAGE RESULT', data.id, result)
-
-        //                     if (this.requests[data.id]) {
-        //                         console.log('FOUND', this.requests[data.id])
-
-        //                         request = this.requests[data.id]
-
-        //                         if (request && request.method === 'blockchain.scripthash.get_balance') {
-        //                             this.balance = result.confirmed
-        //                         }
-        //                     }
-        //                 }
-
-        //                 if (data && data.params) {
-        //                     params = data.params
-        //                     console.log('PARAMS', params)
-        //                 }
-        //             } catch (err) {
-        //                 console.error(err)
-        //             }
-        //         }
-        //     }
-
-        //     /* Handle connection close. */
-        //     this.socket.onclose = function () {
-        //         console.log('ONCLOSE')
-        //     }
-
-        //     /* Handle connection error. */
-        //     this.socket.onerror = function (e) {
-        //         console.log('ONERROR', e)
-        //     }
-        // }
-
-    },
-    created: async function () {
-        // this.pageTitle = 'Oops! Not sure what to do here..'
-
-        // this.requests = {}
-
-        // this.initRostrum()
-
-        /* Initialize local requests. */
-        this.localRequests = {}
-
-        const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
-        console.log('scriptPubkey', scriptPubkey)
-
-        const scriptHash = await this.$store.dispatch('utils/getScriptHash', scriptPubkey)
-        console.log('SCRIPT HASH', scriptHash)
-
-        const request = {
-            method: 'blockchain.scripthash.get_balance',
-            params: [scriptHash]
+            request = {
+                method: 'blockchain.scripthash.get_history',
+                params: [scriptHash]
+            }
+            this.txHistory = await this.$store.dispatch('rostrum/makeRequest', request)
+            console.log('REQUESTED TX HISTORY', this.txHistory)
         }
-        const balance = await this.$store.dispatch('rostrum/makeRequest', request)
-        console.log('REQUESTED BALANCE', balance)
-
-        this.balance = balance
-
-        /* Update local requests. */
-        // this.localRequests[requestid] = request
+    },
+    created: function () {
+        this.init()
     },
     mounted: function () {
         //

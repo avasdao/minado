@@ -1,6 +1,5 @@
+// const moment = require('moment')
 const { v4: uuidv4 } = require('uuid')
-
-const requests = {}
 
 function sleep (_ms) {
     return new Promise((resolve) => {
@@ -29,7 +28,9 @@ export const state = () => ({
     socket: null,
     address: null,
     balance: 0,
-    requests: {}
+    requests: {},
+    lastRequest: null,
+    promises: {}
 })
 
 export const getters = {
@@ -43,6 +44,14 @@ export const getters = {
 
     getRequests (state) {
         return state.requests
+    },
+
+    getLastRequest (state) {
+        return state.lastRequest
+    },
+
+    getPromises (state) {
+        return state.promises
     }
 }
 
@@ -86,85 +95,68 @@ export const mutations = {
 
     saveRequest (state, _data) {
         console.log('SAVING REQUEST', _data)
-        state.requests[_data.id] = _data.result
+
+        const data = { ..._data } // clone object
+
+        const id = data.id
+
+        delete data.id
+
+        state.requests[id] = data
+        // state.lastRequest = moment().valueOf()
+    },
+
+    savePromises (state, _promises) {
+        state.promises = _promises
     }
 }
 
 export const actions = {
     async init ({ state, commit }) {
+        /* Request WebSocket connection to Rostrum. */
         await commit('connect')
 
         /* Handle open connection. */
         state.socket.onopen = () => {
             console.info('Rostrum socket is now connected!') // eslint-disable-line no-console
-
-            // const txBytes = '3feb2e20a908ccd7d31f84224276b02f2c3951ed3448da58722a107ec4ab393c'
-            // const txid = txBytes.match(/[a-fA-F0-9]{2}/g).reverse().join('')
-
-            // request = `{"method":"blockchain.transaction.get","params":["66ce81cec5a010e151c68d63bd135133cd54cc5f4904817c738a4a19986ccb0c",true],"id":"${uuidv4()}"}`
-            // request = `{"method":"blockchain.transaction.get","params":["${txid}",true],"id":"${uuidv4()}"}`
-            // state.socket.send(request + '\n')
-
-            // NOTE: Subscribe to receive block headers when a new block is found.
-            // const request = `{"method":"","params":[""],"id":"${uuidv4()}"}`
-            // console.log('REQUEST-002', request)
-            // state.socket.send(request + '\n')
-
-            // const params = []
-            // handleRequest('blockchain.headers.subscribe', params)
-
-            const id = uuidv4()
-            console.log('DESPERATE ID', id)
-
-            /* Build request. */
-            const request = {
-                id,
-                method: 'blockchain.scripthash.get_balance',
-                params: ['0e33d265daaf366401c44995e37b7757d46fb0fef8430524766e56a608c5a54e']
-            }
-            state.socket.send(JSON.stringify(request) + '\n')
         }
 
         /* Handle message. */
         state.socket.onmessage = (msg) => {
             console.log('ROSTRUM SOCKET ONMESSAGE', msg)
+            console.log('ROSTRUM PROMISES', state.promises)
 
             let data
-            let request
+            // let request
+            // let pkg
             let result
             let params
 
             if (msg && msg.data) {
                 try {
                     data = JSON.parse(msg.data)
-                    console.log('DATA MESSAGE', data)
+                    // console.log('DATA MESSAGE', data)
 
                     if (data && data.result) {
                         result = data.result
-                        console.log('MESSAGE RESULT', data.id, result)
+                        // console.log('MESSAGE RESULT', data.id, result)
 
-                        if (requests[data.id]) {
-                            // console.log('FOUND', requests[data.id])
+                        // console.log('STATE REQUESTS', state.requests)
 
-                            request = requests[data.id]
+                        if (state.promises[data.id]) {
+                            // console.log('FOUND', state.requests[data.id])
 
-                            if (request && request.method === 'blockchain.scripthash.get_balance') {
-                                // balance = result.confirmed
-                                commit('saveRequest', {
-                                    id: data.id,
-                                    result
-                                })
-                            }
+                            const promise = state.promises[data.id]
+                            promise.resolve(result)
+
+                            // commit('saveRequest', pkg)
                         }
-
-                        // TODO: Validate result isHex
-                        // parseTx(result)
                     }
 
-                    if (data && data.params) {
-                        params = data.params
-                        console.log('PARAMS', params)
-                    }
+                    // if (data && data.params) {
+                    //     params = data.params
+                    //     console.log('PARAMS', params)
+                    // }
 
                     if (params && params[0].height) {
                         console.log('NEW BLOCK', params[0])
@@ -208,11 +200,30 @@ export const actions = {
      * @param {*Object _request
      * @returns
      */
-    async makeRequest ({ state, commit }, _request) {
-        // state.socket.send(JSON.stringify(_request) + '\n')
+    async makeRequest ({ state, commit, getters }, _request) {
+        const _addPromise = (_id, _promise) => {
+            const promises = getters.getPromises
+
+            promises[_id] = _promise
+
+            commit('savePromises', promises)
+        }
+
+        const myPromise = {
+            resolve: null,
+            reject: null
+        }
+
+        const myRequest = new Promise((resolve, reject) => {
+            myPromise.resolve = resolve
+            myPromise.reject = reject
+        })
 
         /* Generate unique id. */
         const id = uuidv4()
+
+        /* Add promise. */
+        _addPromise(id, myPromise)
 
         /* Build request. */
         const request = {
@@ -223,23 +234,27 @@ export const actions = {
         // console.log('ROSTRUM (makeRequest):', request)
 
         /* Save request. */
-        commit('saveRequest', request)
+        // commit('saveRequest', request)
 
         /* Make request. */
         // console.log('SOCKET READY STATE', state.socket.readyState)
         // FIXME Add protection against infinite loop.
         while (state.socket.readyState !== 1) {
-            console.log('sleeping..')
+            console.log('WebSocket is NOT ready, sleeping..')
             await sleep(1000)
         }
         // console.log('SOCKET READY STATE', state.socket.readyState)
         state.socket.send(JSON.stringify(request) + '\n')
 
         /* Return request id. */
-        return id
+        return myRequest
     },
 
     setAddress ({ state, commit }, _address) {
         commit('saveAddress', _address)
+    },
+
+    setBalance ({ state, commit }, _balance) {
+        commit('saveBalance', _balance)
     }
 }

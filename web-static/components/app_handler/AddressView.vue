@@ -24,47 +24,31 @@ import { mapGetters } from 'vuex'
 
 /* Import modules. */
 import numeral from 'numeral'
-import { v4 as uuidv4 } from 'uuid'
-
-import sha256 from 'crypto-js/sha256'
-import hexEnc from 'crypto-js/enc-hex'
+// import { v4 as uuidv4 } from 'uuid'
+// import sha256 from 'crypto-js/sha256'
+// import hexEnc from 'crypto-js/enc-hex'
 
 export default {
     data: () => ({
-        pageTitle: null
-        // balance: null
+        pageTitle: null,
+        balance: null
     }),
     watch: {
         address: function (_address) {
             console.log('ADDRESS HAS CHANGED (from AddressView):', _address)
-        },
-        balance: function (_balance) {
-            console.log('BALANCE HAS CHANGED (from AddressView):', _balance)
-        },
-        requests: {
-            function (_requests) {
-                console.log('REQUESTS HAVE CHANGED (from AddressView):', _requests)
-            },
-            deep: true
         }
     },
     computed: {
         ...mapGetters({
-            address: 'rostrum/getAddress',
-            balance: 'rostrum/getBalance',
-            requests: 'rostrum/getRequests'
+            address: 'rostrum/getAddress'
         }),
 
-        requests () {
-            return this.$store.state.rostrum.requests
-        },
-
         displayBalance () {
-            if (!this.balance) {
+            if (!this.balance || !this.balance.confirmed) {
                 return '0.00 NEX'
             }
 
-            return numeral(this.balance / 100.0).format('0,0.00') + ' NEX'
+            return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
         }
     },
     methods: {
@@ -76,29 +60,29 @@ export default {
          * @param {*} _method
          * @param {*} _params
          */
-        makeRequest (_method, _params) {
-            const id = uuidv4()
+        // makeRequest (_method, _params) {
+        //     const id = uuidv4()
 
-            const request = {
-                id,
-                method: _method,
-                params: _params
-            }
-            console.log('RPC makeRequest', request)
+        //     const request = {
+        //         id,
+        //         method: _method,
+        //         params: _params
+        //     }
+        //     console.log('RPC makeRequest', request)
 
-            // this.requests[id] = request
-            this.$store.dispatch('rostrum/makeRequest', request)
+        //     // this.requests[id] = request
+        //     this.$store.dispatch('rostrum/makeRequest', request)
 
-            // this.socket.send(JSON.stringify(request) + '\n')
-        },
+        //     // this.socket.send(JSON.stringify(request) + '\n')
+        // },
 
-        getScriptHash (_scriptPubkey) {
-            let addrScripthash = hexEnc.stringify(sha256(hexEnc.parse(_scriptPubkey)))
+        // getScriptHash (_scriptPubkey) {
+        //     let addrScripthash = hexEnc.stringify(sha256(hexEnc.parse(_scriptPubkey)))
 
-            addrScripthash = addrScripthash.match(/[a-fA-F0-9]{2}/g).reverse().join('')
+        //     addrScripthash = addrScripthash.match(/[a-fA-F0-9]{2}/g).reverse().join('')
 
-            return addrScripthash
-        }
+        //     return addrScripthash
+        // }
 
         // initRostrum () {
         //     /* Initialize socket connection to Electrum server. */
@@ -165,21 +149,36 @@ export default {
         // }
 
     },
-    created: function () {
+    created: async function () {
         // this.pageTitle = 'Oops! Not sure what to do here..'
 
         // this.requests = {}
 
         // this.initRostrum()
+
+        /* Initialize local requests. */
+        this.localRequests = {}
+
+        const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
+        console.log('scriptPubkey', scriptPubkey)
+
+        const scriptHash = await this.$store.dispatch('utils/getScriptHash', scriptPubkey)
+        console.log('SCRIPT HASH', scriptHash)
+
+        const request = {
+            method: 'blockchain.scripthash.get_balance',
+            params: [scriptHash]
+        }
+        const balance = await this.$store.dispatch('rostrum/makeRequest', request)
+        console.log('REQUESTED BALANCE', balance)
+
+        this.balance = balance
+
+        /* Update local requests. */
+        // this.localRequests[requestid] = request
     },
     mounted: function () {
-        // setTimeout(() => {
-        //     /* Handle message. */
-        //     // console.log('this.$store.state.rostrum', this.$store.state.rostrum)
-        //     this.$store.state.rostrum.socket.onmessage = (msg) => {
-        //         console.log('ROSTRUM SOCKET ONMESSAGE (from AddressView)', msg)
-        //     }
-        // }, 2000)
+        //
     }
 }
 </script>

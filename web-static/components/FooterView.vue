@@ -17,16 +17,22 @@
                 </router-link>
             </div>
         </div>
+
+        <SidePanel v-if="panelIsShowing" />
     </main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     data: () => ({
         //
     }),
     computed: {
-        //
+        ...mapGetters({
+            panelIsShowing: 'system/getPanelState'
+        })
     },
     methods: {
         //

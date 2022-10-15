@@ -53,7 +53,7 @@ export const actions = {
 
         setTimeout(() => {
             commit('savePanelVisibility', false)
-        }, 150)
+        }, 700)
     },
 
     setBalance ({ state, commit }, _balance) {

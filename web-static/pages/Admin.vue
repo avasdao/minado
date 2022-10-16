@@ -15,12 +15,6 @@
                             <AdminProfileView :profile="profile" />
                         </div>
 
-                        <AdminMinersPanel
-                            class="mt-3"
-                            :miners="miners"
-                            :profile="profile"
-                            @addMiner="addMiner"
-                        />
                     </section>
 
                     <!-- Right column -->
@@ -47,12 +41,9 @@
 <script>
 import { mapGetters } from 'vuex'
 
-/* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
-
 export default {
     middleware: [
-        'admin',
+        'admin.auth',
         'magic.auth'
     ],
     data: () => ({
@@ -108,40 +99,8 @@ export default {
             this.$store.dispatch('admin/loadProfiles')
         },
 
-        addMiner () {
-            //
-        },
-
         addProfile () {
             //
-        },
-
-        async getMiners () {
-            /* Request issuer. */
-            const didToken = this.$store.state.didToken
-
-            /* Validate issuer. */
-            if (didToken) {
-                const rawResponse = await fetch(ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        didToken,
-                        action: 'get_miners',
-                        profileid: this.profileid
-                    })
-                })
-                // console.log('RAW RESPONSE', rawResponse)
-
-                const content = await rawResponse.json()
-                console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
-
-                /* Set profiles. */
-                this.miners = content.data
-            }
         }
     }
 }

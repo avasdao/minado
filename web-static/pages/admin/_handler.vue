@@ -15,7 +15,16 @@
                             Profile Administration
                         </h1>
 
-                        <AdminProfileView :profile="profile" />
+                        <AdminProfileView
+                            :profile="profile"
+                        />
+
+                        <AdminMinersPanel
+                            class="mt-3"
+                            :miners="miners"
+                            :profile="profile"
+                            @addMiner="addMiner"
+                        />
                     </section>
 
                     <!-- Right column -->
@@ -44,7 +53,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     middleware: [
-        'admin',
+        'admin.auth',
         'magic.auth'
     ],
     data: () => ({
@@ -60,42 +69,49 @@ export default {
             }
         ]
     }),
+    watch: {
+        profileid: function (_profileid) {
+            console.log('PROFILE ID HAS CHANGED', _profileid)
+
+            this.$store.dispatch('admin/loadMiners', _profileid)
+        }
+    },
     computed: {
         ...mapGetters({
+            miners: 'admin/getMiners',
             profiles: 'admin/getProfiles'
         }),
 
         profile () {
+            /* Validate profiles. */
             if (!this.profiles) {
                 return {}
             }
 
+            /* Find the active profile. */
             const profile = this.profiles.find((_profile) => {
                 return _profile._id === this.profileid
             })
 
+            /* Return active profile. */
             return profile
         }
     },
     created: function () {
-        // this.init()
-
         /* Validate handler. */
         if (this.$route.params && this.$route.params.handler) {
-            /* Retrieve profile id. */
-            this.profileid = this.$route.params.handler
-            console.info('ADMIN (profile id):', this.profileid) // eslint-disable-line no-console
+            // TODO: Handle different stubs.
 
-            this.$store.dispatch('admin/loadProfile', this.profileid)
+            /* Set profile id. */
+            this.profileid = this.$route.params.handler
         }
     },
     mounted: function () {
         //
     },
     methods: {
-        init () {
-            /* Request profiles. */
-            this.$store.dispatch('admin/loadProfiles')
+        addMiner () {
+            console.log('add a miner') // eslint-disable-line no-console
         },
 
         addProfile () {

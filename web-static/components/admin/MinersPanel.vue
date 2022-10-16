@@ -320,7 +320,7 @@ exit`
     created: function () {
         this.showEdit = false
 
-        console.log('PROFILES PANEL (miners):', this.miners)
+        // console.log('PROFILES PANEL (miners):', this.miners)
         this.payouts = []
 
         this.payouts.push({

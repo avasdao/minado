@@ -9,7 +9,9 @@ export const state = () => ({
 
     // Magic
     user: null,
-    authenticated: false,
+    authenticated: false, // FIXME: Should this be persisted??
+    // NOTE: We should consider "when" to check this in "real-time" using:
+    //       `this.magic.user.isLoggedIn()`
 
     // Messaging
     notifs: null,
@@ -40,7 +42,13 @@ export const mutations = {
     },
 
     SET_USER_DATA (state, _userData) {
-        state.user = _userData
+        /* Set user (from metadata). */
+        state.user = _userData.metadata
+
+        /* Set DID token. */
+        state.didToken = _userData.token
+
+        /* Set authorization flag. */
         state.authenticated = true
     },
 
@@ -57,7 +65,12 @@ export const actions = {
         await magic.auth.loginWithMagicLink(_auth)
 
         const metadata = await magic.user.getMetadata()
-        commit('SET_USER_DATA', metadata)
+        const token = await magic.user.getIdToken()
+
+        commit('SET_USER_DATA', {
+            metadata,
+            token
+        })
     },
 
     async signout ({ commit }) {

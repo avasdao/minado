@@ -72,36 +72,7 @@ export default {
                 /* Get user metadata including email */
                 const userMetadata = await this.magic.user.getMetadata()
                 console.info('Magic Link (user metadata):', userMetadata)
-
-                /* Set account. */
-                // this.$store.dispatch('setAccount', userMetadata.publicAddress)
-
-                /* Set email. */
-                // this.$store.dispatch('setEmail', userMetadata.email)
-
-                /* Set issuer. */
-                // this.$store.dispatch('setIssuer', userMetadata.issuer)
             }
-
-            // if (window.location.pathname === '/callback') {
-            //     try {
-            //         /* Complete the "authentication callback" */
-            //         await this.magic.auth.loginWithCredential()
-
-            //         /* Get user metadata including email */
-            //         const userMetadata = await this.magic.user.getMetadata()
-
-            //         html = `
-            //             <h1>Current user: ${userMetadata.email}</h1>
-            //             <button onclick="handleLogout()">Logout</button>
-            //         `
-            //     } catch {
-            //         /* In the event of an error, we'll go back to the login page */
-            //         window.location.href = window.location.origin;
-            //     }
-            // }
-
-            // console.log('html', html)
         }
     },
     created: function () {

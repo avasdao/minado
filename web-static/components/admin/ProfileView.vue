@@ -12,7 +12,7 @@
 
         <div class="mt-5 md:col-span-2 md:mt-0">
             <h1 class="px-3 py-1 text-2xl text-yellow-800 font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                {{profile._id}}
+                {{profile ? profile._id : 'no profile'}}
             </h1>
 
             <div class="mt-5 grid grid-cols-6 gap-6">
@@ -143,11 +143,14 @@ export default {
         profile: function (_profile) {
             console.log('PROFILE CHANGED', _profile)
 
-            this.nickname = _profile.nickname
-            this.firstName = _profile.firstName
-            this.lastName = _profile.lastName
-            this.email = _profile.email
-            this.address = _profile.address
+            /* Validate profile. */
+            if (_profile) {
+                this.nickname = _profile.nickname
+                this.firstName = _profile.firstName
+                this.lastName = _profile.lastName
+                this.email = _profile.email
+                this.address = _profile.address
+            }
         }
     },
     computed: {
@@ -192,11 +195,14 @@ export default {
         }
     },
     created: function () {
-        this.nickname = this.profile.nickname
-        this.firstName = this.profile.firstName
-        this.lastName = this.profile.lastName
-        this.email = this.profile.email
-        this.address = this.profile.address
+        /* Validate profile. */
+        if (this.profile) {
+            this.nickname = this.profile.nickname
+            this.firstName = this.profile.firstName
+            this.lastName = this.profile.lastName
+            this.email = this.profile.email
+            this.address = this.profile.address
+        }
     },
     mounted: function () {
         //

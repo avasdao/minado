@@ -8,9 +8,7 @@
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <AuthView v-if="!profile" />
-
-                    <section v-else>
+                    <section class="col-span-2">
                         <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
                             <AdminProfileView :profile="profile" />
                         </div>
@@ -103,6 +101,7 @@ export default {
 
             /* Request issuer. */
             const didToken = this.$store.state.profile.didToken
+            // console.log('DID TOKEN', didToken)
 
             /* Validate issuer. */
             if (didToken) {
@@ -120,7 +119,7 @@ export default {
                 // console.log('RAW RESPONSE', rawResponse)
 
                 const content = await rawResponse.json()
-                console.log('CONTENT (get_profiles):', content)
+                // console.log('CONTENT (get_profiles):', content)
 
                 /* Set profiles. */
                 this.profiles = content.data
@@ -237,6 +236,7 @@ export default {
         }
     },
     created: function () {
+        /* Initialize profiles. */
         this.profiles = []
 
         this.init()
@@ -244,10 +244,14 @@ export default {
         const route = this.$route
         const params = route.params
 
-        this.profileid = params.profileid
-        console.log('PROFILE ID', this.profileid)
+        /* Validate parameters. */
+        if (this.params) {
+            this.profileid = params.profileid
+            console.info('Active profile id', this.profileid)
 
-        this.getMiners()
+            /* Get miners. */
+            this.getMiners()
+        }
     },
     mounted: function () {
         //

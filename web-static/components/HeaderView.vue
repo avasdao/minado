@@ -52,13 +52,13 @@
                             tabindex="-1"
                         >
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                            <button @click="openProfile" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                            <button @click="openMyProfile" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
                                 My Profile
                             </button>
 
-                            <a href="javascript://" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                            <button @click="openMyDashboard" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
                                 My Dashboard
-                            </a>
+                            </button>
 
                             <button @click="signOut" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
                                 Sign out
@@ -322,21 +322,29 @@ export default {
                     this.openMenu()
                 }
             } else {
-                this.openProfile()
+                this.openMyProfile()
             }
         },
 
-        openProfile () {
+        openMyProfile () {
             /* Close menu. */
             this.closeMenu()
 
-            /* Request profile panel. */
-            // this.$store.dispatch('system/openPanel', 'profile')
+            /* Open profile. */
             this.$router.push('/profile')
         },
 
+        openMyDashboard () {
+            /* Close menu. */
+            this.closeMenu()
+
+            /* Open dashboard. */
+            this.$router.push('/dashboard')
+        },
+
         signOut () {
-            console.log('SIGN OUT')
+            /* Sign out. */
+            this.$store.dispatch('profile/signout')
         },
 
         openHelp () {

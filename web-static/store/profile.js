@@ -48,19 +48,19 @@ export const mutations = {
         state.user = null
         state.authenticated = false
 
-        this.$router.push('/profile')
+        this.$router.push('/')
     }
 }
 
 export const actions = {
-    async login ({ commit }, _auth) {
+    async signin ({ commit }, _auth) {
         await magic.auth.loginWithMagicLink(_auth)
 
         const metadata = await magic.user.getMetadata()
         commit('SET_USER_DATA', metadata)
     },
 
-    async logout ({ commit }) {
+    async signout ({ commit }) {
         await magic.user.logout()
 
         commit('CLEAR_USER_DATA')

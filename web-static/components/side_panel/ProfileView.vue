@@ -273,7 +273,7 @@ export default {
         //
     },
     created: function () {
-        //
+        console.log('PROFILE PANEL (magic)', this.$magic)
     },
     mounted: function () {
         //

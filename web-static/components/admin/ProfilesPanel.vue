@@ -89,29 +89,29 @@ export default {
         console.log('PROFILES PANEL (profiles):', this.profiles)
         this.payouts = []
 
-        this.payouts.push({
-            id: 'temp-id-1',
-            amount: '8 432 192 NEX',
-            summary: 'paid to 48 miners 10 mins ago',
-            icon: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
+        // this.payouts.push({
+        //     id: 'temp-id-1',
+        //     amount: '8 432 192 NEX',
+        //     summary: 'paid to 48 miners 10 mins ago',
+        //     icon: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        //     createdAt: 1234567890
+        // })
 
-        this.payouts.push({
-            id: 'temp-id-2',
-            amount: '2 823 932 NEX',
-            summary: 'paid to 18 miners 32 mins ago',
-            icon: 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
+        // this.payouts.push({
+        //     id: 'temp-id-2',
+        //     amount: '2 823 932 NEX',
+        //     summary: 'paid to 18 miners 32 mins ago',
+        //     icon: 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        //     createdAt: 1234567890
+        // })
 
-        this.payouts.push({
-            id: 'temp-id-3',
-            amount: '12 932 823 NEX',
-            summary: 'paid to 51 miners 2 hours ago',
-            icon: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
+        // this.payouts.push({
+        //     id: 'temp-id-3',
+        //     amount: '12 932 823 NEX',
+        //     summary: 'paid to 51 miners 2 hours ago',
+        //     icon: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        //     createdAt: 1234567890
+        // })
     },
     mounted: function () {
         //

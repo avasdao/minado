@@ -1,6 +1,6 @@
 {
   "name": "nexa-rocks-web",
-  "version": "22.10.15",
+  "version": "22.10.16",
   "license": "MIT",
   "scripts": {
     "dev": "nuxt",
@@ -27,7 +27,8 @@
     "uuid": "9.0.0",
     "vue": "2.7.12",
     "vue-server-renderer": "2.7.12",
-    "vue-template-compiler": "2.7.12"
+    "vue-template-compiler": "2.7.12",
+    "vuex-persistedstate": "4.1.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",

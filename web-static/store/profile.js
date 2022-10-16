@@ -1,9 +1,15 @@
+import { magic } from '../plugins/magic'
+
 export const state = () => ({
     // Identification
     id: null,
     parentid: null,
     address: null,
     email: null,
+
+    // Magic
+    user: null,
+    authenticated: false,
 
     // Messaging
     notifs: null,
@@ -31,5 +37,32 @@ export const mutations = {
 
     toggle (state, todo) {
         todo.done = !todo.done
+    },
+
+    SET_USER_DATA (state, _userData) {
+        state.user = _userData
+        state.authenticated = true
+    },
+
+    CLEAR_USER_DATA (state) {
+        state.user = null
+        state.authenticated = false
+
+        this.$router.push('/profile')
+    }
+}
+
+export const actions = {
+    async login ({ commit }, email) {
+        await magic.auth.loginWithMagicLink(email)
+
+        const metadata = await magic.user.getMetadata()
+        commit('SET_USER_DATA', metadata)
+    },
+
+    async logout ({ commit }) {
+        await magic.user.logout()
+
+        commit('CLEAR_USER_DATA')
     }
 }

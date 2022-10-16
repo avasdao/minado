@@ -49,6 +49,17 @@
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 export default {
+    middleware: 'magic.auth',
+    head: () => ({
+        title: 'Admin Center — Nexa Rocks!',
+        meta: [
+            {
+                hid: 'description', // `vmid` for it as it will not work
+                name: 'description',
+                content: 'TBD..'
+            }
+        ]
+    }),
     data: () => ({
         profiles: null,
         profileid: null,

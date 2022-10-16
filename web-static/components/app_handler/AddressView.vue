@@ -154,7 +154,7 @@ export default {
             const scriptPubkey = '00511417b25c22cc7ce6bf5a8b1ee945638c5f143a3c06' // Rpi (nexa:nqtsq5g5z7e9cgkv0nnt7k5trm552cuvtu2r50qxzeknvu3u)
             console.log('scriptPubkey', scriptPubkey)
 
-            const scriptHash = await this.$store.dispatch('utils/getScriptHash', scriptPubkey)
+            const scriptHash = this.$utils.getScriptHash(scriptPubkey)
             console.log('SCRIPT HASH', scriptHash)
 
             request = {

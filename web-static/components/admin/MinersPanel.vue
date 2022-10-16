@@ -7,7 +7,7 @@
                         Miners
                     </h2>
 
-                    <button @click="$emit('addMiner')" class="mx-3 px-3 py-1 text-xl text-pink-100 font-medium bg-pink-500 border-2 border-pink-700 rounded-lg hover:text-pink-50 hover:bg-pink-400">
+                    <button @click="addMiner" class="mx-3 px-3 py-1 text-xl text-blue-100 font-medium bg-blue-500 border-2 border-blue-700 rounded-lg hover:text-blue-50 hover:bg-blue-400">
                         Add New Miner
                     </button>
                 </header>
@@ -15,11 +15,11 @@
                 <div class="flow-root mt-6">
                     <div class="my-3 p-3 bg-yellow-200 border-2 border-yellow-400 rounded-lg">
                         <h2 class="text-xl font-medium">
-                            {{minerid}}
+                            {{ minerid }}
                         </h2>
 
                         <h3>
-                            last updated: {{lastMinerUpdate}}
+                            last updated: {{ lastMinerUpdate }}
                         </h3>
 
                         <div class="grid grid-cols-5 gap-4">
@@ -49,6 +49,7 @@
                                 <label for="email" class="block text-sm font-medium text-gray-700">
                                     Location / Ip address
                                 </label>
+
                                 <div class="mt-1">
                                     <input
                                         type="text"
@@ -58,6 +59,7 @@
                                         v-model="location"
                                     >
                                 </div>
+
                                 <p class="mt-2 text-sm text-gray-500" id="email-description">
                                     We'll only use this for spam.
                                 </p>
@@ -65,6 +67,7 @@
                                 <label for="email" class="block text-sm font-medium text-gray-700">
                                     Authorization / Password
                                 </label>
+
                                 <div class="mt-1">
                                     <input
                                         type="password"
@@ -74,6 +77,7 @@
                                         v-model="auth"
                                     >
                                 </div>
+
                                 <p class="mt-2 text-sm text-gray-500" id="email-description">
                                     We'll only use this for spam.
                                 </p>
@@ -81,6 +85,7 @@
                                 <label for="email" class="block text-sm font-medium text-gray-700">
                                     PID
                                 </label>
+
                                 <div class="mt-1">
                                     <input
                                         type="text"
@@ -90,18 +95,34 @@
                                         v-model="pid"
                                     >
                                 </div>
+
                                 <p class="mt-2 text-sm text-gray-500" id="email-description">
                                     We'll only use this for spam.
                                 </p>
 
-                                <label for="location" class="block text-sm font-medium text-gray-700">Miner Count</label>
+                                <label for="location" class="block text-sm font-medium text-gray-700">
+                                    Miner Count
+                                </label>
+
                                 <select v-model="count" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    <option value="-1">Disabled</option>
-                                    <option value="0">Offline</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="4">4</option>
-                                    <option value="8">8</option>
+                                    <option value="-1">
+                                        Disabled
+                                    </option>
+                                    <option value="0">
+                                        Offline
+                                    </option>
+                                    <option value="1">
+                                        1
+                                    </option>
+                                    <option value="2">
+                                        2
+                                    </option>
+                                    <option value="4">
+                                        4
+                                    </option>
+                                    <option value="8">
+                                        8
+                                    </option>
                                 </select>
 
                                 <div class="flex justify-end">
@@ -119,7 +140,7 @@
                                         rows="1"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdProv"
-                                    ></textarea>
+                                    />
                                 </div>
 
                                 <div class="mt-1">
@@ -131,7 +152,7 @@
                                         rows="1"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdConn"
-                                    ></textarea>
+                                    />
                                 </div>
 
                                 <div class="mt-1">
@@ -143,13 +164,13 @@
                                         rows="6"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdMine4"
-                                    ></textarea>
+                                    />
                                 </div>
                             </div>
 
                             <div class="col-span-2">
                                 <ul role="list" class="-my-5 divide-y divide-gray-200">
-                                    <li class="py-4" v-for="miner of recentMiners" :key="miner._id">
+                                    <li v-for="miner of recentMiners" :key="miner._id" class="py-4">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex-shrink-0">
                                                 <img
@@ -161,11 +182,11 @@
 
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-base font-medium text-gray-900 truncate">
-                                                    {{profile ? profile.nickname : "n/a"}} | {{miner.hostname}}
+                                                    {{ profile ? profile.nickname : "n/a" }} | {{ miner.hostname }}
                                                 </p>
 
                                                 <p class="text-sm text-gray-500 truncate italic">
-                                                    {{miner.location}} | {{miner.pid}} | {{miner.count}}
+                                                    {{ miner.location }} | {{ miner.pid }} | {{ miner.count }}
                                                 </p>
                                             </div>
 
@@ -202,7 +223,7 @@ const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 export default {
     props: {
-        miners: Object,
+        miners: Array,
         profile: Object
     },
     data: () => ({
@@ -288,9 +309,13 @@ exit`
             // alert(`edit ${_minerid}`)
         },
 
+        addMiner () {
+            this.$store.dispatch('admin/addMiner', this.profile._id)
+        },
+
         async updateMiner () {
             /* Request issuer. */
-            const didToken = this.$store.state.didToken
+            const didToken = this.$store.state.profile.didToken
 
             const rawResponse = await fetch(ENDPOINT, {
                 method: 'POST',
@@ -319,33 +344,6 @@ exit`
     },
     created: function () {
         this.showEdit = false
-
-        // console.log('PROFILES PANEL (miners):', this.miners)
-        this.payouts = []
-
-        this.payouts.push({
-            id: 'temp-id-1',
-            amount: '8 432 192 NEX',
-            summary: 'paid to 48 miners 10 mins ago',
-            icon: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
-
-        this.payouts.push({
-            id: 'temp-id-2',
-            amount: '2 823 932 NEX',
-            summary: 'paid to 18 miners 32 mins ago',
-            icon: 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
-
-        this.payouts.push({
-            id: 'temp-id-3',
-            amount: '12 932 823 NEX',
-            summary: 'paid to 51 miners 2 hours ago',
-            icon: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            createdAt: 1234567890
-        })
     },
     mounted: function () {
         //

@@ -107,9 +107,9 @@ export const actions = {
         }
     },
 
-    async addMiner () {
+    async addMiner ({ rootState }, _profileid) {
         /* Request issuer. */
-        const didToken = this.$store.state.didToken
+        const didToken = rootState.profile.didToken
 
         const rawResponse = await fetch(ENDPOINT, {
             method: 'POST',
@@ -120,20 +120,17 @@ export const actions = {
             body: JSON.stringify({
                 didToken,
                 action: 'add_miner',
-                profileid: this.profileid,
-                hostname: this.hostname,
-                location: this.location,
-                auth: this.auth,
-                pid: this.pid,
-                count: this.count
+                profileid: _profileid,
+                hostname: null,
+                location: null,
+                auth: null,
+                pid: null,
+                count: null
             })
         })
         // console.log('RAW RESPONSE', rawResponse)
 
         const content = await rawResponse.json()
-        console.log('CONTENT', content) // eslint-disable-line no-console
-
-        /* Set profiles. */
-        // this.init()
+        console.log('CONTENT (add_miner):', content) // eslint-disable-line no-console
     }
 }

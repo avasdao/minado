@@ -38,7 +38,7 @@
                     <!-- Profile dropdown -->
                     <div class="relative flex-shrink-0">
                         <button @click="toggleMenu" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">Open user menu</span>
+                            <span class="sr-only">Open profile menu</span>
                             <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                         </button>
 
@@ -53,16 +53,16 @@
                         >
                             <!-- Active: "bg-gray-100", Not Active: "" -->
                             <button @click="openProfile" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                                Your Profile
+                                My Profile
                             </button>
 
                             <a href="javascript://" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">
-                                Settings
+                                My Dashboard
                             </a>
 
-                            <a href="javascript://" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                            <button @click="signOut" class="flex w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
                                 Sign out
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -315,10 +315,14 @@ export default {
         },
 
         toggleMenu () {
-            if (this.isMenuOpen) {
-                this.closeMenu()
+            if (this.$store.state.profile.authenticated) {
+                if (this.isMenuOpen) {
+                    this.closeMenu()
+                } else {
+                    this.openMenu()
+                }
             } else {
-                this.openMenu()
+                this.openProfile()
             }
         },
 
@@ -327,7 +331,12 @@ export default {
             this.closeMenu()
 
             /* Request profile panel. */
-            this.$store.dispatch('system/openPanel', 'profile')
+            // this.$store.dispatch('system/openPanel', 'profile')
+            this.$router.push('/profile')
+        },
+
+        signOut () {
+            console.log('SIGN OUT')
         },
 
         openHelp () {

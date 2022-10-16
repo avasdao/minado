@@ -53,8 +53,8 @@ export const mutations = {
 }
 
 export const actions = {
-    async login ({ commit }, email) {
-        await magic.auth.loginWithMagicLink(email)
+    async login ({ commit }, _auth) {
+        await magic.auth.loginWithMagicLink(_auth)
 
         const metadata = await magic.user.getMetadata()
         commit('SET_USER_DATA', metadata)

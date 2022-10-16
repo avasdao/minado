@@ -3,22 +3,26 @@
         <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
-                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-                    <p class="mt-2 text-sm text-gray-600">
+                    <img class="h-16 w-auto" :src="require('@/assets/logo.png')" alt="Nexa Rocks! Logo" />
+
+                    <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">
+                        Sign in to your account
+                    </h2>
+
+                    <p class="hidden mt-2 text-sm text-gray-600">
                         Or
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">start your 14-day free trial</a>
+                        <a href="javascript://" class="font-medium text-indigo-600 hover:text-indigo-500">start your 14-day free trial</a>
                     </p>
                 </div>
 
                 <div class="mt-8">
-                    <div>
+                    <div v-if="enableSocials">
                         <div>
                             <p class="text-sm font-medium text-gray-700">Sign in with</p>
 
                             <div class="mt-1 grid grid-cols-3 gap-3">
                                 <div>
-                                    <a href="#" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
+                                    <a href="javascript://" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
                                         <span class="sr-only">Sign in with Facebook</span>
                                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                             <path
@@ -31,7 +35,7 @@
                                 </div>
 
                                 <div>
-                                    <a href="#" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
+                                    <a href="javascript://" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
                                         <span class="sr-only">Sign in with Twitter</span>
                                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                             <path
@@ -42,7 +46,7 @@
                                 </div>
 
                                 <div>
-                                    <a href="#" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
+                                    <a href="javascript://" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50">
                                         <span class="sr-only">Sign in with GitHub</span>
                                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                             <path
@@ -67,9 +71,12 @@
                     </div>
 
                     <div class="mt-6">
-                        <form action="#" method="POST" class="space-y-6">
+                        <form action="javascript://" method="POST" class="space-y-6">
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                                <label for="email" class="block text-lg font-medium text-gray-500">
+                                    Email address
+                                </label>
+
                                 <div class="mt-1">
                                     <input
                                         id="email"
@@ -77,51 +84,30 @@
                                         type="email"
                                         autocomplete="email"
                                         required
-                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-lg placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                                        v-model="email"
                                     />
                                 </div>
                             </div>
 
-                            <div class="space-y-1">
-                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                                <div class="mt-1">
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        autocomplete="current-password"
-                                        required
-                                        class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-                                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
-                                </div>
-
-                                <div class="text-sm">
-                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
-                                </div>
-                            </div>
-
-                            <div>
-                                <button
-                                    @click="signIn()"
-                                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    Sign in
-                                </button>
-                            </div>
+                            <button
+                                @click="signIn()"
+                                class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            >
+                                Request Magic Link
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="relative hidden w-0 flex-1 lg:block">
-            <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" />
+            <img
+                class="absolute inset-0 h-full w-full object-cover rounded-xl border-4 border-yellow-500 shadow-lg"
+                :src="bannerUrl"
+                alt=""
+            />
         </div>
     </main>
 </template>
@@ -129,19 +115,30 @@
 <script>
 export default {
     data: () => ({
-        //
+        bannerUrl: null,
+        email: null,
+        enableSocials: null
     }),
     computed: {
         //
     },
     methods: {
         signIn () {
-            console.log('signin clicked')
-            this.$utils.test()
+            if (!this.email) {
+                return alert('Please enter an email address')
+            }
+
+            /* Request email auth. */
+            this.$store.dispatch('profile/login', { email: this.email })
         }
     },
     created: function () {
-        //
+        /* Initialize social medial logins. */
+        this.enableSocials = false
+
+        // this.bannerUrl = 'https://images.unsplash.com/photo-1542438927-433fdaaec56a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=389&q=80'
+        this.bannerUrl = 'https://images.unsplash.com/photo-1438762398043-ac196c2fa1e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
+        // this.bannerUrl = 'https://images.unsplash.com/photo-1600408987023-15d4ec3a9499?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=398&q=80'
     },
     mounted: function () {
         //

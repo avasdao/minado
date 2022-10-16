@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 /* Set API endpoint. */
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
@@ -54,7 +56,6 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profiles: null,
         profileid: null,
         profile: null,
         magic: null,
@@ -78,27 +79,12 @@ export default {
             }
         ]
     }),
-    // watch: {
-    //     $route: function (_to) {
-    //         console.log('ROUTE CHANGED', _to)
-
-    //         if (!_to || !_to.params || !_to.params.profileid) {
-    //             return
-    //         }
-
-    //         this.profileid = _to.params.profileid
-    //         console.log('ROUTE (profileid):', this.profileid)
-
-    //         this.loadProfile(this.profileid)
-    //     }
-    // },
     computed: {
-        //
+        ...mapGetters({
+            profiles: 'admin/getProfiles'
+        })
     },
     created: function () {
-        /* Initialize profiles. */
-        this.profiles = []
-
         this.init()
 
         const route = this.$route
@@ -110,70 +96,24 @@ export default {
             console.info('Active profile id', this.profileid) // eslint-disable-line no-console
 
             /* Get miners. */
-            this.getMiners()
+            // this.getMiners()
         }
     },
     mounted: function () {
         //
     },
     methods: {
-        async init () {
-            /* Request magic. */
-            // this.magic = this.$store.state.magic
-            // console.log('STORE (magic):', this.magic)
-
-            /* Request issuer. */
-            const didToken = this.$store.state.profile.didToken
-            // console.log('DID TOKEN', didToken)
-
-            /* Validate issuer. */
-            if (didToken) {
-                const rawResponse = await fetch(ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        didToken,
-                        action: 'get_profiles'
-                    })
-                })
-                // console.log('RAW RESPONSE', rawResponse)
-
-                const content = await rawResponse.json()
-                // console.log('CONTENT (get_profiles):', content)
-
-                /* Set profiles. */
-                this.profiles = content.data
-
-                if (this.$route.params && this.$route.params.profileid) {
-                    this.loadProfile(this.$route.params.profileid)
-                }
-            }
+        init () {
+            /* Request profiles. */
+            this.$store.dispatch('admin/loadProfiles')
         },
 
-        loadProfile (_profileid) {
-            this.getMiners()
+        addMiner () {
+            //
+        },
 
-            const profile = this.profiles.find((_profile) => {
-                return _profile._id === _profileid
-            })
-
-            /* Set first name. */
-            this.firstName = profile.firstName
-
-            /* Set last name. */
-            this.lastName = profile.lastName
-
-            /* Set email. */
-            this.email = profile.email
-
-            /* Set address. */
-            this.address = profile.address
-
-            /* Set profile display. */
-            this.profile = profile
+        addProfile () {
+            //
         },
 
         async getMiners () {

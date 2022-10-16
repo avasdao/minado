@@ -15,9 +15,7 @@
                             Profile Administration
                         </h1>
 
-                        <p class="text-yellow-900">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum aliquam maiores animi iusto est laborum quas dolore assumenda voluptate quis! Quaerat corrupti enim autem iusto voluptates dolorum quae voluptate eligendi.
-                        </p>
+                        <AdminProfileView :profile="profile" />
                     </section>
 
                     <!-- Right column -->
@@ -42,8 +40,7 @@
 </template>
 
 <script>
-/* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+import { mapGetters } from 'vuex'
 
 export default {
     middleware: [
@@ -51,10 +48,10 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profiles: null
+        profileid: null
     }),
     head: () => ({
-        title: 'Blank — Nexa Rocks!',
+        title: 'Profile Administration — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -64,49 +61,41 @@ export default {
         ]
     }),
     computed: {
-        //
+        ...mapGetters({
+            profiles: 'admin/getProfiles'
+        }),
+
+        profile () {
+            if (!this.profiles) {
+                return {}
+            }
+
+            const profile = this.profiles.find((_profile) => {
+                return _profile._id === this.profileid
+            })
+
+            return profile
+        }
     },
     created: function () {
-        this.init()
+        // this.init()
+
+        /* Validate handler. */
+        if (this.$route.params && this.$route.params.handler) {
+            /* Retrieve profile id. */
+            this.profileid = this.$route.params.handler
+            console.info('ADMIN (profile id):', this.profileid) // eslint-disable-line no-console
+
+            this.$store.dispatch('admin/loadProfile', this.profileid)
+        }
     },
     mounted: function () {
         //
     },
     methods: {
-        async init () {
-            /* Request magic. */
-            // this.magic = this.$store.state.magic
-            // console.log('STORE (magic):', this.magic)
-
-            /* Request issuer. */
-            const didToken = this.$store.state.profile.didToken
-            // console.log('DID TOKEN', didToken)
-
-            /* Validate issuer. */
-            if (didToken) {
-                const rawResponse = await fetch(ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        didToken,
-                        action: 'get_profiles'
-                    })
-                })
-                // console.log('RAW RESPONSE', rawResponse)
-
-                const content = await rawResponse.json()
-                // console.log('CONTENT (get_profiles):', content)
-
-                /* Set profiles. */
-                this.profiles = content.data
-
-                if (this.$route.params && this.$route.params.profileid) {
-                    this.loadProfile(this.$route.params.profileid)
-                }
-            }
+        init () {
+            /* Request profiles. */
+            this.$store.dispatch('admin/loadProfiles')
         },
 
         addProfile () {

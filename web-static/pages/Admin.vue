@@ -76,20 +76,20 @@ export default {
         pid: null,
         count: null
     }),
-    watch: {
-        $route: function (_to) {
-            console.log('ROUTE CHANGED', _to)
+    // watch: {
+    //     $route: function (_to) {
+    //         console.log('ROUTE CHANGED', _to)
 
-            if (!_to || !_to.params || !_to.params.profileid) {
-                return
-            }
+    //         if (!_to || !_to.params || !_to.params.profileid) {
+    //             return
+    //         }
 
-            this.profileid = _to.params.profileid
-            console.log('ROUTE (profileid):', this.profileid)
+    //         this.profileid = _to.params.profileid
+    //         console.log('ROUTE (profileid):', this.profileid)
 
-            this.loadProfile(this.profileid)
-        }
-    },
+    //         this.loadProfile(this.profileid)
+    //     }
+    // },
     computed: {
         //
     },

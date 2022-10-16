@@ -49,16 +49,16 @@ export default {
             }
 
             /* Validate application handler. */
-            if (params && params.app_handler) {
+            if (params && params.handler) {
                 /* Set id of app handler. */
-                const id = params.app_handler
+                const id = params.handler
 
                 /* Handle Nexa address. */
                 if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
-                    this.addressStub = params.app_handler
+                    this.addressStub = params.handler
 
                     /* Set the application (active) address. */
-                    this.$store.dispatch('rostrum/setAddress', params.app_handler)
+                    this.$store.dispatch('rostrum/setAddress', params.handler)
                 }
 
                 // TODO: Add more handlers.

@@ -8,8 +8,14 @@
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <section class="col-span-2">
-                        Blank
+                    <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+                        <h1 class="text-4xl font-bold text-yellow-900">
+                            Blank
+                        </h1>
+
+                        <p class="text-yellow-900">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum aliquam maiores animi iusto est laborum quas dolore assumenda voluptate quis! Quaerat corrupti enim autem iusto voluptates dolorum quae voluptate eligendi.
+                        </p>
                     </section>
 
                     <!-- Right column -->
@@ -28,6 +34,7 @@
 
 <script>
 export default {
+    middleware: 'magic.auth',
     head: () => ({
         title: 'Blank — Nexa Rocks!',
         meta: [

@@ -18,6 +18,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'indent': ['error', 4]
+    'indent': ['error', 4],
+    'vue/html-indent': ['error', 4]
   }
 }

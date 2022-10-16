@@ -4,7 +4,9 @@
 
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="sr-only">Profile Administration</h1>
+                <h1 class="sr-only">
+                    Profile Administration
+                </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
@@ -21,8 +23,8 @@
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
                         <button
-                            @click="addProfile"
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
+                            @click="addProfile"
                         >
                             Add New Profile
                         </button>
@@ -48,6 +50,9 @@ export default {
         'admin',
         'magic.auth'
     ],
+    data: () => ({
+        profiles: null
+    }),
     head: () => ({
         title: 'Blank — Nexa Rocks!',
         meta: [
@@ -58,10 +63,13 @@ export default {
             }
         ]
     }),
-    data: () => ({
-        profiles: null
-    }),
     computed: {
+        //
+    },
+    created: function () {
+        this.init()
+    },
+    mounted: function () {
         //
     },
     methods: {
@@ -99,13 +107,11 @@ export default {
                     this.loadProfile(this.$route.params.profileid)
                 }
             }
+        },
+
+        addProfile () {
+            console.log('add a profile') // eslint-disable-line no-console
         }
-    },
-    created: function () {
-        this.init()
-    },
-    mounted: function () {
-        //
     }
 }
 </script>

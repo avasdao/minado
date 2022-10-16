@@ -4,7 +4,9 @@
 
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="sr-only">Admin Center</h1>
+                <h1 class="sr-only">
+                    Admin Center
+                </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
@@ -14,18 +16,18 @@
                         </div>
 
                         <AdminMinersPanel
+                            class="mt-3"
                             :miners="miners"
                             :profile="profile"
                             @addMiner="addMiner"
-                            class="mt-3"
                         />
                     </section>
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
                         <button
-                            @click="addProfile"
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
+                            @click="addProfile"
                         >
                             Add New Profile
                         </button>
@@ -51,16 +53,6 @@ export default {
         'admin',
         'magic.auth'
     ],
-    head: () => ({
-        title: 'Admin Center — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
     data: () => ({
         profiles: null,
         profileid: null,
@@ -75,6 +67,16 @@ export default {
         auth: null,
         pid: null,
         count: null
+    }),
+    head: () => ({
+        title: 'Admin Center — Nexa Rocks!',
+        meta: [
+            {
+                hid: 'description', // `vmid` for it as it will not work
+                name: 'description',
+                content: 'TBD..'
+            }
+        ]
     }),
     // watch: {
     //     $route: function (_to) {
@@ -91,6 +93,27 @@ export default {
     //     }
     // },
     computed: {
+        //
+    },
+    created: function () {
+        /* Initialize profiles. */
+        this.profiles = []
+
+        this.init()
+
+        const route = this.$route
+        const params = route.params
+
+        /* Validate parameters. */
+        if (this.params) {
+            this.profileid = params.profileid
+            console.info('Active profile id', this.profileid) // eslint-disable-line no-console
+
+            /* Get miners. */
+            this.getMiners()
+        }
+    },
+    mounted: function () {
         //
     },
     methods: {
@@ -174,87 +197,12 @@ export default {
                 // console.log('RAW RESPONSE', rawResponse)
 
                 const content = await rawResponse.json()
-                console.log('CONTENT (get_miners):', content)
+                console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
 
                 /* Set profiles. */
                 this.miners = content.data
             }
-        },
-
-        async addProfile () {
-            /* Request issuer. */
-            const didToken = this.$store.state.didToken
-
-            const rawResponse = await fetch(ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    didToken,
-                    action: 'add_profile'
-                })
-            })
-            // console.log('RAW RESPONSE', rawResponse)
-
-            const content = await rawResponse.json()
-            console.log('CONTENT', content)
-
-            /* Set profiles. */
-            this.init()
-        },
-
-        async addMiner () {
-            /* Request issuer. */
-            const didToken = this.$store.state.didToken
-
-            const rawResponse = await fetch(ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    didToken,
-                    action: 'add_miner',
-                    profileid: this.profileid,
-                    hostname: this.hostname,
-                    location: this.location,
-                    auth: this.auth,
-                    pid: this.pid,
-                    count: this.count
-                })
-            })
-            // console.log('RAW RESPONSE', rawResponse)
-
-            const content = await rawResponse.json()
-            console.log('CONTENT', content)
-
-            /* Set profiles. */
-            // this.init()
         }
-    },
-    created: function () {
-        /* Initialize profiles. */
-        this.profiles = []
-
-        this.init()
-
-        const route = this.$route
-        const params = route.params
-
-        /* Validate parameters. */
-        if (this.params) {
-            this.profileid = params.profileid
-            console.info('Active profile id', this.profileid)
-
-            /* Get miners. */
-            this.getMiners()
-        }
-    },
-    mounted: function () {
-        //
     }
 }
 </script>

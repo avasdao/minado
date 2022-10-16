@@ -28,14 +28,13 @@
                         <div class="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
                             <div class="px-4 py-6 sm:px-6">
                                 <div class="flex items-start justify-between">
-                                    <h2 class="text-2xl font-medium text-gray-700" id="slide-over-title">
+                                    <h1 class="text-3xl font-medium text-yellow-900">
                                         {{displayTitle}}
-                                    </h2>
+                                    </h1>
 
                                     <div class="ml-3 flex h-7 items-center">
                                         <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-yellow-500">
                                             <span class="sr-only">Close panel</span>
-                                            <!-- Heroicon name: outline/x-mark -->
                                             <svg class="h-6 w-6"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
@@ -52,8 +51,11 @@
                                 </div>
                             </div>
 
-                            <SidePanelAddressView v-if="tab === 'address'" />
-                            <SidePanelProfileView v-if="tab === 'profile'" />
+                            <section class="p-5 mr-2">
+                                <SidePanelAddressView v-if="panelTab === 'address'" />
+                                <SidePanelHelpView v-if="panelTab === 'help'" />
+                                <SidePanelReferralsView v-if="panelTab === 'referrals'" />
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -75,16 +77,21 @@ export default {
     computed: {
         ...mapGetters({
             panelIsOpen: 'system/getPanelState',
-            panelIsVisible: 'system/getPanelVisibility'
+            panelIsVisible: 'system/getPanelVisibility',
+            panelTab: 'system/getPanelTab'
         }),
 
         displayTitle () {
-            if (this.tab === 'address') {
-                return 'Address'
+            if (this.panelTab === 'address') {
+                return 'Address Details'
             }
 
-            if (this.tab === 'profile') {
-                return 'Profile'
+            if (this.panelTab === 'help') {
+                return 'Support Center'
+            }
+
+            if (this.panelTab === 'referrals') {
+                return 'Referrals Manager'
             }
 
             return 'Unknown'
@@ -110,7 +117,7 @@ export default {
         }
     },
     created: function () {
-        this.tab = 'profile'
+        //
     },
     mounted: function () {
         document.onkeydown = (evt) => {

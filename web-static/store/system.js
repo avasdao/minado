@@ -2,6 +2,7 @@ export const state = () => ({
     searchAddress: null,
     notifs: null,
 
+    panelTab: null,
     isPanelOpen: true,
     isPanelVisible: true
 })
@@ -13,6 +14,10 @@ export const getters = {
 
     getPanelState (state) {
         return state.isPanelOpen
+    },
+
+    getPanelTab (state) {
+        return state.panelTab
     },
 
     getPanelVisibility (state) {
@@ -34,41 +39,47 @@ export const mutations = {
         todo.done = !todo.done
     },
 
-    saveSearchAddress (state, _searchAddress) {
+    SET_SEARCH_ADDRESS (state, _searchAddress) {
         state.searchAddress = _searchAddress
     },
 
-    savePanelState (state, _isPanelOpen) {
+    SET_PANEL_STATE (state, _isPanelOpen) {
         state.isPanelOpen = _isPanelOpen
     },
 
-    savePanelVisibility (state, _isPanelVisible) {
+    SET_PANEL_TAB (state, _tab) {
+        state.panelTab = _tab
+    },
+
+    SET_PANEL_VISIBILITY (state, _isPanelVisible) {
         state.isPanelVisible = _isPanelVisible
     }
 }
 
 export const actions = {
-    openPanel ({ state, commit }) {
-        commit('savePanelVisibility', true)
+    openPanel ({ commit }, _tab) {
+        commit('SET_PANEL_TAB', _tab)
+
+        commit('SET_PANEL_VISIBILITY', true)
 
         setTimeout(() => {
-            commit('savePanelState', true)
+            commit('SET_PANEL_STATE', true)
         }, 0)
     },
 
-    closePanel ({ state, commit }) {
-        commit('savePanelState', false)
+    closePanel ({ commit }) {
+        commit('SET_PANEL_STATE', false)
 
         setTimeout(() => {
-            commit('savePanelVisibility', false)
+            commit('SET_PANEL_VISIBILITY', false)
         }, 700)
     },
 
-    setSearchAddress ({ state, commit }, _searchAddress) {
-        commit('saveSearchAddress', _searchAddress)
+    setPanelTab ({ commit }, _tab) {
+        commit('SET_PANEL_TAB', _tab)
     },
 
-    setBalance ({ state, commit }, _balance) {
-        commit('saveBalance', _balance)
+    setSearchAddress ({ commit }, _searchAddress) {
+        commit('SET_SEARCH_ADDRESS', _searchAddress)
     }
 }

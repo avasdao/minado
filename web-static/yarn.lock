@@ -1404,24 +1404,24 @@
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
-"@magic-sdk/commons@^5.0.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-5.1.0.tgz#e84c629d30f7aff10b306221237731bd14fa43f6"
-  integrity sha512-+AeBzzyvg8q6N969or4IyQCOUnDiCtbun/upFwXa0olrayPib3XuYtVc6yoT2u5ff+KbonToJCjS2aNIl4Kjcw==
+"@magic-sdk/commons@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-6.0.0.tgz#c07dcd14529b409ee9ee94973c6c5863b1609e04"
+  integrity sha512-Ps58nyWu2BTlrt3pqh8M+9Aqt48WEZE4LZ3ydI37AOcb2VhWUi9a9Qn2iCVh7qf3/prjPCqUZ/O4LPEnYt2pPQ==
 
-"@magic-sdk/provider@^9.1.0":
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-9.1.0.tgz#13d18963268e13b5420e1da54fd18b71500aa1e5"
-  integrity sha512-sgY80Per2uscF8sfjwF2J4ZmfeDHM9lSBsqCvrE67Yyr49cIAxkQ9wEOEq/VLSEg3qHsBwNEdK+hmZNV7DPL1w==
+"@magic-sdk/provider@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-10.0.0.tgz#698f17003b801cd7d907af25bbd48aee2b8432f1"
+  integrity sha512-h2jvmdzq2pibtd7mHoAfqWwCcTcDFwKle2vhJ0n0yezIsoEAStFr6Y4IOODNFkNfq3QwmX0cHzVLYCJseY228A==
   dependencies:
-    "@magic-sdk/types" "^8.1.0"
+    "@magic-sdk/types" "^9.0.0"
     eventemitter3 "^4.0.4"
     web3-core "1.5.2"
 
-"@magic-sdk/types@^8.1.0":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-8.1.0.tgz#2198a26646d21c52243049341661d5fe312fc353"
-  integrity sha512-Y+9q7UUwfofWzT5ke3F4AbcLsBVnhrpmcJilB4oHTvnYkFbp948x9AtJWLt/kPdrAcXByHE1g62aIOMD2nPGFw==
+"@magic-sdk/types@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-9.0.0.tgz#b978079d529d49c17efc1b8259e6adb27215a995"
+  integrity sha512-uDQU8uqjAqqGeH02reabPuDVS7Hf7Sk+IaBCsZap1Qzk6MkeXrAx82+sWcYE4J8aD6kVukDoveOiAfjyWASEVA==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -7763,14 +7763,14 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-magic-sdk@9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-9.1.1.tgz#e9951f633f424250ba3caf66b470b66441608e36"
-  integrity sha512-wMdi0qTCGWUeyqLO4D/7/D46ij/RlIBROUT2QswJrGYiygFjkNVFpTb6KAqskQFRejJM7+eOfstzbE9NwKI4IQ==
+magic-sdk@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-10.0.0.tgz#3ccaa17f7a726bf266d7c67e0fffc97417bfc44e"
+  integrity sha512-8PIlzHU9hBq8fu32fHwCj6SNdADJEqxxNJOnk2IiPm471qkDPRMK3vUk0pNFGew1h7d0HOlSKYPaDDfFIANXzA==
   dependencies:
-    "@magic-sdk/commons" "^5.0.0"
-    "@magic-sdk/provider" "^9.1.0"
-    "@magic-sdk/types" "^8.1.0"
+    "@magic-sdk/commons" "^6.0.0"
+    "@magic-sdk/provider" "^10.0.0"
+    "@magic-sdk/types" "^9.0.0"
     localforage "^1.7.4"
 
 magic-string@^0.26.2, magic-string@^0.26.4:
@@ -11941,7 +11941,7 @@ vue@2.7.12, vue@^2.6.12:
     "@vue/compiler-sfc" "2.7.12"
     csstype "^3.1.0"
 
-vuex-persistedstate@^4.1.0:
+vuex-persistedstate@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-4.1.0.tgz#127165f85f5b4534fb3170a5d3a8be9811bd2a53"
   integrity sha512-3SkEj4NqwM69ikJdFVw6gObeB0NHyspRYMYkR/EbhR0hbvAKyR5gksVhtAfY1UYuWUOCCA0QNGwv9pOwdj+XUQ==

@@ -49,7 +49,10 @@
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 export default {
-    middleware: 'magic.auth',
+    middleware: [
+        'admin',
+        'magic.auth'
+    ],
     head: () => ({
         title: 'Admin Center — Nexa Rocks!',
         meta: [

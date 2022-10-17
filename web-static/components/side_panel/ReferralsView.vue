@@ -35,7 +35,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
-        //
+        referralid: null
     }),
     computed: {
         ...mapGetters({
@@ -46,7 +46,7 @@ export default {
         //
     },
     created: function () {
-        //
+        this.referralid = 'ab12c3'
     },
     mounted: function () {
         //

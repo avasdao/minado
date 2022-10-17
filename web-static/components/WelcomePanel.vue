@@ -21,9 +21,9 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                        <a href="javascript://" @click="test" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
-                            Start Web Mining
-                        </a>
+                        <button @click="openWebMining" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
+                            Open Web Mining
+                        </button>
                     </div>
                 </div>
             </div>
@@ -142,6 +142,18 @@ export default {
     created: function () {
         // this.decodeAddress()
         this.getMiningInfo()
+
+        console.log('PROCESS', process)
+        // const es = new EventSource('https://stratum.nexa.rocks/v1/shares')
+        // console.log('EVENT SOURCE', es)
+
+        // es.onmessage = function (_evt) {
+        //     console.log('GOT A MESSAGE', _evt)
+        // }
+
+        // es.addEventListener('shares', function (_evt) {
+        //     console.log('GOT A SHARE', _evt)
+        // })
     },
     mounted: function () {
         //
@@ -154,27 +166,30 @@ export default {
             miner.welcome('Anon')
         },
 
-        startWebMining () {
-            /* Set placeholder. */
-            const placeholder = 'nexa:<address-goes-here>'
+        openWebMining () {
+            /* Request mining panel. */
+            this.$store.dispatch('system/openPanel', 'mining')
 
-            /* Request address. */
-            const address = prompt(
-                'Please enter your NEXA address 👇',
-                placeholder
-            )
+            // /* Set placeholder. */
+            // const placeholder = 'nexa:<address-goes-here>'
 
-            /* Handle canceled request. */
-            if (address === null) {
-                return
-            }
+            // /* Request address. */
+            // const address = prompt(
+            //     'Please enter your NEXA address 👇',
+            //     placeholder
+            // )
 
-            /* Handle empty address. */
-            if (address === '' || address === placeholder) {
-                return alert('🚨 A valid NEXA address is required to continue 🚨')
-            }
+            // /* Handle canceled request. */
+            // if (address === null) {
+            //     return
+            // }
 
-            alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
+            // /* Handle empty address. */
+            // if (address === '' || address === placeholder) {
+            //     return alert('🚨 A valid NEXA address is required to continue 🚨')
+            // }
+
+            // alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
         },
 
         // decodeAddress() {

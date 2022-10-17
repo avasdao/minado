@@ -19,10 +19,10 @@ const stratum = async function (req, res) {
     let result
 
     body = req.body
-    console.log('BODY', body)
+    // console.log('BODY', body)
 
     headers = req.headers
-    console.log('HEADERS', headers)
+    // console.log('HEADERS', headers)
 
     /* Validate body. */
     if (!body) {

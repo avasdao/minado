@@ -19,6 +19,16 @@ app.use(express.json())
 /* Initialize URL parser. */
 app.use(express.urlencoded({ extended: true }))
 
+/* Initialize server-sent events. */
+const SSE = require('express-sse')
+const sse = new SSE([])
+app.get('/v1/shares', sse.init)
+
+app.get('/test', (req, res) => {
+    sse.send('hi there!')
+    res.end('did you see it?!')
+})
+
 /* Build welcome message. */
 const welcome = `
 <html>

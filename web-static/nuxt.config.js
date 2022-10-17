@@ -69,6 +69,20 @@ export default {
   css: [
   ],
 
+  // <script type="module">
+  // /* Import WASM miner. */
+  // import init, { welcome } from "./bin/miner.js"
+
+  // /* Initialize miner. */
+  // init()
+  //     .then(() => {
+  //         /* Create a global miner object. */
+  //         window.miner = {
+  //             welcome,
+  //         }
+  //     })
+  // </script>
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/persistedState.client.js' },

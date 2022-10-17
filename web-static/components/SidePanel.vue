@@ -54,6 +54,7 @@
                             <section class="p-5 mr-2">
                                 <SidePanelAddressView v-if="panelTab === 'address'" />
                                 <SidePanelHelpView v-if="panelTab === 'help'" />
+                                <SidePanelMiningView v-if="panelTab === 'mining'" />
                                 <SidePanelReferralsView v-if="panelTab === 'referrals'" />
                             </section>
                         </div>
@@ -83,11 +84,15 @@ export default {
 
         displayTitle () {
             if (this.panelTab === 'address') {
-                return 'Address Details'
+                return 'Address Dashboard'
             }
 
             if (this.panelTab === 'help') {
                 return 'Support Center'
+            }
+
+            if (this.panelTab === 'mining') {
+                return 'Web Mining Center'
             }
 
             if (this.panelTab === 'referrals') {

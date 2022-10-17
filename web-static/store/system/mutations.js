@@ -21,10 +21,12 @@ export default {
     },
 
     SET_PANEL_TAB (state, _tab) {
+        console.log('setting panel tab', _tab)
         state.panelTab = _tab
     },
 
     SET_PANEL_VISIBILITY (state, _isPanelVisible) {
+        console.log('setting panel visibility', _isPanelVisible)
         state.isPanelVisible = _isPanelVisible
     }
 }

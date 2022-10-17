@@ -167,6 +167,7 @@ export default {
         },
 
         openWebMining () {
+            console.log('openWebMining')
             /* Request mining panel. */
             this.$store.dispatch('system/openPanel', 'mining')
 

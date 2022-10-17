@@ -5,7 +5,8 @@ const { v4: uuidv4 } = require('uuid')
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
-const stratumDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/shares`)
+const sharesDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/shares`)
+const stratumPendingDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/stratum_pending`)
 
 /**
  * Stratum Module
@@ -38,6 +39,7 @@ const stratum = async function (req, res) {
     id = uuidv4()
     createdAt = moment().unix()
 
+    /* Build log package. */
     pkg = {
         _id: id,
         src: headers['host'] ? headers['host'] : 'stratum',
@@ -46,23 +48,50 @@ const stratum = async function (req, res) {
         createdAt,
     }
 
-    result = await logsDb.put(pkg)
+    /* Save log to database. */
+    result = await logsDb
+        .put(pkg)
         .catch(err => console.error('LOGS ERROR:', err))
 
-    pkg = {
-        _id: id,
-        ...body,
-        ip: headers['cf-connecting-ip'] ? headers['cf-connecting-ip'] : null,
-        createdAt,
-    }
+    /* Handle shares. */
+    if (body.method === 'share.submit' && body.params) {
+        /* Set address. */
+        const address = body.params.address
 
-    result = await stratumDb.put(pkg)
-        .catch(err => console.error('STRATUM ERROR:', err))
+        /* Set source. */
+        const src = body.params.src
+
+        /* Set target. */
+        const target = body.params.target
+
+        /* Set proof-of-work. */
+        const pow = body.params.pow
+
+        /* Set hash. */
+        const hash = body.params.hash
+
+        pkg = {
+            _id: id, // NOTE: We re-use the log id.
+            // ...body,
+            address,
+            src,
+            target,
+            pow,
+            hash,
+            ip: headers['cf-connecting-ip'] ? headers['cf-connecting-ip'] : null,
+            createdAt,
+        }
+
+        /* Save share database. */
+        result = await sharesDb
+            .put(pkg)
+            .catch(err => console.error('SHARES ERROR:', err))
+    }
 
     /* Set response id. */
     id = body.id
-    
-    /* Set response error. */
+
+    /* Set (Stratum) response error. */
     error = [
         0,
         '',

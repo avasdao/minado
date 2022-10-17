@@ -3,6 +3,7 @@ export default () => ({
     notifs: null,
 
     panelTab: null,
-    isPanelOpen: true,
+    panelMetadata: null,
+    isPanelOpen: false,
     isPanelVisible: true
 })

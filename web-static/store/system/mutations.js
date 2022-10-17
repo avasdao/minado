@@ -16,17 +16,21 @@ export default {
         state.searchAddress = _searchAddress
     },
 
+    SET_PANEL_METADATA (state, _metadata) {
+        state.panelMetadata = _metadata
+    },
+
     SET_PANEL_STATE (state, _isPanelOpen) {
+        console.log('_isPanelOpen', _isPanelOpen)
         state.isPanelOpen = _isPanelOpen
     },
 
     SET_PANEL_TAB (state, _tab) {
-        console.log('setting panel tab', _tab)
         state.panelTab = _tab
     },
 
     SET_PANEL_VISIBILITY (state, _isPanelVisible) {
-        console.log('setting panel visibility', _isPanelVisible)
+        console.log('_isPanelVisible', _isPanelVisible)
         state.isPanelVisible = _isPanelVisible
     }
 }

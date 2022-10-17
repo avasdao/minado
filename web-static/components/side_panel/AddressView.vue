@@ -16,6 +16,10 @@
                     />
                 </div>
 
+                <button @click="loadAddress" class="text-xl text-blue-500 font-medium hover:underline">
+                    {{address}}
+                </button>
+
                 <highchart
                     :options="chartOptions"
                     :modules="['exporting']"
@@ -182,7 +186,7 @@ export default {
     }),
     computed: {
         ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
+            address: 'system/getPanelMetadata'
         }),
 
         chartOptions () {
@@ -261,14 +265,18 @@ export default {
             }
         }
     },
-    methods: {
-        //
-    },
     created: function () {
         //
     },
     mounted: function () {
         //
+    },
+    methods: {
+        loadAddress () {
+            this.$store.dispatch('system/closePanel')
+
+            this.$router.push(this.address)
+        }
     }
 }
 </script>

@@ -1,6 +1,11 @@
 export default {
     openPanel ({ commit }, _tab) {
-        commit('SET_PANEL_TAB', _tab)
+        if (typeof _tab === 'string' || _tab instanceof String) {
+            commit('SET_PANEL_TAB', _tab)
+        } else {
+            commit('SET_PANEL_TAB', _tab.tab)
+            commit('SET_PANEL_METADATA', _tab.metadata)
+        }
 
         commit('SET_PANEL_VISIBILITY', true)
 
@@ -18,7 +23,12 @@ export default {
     },
 
     setPanelTab ({ commit }, _tab) {
-        commit('SET_PANEL_TAB', _tab)
+        if (typeof _tab === 'string' || _tab instanceof String) {
+            commit('SET_PANEL_TAB', _tab)
+        } else {
+            commit('SET_PANEL_TAB', _tab.tab)
+            commit('SET_PANEL_METADATA', _tab.metadata)
+        }
     },
 
     setSearchAddress ({ commit }, _searchAddress) {

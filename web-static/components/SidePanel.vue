@@ -70,10 +70,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
-        tab: null,
-
-        isPanelOpen: null,
-        isPanelVisible: null
+        //
     }),
     computed: {
         ...mapGetters({

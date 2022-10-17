@@ -307,7 +307,10 @@ export default {
             console.log('ADDRESS IS VALID', isValid)
 
             /* Request help panel. */
-            this.$store.dispatch('system/openPanel', address)
+            this.$store.dispatch('system/openPanel', {
+                tab: 'address',
+                metadata: address
+            })
         },
 
         openMenu () {

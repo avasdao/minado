@@ -3,6 +3,10 @@ export default {
         return state.searchAddress
     },
 
+    getPanelMetadata (state) {
+        return state.panelMetadata
+    },
+
     getPanelState (state) {
         return state.isPanelOpen
     },

@@ -303,8 +303,8 @@ export default {
             }
             console.log('ADDRESS (norm):', address)
 
-            const isValid = await this.$utils.validateAddress(address)
-            console.log('ADDRESS IS VALID', isValid)
+            const { isvalid } = await this.$utils.validateAddress(address)
+            console.log('ADDRESS IS VALID', isvalid)
 
             /* Request help panel. */
             this.$store.dispatch('system/openPanel', {

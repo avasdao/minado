@@ -108,7 +108,7 @@ export default {
                         }
                         : '#ffffff',
                     className: 'my-chart',
-                    type: this.chartType.toLowerCase()
+                    type: this.chartType ? this.chartType.toLowerCase() : null
                 },
                 plotOptions: {
                     series: {

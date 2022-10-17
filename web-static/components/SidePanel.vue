@@ -119,7 +119,7 @@ export default {
         }
     },
     created: function () {
-        //
+        console.log('SIDE PANEL (panelIsVisible):', this.panelIsVisible)
     },
     mounted: function () {
         document.onkeydown = (evt) => {

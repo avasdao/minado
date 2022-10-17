@@ -21,7 +21,6 @@ export default {
     },
 
     SET_PANEL_STATE (state, _isPanelOpen) {
-        console.log('_isPanelOpen', _isPanelOpen)
         state.isPanelOpen = _isPanelOpen
     },
 
@@ -30,7 +29,6 @@ export default {
     },
 
     SET_PANEL_VISIBILITY (state, _isPanelVisible) {
-        console.log('_isPanelVisible', _isPanelVisible)
         state.isPanelVisible = _isPanelVisible
     }
 }

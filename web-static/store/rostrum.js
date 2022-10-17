@@ -113,6 +113,10 @@ export const mutations = {
 
 export const actions = {
     async init ({ state, commit }) {
+        if (!process.browser) {
+            return
+        }
+
         /* Request WebSocket connection to Rostrum. */
         await commit('connect')
 

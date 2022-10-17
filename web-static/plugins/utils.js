@@ -59,7 +59,7 @@ const validateAddress = async (_address) => {
         return false
     }
 
-    return content.isvalid
+    return content
 }
 
 export default (context, inject) => {

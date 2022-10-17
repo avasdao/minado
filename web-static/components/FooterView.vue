@@ -38,7 +38,9 @@ export default {
         //
     },
     created: function () {
-        //
+        // NOTE: This is a fail-safe to prevent the entire UI from
+        //       being blocked by the side panel's background overlay.
+        this.$store.dispatch('system/closePanel')
     },
     mounted: function () {
         //

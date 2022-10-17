@@ -27,6 +27,8 @@
                     style="width:100%;"
                 />
 
+                <pre class="bg-pink-200 border-4 border-pink-400 rounded-lg">{{JSON.stringify(metadata, null, 2)}}</pre>
+
                 <div class="mt-4 flex items-start justify-between">
                     <div>
                         <h2 class="text-lg font-medium text-gray-900"><span class="sr-only">Details for </span>IMG_4985.HEIC</h2>
@@ -149,8 +151,13 @@
 <script>
 import { mapGetters } from 'vuex'
 
+/* Import modules. */
+import moment from 'moment'
+
 export default {
     data: () => ({
+        metadata: null,
+
         caption: 'Chart caption here',
         title: 'Basic Chart',
         subtitle: 'More details here',
@@ -215,7 +222,7 @@ export default {
                         }
                         : '#ffffff',
                     className: 'my-chart',
-                    type: this.chartType.toLowerCase()
+                    type: this.chartType ? this.chartType.toLowerCase() : null
                 },
                 plotOptions: {
                     series: {
@@ -266,7 +273,9 @@ export default {
         }
     },
     created: function () {
-        //
+        this.init()
+
+        this.$store.dispatch('rostrum/init')
     },
     mounted: function () {
         //
@@ -276,6 +285,67 @@ export default {
             this.$store.dispatch('system/closePanel')
 
             this.$router.push(this.address)
+        },
+
+        async init () {
+            let request
+
+            this.txDetails = {}
+            this.parsedHistory = []
+
+            this.metadata = await this.$utils.validateAddress(this.address)
+            console.log('ADDRESS METADATA', this.metadata)
+
+            const scriptPubkey = this.metadata.hex
+            console.log('scriptPubkey', scriptPubkey)
+
+            const scriptHash = this.$utils.getScriptHash(scriptPubkey)
+            console.log('SCRIPT HASH', scriptHash)
+
+            request = {
+                method: 'blockchain.scripthash.get_balance',
+                params: [scriptHash]
+            }
+            const balance = await this.$store.dispatch('rostrum/makeRequest', request)
+            console.log('REQUESTED BALANCE', balance)
+
+            this.balance = balance
+
+            request = {
+                method: 'blockchain.scripthash.get_history',
+                params: [scriptHash]
+            }
+            const history = await this.$store.dispatch('rostrum/makeRequest', request)
+            console.log('REQUESTED TX HISTORY', history)
+
+            const final = []
+
+            history.forEach(async (_tx) => {
+                const txid = _tx.tx_hash
+                const details = await this.getTxDetails(txid)
+                final.push({
+                    txid,
+                    ..._tx,
+                    ...details
+                })
+            })
+
+            this.txHistory = final
+        },
+
+        async getTxDetails (_txHash) {
+            const request = {
+                method: 'blockchain.transaction.get',
+                params: [_txHash, true]
+            }
+            const txDetails = await this.$store.dispatch('rostrum/makeRequest', request)
+            // console.log('TX DETAILS', this.txDetails)
+
+            return txDetails
+        },
+
+        timeAgo (_timestamp) {
+            return `${moment.unix(_timestamp).fromNow()} -- ${moment.unix(_timestamp).format('lll')}`
         }
     }
 }

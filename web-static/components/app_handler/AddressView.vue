@@ -1,7 +1,7 @@
 <template>
     <main class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
         <h1 class="text-4xl font-bold text-yellow-900">
-            Address Dashboard
+            Address Center
         </h1>
 
         <p class="text-yellow-900">
@@ -128,6 +128,7 @@ export default {
 
             return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
         },
+
         displayTxHistory () {
             if (!this.txHistory) {
                 return []

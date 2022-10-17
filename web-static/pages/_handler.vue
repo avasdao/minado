@@ -68,12 +68,14 @@ export default {
         }
     },
     created: function () {
+        /* Initialize handler. */
         this.init()
+
+        /* Initialize Rostrum. */
+        this.$store.dispatch('rostrum/init')
     },
     mounted: function () {
-        // NOTE: We have to wait for the page to be mounted (loaded)
-        //       before attempting to create a WebSocket connection.
-        this.$store.dispatch('rostrum/init')
+        //
     }
 }
 </script>

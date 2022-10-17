@@ -5,8 +5,7 @@ const { v4: uuidv4 } = require('uuid')
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
-const sharesDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/shares`)
-const stratumPendingDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/stratum_pending`)
+const sharesDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/stratum_shares`)
 
 /**
  * Stratum Module

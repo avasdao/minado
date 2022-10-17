@@ -37,102 +37,102 @@ const admin = async function (req, res) {
     try {
         body = req.body
         console.log('BODY', body)
-    
+
         /* Validate body. */
         if (body) {
             id = uuidv4()
             createdAt = moment().unix()
-    
+
             pkg = {
                 _id: id,
                 src: 'magic',
                 ...body,
                 createdAt,
             }
-    
+
             results = await logsDb
                 .put(pkg)
                 .catch(err => console.error('LOGS ERROR:', err))
         }
-    
+
         /* Set DID token. */
         didToken = body.didToken
         // console.log('DID Token', didToken)
-    
+
         if (!didToken) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing DID token.'
             })
         }
-    
+
         /* Set issuer. */
         issuer = magicAdmin.token.getIssuer(didToken)
         // console.log('ISSUER', issuer)
-    
+
         /* Set (public) account/address. */
         account = magicAdmin.token.getPublicAddress(didToken)
         // console.log('ACCOUNT', account)
-    
+
         if (!account) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing user (account) address.'
             })
         }
-    
+
         /* Set issuer metadata. */
         metadata = await magicAdmin.users.getMetadataByIssuer(issuer)
         // console.log('MAGIC LOGIN (data):', JSON.stringify(metadata, null, 4))
-    
+
         /* Set email address. */
         email = metadata.email
-    
+
         if (!email) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing user email.'
             })
         }
-    
+
         /* Validate (authorized) administrator. */
         if (email !== 'info@modenero.com' && email !== 's.prince@modenero.com') {
             /* Set status. */
             res.status(401)
-    
+
             /* Return error. */
             return res.json({
                 error: 'You are NOT authorized to be here!'
             })
         }
-    
+
         /* Set action. */
         action = body.action
-    
+
         /* Validate action. */
         if (!action) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing an action.'
             })
         }
-    
+
         if (action === 'get_miners') {
             /* Set profile id. */
             profileid = body.profileid
-    
+
             /* Request existing user. */
             results = await minersDb
                 .query('api/byProfile', {
@@ -143,7 +143,7 @@ const admin = async function (req, res) {
                     console.error('DATA ERROR:', err)
                 })
             console.log('PROFILES RESULT (byProfile)', util.inspect(results, false, null, true))
-    
+
             /* Validate data. */
             if (results && results.rows.length !== 0) {
                 /* Map data (doc) results. */
@@ -151,9 +151,9 @@ const admin = async function (req, res) {
                     return _miner.doc
                 })
             }
-    
+
         }
-    
+
         if (action === 'get_profiles') {
             /* Request existing user. */
             results = await profilesDb
@@ -164,7 +164,7 @@ const admin = async function (req, res) {
                     console.error('DATA ERROR:', err)
                 })
             console.log('PROFILES RESULT (byNickname)', util.inspect(results, false, null, true))
-    
+
             /* Validate data. */
             if (results && results.rows.length !== 0) {
                 /* Map data (doc) results. */
@@ -172,20 +172,21 @@ const admin = async function (req, res) {
                     return _profile.doc
                 })
             }
-    
+
         }
-    
+
         if (action === 'add_profile') {
-            createdAt = moment().unix()
-    
+            createdAt = updatedAt = moment().unix()
+
             // TODO: Validate `body.email`.
-    
+
             pkg = {
                 _id: uuidv4(),
                 nickname: 'anon',
                 createdAt,
+                updatedAt,
             }
-    
+
             /* Add new profile. */
             results = await profilesDb
                 .put(pkg)
@@ -194,10 +195,10 @@ const admin = async function (req, res) {
                 })
             console.log('PROFILES RESULT (add_profile)', util.inspect(results, false, null, true))
         }
-    
+
         if (action === 'add_miner') {
-            createdAt = moment().unix()
-    
+            createdAt = updatedAt = moment().unix()
+
             pkg = {
                 _id: uuidv4(),
                 profileid: body.profileid,
@@ -207,8 +208,9 @@ const admin = async function (req, res) {
                 pid: body.pid,
                 count: body.count,
                 createdAt,
+                updatedAt,
             }
-    
+
             /* Add new profile. */
             results = await minersDb
                 .put(pkg)
@@ -217,10 +219,10 @@ const admin = async function (req, res) {
                 })
             console.log('PROFILES RESULT (add_miner)', util.inspect(results, false, null, true))
         }
-    
+
         if (action === 'update_profile') {
             updatedAt = moment().unix()
-    
+
             pkg = {
                 ...body.profile,
                 updatedAt,
@@ -234,10 +236,10 @@ const admin = async function (req, res) {
                 })
             console.log('PROFILES RESULT (byId)', util.inspect(results, false, null, true))
         }
-    
+
         if (action === 'update_miner') {
             updatedAt = moment().unix()
-    
+
             pkg = {
                 ...body.miner,
                 updatedAt,
@@ -251,7 +253,7 @@ const admin = async function (req, res) {
                 })
             console.log('MINERS RESULT (byId)', util.inspect(results, false, null, true))
         }
-    
+
         /* Build (result) package. */
         pkg = {
             data,
@@ -259,7 +261,7 @@ const admin = async function (req, res) {
             success: true,
             metadata,
         }
-    
+
         /* Return params. */
         res.json(pkg)
     } catch (err) {

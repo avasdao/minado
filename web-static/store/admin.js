@@ -49,9 +49,13 @@ export const actions = {
 
         /* Set profiles. */
         this.init()
+
+        return content
     },
 
     async loadProfiles ({ rootState, commit }) {
+        let content
+
         /* Request issuer. */
         const didToken = rootState.profile.didToken
 
@@ -71,15 +75,19 @@ export const actions = {
             })
             // console.log('RAW RESPONSE', rawResponse)
 
-            const content = await rawResponse.json()
+            content = await rawResponse.json()
             // console.log('CONTENT (get_profiles):', content)
 
             /* Set profiles. */
             commit('SET_PROFILES', content.data)
         }
+
+        return content
     },
 
     async loadMiners ({ rootState, commit }, _profileid) {
+        let content
+
         /* Request issuer. */
         const didToken = rootState.profile.didToken
 
@@ -99,12 +107,14 @@ export const actions = {
             })
             // console.log('RAW RESPONSE', rawResponse)
 
-            const content = await rawResponse.json()
+            content = await rawResponse.json()
             console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
 
             /* Set miners. */
             commit('SET_MINERS', content.data)
         }
+
+        return content
     },
 
     async addMiner ({ rootState }, _profileid) {
@@ -131,6 +141,8 @@ export const actions = {
         // console.log('RAW RESPONSE', rawResponse)
 
         const content = await rawResponse.json()
-        console.log('CONTENT (add_miner):', content) // eslint-disable-line no-console
+        // console.log('CONTENT (add_miner):', content) // eslint-disable-line no-console
+
+        return content
     }
 }

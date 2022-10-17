@@ -168,7 +168,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-span-2">
+                            <div :class="[ minerid ? 'col-span-2' : 'col-span-5']">
                                 <ul role="list" class="-my-5 divide-y divide-gray-200">
                                     <li v-for="miner of recentMiners" :key="miner._id" class="py-4">
                                         <div class="flex items-center space-x-4">
@@ -238,21 +238,14 @@ export default {
     }),
     watch: {
         minerid: function (_minerid) {
-            const miner = this.miners.find((_miner) => {
-                return _miner._id === _minerid
-            })
-            // console.log('UPDATE (miner):', miner)
-
-            this.miner = miner
-            this.hostname = miner.hostname
-            this.location = miner.location
-            this.auth = miner.auth
-            this.pid = miner.pid
-            this.count = miner.count
-            this.updatedAt = miner.updatedAt
+            this.loadMiner(_minerid)
         }
     },
     computed: {
+        profileid () {
+            return this.profile._id
+        },
+
         cmdProv () {
             return `./provision.sh ${this.location} ${this.auth}`
         },
@@ -297,7 +290,8 @@ exit`
             })
 
             /* Return most recent 10. */
-            return recent.slice(0, 10)
+            // return recent.slice(0, 10)
+            return recent.slice(0, 20)
         }
     },
     methods: {
@@ -309,8 +303,15 @@ exit`
             // alert(`edit ${_minerid}`)
         },
 
-        addMiner () {
-            this.$store.dispatch('admin/addMiner', this.profile._id)
+        async addMiner () {
+            /* Request new miner. */
+            await this.$store.dispatch('admin/addMiner', this.profileid)
+
+            /* Re-load miners. */
+            await this.$store.dispatch('admin/loadMiners', this.profileid)
+
+            /* Re-load miner data. */
+            // this.loadMiner(this.miner._id)
         },
 
         async updateMiner () {
@@ -340,6 +341,30 @@ exit`
 
             const content = await rawResponse.json()
             console.log('CONTENT', content)
+
+            /* Re-load miners. */
+            await this.$store.dispatch('admin/loadMiners', this.profileid)
+
+            /* Re-load miner data. */
+            this.loadMiner(this.miner._id)
+        },
+
+        loadMiner (_minerid) {
+            const miner = this.miners.find((_miner) => {
+                return _miner._id === _minerid
+            })
+            // console.log('UPDATE (miner):', miner)
+
+            /* Validate miner. */
+            if (miner) {
+                this.miner = miner
+                this.hostname = miner.hostname
+                this.location = miner.location
+                this.auth = miner.auth
+                this.pid = miner.pid
+                this.count = miner.count
+                this.updatedAt = miner.updatedAt
+            }
         }
     },
     created: function () {

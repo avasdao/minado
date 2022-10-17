@@ -110,8 +110,8 @@
                                         placeholder="Type or paste your nexa: address"
                                         type="search"
                                         v-model="search"
-                                        @keyup="showAddress"
-                                        @paste="showAddress"
+                                        @keyup="checkAddress"
+                                        @paste="checkAddress"
                                     />
                                 </div>
                             </div>
@@ -280,24 +280,34 @@ export default {
         //
     },
     methods: {
-        showAddress () {
+        async checkAddress () {
             let address
 
+            /* Validate search. */
             if (!this.search) {
                 return
             }
 
             /* Set address (to lowercase). */
-            address = this.search.toLowerCase()
-            console.log('ADDRESS', address)
+            address = this.search ? this.search.toLowerCase() : null
+            // console.log('ADDRESS', address)
+
+            /* Validate address length. */
+            if (address.length < 40) {
+                return
+            }
 
             /* Normalize address. */
-            if (address.slice(0, 4) === 'nexa') {
-                address = address.slice(4)
+            if (address.slice(0, 5) !== 'nexa:') {
+                address = 'nexa:' + address
             }
             console.log('ADDRESS (norm):', address)
 
-            this.$router.push(address)
+            const isValid = await this.$utils.validateAddress(address)
+            console.log('ADDRESS IS VALID', isValid)
+
+            /* Request help panel. */
+            this.$store.dispatch('system/openPanel', address)
         },
 
         openMenu () {

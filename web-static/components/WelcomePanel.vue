@@ -143,7 +143,6 @@ export default {
         // this.decodeAddress()
         this.getMiningInfo()
 
-        console.log('PROCESS', process)
         // const es = new EventSource('https://stratum.nexa.rocks/v1/shares')
         // console.log('EVENT SOURCE', es)
 

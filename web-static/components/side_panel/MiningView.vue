@@ -41,6 +41,14 @@ export default {
     },
     created: function () {
         // console.log('PROFILE PANEL (magic)', this.$magic)
+
+        if (process.browser) {
+            console.log('PROCESS (browser):', process)
+        }
+
+        if (process.server) {
+            console.log('PROCESS (server):', process)
+        }
     },
     mounted: function () {
         //

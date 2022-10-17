@@ -29,55 +29,21 @@
 </template>
 
 <script>
-/* Import modules. */
-import { Magic } from 'magic-sdk'
-
-/* Import components. */
-// import FooterView from '@/components/FooterView'
-// import HeaderView from '@/components/HeaderView'
-
 export default {
     components: {
-        // FooterView,
-        // HeaderView,
+        //
     },
     data: () => ({
-        email: null,
-        magic: null
+        //
     }),
     computed: {
         //
     },
     methods: {
-        async initMagic () {
-            /* Initialize new instance. */
-            this.magic = new Magic('pk_live_CAF7378F498C1F81')
-
-            /* Set magic. */
-            // this.$store.dispatch('setMagic', this.magic)
-
-            /* Validate login auth. */
-            const isLoggedIn = await this.magic.user.isLoggedIn()
-            console.info('Magic Link (isLoggedIn):', isLoggedIn)
-
-            /* Validate login. */
-            if (isLoggedIn) {
-                /* Get user metadata including email */
-                const token = await this.magic.user.getIdToken()
-                // console.log('USER DID TOKEN', token)
-
-                /* Set DID token. */
-                this.$store.dispatch('setDidToken', token)
-
-                /* Get user metadata including email */
-                const userMetadata = await this.magic.user.getMetadata()
-                console.info('Magic Link (user metadata):', userMetadata)
-            }
-        }
+        //
     },
     created: function () {
-        /* Initialize Magic Link. */
-        // this.initMagic()
+        //
     },
     mounted: async function () {
         //

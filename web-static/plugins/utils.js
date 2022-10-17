@@ -25,8 +25,46 @@ const getScriptHash = (_scriptPubkey) => {
     return addrScripthash
 }
 
+/**
+ * Validate Address
+ *
+ * Makes a remote call to the the Core endpoint of the API.
+ */
+const validateAddress = async (_address) => {
+    if (!_address || _address === '') {
+        return false
+    }
+
+    const endpoint = 'https://api.nexa.rocks/v1/core/'
+
+    const rawResponse = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            action: 'validateaddress',
+            params: [_address]
+        })
+    })
+    // console.log('RAW RESPONSE', rawResponse)
+
+    const content = await rawResponse.json()
+    // console.log('CONTENT', content)
+
+    if (!content) {
+        console.error('API ERROR!')
+
+        return false
+    }
+
+    return content.isvalid
+}
+
 export default (context, inject) => {
     inject('utils', {
-        getScriptHash
+        getScriptHash,
+        validateAddress
     })
 }

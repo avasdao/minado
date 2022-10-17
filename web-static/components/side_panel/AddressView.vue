@@ -16,9 +16,49 @@
                     />
                 </div>
 
-                <button @click="loadAddress" class="text-xl text-blue-500 font-medium hover:underline">
-                    {{address}}
-                </button>
+                <section class="my-3 flex flex-col items-center">
+                    <button @click="loadAddress" class="text-xl text-blue-500 font-medium hover:underline">
+                        {{address}}
+                    </button>
+
+                    <span class="text-sm text-gray-400 italic">
+                        Click the link above to open the <strong>Address Center</strong>
+                    </span>
+                </section>
+
+                <div class="my-3">
+                    <h3 class="text-base font-medium text-indigo-300 uppercase">
+                        Balance
+                    </h3>
+
+                    <h2 class="text-2xl font-medium text-indigo-800">
+                        {{displayBalance}}
+                    </h2>
+                </div>
+
+                <section class="space-y-3">
+                    <div class="px-3 py-1 w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                        <h3 class="text-sm font-medium text-yellow-600 uppercase">
+                            Address Type
+                        </h3>
+
+                        <h2 class="text-base font-medium text-yellow-800">
+                            {{displayType}}
+                        </h2>
+                    </div>
+
+                    <div class="px-3 py-1 w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                        <h3 class="text-sm font-medium text-yellow-600 uppercase">
+                            Script Pubkey
+                        </h3>
+
+                        <h2 class="text-base font-medium text-yellow-800">
+                            {{displayScriptPubkey}}
+                        </h2>
+                    </div>
+                </section>
+
+                <hr class="my-5" />
 
                 <highchart
                     :options="chartOptions"
@@ -26,8 +66,6 @@
                     :update="watchers"
                     style="width:100%;"
                 />
-
-                <pre class="bg-pink-200 border-4 border-pink-400 rounded-lg">{{JSON.stringify(metadata, null, 2)}}</pre>
 
                 <div class="mt-4 flex items-start justify-between">
                     <div>
@@ -153,9 +191,11 @@ import { mapGetters } from 'vuex'
 
 /* Import modules. */
 import moment from 'moment'
+import numeral from 'numeral'
 
 export default {
     data: () => ({
+        balance: null,
         metadata: null,
 
         caption: 'Chart caption here',
@@ -195,6 +235,46 @@ export default {
         ...mapGetters({
             address: 'system/getPanelMetadata'
         }),
+
+        displayBalance () {
+            if (!this.balance || !this.balance.confirmed) {
+                return '0.00 NEX'
+            }
+
+            return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
+        },
+
+        displayType () {
+            if (!this.metadata || !this.metadata.type) {
+                return 'n/a'
+            }
+
+            return this.metadata.type
+        },
+
+        displayScriptPubkey () {
+            if (!this.metadata || !this.metadata.scriptPubKey) {
+                return 'n/a'
+            }
+
+            return this.metadata.scriptPubKey
+        },
+
+        displayTxHistory () {
+            if (!this.txHistory) {
+                return []
+            }
+
+            const history = [...this.txHistory]
+
+            const sorted = history.sort((a, b) => {
+                return b.height - a.height
+            })
+
+            const sliced = sorted.slice(0, 20)
+
+            return sliced
+        },
 
         chartOptions () {
             const ctx = this

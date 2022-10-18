@@ -39,7 +39,8 @@ const stratum = async function (req, res) {
     }
 
     id = uuidv4()
-    createdAt = moment().unix()
+    // createdAt = moment().unix() // seconds
+    createdAt = moment().valueOf() // milliseconds
 
     /* Build log package. */
     pkg = {

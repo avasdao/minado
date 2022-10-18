@@ -3,7 +3,7 @@
         <HeaderView />
 
         <section class="-mt-24 pb-8">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+            <div class="max-w-3xl mx-auto lg:max-w-7xl">
                 <h1 class="sr-only">Solo Mining</h1>
 
                 <!-- Main 3 column grid -->

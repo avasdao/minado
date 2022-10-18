@@ -1,8 +1,8 @@
 <template>
     <main>
-        <div class="flex flex-row justify-between max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-            <div class="border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-left">
-                <span class="block sm:inline">
+        <div class="flex flex-col sm:flex-row justify-between border-t border-gray-200 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
+            <div class="flex-col sm:flex-row py-8 text-sm text-gray-500 text-center sm:text-left">
+                <span class="block sm:inline mr-1">
                     &copy; {{new Date().getFullYear()}} Nexa Rocks!
                 </span>
 
@@ -13,7 +13,7 @@
 
             <div class="border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-right">
                 <router-link to="/guarantee">
-                    Money-back Guarantee!
+                    100% Money-back Guarantee!
                 </router-link>
             </div>
         </div>

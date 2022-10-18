@@ -39,7 +39,7 @@
                     <div class="relative flex-shrink-0">
                         <button @click="toggleMenu" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open profile menu</span>
-                            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                            <img class="h-8 w-8 rounded-full" :src="displayAvatar" alt="profile / avatar" />
                         </button>
 
                         <div
@@ -270,6 +270,9 @@
 </template>
 
 <script>
+/* Import modules. */
+import gravatar from 'gravatar'
+
 export default {
     data: () => ({
         search: null,
@@ -277,7 +280,13 @@ export default {
         isMenuVisible: null
     }),
     computed: {
-        //
+        displayAvatar () {
+            if (this.$store.state.profile.authenticated) {
+                return gravatar.url(this.$store.state.profile.user.email)
+            } else {
+                return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
+            }
+        }
     },
     methods: {
         async checkAddress () {

@@ -9,8 +9,8 @@
                         <router-link to="/profile" class="flex-shrink-0">
                             <img
                                 class="mx-auto h-20 w-20 rounded-full"
-                                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt=""
+                                :src="displayAvatar"
+                                alt="profile / avatar"
                             />
                         </router-link>
 
@@ -112,6 +112,7 @@
 /* global miner */
 
 /* Import modules. */
+import gravatar from 'gravatar'
 // import * as miner from 'wasm-miner'
 import numeral from 'numeral'
 
@@ -137,6 +138,14 @@ export default {
             }
 
             return numeral(this.networkhashps / 1000000.0).format('0,0.00') + ' MH/s'
+        },
+
+        displayAvatar () {
+            if (this.$store.state.profile.authenticated) {
+                return gravatar.url(this.$store.state.profile.user.email)
+            } else {
+                return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
+            }
         }
     },
     created: function () {

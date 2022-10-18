@@ -124,6 +124,7 @@
                 <div class="absolute right-0 flex-shrink-0 lg:hidden">
                     <!-- Mobile menu button -->
                     <button
+                        @click="openMenu"
                         type="button"
                         class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-cyan-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
                         aria-expanded="false"
@@ -165,7 +166,7 @@
         </div>
 
         <!-- Mobile menu, show/hide based on mobile menu state. -->
-        <div class="hidden lg:hidden">
+        <div v-if="isMenuVisible" class="lg:hidden">
             <!--
         Mobile menu overlay, show/hide based on mobile menu state.
 
@@ -176,7 +177,11 @@
           From: "opacity-100"
           To: "opacity-0"
       -->
-            <div class="z-20 fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
+            <div
+                class="z-20 fixed inset-0 bg-black bg-opacity-25 duration-150 ease-out"
+                :class="[ isMenuOpen ? 'opacity-100' : 'opacity-0' ]"
+                aria-hidden="true"
+            ></div>
 
             <!--
         Mobile menu, show/hide based on mobile menu state.
@@ -188,17 +193,22 @@
           From: "opacity-100 scale-100"
           To: "opacity-0 scale-95"
       -->
-            <div class="z-30 absolute top-0 inset-x-0 max-w-3xl mx-auto w-full p-2 transition transform origin-top">
+            <div
+                class="z-30 absolute top-0 inset-x-0 max-w-3xl mx-auto w-full p-2 transition transform origin-top duration-150 ease-out"
+                :class="[ isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95' ]"
+            >
                 <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y divide-gray-200">
                     <div class="pt-3 pb-2">
                         <div class="flex items-center justify-between px-4">
                             <div>
-                                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark.svg?color=cyan&shade=600" alt="Workflow" />
+                                <img class="h-12 w-auto" :src="require('@/assets/logo.png')" alt="Nexa Rocks! Logo" />
                             </div>
+
                             <div class="-mr-2">
                                 <button
                                     type="button"
                                     class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
+                                    @click="closeMenu"
                                 >
                                     <span class="sr-only">Close menu</span>
                                     <!-- Heroicon name: outline/x -->
@@ -215,27 +225,46 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="mt-3 px-2 space-y-1">
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Home</a>
+                            <router-link to="/" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Home
+                            </router-link>
 
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Profile</a>
+                            <router-link to="/order" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Place an Order
+                            </router-link>
 
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Resources</a>
+                            <router-link to="/solo" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Solo Mining
+                            </router-link>
 
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Company Directory</a>
+                            <router-link to="/pool" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Pool Mining
+                            </router-link>
 
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Openings</a>
+                            <router-link to="/cloud" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Cloud Mining
+                            </router-link>
                         </div>
                     </div>
+
                     <div class="pt-4 pb-2">
                         <div class="flex items-center px-5">
                             <div class="flex-shrink-0">
-                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                                <img class="h-12 w-12 rounded-full" :src="displayAvatar" alt="Profile photo" />
                             </div>
+
                             <div class="ml-3 min-w-0 flex-1">
-                                <div class="text-base font-medium text-gray-800 truncate">Chelsea Hagon</div>
-                                <div class="text-sm font-medium text-gray-500 truncate">chelsea.hagon@example.com</div>
+                                <div class="text-base font-medium text-gray-800 truncate">
+                                    Welcome Guest
+                                </div>
+
+                                <div class="text-sm font-medium text-gray-500 truncate">
+                                    {{displayEmail}}
+                                </div>
                             </div>
+
                             <button type="button" class="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                                 <span class="sr-only">View notifications</span>
                                 <!-- Heroicon name: outline/bell -->
@@ -255,12 +284,35 @@
                                 </svg>
                             </button>
                         </div>
+
+                        <div v-if="$store.state.profile.authenticated" class="mt-3 px-2 space-y-1">
+                            <router-link to="/profile" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                My Profile
+                            </router-link>
+
+                            <router-link to="/dashboard" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                My Dashboard
+                            </router-link>
+
+                            <button @click="openReferrals" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Referrals
+                            </button>
+
+                            <a @click="signOut" href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Sign out
+                            </a>
+                        </div>
+
+                        <div v-else class="mt-3 px-2 space-y-1">
+                            <button @click="openMyProfile" class="w-full block rounded-md px-3 py-2 text-xl text-rose-600 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Click here to Sign In
+                            </button>
+                        </div>
+
                         <div class="mt-3 px-2 space-y-1">
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Your Profile</a>
-
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Settings</a>
-
-                            <a href="javascript://" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">Sign out</a>
+                            <button @click="openHelp" class="w-full block rounded-md px-3 py-2 text-lg text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                24x7 Support Center
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -286,6 +338,14 @@ export default {
             } else {
                 return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
             }
+        },
+
+        displayEmail () {
+            if (!this.$store.state.profile.user) {
+                return 'not signed in'
+            }
+
+            return this.$store.state.profile.user.email
         }
     },
     methods: {
@@ -365,16 +425,25 @@ export default {
         },
 
         signOut () {
+            /* Close menu. */
+            this.closeMenu()
+
             /* Sign out. */
             this.$store.dispatch('profile/signout')
         },
 
         openReferrals () {
+            /* Close menu. */
+            this.closeMenu()
+
             /* Request referrals panel. */
             this.$store.dispatch('system/openPanel', 'referrals')
         },
 
         openHelp () {
+            /* Close menu. */
+            this.closeMenu()
+
             /* Request help panel. */
             this.$store.dispatch('system/openPanel', 'help')
         }

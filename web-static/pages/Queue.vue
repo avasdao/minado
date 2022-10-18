@@ -38,7 +38,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-    middleware: 'magic.auth',
     data: () => ({
         //
     }),

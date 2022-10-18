@@ -211,7 +211,9 @@ export default {
         }
     },
     created: function () {
-        this.init()
+        if (process.browser) {
+            this.init()
+        }
     },
     mounted: function () {
         //

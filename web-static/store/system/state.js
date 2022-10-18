@@ -8,5 +8,7 @@ export default () => ({
     isPanelVisible: true,
 
     nexusd: 1.0000,
-    rocksusd: 0.058823529
+    rocksusd: 0.058823529,
+
+    blockHeight: 95029
 })

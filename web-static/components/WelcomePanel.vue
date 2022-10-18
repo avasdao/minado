@@ -21,48 +21,48 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                        <button @click="openWebMining" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow text-lg font-medium rounded-lg text-blue-100 bg-blue-700 hover:bg-blue-500">
-                            Open Web Mining
+                        <button @click="openWebMining" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow text-lg font-bold rounded-lg text-yellow-200 bg-blue-800 hover:bg-blue-600">
+                            Start Web Mining
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
-                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-green-500">
-                        30,226 H/s
-                    </span>
+                <div class="grid grid-cols-1 divide-y divide-gray-200">
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Market Capitalization
+                        </h3>
 
-                    <span class="text-gray-600">
-                        Pool Hashrate
-                    </span>
+                        <div v-html="displayMarketCap"></div>
+                    </section>
 
-                    <hr class="my-2" />
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Network Difficulty
+                        </h3>
 
-                    <span class="text-base text-gray-900" v-html="displayDifficulty">
-                    </span>
+                        <div v-html="displayDifficulty"></div>
+                    </section>
 
-                    <span class="text-xs text-gray-600">
-                        Network Difficulty
-                    </span>
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Network Hash Rate
+                        </h3>
 
-                    <span class="text-base text-gray-900">
-                        {{displayHashRate}}
-                    </span>
-
-                    <span class="text-xs text-gray-600">
-                        Network Hash Rate
-                    </span>
+                        <div v-html="displayHashrate"></div>
+                    </section>
                 </div>
 
                 <div @click="openArbitrage" class="group cursor-pointer flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-gray-400 text-xl tracking-widest">
-                        Est. <span class="text-gray-600">Market</span> Value
+                    <span class="text-gray-600 text-2xl tracking-widest">
+                        Market Value
                     </span>
 
                     <span class="text-2xl text-green-500">
                         {{displayMarketValue}}
+                        <sup class="text-xs opacity-50">USD</sup>
                     </span>
 
                     <span class="text-gray-400 text-xs">
@@ -81,12 +81,13 @@
                         </div>
                     </div>
 
-                    <span class="text-gray-400 text-xl tracking-widest">
-                        Avg. <span class="text-gray-600">Mining</span> Cost
+                    <span class="text-gray-600 text-2xl tracking-widest">
+                        Mining Cost
                     </span>
 
                     <span class="text-2xl text-green-500">
                         {{displayMiningCost}}
+                        <sup class="text-xs opacity-50">USD</sup>
                     </span>
 
                     <span class="text-gray-400 text-xs">
@@ -94,24 +95,30 @@
                     </span>
                 </div>
 
-                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-2xl text-red-500">
-                        6 mins 40 secs
-                    </span>
+                <div class="grid grid-cols-1 divide-y divide-gray-200">
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Pool Hashrate
+                        </h3>
 
-                    <span class="text-gray-600">
-                        Estimated Next Payout
-                    </span>
+                        <div v-html="displayPoolHashrate"></div>
+                    </section>
 
-                    <hr class="my-2" />
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Platform Hashrate
+                        </h3>
 
-                    <span class="text-base text-gray-900">
-                        4 mins 20 secs
-                    </span>
+                        <div v-html="displayPlatformHashrate"></div>
+                    </section>
 
-                    <span class="text-xs text-gray-600">
-                        Last Block Reward
-                    </span>
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Last Block Found
+                        </h3>
+
+                        <div v-html="displayLastBlock"></div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -128,6 +135,7 @@ import numeral from 'numeral'
 
 export default {
     data: () => ({
+        blocks: null,
         difficulty: null,
         networkhashps: null,
 
@@ -143,15 +151,38 @@ export default {
 
             const strDifficulty = this.difficulty.toFixed(6)
 
-            return `<span class="text-gray-500">0.</span><span class="px-1 text-red-500 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span>`
+            return `<span class="text-lg font-medium"><span class="text-gray-500">0.</span><span class="px-1 text-indigo-700 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span></span>`
         },
 
-        displayHashRate () {
+        displayHashrate () {
             if (!this.networkhashps) {
                 return
             }
 
-            return numeral(this.networkhashps / 1000000.0).format('0,0.00') + ' MH/s'
+            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${numeral(this.networkhashps / 1000000.0).format('0,0.00')}</span><span class="text-gray-500">MH/s</span></span>`
+        },
+
+        displayMarketCap () {
+            if (!this.$store.state.system) {
+                return '$0.00'
+            }
+
+            // const marketCap = numeral(this.$store.state.system.blockHeight * 10).format('$0,0.00')
+            const marketCap = numeral(this.blocks * 10).format('$0,0.00')
+
+            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${marketCap}</span><span class="text-gray-500">USD</span></span>`
+        },
+
+        displayPoolHashrate () {
+            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">50,226</span><span class="text-gray-500">H/s</span></span>'
+        },
+
+        displayPlatformHashrate () {
+            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">431,337</span><span class="text-gray-500">H/s</span></span>'
+        },
+
+        displayLastBlock () {
+            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">8</span><span class="text-gray-500">mins ago</span></span>'
         },
 
         displayAvatar () {
@@ -262,6 +293,7 @@ export default {
 
             /* Validate content. */
             if (content) {
+                this.blocks = content.blocks
                 this.difficulty = content.difficulty
                 this.networkhashps = content.networkhashps
             }

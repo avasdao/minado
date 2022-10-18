@@ -90,7 +90,7 @@
                     </h3>
 
                     <p class="mt-2 text-sm text-gray-500">
-                        Simply click on Open Web Mining and enter your Nexa address to get started.
+                        Simply click on Start Web Mining and enter your Nexa address to get started.
                     </p>
                 </div>
 

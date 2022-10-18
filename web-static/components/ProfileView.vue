@@ -19,10 +19,10 @@
                 <div class="mt-6 sm:ml-6 sm:flex-1">
                     <div>
                         <div class="flex items-center">
-                            <h3 class="text-xl font-bold text-gray-900 sm:text-2xl">
+                            <h3 class="text-xl font-medium text-gray-700 sm:text-2xl">
                                 {{firstName}} {{lastName}}
                             </h3>
-                            <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
+                            <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400 animate-ping">
                                 <span class="sr-only">Online</span>
                             </span>
                         </div>
@@ -114,7 +114,7 @@
                         </p>
                     </dt>
 
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
+                    <dd class="w-full mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
                         <SkeletonList />
 
                         <highchart
@@ -123,42 +123,36 @@
                             :update="watchers"
                             style="width:100%;"
                         />
-
-                        <p>
-                            Enim feugiat ut ipsum, neque ut. Tristique mi id elementum praesent. Gravida in tempus feugiat netus enim aliquet a, quam scelerisque. Dictumst in convallis nec in bibendum aenean arcu.
-                        </p>
                     </dd>
                 </div>
 
                 <div class="sm:flex sm:px-6 sm:py-5">
                     <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                        Location
+                        My Accounts
                     </dt>
 
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
-                        New York, NY, USA
+                    <dd class="mt-1 flex flex-col sm:col-span-2 sm:mt-0 sm:ml-6">
+                        <a href="javascript://" class="text-base text-blue-500 font-medium hover:underline">
+                            {{display0xAddress}}
+                        </a>
+
+                        <small>Magic.Link <em>(default)</em></small>
                     </dd>
                 </div>
 
                 <div class="sm:flex sm:px-6 sm:py-5">
                     <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                        Website
+                        Joined Since
                     </dt>
 
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
-                        ashleyporter.com
-                    </dd>
-                </div>
+                    <dd class="mt-1 text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
+                        <span class="text-base ">
+                            June 21, 2022
 
-                <div class="sm:flex sm:px-6 sm:py-5">
-                    <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                        Birthday
-                    </dt>
-
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
-                        <time datetime="1982-06-23">
-                            June 23, 1982
-                        </time>
+                            <em class="text-sm">
+                                (3 months ago)
+                            </em>
+                        </span>
                     </dd>
                 </div>
             </dl>
@@ -178,7 +172,15 @@ export default {
     computed: {
         ...mapGetters({
             // panelIsShowing: 'system/getPanelState'
-        })
+        }),
+
+        display0xAddress () {
+            if (!this.$store.state.profile.user) {
+                return 'n/a'
+            }
+
+            return this.$store.state.profile.user.publicAddress
+        }
     },
     methods: {
         //

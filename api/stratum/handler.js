@@ -63,14 +63,20 @@ const stratum = async function (req, res) {
         const address = body.params.address.slice(5)
         console.log('REGISTERING ADDRESS', address)
 
-        /* Initialize SSE for address. */
-        sse[address] = {
-            instance: new SSE([]),
-            expiresAt: moment().unix() + 90 // default: 1 1/2 mins
-        }
+        if (sse[address]) {
+            sse[address].isActive = true
+            sse[address].expiresAt = moment().unix() + 90 // default: 1 1/2 mins
+        } else {
+            /* Initialize SSE for address. */
+            sse[address] = {
+                instance: new SSE([]),
+                isActive: true,
+                expiresAt: moment().unix() + 90 // default: 1 1/2 mins
+            }
 
-        /* Register SSE. */
-        req.app.get(`/v1/shares/${address}`, sse[address].instance.init)
+            /* Register SSE. */
+            req.app.get(`/v1/shares/${address}`, sse[address].instance.init)
+        }
     }
 
     /* Handle shares. */
@@ -112,13 +118,16 @@ const stratum = async function (req, res) {
         const sseAddress = address.slice(5)
 
         /* Validate subscriptions. */
-        if (sse[sseAddress]) {
+        if (sse[sseAddress] && sse[sseAddress].isActive) {
             /* Validate expiration. */
             if (moment().unix() >= sse[sseAddress].expiresAt) {
-                console.info('Deleting subscription for [ %s ]', sseAddress)
+                /* Cancel subscription. */
+                sse[sseAddress].isActive = false
+                console.info('Automatically canceled subscription for [ %s ]', sseAddress)
+                return
 
                 /* Delete subscription. */
-                return delete sse[sseAddress]
+                // return delete sse[sseAddress]
             }
 
             /* Build package. */

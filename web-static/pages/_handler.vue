@@ -15,7 +15,9 @@
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <PayoutsBlock />
+                        <AppHandlerSharesBlock
+                            :shares="shares"
+                        />
 
                         <BlockRewardsPanel />
                     </div>
@@ -30,7 +32,8 @@
 <script>
 export default {
     data: () => ({
-        addressStub: null
+        addressStub: null,
+        shares: null
     }),
     computed: {
         //
@@ -67,9 +70,28 @@ export default {
             }
         },
 
-        streamShares () {
+        async streamShares () {
+            const endpoint = 'https://stratum.nexa.rocks/v1'
+            const rawResponse = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    method: 'register',
+                    params: {
+                        address: this.addressStub
+                    }
+                })
+            })
+            // console.log('RAW RESPONSE', rawResponse)
+
+            const content = await rawResponse.json()
+            console.log('CONTENT (register):', content)
+
             /* Set (event) source. */
-            const source = 'https://stratum.nexa.rocks/v1/shares'
+            const source = `https://stratum.nexa.rocks/v1/shares/${this.addressStub.slice(5)}`
 
             /* Initialize shares streaming. */
             const shares = new EventSource(source)
@@ -92,11 +114,14 @@ export default {
 
             /* Handle message. */
             shares.onmessage = (_evt) => {
-                console.log('ONMESSAGE (evt):', _evt)
+                // console.log('ONMESSAGE (evt):', _evt)
+
                 try {
                     /* Parse data. */
                     const data = JSON.parse(_evt.data)
                     console.log('EVENT SOCKET (data):', data)
+
+                    this.shares.push(data)
 
                     /* Emit data. */
                     // this.emit('update', data)
@@ -112,10 +137,12 @@ export default {
         /* Initialize handler. */
         this.init()
 
-        /* Initialize Rostrum. */
-        this.$store.dispatch('rostrum/init')
+        this.shares = []
 
         if (process.browser) {
+            /* Initialize Rostrum. */
+            this.$store.dispatch('rostrum/init')
+
             /* Start mining streams. */
             this.streamShares()
         }

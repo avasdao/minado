@@ -25,19 +25,7 @@
                         </li>
 
                         <li class="py-5">
-                            <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
-                                <h3 class="text-sm font-semibold text-gray-800">
-                                    <a href="javascript://" class="hover:underline focus:outline-none">
-                                        <!-- Extend touch target to entire panel -->
-                                        <span class="absolute inset-0" aria-hidden="true"></span>
-                                        New password policy
-                                    </a>
-                                </h3>
-                                <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                                    Alias inventore ut autem optio voluptas et repellendus. Facere totam quaerat quam quo laudantium cumque eaque excepturi vel. Accusamus maxime ipsam reprehenderit rerum id repellendus
-                                    rerum. Culpa cum vel natus. Est sit autem mollitia.
-                                </p>
-                            </div>
+                            <SkeletonBlock />
                         </li>
 
                         <li class="py-5">

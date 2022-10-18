@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                        <button @click="openWebMining" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-lg font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200">
+                        <button @click="openWebMining" class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow text-lg font-medium rounded-lg text-blue-100 bg-blue-700 hover:bg-blue-500">
                             Open Web Mining
                         </button>
                     </div>
@@ -57,26 +57,36 @@
                 </div>
 
                 <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-gray-600 text-xl">
+                    <span class="text-gray-600 text-xl tracking-widest">
                         Market Value
                     </span>
 
                     <span class="text-2xl text-green-500">
-                        n/a
+                        {{displayMarketValue}}
                     </span>
 
                     <span class="text-gray-600 text-xs">
                         Value Per Million (VPM)
                     </span>
 
-                    <hr class="my-2" />
+                    <div class="my-3 relative">
+                        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
 
-                    <span class="text-gray-600 text-xl">
+                        <div class="relative flex justify-center">
+                            <button type="button" class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-1.5 text-sm font-medium leading-5 text-gray-700 shadow hover:bg-yellow-400 hover:text-lg hover:text-yellow-700 transform duration-300 ease-in">
+                                <span>{{displayMultiplier}}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <span class="text-gray-600 text-xl tracking-widest">
                         Mining Cost
                     </span>
 
                     <span class="text-2xl text-green-500">
-                        $0.0125
+                        {{displayMiningCost}}
                     </span>
 
                     <span class="text-gray-600 text-xs">
@@ -119,7 +129,11 @@ import numeral from 'numeral'
 export default {
     data: () => ({
         difficulty: null,
-        networkhashps: null
+        networkhashps: null,
+
+        marketValue: null,
+        miningCost: null,
+        multiplier: null
     }),
     computed: {
         displayDifficulty () {
@@ -146,11 +160,39 @@ export default {
             } else {
                 return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
             }
+        },
+
+        displayMarketValue () {
+            if (!this.marketValue) {
+                return
+            }
+
+            return numeral(this.marketValue).format('$0,0.00')
+        },
+
+        displayMiningCost () {
+            if (!this.miningCost) {
+                return
+            }
+
+            return numeral(this.miningCost).format('$0.0000')
+        },
+
+        displayMultiplier () {
+            if (!this.multiplier) {
+                return
+            }
+
+            return numeral(this.multiplier).format('0[.]0') + 'x'
         }
     },
     created: function () {
         // this.decodeAddress()
         this.getMiningInfo()
+
+        this.marketValue = 1.00
+        this.miningCost = 0.0375
+        this.multiplier = this.marketValue / this.miningCost
 
         // const es = new EventSource('https://stratum.nexa.rocks/v1/shares')
         // console.log('EVENT SOURCE', es)

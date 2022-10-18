@@ -3,7 +3,7 @@
         <div class="pb-6">
             <div class="h-24 bg-yellow-400 sm:h-20 lg:h-28"></div>
 
-            <div class="lg:-mt-15 -mt-12 flow-root px-4 sm:-mt-8 sm:flex sm:items-end sm:px-6">
+            <div class="-mt-16 sm:-mt-10 lg:-mt-20 flow-root px-4 sm:flex sm:items-end sm:px-6">
                 <div>
                     <div class="-m-1 flex">
                         <div class="inline-flex overflow-hidden rounded-lg border-4 border-white">
@@ -19,12 +19,16 @@
                 <div class="mt-6 sm:ml-6 sm:flex-1">
                     <div>
                         <div class="flex items-center">
-                            <h3 class="text-xl font-bold text-gray-900 sm:text-2xl">Ashley Porter</h3>
+                            <h3 class="text-xl font-bold text-gray-900 sm:text-2xl">
+                                {{firstName}} {{lastName}}
+                            </h3>
                             <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
                                 <span class="sr-only">Online</span>
                             </span>
                         </div>
-                        <p class="text-sm text-gray-500">@ashleyporter</p>
+                        <p class="text-sm text-gray-500">
+                            {{nickname}}
+                        </p>
                     </div>
 
                     <div class="mt-5 flex flex-wrap space-y-3 sm:space-y-0 sm:space-x-3">
@@ -96,11 +100,23 @@
         <div class="px-4 py-5 sm:px-0 sm:py-0">
             <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200">
                 <div class="sm:flex sm:px-6 sm:py-5">
-                    <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                        Bio
+                    <dt class="space-y-3 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+                        <h1 class="text-3xl text-gray-400">
+                            Bio
+                        </h1>
+
+                        <p class="text-sm text-gray-500">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+
+                        <p class="text-sm text-gray-500">
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
                     </dt>
 
                     <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 sm:ml-6">
+                        <SkeletonList />
+
                         <highchart
                             :options="chartOptions"
                             :modules="['exporting']"
@@ -155,7 +171,9 @@ import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
-        //
+        firstName: null,
+        lastName: null,
+        nickname: null
     }),
     computed: {
         ...mapGetters({
@@ -166,7 +184,9 @@ export default {
         //
     },
     created: function () {
-        //
+        this.firstName = 'Ava'
+        this.lastName = 'Nakamoto'
+        this.nickname = '@anak'
     },
     mounted: function () {
         //

@@ -15,7 +15,7 @@
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <PayoutsPanel />
+                        <PayoutsBlock />
 
                         <BlockRewardsPanel />
                     </div>

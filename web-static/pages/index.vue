@@ -11,12 +11,12 @@
                     <section class="col-span-2">
                         <WelcomePanel />
 
-                        <ActivityPanel />
+                        <ActivityPanel class="mt-5" />
                     </section>
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <PayoutsPanel />
+                        <PayoutsBlock />
 
                         <BlockRewardsPanel />
                     </div>

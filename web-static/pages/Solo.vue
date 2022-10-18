@@ -14,7 +14,7 @@
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <PayoutsPanel />
+                        <PayoutsBlock />
 
                         <BlockRewardsPanel />
                     </div>
@@ -27,15 +27,7 @@
 </template>
 
 <script>
-/* Import components. */
-import BlockRewardsPanel from '@/components/BlockRewardsPanel'
-import PayoutsPanel from '@/components/PayoutsPanel'
-
 export default {
-    components: {
-        BlockRewardsPanel,
-        PayoutsPanel
-    },
     head: () => ({
         title: 'Solo Mining — Nexa Rocks!',
         meta: [

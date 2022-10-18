@@ -48,7 +48,7 @@
 
                     <section class="flex flex-col items-center justify-center">
                         <h3 class="text-xs text-gray-400">
-                            Network Hash Rate
+                            Network Hashrate
                         </h3>
 
                         <div v-html="displayHashrate"></div>
@@ -106,18 +106,18 @@
 
                     <section class="flex flex-col items-center justify-center">
                         <h3 class="text-xs text-gray-400">
-                            Platform Hashrate
-                        </h3>
-
-                        <div v-html="displayPlatformHashrate"></div>
-                    </section>
-
-                    <section class="flex flex-col items-center justify-center">
-                        <h3 class="text-xs text-gray-400">
                             Last Block Found
                         </h3>
 
                         <div v-html="displayLastBlock"></div>
+                    </section>
+
+                    <section class="flex flex-col items-center justify-center">
+                        <h3 class="text-xs text-gray-400">
+                            Platform Hashrate
+                        </h3>
+
+                        <div v-html="displayPlatformHashrate"></div>
                     </section>
                 </div>
             </div>
@@ -182,7 +182,10 @@ export default {
         },
 
         displayLastBlock () {
-            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">8</span><span class="text-gray-500">mins ago</span></span>'
+            const timeVal = '28'
+            const timeUnits = 'mins'
+
+            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${timeVal}</span><span class="text-gray-500">${timeUnits} ago</span></span>`
         },
 
         displayAvatar () {

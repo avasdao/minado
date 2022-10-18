@@ -65,6 +65,47 @@ export default {
                 //         - first bits (short addresses)
                 //         - referall
             }
+        },
+
+        streamShares () {
+            /* Set (event) source. */
+            const source = 'https://stratum.nexa.rocks/v1/shares'
+
+            /* Initialize shares streaming. */
+            const shares = new EventSource(source)
+
+            /* Handle connection opening. */
+            shares.onopen = () => {
+                console.log('SHARES IS OPEN')
+
+                /* Emit message. */
+                // this.emit('open', msg)
+            }
+
+            /* Handle connection closing. */
+            shares.onclose = () => {
+                console.log('SHARES HAS CLOSED')
+
+                /* Emit message. */
+                // this.emit('close', msg)
+            }
+
+            /* Handle message. */
+            shares.onmessage = (_evt) => {
+                console.log('ONMESSAGE (evt):', _evt)
+                try {
+                    /* Parse data. */
+                    const data = JSON.parse(_evt.data)
+                    console.log('EVENT SOCKET (data):', data)
+
+                    /* Emit data. */
+                    // this.emit('update', data)
+                } catch (err) {
+                    console.error('EVENT SOCKET ERROR:', err)
+                    /* Emit error. */
+                    // this.emit('error', err)
+                }
+            }
         }
     },
     created: function () {
@@ -73,6 +114,11 @@ export default {
 
         /* Initialize Rostrum. */
         this.$store.dispatch('rostrum/init')
+
+        if (process.browser) {
+            /* Start mining streams. */
+            this.streamShares()
+        }
     },
     mounted: function () {
         //

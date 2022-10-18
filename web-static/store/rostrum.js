@@ -19,9 +19,6 @@ const parseBlock = (_rawBlock) => {
 
     const inputCount = block.slice(2, 4)
     console.info('Block input count:', inputCount, parseInt(inputCount, 16))
-
-    // const val1 = block.slice(4, 4 + (parseInt(inputCount, 16) * 2))
-    // console.info('Block value #1:', val1)
 }
 
 export const state = () => ({
@@ -127,8 +124,7 @@ export const actions = {
 
         /* Handle message. */
         state.socket.onmessage = (msg) => {
-            console.log('ROSTRUM SOCKET ONMESSAGE', msg)
-            // console.log('ROSTRUM PROMISES', state.promises)
+            // console.log('ROSTRUM SOCKET ONMESSAGE', msg)
 
             let data
             let result

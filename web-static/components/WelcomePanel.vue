@@ -193,17 +193,6 @@ export default {
         this.marketValue = 1.00
         this.miningCost = 0.0375
         this.multiplier = this.marketValue / this.miningCost
-
-        // const es = new EventSource('https://stratum.nexa.rocks/v1/shares')
-        // console.log('EVENT SOURCE', es)
-
-        // es.onmessage = function (_evt) {
-        //     console.log('GOT A MESSAGE', _evt)
-        // }
-
-        // es.addEventListener('shares', function (_evt) {
-        //     console.log('GOT A SHARE', _evt)
-        // })
     },
     mounted: function () {
         //

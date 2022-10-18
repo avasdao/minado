@@ -53,6 +53,7 @@
 
                             <section class="p-5 mr-2">
                                 <SidePanelAddressView v-if="panelTab === 'address'" />
+                                <SidePanelArbitrageView v-if="panelTab === 'arbitrage'" />
                                 <SidePanelHelpView v-if="panelTab === 'help'" />
                                 <SidePanelMiningView v-if="panelTab === 'mining'" />
                                 <SidePanelReferralsView v-if="panelTab === 'referrals'" />
@@ -80,23 +81,20 @@ export default {
         }),
 
         displayTitle () {
-            if (this.panelTab === 'address') {
+            switch (this.panelTab) {
+            case 'address':
                 return 'Address Dashboard'
-            }
-
-            if (this.panelTab === 'help') {
+            case 'arbitrage':
+                return 'Arbitrage Portal'
+            case 'help':
                 return 'Support Center'
-            }
-
-            if (this.panelTab === 'mining') {
+            case 'mining':
                 return 'Web Mining Center'
-            }
-
-            if (this.panelTab === 'referrals') {
+            case 'referrals':
                 return 'Referrals Manager'
+            default:
+                return 'Unknown Panel'
             }
-
-            return 'Unknown'
         }
     },
     methods: {

@@ -61,13 +61,16 @@ export default {
                     this.addressStub = params.handler
 
                     /* Set the application (active) address. */
-                    this.$store.dispatch('rostrum/setAddress', params.handler)
+                    return this.$store.dispatch('rostrum/setAddress', params.handler)
                 }
 
                 // TODO: Add more handlers.
                 //         - first bits (short addresses)
                 //         - referall
             }
+
+            /* Fallback to homepage. */
+            this.$router.push('/')
         },
 
         async streamShares () {

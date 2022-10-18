@@ -56,17 +56,17 @@
                     </span>
                 </div>
 
-                <div class="flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="text-gray-600 text-xl tracking-widest">
-                        Market Value
+                <div @click="openArbitrage" class="group cursor-pointer flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-gray-400 text-xl tracking-widest">
+                        Est. <span class="text-gray-600">Market</span> Value
                     </span>
 
                     <span class="text-2xl text-green-500">
                         {{displayMarketValue}}
                     </span>
 
-                    <span class="text-gray-600 text-xs">
-                        Value Per Million (VPM)
+                    <span class="text-gray-400 text-xs">
+                        Value Per MEX <span class="font-medium text-gray-600">(VPM)</span>
                     </span>
 
                     <div class="my-3 relative">
@@ -75,22 +75,22 @@
                         </div>
 
                         <div class="relative flex justify-center">
-                            <button type="button" class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-1.5 text-sm font-medium leading-5 text-gray-700 shadow hover:bg-yellow-400 hover:text-lg hover:text-yellow-700 transform duration-300 ease-in">
+                            <div class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-1.5 text-xl font-bold leading-5 text-rose-500 shadow transform duration-300 ease-in group-hover:bg-rose-600 group-hover:text-rose-100 group-hover:text-2xl">
                                 <span>{{displayMultiplier}}</span>
-                            </button>
+                            </div>
                         </div>
                     </div>
 
-                    <span class="text-gray-600 text-xl tracking-widest">
-                        Mining Cost
+                    <span class="text-gray-400 text-xl tracking-widest">
+                        Avg. <span class="text-gray-600">Mining</span> Cost
                     </span>
 
                     <span class="text-2xl text-green-500">
                         {{displayMiningCost}}
                     </span>
 
-                    <span class="text-gray-600 text-xs">
-                        Cost Per Million (CPM)
+                    <span class="text-gray-400 text-xs">
+                        Cost Per MEX <span class="font-medium text-gray-600">(CPM)</span>
                     </span>
                 </div>
 
@@ -167,7 +167,7 @@ export default {
                 return
             }
 
-            return numeral(this.marketValue).format('$0,0.00')
+            return numeral(this.marketValue).format('$0,0.00[00]')
         },
 
         displayMiningCost () {
@@ -175,7 +175,7 @@ export default {
                 return
             }
 
-            return numeral(this.miningCost).format('$0.0000')
+            return numeral(this.miningCost).format('$0,0.00[00]')
         },
 
         displayMultiplier () {
@@ -183,15 +183,15 @@ export default {
                 return
             }
 
-            return numeral(this.multiplier).format('0[.]0') + 'x'
+            return numeral(this.multiplier).format('0.[0]') + 'x'
         }
     },
     created: function () {
         // this.decodeAddress()
         this.getMiningInfo()
 
-        this.marketValue = 1.00
-        this.miningCost = 0.0375
+        this.marketValue = this.$store.state.system.nexusd
+        this.miningCost = this.$store.state.system.rocksusd
         this.multiplier = this.marketValue / this.miningCost
     },
     mounted: function () {
@@ -265,8 +265,12 @@ export default {
                 this.difficulty = content.difficulty
                 this.networkhashps = content.networkhashps
             }
-        }
+        },
 
+        openArbitrage () {
+            /* Request referrals panel. */
+            this.$store.dispatch('system/openPanel', 'arbitrage')
+        }
     }
 }
 </script>

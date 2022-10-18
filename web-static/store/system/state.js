@@ -5,5 +5,8 @@ export default () => ({
     panelTab: null,
     panelMetadata: null,
     isPanelOpen: false,
-    isPanelVisible: true
+    isPanelVisible: true,
+
+    nexusd: 1.0000,
+    rocksusd: 0.058823529
 })

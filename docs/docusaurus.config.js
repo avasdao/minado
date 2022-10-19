@@ -71,9 +71,9 @@ const config = {
             label: 'Mining 101',
           },
           {
-            // to: '/blog', 
-            href: 'https://blog.nexa.rocks',
-            label: 'Blog', 
+            to: '/blog',
+            // href: 'https://blog.nexa.rocks',
+            label: 'Blog',
             position: 'left'
           },
           {

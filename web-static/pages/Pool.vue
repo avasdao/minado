@@ -19,7 +19,7 @@
                         </p>
 
                         <p class="text-yellow-900 font-medium">
-                            Payouts are made each block in the form of $NEX coins and $ROCKS tokens.
+                            Pool Payouts are sent after each block as a combination of $NEX coins and <router-link to="/$ROCKS" class="text-blue-500 font-medium hover:underline">$ROCKS</router-link> tokens.
                         </p>
 
                         <div class="grid grid-cols-3 gap-5">
@@ -84,11 +84,25 @@
                                     Header Commitment
                                 </h3>
 
-                                <h2 class="text-xl text-yellow-800 font-medium truncate">
+                                <h2 class="text-xl text-yellow-800 font-medium">
                                     0x{{headerCommitment}}
                                 </h2>
                             </div>
+
+                            <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                    Pool Address
+                                </h3>
+
+                                <a @click="loadPoolAddress" class="text-xl text-blue-500 font-medium hover:underline cursor-pointer">
+                                    {{poolAddress}}
+                                </a>
+                            </div>
                         </div>
+
+                        <p class="text-sm text-yellow-700 italic">
+                            NOTE: <router-link to="/$ROCKS" class="text-blue-500 font-medium hover:underline">$ROCKS</router-link> are automatically converted 1-for-1 into $NEX coins after staking in the <router-link to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</router-link> for seven (7) days.
+                        </p>
                     </section>
 
                     <!-- Right column -->
@@ -125,6 +139,7 @@ export default {
         difficulty: null,
         networkhashps: null,
 
+        poolAddress: null,
         miningid: null,
         headerCommitment: null,
         nBits: null
@@ -192,7 +207,7 @@ export default {
                 },
                 body: JSON.stringify({
                     action: 'getminingcandidate',
-                    params: [null, 'nexa:nqtsq5g5lepsdnyt9tmpyjr5wkn58me00e7pdh7d248lrre0']
+                    params: [null, this.poolAddress]
                 })
             })
             // console.log('RAW RESPONSE', rawResponse)
@@ -206,9 +221,21 @@ export default {
                 this.headerCommitment = content.headerCommitment
                 this.nBits = content.nBits
             }
+        },
+
+        loadPoolAddress () {
+            /* Request help panel. */
+            this.$store.dispatch('system/openPanel', {
+                tab: 'address',
+                metadata: this.poolAddress
+            })
         }
     },
     created: function () {
+        /* Set pool address. */
+        this.poolAddress = 'nexa:nqtsq5g5lepsdnyt9tmpyjr5wkn58me00e7pdh7d248lrre0'
+
+        /* Request mining info. */
         this.getMiningInfo()
     },
     mounted: function () {

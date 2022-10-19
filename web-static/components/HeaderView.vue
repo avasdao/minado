@@ -375,7 +375,7 @@ export default {
             const { isvalid } = await this.$utils.validateAddress(address)
             console.log('ADDRESS IS VALID', isvalid)
 
-            /* Request help panel. */
+            /* Request address panel. */
             this.$store.dispatch('system/openPanel', {
                 tab: 'address',
                 metadata: address

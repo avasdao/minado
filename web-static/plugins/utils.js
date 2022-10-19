@@ -62,8 +62,40 @@ const validateAddress = async (_address) => {
     return content
 }
 
+const calcDifficulty = () => {
+    // const MAX_DIFFICULTY = BigInt('0x0000001fffff0000000000000000000000000000000000000000000000000000')
+    // const curDiff = BigInt('0x00000002deb60000000000000000000000000000000000000000000000000000')
+    // return MAX_DIFFICULTY / curDiff
+    const nBits = 0x1D02DEA6
+    // const nBits = 0x1D016F53
+    // const nBits = 0x1C0FFFFF
+    console.log('nBits', nBits)
+
+    const nShift = (nBits >> 24) & 0xFF
+    console.log('nShift', nShift)
+
+    const dDiff = 0x0000FFFF / (nBits & 0x00FFFFFF)
+    console.log('dDiff (0x0000FFFF):', 0x0000FFFF)
+    console.log('dDiff (nBits & 0x00FFFFFF):', (nBits & 0x00FFFFFF))
+    console.log('dDiff', dDiff)
+
+    // while (nShift < 29)
+    // {
+    //     dDiff *= 256.0;
+    //     nShift++;
+    // }
+    // while (nShift > 29)
+    // {
+    //     dDiff /= 256.0;
+    //     nShift--;
+    // }
+
+    return dDiff
+}
+
 export default (context, inject) => {
     inject('utils', {
+        calcDifficulty,
         getScriptHash,
         validateAddress
     })

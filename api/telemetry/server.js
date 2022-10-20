@@ -5,7 +5,7 @@ const cors = require('cors')
 
 /* Set constants. */
 const HOST = '127.0.0.1'
-const PORT = 4000
+const PORT = 5000
 
 /* Initialize application. */
 const app = express()
@@ -24,8 +24,8 @@ const welcome = `
 <html>
 <body>
 
-<h2>Welcome to the Nexa Rocks! Stratum Server</h2>
-<h3>https://stratum.nexa.rocks</h3>
+<h2>Welcome to the Nexa Rocks! Telemetry Server</h2>
+<h3>https://telemetry.nexa.rocks</h3>
 
 </body>
 </html>

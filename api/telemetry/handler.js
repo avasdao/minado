@@ -14,6 +14,7 @@ const sse = {}
  * Telemetry Module
  */
 const telemetry = async function (req, res) {
+    let address
     let body
     let createdAt
     let headers
@@ -60,7 +61,7 @@ const telemetry = async function (req, res) {
     // TODO: Allow client to ping (for expiration refresh).
     if (body.method === 'register' && body.params) {
         /* Set address. */
-        const address = body.params.address.slice(5)
+        address = body.params.address.slice(5)
         console.log('REGISTERING ADDRESS', address)
 
         if (sse[address]) {
@@ -82,10 +83,17 @@ const telemetry = async function (req, res) {
     /* Handle telemetry. */
     if (body.method === 'telemetry' && body.params) {
         /* Set address. */
-        const address = body.params.address
+        address = body.params.address
+
+        /* Normalize address. */
+        if (address.slice(0, 5) !== 'nexa:') {
+            address = 'nexa:' + address
+        }
+
+        // TODO: Let's verify this address.
 
         /* Set source. */
-        const src = body.params.src
+        const source = body.params.src
 
         /* Set target. */
         const target = body.params.target
@@ -99,7 +107,7 @@ const telemetry = async function (req, res) {
         pkg = {
             _id: id, // NOTE: We re-use the log id.
             address,
-            src,
+            source,
             target,
             pow,
             hash,
@@ -163,7 +171,8 @@ const telemetry = async function (req, res) {
     }
 
     /* Return package. */
-    return res.json(pkg)
+    // return res.json(pkg)
+    return res.end('\n  ✔ telemetry-ok\n')
 }
 
 /* Export module. */

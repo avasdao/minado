@@ -2,12 +2,12 @@
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 /**
- * Load Notifications
+ * Load Orders
  *
  * @param {Object} _constructors
  * @returns
  */
-const loadNotifs = async ({ rootState, commit }) => {
+const loadOrders = async ({ rootState, commit }) => {
     let content
 
     /* Request issuer. */
@@ -24,20 +24,20 @@ const loadNotifs = async ({ rootState, commit }) => {
 
             body: JSON.stringify({
                 didToken,
-                action: 'get_notifs'
+                action: 'get_orders'
             })
         })
         console.log('RAW RESPONSE', rawResponse)
 
         content = await rawResponse.json()
-        console.log('CONTENT (get_notifs):', content)
+        console.log('CONTENT (get_orders):', content)
 
-        /* Set notifications. */
-        commit('SET_NOTIFS', content)
+        /* Set orders. */
+        commit('SET_ORDERS', content)
     }
 
     return content
 }
 
 /* Export module. */
-module.exports = loadNotifs
+module.exports = loadOrders

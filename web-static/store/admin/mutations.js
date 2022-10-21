@@ -7,6 +7,10 @@ export default {
         state.notifs = _notifs
     },
 
+    SET_ORDERS (state, _orders) {
+        state.orders = _orders
+    },
+
     SET_PROFILES (state, _profiles) {
         state.profiles = _profiles
     }

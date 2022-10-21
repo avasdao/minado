@@ -158,6 +158,10 @@ const admin = async function (req, res) {
             return require('./admin/getNotifs')(res)
         }
 
+        if (action === 'get_orders') {
+            return require('./admin/getOrders')(res)
+        }
+
         if (action === 'get_profiles') {
             /* Request existing user. */
             results = await profilesDb

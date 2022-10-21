@@ -60,13 +60,14 @@ export default {
         return content
     },
 
-    // async loadNotifs ({ rootState, commit }) {
-    //     return await require('./_actions/loadNotifs')({ rootState, commit })
-    // },
-
     loadNotifs (_constructors) {
         // NOTE: Returns a promise.
         return require('./_actions/loadNotifs')(_constructors)
+    },
+
+    loadOrders (_constructors) {
+        // NOTE: Returns a promise.
+        return require('./_actions/loadOrders')(_constructors)
     },
 
     async loadMiners ({ rootState, commit }, _profileid) {

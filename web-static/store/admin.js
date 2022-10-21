@@ -3,12 +3,17 @@ const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 export const state = () => ({
     miners: null,
+    notifs: null,
     profiles: null
 })
 
 export const getters = {
     getMiners (state) {
         return state.miners
+    },
+
+    getNotifs (state) {
+        return state.notifs
     },
 
     getProfiles (state) {
@@ -19,6 +24,10 @@ export const getters = {
 export const mutations = {
     SET_MINERS (state, _miners) {
         state.miners = _miners
+    },
+
+    SET_NOTIFS (state, _notifs) {
+        state.notifs = _notifs
     },
 
     SET_PROFILES (state, _profiles) {
@@ -80,6 +89,39 @@ export const actions = {
 
             /* Set profiles. */
             commit('SET_PROFILES', content.data)
+        }
+
+        return content
+    },
+
+    async loadNotifs ({ rootState, commit }) {
+        let content
+
+        /* Request issuer. */
+        const didToken = rootState.profile.didToken
+        console.log('loading didToken', didToken)
+
+        /* Validate issuer. */
+        if (didToken) {
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    didToken,
+                    action: 'get_notifs'
+                })
+            })
+            console.log('RAW RESPONSE', rawResponse)
+
+            content = await rawResponse.json()
+            console.log('CONTENT (get_profiles):', content)
+
+            /* Set profiles. */
+            commit('SET_NOTIFS', content)
         }
 
         return content

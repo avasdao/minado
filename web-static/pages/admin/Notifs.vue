@@ -17,6 +17,7 @@
                             </h1>
                         </div>
 
+                        <pre>{{JSON.stringify(notifs, null, 2)}}</pre>
                     </section>
 
                     <!-- Right column -->
@@ -28,7 +29,7 @@
                             Add New Profile
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
+                        <AdminNotifsList :notifs="notifs" />
 
                         <BlockRewardsPanel />
                     </div>
@@ -63,7 +64,7 @@ export default {
         count: null
     }),
     head: () => ({
-        title: 'Admin Center — Nexa Rocks!',
+        title: 'Notifications Manager — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -74,23 +75,23 @@ export default {
     }),
     computed: {
         ...mapGetters({
-            profiles: 'admin/getProfiles'
+            notifs: 'admin/getNotifs'
         })
     },
     created: function () {
         this.init()
 
-        const route = this.$route
-        const params = route.params
+        // const route = this.$route
+        // const params = route.params
 
-        /* Validate parameters. */
-        if (this.params) {
-            this.profileid = params.profileid
-            console.info('Active profile id', this.profileid) // eslint-disable-line no-console
+        // /* Validate parameters. */
+        // if (this.params) {
+        //     this.profileid = params.profileid
+        //     console.info('Active profile id', this.profileid) // eslint-disable-line no-console
 
-            /* Get miners. */
-            // this.getMiners()
-        }
+        //     /* Get miners. */
+        //     // this.getMiners()
+        // }
     },
     mounted: function () {
         //
@@ -98,7 +99,7 @@ export default {
     methods: {
         init () {
             /* Request profiles. */
-            this.$store.dispatch('admin/loadProfiles')
+            this.$store.dispatch('admin/loadNotifs')
         },
 
         addProfile () {

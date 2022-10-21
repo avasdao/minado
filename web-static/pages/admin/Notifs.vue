@@ -5,14 +5,16 @@
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">
-                    Servers
+                    Notifications
                 </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="col-span-2">
                         <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-                            <AdminProfileView :profile="profile" />
+                            <h1 class="text-4xl font-bold text-yellow-900">
+                                Notifications
+                            </h1>
                         </div>
 
                     </section>

@@ -10,9 +10,17 @@
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <section class="col-span-2">
-                        <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-                            <AdminProfileView :profile="profile" />
+                    <section class="col-span-2 grid grid-cols-2 gap-5">
+                        <div>
+                            Profiles
+                        </div>
+
+                        <div>
+                            Servers
+                        </div>
+
+                        <div>
+                            Notifications
                         </div>
 
                     </section>

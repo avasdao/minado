@@ -1,41 +1,7 @@
 /* Set API endpoint. */
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
-export const state = () => ({
-    miners: null,
-    notifs: null,
-    profiles: null
-})
-
-export const getters = {
-    getMiners (state) {
-        return state.miners
-    },
-
-    getNotifs (state) {
-        return state.notifs
-    },
-
-    getProfiles (state) {
-        return state.profiles
-    }
-}
-
-export const mutations = {
-    SET_MINERS (state, _miners) {
-        state.miners = _miners
-    },
-
-    SET_NOTIFS (state, _notifs) {
-        state.notifs = _notifs
-    },
-
-    SET_PROFILES (state, _profiles) {
-        state.profiles = _profiles
-    }
-}
-
-export const actions = {
+export default {
     async addProfile () {
         /* Request issuer. */
         const didToken = this.$store.state.didToken

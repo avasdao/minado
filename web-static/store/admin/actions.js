@@ -60,37 +60,13 @@ export default {
         return content
     },
 
-    async loadNotifs ({ rootState, commit }) {
-        let content
+    // async loadNotifs ({ rootState, commit }) {
+    //     return await require('./_actions/loadNotifs')({ rootState, commit })
+    // },
 
-        /* Request issuer. */
-        const didToken = rootState.profile.didToken
-        console.log('loading didToken', didToken)
-
-        /* Validate issuer. */
-        if (didToken) {
-            const rawResponse = await fetch(ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify({
-                    didToken,
-                    action: 'get_notifs'
-                })
-            })
-            console.log('RAW RESPONSE', rawResponse)
-
-            content = await rawResponse.json()
-            console.log('CONTENT (get_profiles):', content)
-
-            /* Set profiles. */
-            commit('SET_NOTIFS', content)
-        }
-
-        return content
+    loadNotifs (_constructors) {
+        // NOTE: Returns a promise.
+        return require('./_actions/loadNotifs')(_constructors)
     },
 
     async loadMiners ({ rootState, commit }, _profileid) {

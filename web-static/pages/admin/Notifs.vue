@@ -24,12 +24,14 @@
                     <div class="grid grid-cols-1 gap-4">
                         <button
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
-                            @click="addProfile"
+                            @click="addNotif"
                         >
-                            Add New Profile
+                            New Notification
                         </button>
 
-                        <AdminNotifsList :notifs="notifs" />
+                        <AdminNotifsList
+                            :notifs="notifs"
+                        />
 
                         <BlockRewardsPanel />
                     </div>
@@ -50,18 +52,7 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profileid: null,
-        profile: null,
-        magic: null,
-
-        miner: null,
-        miners: null,
-
-        hostname: null,
-        location: null,
-        auth: null,
-        pid: null,
-        count: null
+        //
     }),
     head: () => ({
         title: 'Notifications Manager — Nexa Rocks!',
@@ -80,30 +71,18 @@ export default {
     },
     created: function () {
         this.init()
-
-        // const route = this.$route
-        // const params = route.params
-
-        // /* Validate parameters. */
-        // if (this.params) {
-        //     this.profileid = params.profileid
-        //     console.info('Active profile id', this.profileid) // eslint-disable-line no-console
-
-        //     /* Get miners. */
-        //     // this.getMiners()
-        // }
     },
     mounted: function () {
         //
     },
     methods: {
         init () {
-            /* Request profiles. */
+            /* Request notifications. */
             this.$store.dispatch('admin/loadNotifs')
         },
 
-        addProfile () {
-            //
+        addNotif () {
+            alert('TODO')
         }
     }
 }

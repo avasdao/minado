@@ -3,7 +3,7 @@
         <div class="rounded-lg bg-white overflow-hidden shadow">
             <div class="p-6">
                 <h2 class="text-xl font-medium text-gray-900" id="recent-hires-title">
-                    Notifs
+                    Notifications
                 </h2>
 
                 <div class="flow-root mt-6">

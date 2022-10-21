@@ -130,28 +130,8 @@ const admin = async function (req, res) {
         }
 
         if (action === 'get_miners') {
-            /* Set profile id. */
             profileid = body.profileid
-
-            /* Request existing user. */
-            results = await minersDb
-                .query('api/byProfile', {
-                    key: profileid,
-                    include_docs: true,
-                })
-                .catch(err => {
-                    console.error('DATA ERROR:', err)
-                })
-            console.log('PROFILES RESULT (byProfile)', util.inspect(results, false, null, true))
-
-            /* Validate data. */
-            if (results && results.rows.length !== 0) {
-                /* Map data (doc) results. */
-                data = results.rows.map(_miner => {
-                    return _miner.doc
-                })
-            }
-
+            return require('./admin/getMiners')(res, profileid)
         }
 
         if (action === 'get_notifs') {

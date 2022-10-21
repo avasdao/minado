@@ -10,7 +10,7 @@
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
 
                         <li class="py-4" v-for="profile of recentProfiles" :key="profile._id">
-                            <router-link :to="'/admin/' + profile._id" class="flex items-center space-x-4">
+                            <router-link :to="'/admin/profiles/' + profile._id" class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
                                     <img
                                         class="h-8 w-8 rounded-full"

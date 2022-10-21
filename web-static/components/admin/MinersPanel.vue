@@ -3,8 +3,8 @@
         <div class="rounded-lg bg-white overflow-hidden shadow">
             <div class="p-6">
                 <header class="flex justify-between">
-                    <h2 class="text-xl font-medium text-gray-900" id="recent-hires-title">
-                        Miners
+                    <h2 class="text-2xl font-medium text-gray-900" id="recent-hires-title">
+                        Miners <span class="text-lg text-gray-500">( {{totalActiveMiners}} active miners )</span>
                     </h2>
 
                     <button @click="addMiner" class="mx-3 px-3 py-1 text-xl text-blue-100 font-medium bg-blue-500 border-2 border-blue-700 rounded-lg hover:text-blue-50 hover:bg-blue-400">
@@ -18,7 +18,7 @@
                             {{ minerid }}
                         </h2>
 
-                        <h3>
+                        <h3 class="my-3" v-if="lastMinerUpdate">
                             last updated: {{ lastMinerUpdate }}
                         </h3>
 
@@ -163,14 +163,19 @@
                                     <textarea
                                         rows="6"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        :value="cmdMine4"
+                                        :value="cmdLaunchMiners"
                                     />
                                 </div>
                             </div>
 
                             <div :class="[ minerid ? 'col-span-2' : 'col-span-5']">
-                                <ul role="list" class="-my-5 divide-y divide-gray-200">
-                                    <li v-for="miner of recentMiners" :key="miner._id" class="py-4">
+                                <ul role="list" class="-my-5 divide-y divide-yellow-500">
+                                    <li
+                                        v-for="miner of recentMiners"
+                                        :key="miner._id"
+                                        class="py-4 cursor-pointer"
+                                        @click="toggleEdit(miner._id)"
+                                    >
                                         <div class="flex items-center space-x-4">
                                             <div class="flex-shrink-0">
                                                 <img
@@ -182,18 +187,16 @@
 
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-base font-medium text-gray-900 truncate">
-                                                    {{ profile ? profile.nickname : "n/a" }} | {{ miner.hostname }}
+                                                    {{ (miner && miner.hostname) ? miner.hostname : (profile && profile.nickname) ? profile.nickname : "Unknown" }}
                                                 </p>
 
-                                                <p class="text-sm text-gray-500 truncate italic">
-                                                    {{ miner.location }} | {{ miner.pid }} | {{ miner.count }}
+                                                <p class="text-xs text-yellow-800 truncate italic">
+                                                    {{ miner.location }}
                                                 </p>
-                                            </div>
 
-                                            <div>
-                                                <button @click="toggleEdit(miner._id)" class="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50">
-                                                    Edit
-                                                </button>
+                                                <p class="text-xs text-yellow-800 truncate">
+                                                    PID: {{ miner.pid }} | Miners: {{ miner.count }}
+                                                </p>
                                             </div>
                                         </div>
                                     </li>
@@ -254,19 +257,24 @@ export default {
             return `./connect.sh ${this.location} ${this.auth}`
         },
 
-        cmdMine4 () {
+        cmdLaunchMiners () {
+            const cpus = this.count
             const address = this.profile.address
             const nickname = this.profile.nickname
 
-            return `/root/nexa-miner -cpus=4 -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
+            if (cpus > 0) {
+                return `/root/nexa-miner -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
 sleep 1
 disown %1
 exit`
+            } else {
+                return 'Please select a miner count'
+            }
         },
 
         lastMinerUpdate () {
             if (!this.updatedAt) {
-                return 'n/a'
+                return null
             }
 
             return moment.unix(this.updatedAt).fromNow()
@@ -292,6 +300,20 @@ exit`
             /* Return most recent 10. */
             // return recent.slice(0, 10)
             return recent.slice(0, 20)
+        },
+
+        totalActiveMiners () {
+            if (!this.miners) {
+                return 0
+            }
+
+            let total = 0
+
+            this.miners.forEach((_miner) => {
+                total += _miner.count
+            })
+
+            return total
         }
     },
     methods: {

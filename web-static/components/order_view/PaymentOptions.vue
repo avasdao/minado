@@ -240,7 +240,6 @@ export default {
                 },
                 body: JSON.stringify(body)
             })
-            console.log('RAW RESPONSE', rawResponse)
 
             if (rawResponse) {
                 this.paymentRequest = await rawResponse.json()
@@ -274,7 +273,6 @@ export default {
                 },
                 body: JSON.stringify(body)
             })
-            console.log('RAW RESPONSE', rawResponse)
 
             if (rawResponse) {
                 this.shiftStatus = await rawResponse.json()

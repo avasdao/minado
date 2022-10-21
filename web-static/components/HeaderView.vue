@@ -69,8 +69,37 @@
 
                 <div class="w-full py-5 lg:border-t lg:border-white lg:border-opacity-20">
                     <div class="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
-                        <!-- Left nav -->
-                        <div class="hidden lg:block lg:col-span-2">
+                        <!-- Admin Navigation -->
+                        <div v-if="isAdmin" class="hidden lg:block lg:col-span-2">
+                            <nav class="flex space-x-4">
+                                <router-link to="/admin" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
+                                    Home
+                                </router-link>
+
+                                <router-link to="/admin/profiles" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Profiles
+                                </router-link>
+
+                                <router-link to="/admin/miners" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Miners
+                                </router-link>
+
+                                <router-link to="/admin/servers" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Servers
+                                </router-link>
+
+                                <router-link to="/admin/notifs" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Notifs
+                                </router-link>
+
+                                <router-link to="/admin/orders" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Orders
+                                </router-link>
+                            </nav>
+                        </div>
+
+                        <!-- General Navigation -->
+                        <div v-else class="hidden lg:block lg:col-span-2">
                             <nav class="flex space-x-4">
                                 <router-link to="/" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
                                     Home
@@ -329,7 +358,8 @@ export default {
     data: () => ({
         search: null,
         isMenuOpen: null,
-        isMenuVisible: null
+        isMenuVisible: null,
+        isAdmin: null
     }),
     computed: {
         displayAvatar () {
@@ -449,8 +479,16 @@ export default {
         }
     },
     created: function () {
+        /* Initialize menu. */
         this.isMenuOpen = false
         this.isMenuVisible = false
+
+        /* Request route. */
+        const route = this.$route
+        // console.log('ROUTE', route)
+
+        /* Verify we're in the adminstrative area. */
+        this.isAdmin = route.path.slice(0, 6) === '/admin'
     },
     mounted: function () {
         //

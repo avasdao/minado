@@ -88,7 +88,6 @@ export default {
                     }
                 })
             })
-            // console.log('RAW RESPONSE', rawResponse)
 
             const content = await rawResponse.json()
             console.log('CONTENT (register):', content)

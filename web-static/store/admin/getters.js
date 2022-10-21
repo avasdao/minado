@@ -13,5 +13,9 @@ export default {
 
     getProfiles (state) {
         return state.profiles
+    },
+
+    getServers (state) {
+        return state.servers
     }
 }

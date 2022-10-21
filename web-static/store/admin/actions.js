@@ -17,7 +17,6 @@ export default {
                 action: 'add_profile'
             })
         })
-        // console.log('RAW RESPONSE', rawResponse)
 
         const content = await rawResponse.json()
         console.log('CONTENT', content) // eslint-disable-line no-console
@@ -48,7 +47,6 @@ export default {
                     action: 'get_profiles'
                 })
             })
-            // console.log('RAW RESPONSE', rawResponse)
 
             content = await rawResponse.json()
             // console.log('CONTENT (get_profiles):', content)
@@ -58,6 +56,11 @@ export default {
         }
 
         return content
+    },
+
+    loadMiners (_constructors) {
+        // NOTE: Returns a promise.
+        return require('./_actions/loadMiners')(_constructors)
     },
 
     loadNotifs (_constructors) {
@@ -70,37 +73,41 @@ export default {
         return require('./_actions/loadOrders')(_constructors)
     },
 
-    async loadMiners ({ rootState, commit }, _profileid) {
-        let content
-
-        /* Request issuer. */
-        const didToken = rootState.profile.didToken
-
-        /* Validate issuer. */
-        if (didToken) {
-            const rawResponse = await fetch(ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    didToken,
-                    action: 'get_miners',
-                    profileid: _profileid
-                })
-            })
-            // console.log('RAW RESPONSE', rawResponse)
-
-            content = await rawResponse.json()
-            console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
-
-            /* Set miners. */
-            commit('SET_MINERS', content.data)
-        }
-
-        return content
+    loadServers (_constructors) {
+        // NOTE: Returns a promise.
+        return require('./_actions/loadServers')(_constructors)
     },
+
+    // async loadMiners ({ rootState, commit }, _profileid) {
+    //     let content
+
+    //     /* Request issuer. */
+    //     const didToken = rootState.profile.didToken
+
+    //     /* Validate issuer. */
+    //     if (didToken) {
+    //         const rawResponse = await fetch(ENDPOINT, {
+    //             method: 'POST',
+    //             headers: {
+    //                 Accept: 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 didToken,
+    //                 action: 'get_miners',
+    //                 profileid: _profileid
+    //             })
+    //         })
+
+    //         content = await rawResponse.json()
+    //         console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
+
+    //         /* Set miners. */
+    //         commit('SET_MINERS', content.data)
+    //     }
+
+    //     return content
+    // },
 
     async addMiner ({ rootState }, _profileid) {
         /* Request issuer. */
@@ -123,7 +130,6 @@ export default {
                 count: null
             })
         })
-        // console.log('RAW RESPONSE', rawResponse)
 
         const content = await rawResponse.json()
         // console.log('CONTENT (add_miner):', content) // eslint-disable-line no-console

@@ -17,6 +17,12 @@
                             </h1>
                         </router-link>
 
+                        <router-link to="/admin/orders" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                            <h1 class="text-3xl font-bold">
+                                Orders
+                            </h1>
+                        </router-link>
+
                         <router-link to="/admin/miners" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Miners

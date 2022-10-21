@@ -187,7 +187,6 @@ export default {
                     params: []
                 })
             })
-            // console.log('RAW RESPONSE', rawResponse)
 
             content = await rawResponse.json()
             // console.log('CONTENT', content)
@@ -210,7 +209,6 @@ export default {
                     params: [null, this.poolAddress]
                 })
             })
-            // console.log('RAW RESPONSE', rawResponse)
 
             content = await rawResponse.json()
             console.log('CONTENT', content)

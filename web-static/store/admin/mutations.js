@@ -13,5 +13,9 @@ export default {
 
     SET_PROFILES (state, _profiles) {
         state.profiles = _profiles
+    },
+
+    SET_SERVERS (state, _servers) {
+        state.servers = _servers
     }
 }

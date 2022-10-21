@@ -5,28 +5,33 @@
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">
-                    Servers
+                    Server Manager
                 </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="col-span-2">
                         <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-                            <AdminProfileView :profile="profile" />
+                            <h1 class="text-4xl font-bold text-yellow-900">
+                                Server Manager
+                            </h1>
                         </div>
 
+                        <pre>{{JSON.stringify(servers, null, 2)}}</pre>
                     </section>
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
                         <button
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
-                            @click="addProfile"
+                            @click="addServer"
                         >
-                            Add New Profile
+                            Add New Server
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
+                        <AdminServersList
+                            :servers="servers"
+                        />
 
                         <BlockRewardsPanel />
                     </div>
@@ -47,21 +52,10 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profileid: null,
-        profile: null,
-        magic: null,
-
-        miner: null,
-        miners: null,
-
-        hostname: null,
-        location: null,
-        auth: null,
-        pid: null,
-        count: null
+        //
     }),
     head: () => ({
-        title: 'Admin Center — Nexa Rocks!',
+        title: 'Server Manager — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -72,34 +66,22 @@ export default {
     }),
     computed: {
         ...mapGetters({
-            profiles: 'admin/getProfiles'
+            servers: 'admin/getServers'
         })
     },
     created: function () {
         this.init()
-
-        const route = this.$route
-        const params = route.params
-
-        /* Validate parameters. */
-        if (this.params) {
-            this.profileid = params.profileid
-            console.info('Active profile id', this.profileid) // eslint-disable-line no-console
-
-            /* Get miners. */
-            // this.getMiners()
-        }
     },
     mounted: function () {
         //
     },
     methods: {
         init () {
-            /* Request profiles. */
-            this.$store.dispatch('admin/loadProfiles')
+            /* Request servers. */
+            this.$store.dispatch('admin/loadServers')
         },
 
-        addProfile () {
+        addServer () {
             //
         }
     }

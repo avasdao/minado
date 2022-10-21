@@ -27,10 +27,9 @@ const loadNotifs = async ({ rootState, commit }) => {
                 action: 'get_notifs'
             })
         })
-        console.log('RAW RESPONSE', rawResponse)
 
         content = await rawResponse.json()
-        console.log('CONTENT (get_notifs):', content)
+        // console.log('CONTENT (get_notifs):', content)
 
         /* Set notifications. */
         commit('SET_NOTIFS', content)

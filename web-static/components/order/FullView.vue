@@ -629,7 +629,6 @@ export default {
                     params: [this.address]
                 })
             })
-            // console.log('RAW RESPONSE', rawResponse)
 
             const content = await rawResponse.json()
             console.log('CONTENT', content)

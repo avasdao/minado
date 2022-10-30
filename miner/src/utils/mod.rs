@@ -29,18 +29,33 @@ pub fn set_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
-pub fn c_print(msg: String, color: Color) {
+pub fn c_print(_msg: String, color: Color) {
     // let mut bufwtr = BufferWriter::stderr(ColorChoice::Always);
     // let mut buffer = bufwtr.buffer();
     // buffer.set_color(ColorSpec::new().set_fg(Some(color)));
     // // writeln!(&mut buffer, msg.to_string());
-    // println!("{}", msg);
+    // println!("{}", _msg);
     // bufwtr.print(&buffer);
 
     let mut stdout = StandardStream::stdout(ColorChoice::Always);
     stdout.set_color(ColorSpec::new().set_fg(Some(color)));
     writeln!(&mut stdout, "what color is this?");
-    // println!("{}", msg);
+    // println!("{}", _msg);
+}
+
+/**
+ * Reverse Bytes
+ *
+ * Reverses the endiness of the bytes in the array.
+ */
+pub fn reverse_bytes(_raw_bytes: &Vec<u8>) -> Vec<u8> {
+    let mut new_bytes: Vec<u8> = Vec::new();
+
+    for n in (0..32).rev() {
+        new_bytes.push(_raw_bytes[n]);
+    }
+
+    new_bytes
 }
 
 pub fn welcome1() {
@@ -55,7 +70,7 @@ pub fn welcome1() {
                    | |_) | '__/ _ \  | |\/| | | '_ \ / _ \ '__|
                    |  __/| | | (_) | | |  | | | | | |  __/ |
                    |_|   |_|  \___/  |_|  |_|_|_| |_|\___|_|
-                                       v20.9.30 (alpha)");
+                                       v20.10.30 (alpha)");
 }
 
 pub fn welcome2() {
@@ -74,7 +89,7 @@ pub fn welcome2() {
        ██╔═══╝ ██╔══██╗██║   ██║    ██║╚██╔╝██║██║██║╚██╗██║██╔══╝  ██╔══██╗
        ██║     ██║  ██║╚██████╔╝    ██║ ╚═╝ ██║██║██║ ╚████║███████╗██║  ██║
        ╚═╝     ╚═╝  ╚═╝ ╚═════╝     ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
-                                               v20.9.30 (alpha)");
+                                               v20.10.30 (alpha)");
 }
 
 pub fn welcome3() {
@@ -93,5 +108,5 @@ pub fn welcome3() {
          |  |  |    \|     |    |   |   | |  | |  |  ||   [_ |    \
          |  |  |  .  \     |    |   |   | |  | |  |  ||     ||  .  \
          |__|  |__|\_|\___/     |___|___||____||__|__||_____||__|\_|
-                                            v20.9.30 (alpha)");
+                                            v20.10.30 (alpha)");
 }

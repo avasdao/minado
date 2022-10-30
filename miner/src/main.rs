@@ -11,7 +11,9 @@ fn main() -> std::io::Result<()> {
     let username = "Simba";
 
     utils::welcome1();
+
     crypto::test_sha256();
+
     // crypto::test_shnorr();
     // process::exit(1);
 

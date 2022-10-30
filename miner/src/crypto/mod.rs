@@ -1,9 +1,11 @@
 use std::str::FromStr;
+use std::iter;
 // use secp256k1::{PublicKey, SecretKey};
 // use hex_literal::hex;
 use sha2::{Sha256, Digest};
 use double_sha256::{DoubleHash256};
 
+use crate::utils;
 
 // pub fn test_shnorr() {
 //     let message = hex::decode("0x9d053626d3531e30af745789c150f7c339ec9c4ae44c2b3d09718dea4d073763");
@@ -19,30 +21,49 @@ pub fn test_sha256() {
     // let mut data = vec![0u8;total_size as usize];
     // let mut data = b"ed35a1d27d9081cb4bf5fded7e16142878b6af86ab0ad5bc90cf9753d242f0d5191A6D40";
 
+    // NOTE: This comes from the Core node.
+    let str_header_commitment = "0321c7f915cafe44c764b19bfea4abce0863ebdac8d369b0715223818258834a";
+    println!("\nHeader Commitment (str)\n{} ", str_header_commitment);
+
     /* Set header commitment. */
-    let header_commitment: Vec<u8> = hex::decode("0321c7f915cafe44c764b19bfea4abce0863ebdac8d369b0715223818258834a")
+    let header_commitment: Vec<u8> = hex::decode(str_header_commitment)
         .expect("Oops! Invalid hex string.");
-    println!("\nheader_commitment: {:?}", header_commitment);
+    println!("\nHeader Commitment (bytes): {:?}", header_commitment);
+    // println!("\nheader_commitment (swapped): {:?}", i32::from_be(header_commitment));
 
-    // let message = "hello world";
-    // println!("\nmessage {}: ", message);
-    let reverse_commitment = "0321c7f915cafe44c764b19bfea4abce0863ebdac8d369b0715223818258834a";
+    // let mut reverse_commitment: Vec<u8> = Vec::new();
+    let reverse_commitment = utils::reverse_bytes(&header_commitment);
+    // let reverse_commitment = hex::encode(&header_commitment.to);
+    // for n in (0..32).rev() {
+    //     // let my_chunk = u8::from_le_bytes(chunk.try_into().unwrap());
+    //     // let my_chunk = u8::from_le_bytes();
+    //     reverse_commitment.push(header_commitment[n]);
+    // }
+    // for chunk in header_commitment.chunks_exact(1) {
+    //     // chunk.swap(0, 1);
+    // }
+    println!("\nReversed Header Commitment (bytes): {:?}", reverse_commitment);
 
-    // let double_hasher = DoubleHash256::new_with_prefix(message.as_bytes());
-    let double_hasher = DoubleHash256::new_with_prefix(reverse_commitment);
-    let double_hash = double_hasher.finalize();
-    println!("\ndouble_hash {:x}: ", double_hash);
+    let val = hex::encode(&reverse_commitment);
+    println!("{:?}\n", val);
 
     // let hasher_one = Sha256::new_with_prefix(header_commitment.as_bytes());
     // let hasher_one = Sha256::new_with_prefix(header_commitment);
-    let hasher_one = Sha256::new_with_prefix(reverse_commitment.as_bytes());
+    let hasher_one = Sha256::new_with_prefix(&reverse_commitment);
     let hash_one = hasher_one.finalize();
     let hasher_two = Sha256::new_with_prefix(hash_one);
     let hash_two = hasher_two.finalize();
-    println!("\nhash_one {:x}: ", hash_one);
-    println!("\nhash_two {:x}: ", hash_two);
+    println!("Hash One:    {:x}", hash_one);
+    println!("Hash Two:    {:x}", hash_two);
+
+    // let double_hasher = DoubleHash256::new_with_prefix(message.as_bytes());
+    let double_hasher = DoubleHash256::new_with_prefix(&reverse_commitment);
+    let double_hash = double_hasher.finalize();
+    println!("Double Hash: {:x}", double_hash);
+    // println!("Final Hash:  {:x}", reverse_endiness(&double_hash));
 
     assert_eq!(double_hash, hash_two);
+    println!("\nHashes match! 👍\n")
 
     // let mut nonce = hex::decode("191A6D40");
     // let mut hasher1 = Sha256::new();

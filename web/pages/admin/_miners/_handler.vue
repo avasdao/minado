@@ -5,25 +5,18 @@
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">
-                    Notifications
+                    Miner Administration
                 </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
                         <h1 class="text-4xl font-bold text-yellow-900">
-                            Notifications
+                            Miner Administration
                         </h1>
 
-                        <AdminProfileView
-                            :profile="profile"
-                        />
-
-                        <AdminMinersPanel
-                            class="mt-3"
-                            :miners="miners"
-                            :profile="profile"
-                            @addMiner="addMiner"
+                        <AdminMinersDetailView
+                            :miner="miner"
                         />
                     </section>
 
@@ -31,14 +24,12 @@
                     <div class="grid grid-cols-1 gap-4">
                         <button
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
-                            @click="addProfile"
+                            @click="addMiner"
                         >
-                            Add New Profile
+                            Add New Miner
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
-
-                        <BlockRewardsPanel />
+                        <AdminMinersListView :miners="miners" />
                     </div>
                 </div>
             </div>
@@ -51,16 +42,20 @@
 <script>
 import { mapGetters } from 'vuex'
 
+/* Set API endpoint. */
+const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+
 export default {
     middleware: [
         'admin.auth',
         'magic.auth'
     ],
     data: () => ({
-        profileid: null
+        minerid: null,
+        miner: null
     }),
     head: () => ({
-        title: 'Notifications — Nexa Rocks!',
+        title: 'Miner Administration — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -69,41 +64,20 @@ export default {
             }
         ]
     }),
-    watch: {
-        profileid: function (_profileid) {
-            console.log('PROFILE ID HAS CHANGED', _profileid)
-
-            this.$store.dispatch('admin/loadMiners', _profileid)
-        }
-    },
     computed: {
         ...mapGetters({
-            miners: 'admin/getMiners',
-            profiles: 'admin/getProfiles'
-        }),
-
-        profile () {
-            /* Validate profiles. */
-            if (!this.profiles) {
-                return {}
-            }
-
-            /* Find the active profile. */
-            const profile = this.profiles.find((_profile) => {
-                return _profile._id === this.profileid
-            })
-
-            /* Return active profile. */
-            return profile
-        }
+            miners: 'admin/getMiners'
+        })
     },
     created: function () {
         /* Validate handler. */
         if (this.$route.params && this.$route.params.handler) {
             // TODO: Handle different stubs.
 
-            /* Set profile id. */
-            this.profileid = this.$route.params.handler
+            /* Set miner id. */
+            this.minerid = this.$route.params.handler
+
+            this.loadMiner()
         }
     },
     mounted: function () {
@@ -114,9 +88,29 @@ export default {
             console.log('add a miner') // eslint-disable-line no-console
         },
 
-        addProfile () {
-            console.log('add a profile') // eslint-disable-line no-console
+        async loadMiner () {
+            /* Request issuer. */
+            const didToken = this.$store.state.profile.didToken
+
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    didToken,
+                    action: 'get_miner',
+                    minerid: this.minerid
+                })
+            })
+
+            const content = await rawResponse.json()
+            console.log('CONTENT (get_miner):', content) // eslint-disable-line no-console
+
+            this.miner = content
         }
+
     }
 }
 </script>

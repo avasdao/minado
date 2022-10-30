@@ -31,7 +31,12 @@
                             </thead>
 
                             <tbody class="divide-y divide-gray-200 bg-white">
-                                <tr v-for="miner of displayedMiners" :key="miner._id">
+                                <tr
+                                    v-for="miner of displayedMiners"
+                                    class="cursor-pointer"
+                                    :key="miner._id"
+                                    @click="loadMiner(miner)"
+                                >
                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                         <div class="flex items-center">
                                             <div class="h-10 w-10 flex-shrink-0">
@@ -79,7 +84,7 @@
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
                             @click="addMiner"
                         >
-                            New Minerication
+                            Add New Miner
                         </button>
 
                         <AdminMinersList
@@ -152,6 +157,11 @@ export default {
 
         addMiner () {
             alert('TODO')
+        },
+
+        loadMiner (_miner) {
+            // alert(_miner._id)
+            this.$router.push('/admin/miners/' + _miner._id)
         },
 
         async getProfile (_profileid) {

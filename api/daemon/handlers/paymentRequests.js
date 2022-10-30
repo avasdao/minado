@@ -12,6 +12,24 @@ const ordersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
 const AFFILIATE_ID = 'sujKhKjvl'
 const COMMISSION_RATE = '0.001'
 
+const requestSpotPrice = async (_asset) => {
+    /* Set endpoint. */
+    const endpoint = `https://api.telr.io/v1/ticker/quote/${_asset}`
+
+    /* Request status. */
+    const response = await superagent
+        .get(endpoint)
+        .set('accept', 'json')
+        .catch(err => console.error(err))
+    console.log('\nTELR CALL:', response.body)
+
+    /* Validate response body. */
+    if (response && response.body) {
+        return response.body
+    }
+
+    return null
+}
 
 const requestShift = async (_asset, _quoteId) => {
     let settleAddress
@@ -23,7 +41,8 @@ const requestShift = async (_asset, _quoteId) => {
         settleAddress = 'qpqq6euaeldz9hllja3n7ejzk97myhlw8urajzjeqc' // Electron Cash wallet
         refundAddress = '371ygdo1eNSaHPZe82zYw4d41QrixidfLT'
     } else {
-        settleAddress = '83tWpsNNjv73TN9bKG7dsU5WPGZE3tax9dACehCduHMMg6k3yVVyxmiL8nRaEvTCAthzoHSbqpMJkYN5abxojQqBD6DfUNd' // Monero GUI wallet
+        // settleAddress = '83tWpsNNjv73TN9bKG7dsU5WPGZE3tax9dACehCduHMMg6k3yVVyxmiL8nRaEvTCAthzoHSbqpMJkYN5abxojQqBD6DfUNd' // Monero GUI wallet
+        settleAddress = '83tv4v4vAR6Acb9VpBC6ReYJzWZYi7SDPiMwKeJxSfoPiGaBvj1YQqgJFk776MWM2ChfsQ77aCwEfCPHvYh3eYAqKJ1Z83G' // Monero GUI wallet
         refundAddress = '371ygdo1eNSaHPZe82zYw4d41QrixidfLT'
     }
 
@@ -45,14 +64,23 @@ const requestShift = async (_asset, _quoteId) => {
         .set('accept', 'json')
         .send(pkg)
         .catch(err => console.error(err))
-    console.log('\nSIDESHIFT CALL:', response.body)
 
-    return response.body
+    if (response && response.body) {
+        console.log('\nSIDESHIFT CALL (body):', response.body)
+
+        return response.body
+    } else if (response && response.text) {
+        console.log('\nSIDESHIFT CALL (text):', response.text)
+
+        return response.text
+    } else {
+        return null
+    }
 }
 
 const getQuote = async (
-    _depositCoin, 
-    _depositNetwork = 'mainnet', 
+    _depositCoin,
+    _depositNetwork = 'mainnet',
     _depositAmount
 ) => {
     let response
@@ -92,8 +120,12 @@ const getQuote = async (
 const getPair = async (_asset) => {
     let response
 
+    if (_asset.indexOf('-') === -1) {
+        _asset = _asset + '-mainnet'
+    }
+
     /* Set trade pair. */
-    const settlement = _asset === 'xmr' ? 'bch-mainnet' : 'xmr-mainnet'
+    const settlement = _asset === 'xmr-mainnet' ? 'bch-mainnet' : 'xmr-mainnet'
 
     // TODO Validate order id.
 
@@ -105,10 +137,11 @@ const getPair = async (_asset) => {
         .get(endpoint)
         .set('accept', 'json')
         .catch(err => console.error(err))
-    console.log('\nSIDESHIFT CALL:', response.body)
+    // console.log('\nSIDESHIFT CALL:', response)
 
     /* Validate response body. */
     if (response && response.body) {
+
         /* Set body. */
         const body = response.body
 
@@ -137,6 +170,7 @@ const handler = async () => {
     let doc
     let error
     let paymentAmount
+    let quoteAmount
     let response
     let results
 
@@ -174,9 +208,23 @@ const handler = async () => {
 
         /* Request trade pair. */
         const pair = await getPair(asset)
+        console.log('PAIR', pair)
+
+        const spot = await requestSpotPrice(pair.depositCoin)
+        console.log('SPOT PRICE', spot)
+
+        quoteAmount = Number(paymentAmount / spot.price)
+
+        if (quoteAmount < Number(pair.min)) {
+            console.log('RAISING PAYMENT AMOUNT TO MEET MINIMUM')
+            quoteAmount = pair.min
+        }
+
+        /* Verify number of decimals (max: 8). */
+        quoteAmount = quoteAmount.toFixed(8)
 
         /* Request trade quote. */
-        const quote = await getQuote(pair.depositCoin, pair.depositNetwork, pair.min)
+        const quote = await getQuote(pair.depositCoin, pair.depositNetwork, quoteAmount)
 
         /* Request shift. */
         const shift = await requestShift(pair.depositCoin, quote.id)
@@ -199,6 +247,7 @@ const handler = async () => {
                 error = err
                 console.error(err)
             })
+        console.log('UPDATED PAYMENT REQUEST', response)
 
         /* Validate error. */
         if (error) {
@@ -207,7 +256,7 @@ const handler = async () => {
 
         /* Send email. */
         // const success = await _sendEmail(destination)
-        
+
         // TODO Handle email delivery success.
     })
 }

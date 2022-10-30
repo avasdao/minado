@@ -15,10 +15,10 @@ const client = new Client({
 
 /**
  * Remote Procedure Call (RPC)
- * 
- * @param {String} _method 
- * @param {Object} _params 
- * @returns 
+ *
+ * @param {String} _method
+ * @param {Object} _params
+ * @returns
  */
 const rpc = async (_method, _params) => {
     let endpoint
@@ -28,12 +28,12 @@ const rpc = async (_method, _params) => {
     try {
         /* Set endpoint. */
         endpoint = `http://user:password@127.0.0.1:7227`
-        
+
         /* Build package. */
         const pkg = {
-            "jsonrpc": "2.0", 
-            "id": "core", 
-            "method": _method, 
+            "jsonrpc": "2.0",
+            "id": "core",
+            "method": _method,
             "params": _params,
         }
 
@@ -73,7 +73,7 @@ const rpc = async (_method, _params) => {
         } else {
             return null
         }
-        
+
     } catch (err) {
         return err
     }
@@ -81,10 +81,10 @@ const rpc = async (_method, _params) => {
 
 /**
  * Core (Node) Module
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns 
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @returns
  */
 const core = async function (req, res) {
     let action
@@ -102,18 +102,18 @@ const core = async function (req, res) {
         action = body.action
         address = body.address
         params = body.params
-    
+
         /* Validate body. */
         if (!body) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing body parameter.'
             })
         }
-    
+
         if (action === 'getbalance') {
             const balance = await client
                 .getBalance('*', 0)
@@ -123,41 +123,41 @@ const core = async function (req, res) {
             console.log('BALANCE', balance)
             return res.json(balance)
         }
-    
+
         /* Handle mining candidate. */
         if (action === 'getminingcandidate') {
             /* Make core request. */
             response = await rpc(action, params)
             // console.log('RPC RESPONSE', response)
-            
+
             /* Return response. */
             return res.json(response)
         }
-    
+
         if (action === 'getmininginfo') {
             const miningInfo = await rpc(action, params)
-            console.log('MINING INFO', miningInfo)
+            // console.log('MINING INFO', miningInfo)
 
             return res.json(miningInfo)
         }
-    
-        if (action === 'validateaddress') {
-            const miningInfo = await rpc(action, params)
-            console.log('MINING INFO', miningInfo)
 
-            return res.json(miningInfo)
+        if (action === 'validateaddress') {
+            const validateAddress = await rpc(action, params)
+            // console.log('VALIDATE ADDRESS', validateAddress)
+
+            return res.json(validateAddress)
         }
 
         if (!pkg) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Invalid action requested.'
             })
         }
-    
+
         /* Fallback. */
         return res.end('Oops! Something went wrong.')
     } catch (err) {

@@ -8,13 +8,14 @@ const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
 /**
  * Get Miners
  */
-const getMiners = async (res, _profileid) => {
+const getMiners = async (res, _body) => {
+    const profileid = _body.profileid
     let data
 
     /* Request existing user. */
     results = await minersDb
         .query('api/byProfile', {
-            key: _profileid,
+            key: profileid,
             include_docs: true,
         })
         .catch(err => {

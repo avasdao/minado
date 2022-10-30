@@ -30,7 +30,6 @@ const admin = async function (req, res) {
     let issuer
     let metadata
     let pkg
-    let profileid
     let results
     let updatedAt
 
@@ -130,8 +129,7 @@ const admin = async function (req, res) {
         }
 
         if (action === 'get_miners') {
-            profileid = body.profileid
-            return require('./admin/getMiners')(res, profileid)
+            return require('./admin/getMiners')(res, body)
         }
 
         if (action === 'get_notifs') {
@@ -146,12 +144,26 @@ const admin = async function (req, res) {
             return require('./admin/getServers')(res)
         }
 
-        if (action === 'get_profile') {
-            profileid = body.profileid
+        if (action === 'get_miner') {
+            minerid = body.minerid
 
             /* Request existing user. */
+            results = await minersDb
+                .get(minerid, {
+                    include_docs: true,
+                })
+                .catch(err => {
+                    console.error('DATA ERROR:', err)
+                })
+            console.log('MINER RESULT (byId)', util.inspect(results, false, null, true))
+
+            return res.json(results)
+        }
+
+        if (action === 'get_profile') {
+            /* Request existing user. */
             results = await profilesDb
-                .get(profileid, {
+                .get(body.profileid, {
                     include_docs: true,
                 })
                 .catch(err => {
@@ -246,20 +258,7 @@ const admin = async function (req, res) {
         }
 
         if (action === 'update_miner') {
-            updatedAt = moment().unix()
-
-            pkg = {
-                ...body.miner,
-                updatedAt,
-            }
-            console.log('UPDATE MINER (pkg):', pkg);
-            /* Update existing miner. */
-            results = await minersDb
-                .put(pkg)
-                .catch(err => {
-                    console.error('DATA ERROR:', err)
-                })
-            console.log('MINERS RESULT (byId)', util.inspect(results, false, null, true))
+            return require('./admin/updateMiner')(res, body)
         }
 
         /* Build (result) package. */

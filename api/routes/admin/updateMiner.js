@@ -1,6 +1,7 @@
 /* Import modules. */
-const util = require('util')
+const moment = require('moment')
 const PouchDB = require('pouchdb')
+const util = require('util')
 
 /* Initialize databases. */
 const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/miners`)

@@ -17,6 +17,7 @@
 
                         <AdminMinersDetailView
                             :miner="miner"
+                            @loadMiner="loadMiner"
                         />
                     </section>
 

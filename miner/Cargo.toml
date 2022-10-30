@@ -1,6 +1,6 @@
 [package]
-name = "nexa-pro-miner"
-version = "22.9.30"
+name = "nexa-rocks-miner"
+version = "22.10.30"
 authors = ["Ava's DAO <support@avasdao.org>"]
 edition = "2021"
 

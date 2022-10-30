@@ -1,4 +1,4 @@
-# Nexa Rocks WASM Miner
+# Nexa Rocks Miner
 
 ### To build for Web Assembly:
 

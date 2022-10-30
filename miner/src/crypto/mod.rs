@@ -20,20 +20,22 @@ pub fn test_sha256() {
     // let mut data = b"ed35a1d27d9081cb4bf5fded7e16142878b6af86ab0ad5bc90cf9753d242f0d5191A6D40";
 
     /* Set header commitment. */
-    let header_commitment: Vec<u8> = hex::decode("629235413ec743cc2d3e8e3dc0b298838262f71fb353f294f2cdd31b85ffe009")
+    let header_commitment: Vec<u8> = hex::decode("0321c7f915cafe44c764b19bfea4abce0863ebdac8d369b0715223818258834a")
         .expect("Oops! Invalid hex string.");
     println!("\nheader_commitment: {:?}", header_commitment);
 
-    let message = "hello world";
-    println!("\nmessage {}: ", message);
-    let header_commitment = "c70b1d1b5e8f2eae220b7ee55d194a3b48820cfa1c58fe7a4c934603805d10b6";
+    // let message = "hello world";
+    // println!("\nmessage {}: ", message);
+    let reverse_commitment = "0321c7f915cafe44c764b19bfea4abce0863ebdac8d369b0715223818258834a";
 
     // let double_hasher = DoubleHash256::new_with_prefix(message.as_bytes());
-    let double_hasher = DoubleHash256::new_with_prefix(header_commitment);
+    let double_hasher = DoubleHash256::new_with_prefix(reverse_commitment);
     let double_hash = double_hasher.finalize();
     println!("\ndouble_hash {:x}: ", double_hash);
 
-    let hasher_one = Sha256::new_with_prefix(header_commitment.as_bytes());
+    // let hasher_one = Sha256::new_with_prefix(header_commitment.as_bytes());
+    // let hasher_one = Sha256::new_with_prefix(header_commitment);
+    let hasher_one = Sha256::new_with_prefix(reverse_commitment.as_bytes());
     let hash_one = hasher_one.finalize();
     let hasher_two = Sha256::new_with_prefix(hash_one);
     let hash_two = hasher_two.finalize();

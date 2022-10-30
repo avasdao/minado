@@ -12,9 +12,8 @@ fn main() -> std::io::Result<()> {
 
     utils::welcome1();
 
-    crypto::test_sha256();
-
-    // crypto::test_shnorr();
+    // crypto::test_sha256();
+    crypto::test_shnorr();
     // process::exit(1);
 
     // print!("\n  {}", "Initializing your system. Please wait...");

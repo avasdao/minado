@@ -3,7 +3,7 @@ const util = require('util')
 const PouchDB = require('pouchdb')
 
 /* Initialize databases. */
-const notifsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/notifs`)
+const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/miners`)
 
 /**
  * Get Miners

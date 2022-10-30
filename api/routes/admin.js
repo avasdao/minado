@@ -146,6 +146,22 @@ const admin = async function (req, res) {
             return require('./admin/getServers')(res)
         }
 
+        if (action === 'get_profile') {
+            profileid = body.profileid
+
+            /* Request existing user. */
+            results = await profilesDb
+                .get(profileid, {
+                    include_docs: true,
+                })
+                .catch(err => {
+                    console.error('DATA ERROR:', err)
+                })
+            console.log('PROFILE RESULT (byId)', util.inspect(results, false, null, true))
+
+            return res.json(results)
+        }
+
         if (action === 'get_profiles') {
             /* Request existing user. */
             results = await profilesDb

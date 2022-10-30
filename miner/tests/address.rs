@@ -1,9 +1,9 @@
 /**
  * Address
- * 
+ *
  * Test addresses.
  */
-fn main() {
+fn pass() {
     println!("\nStarting address tests..");
 
     pub mod bech32;
@@ -20,5 +20,5 @@ fn main() {
     assert!(encode_result.is_ok());
 
     assert_eq!(s.to_lowercase(), encode_result.unwrap().to_lowercase());
-    
+
 }

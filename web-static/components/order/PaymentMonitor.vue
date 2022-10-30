@@ -11,8 +11,16 @@
             class="mt-5 w-64 h-64 border-4 border-indigo-500 rounded-lg cursor-pointer"
         />
 
-        <div v-if="shiftStatus && shiftStatus.depositAddress" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
-            {{shiftStatus ? shiftStatus.depositAddress : ''}}
+        <h3>
+            {{paymentRequest && paymentRequest.paymentAddress}}
+        </h3>
+
+        <h3>
+            {{paymentRequest && paymentRequest.depositCoin}}
+        </h3>
+
+        <div v-if="shiftStatus && shiftStatus.paymentAddress" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
+            {{shiftStatus ? shiftStatus.paymentAddress : ''}}
         </div>
 
         <div v-if="shiftStatus && shiftStatus.depositAmount" class="mt-5 px-3 py-1 text-center text-xl font-medium text-gray-100 bg-indigo-700 border-2 border-indigo-800 rounded-lg">
@@ -106,16 +114,25 @@ export default {
     methods: {
         getPaymentUrl () {
             /* Initialize deposit address. */
-            let depositAddress = ''
+            let paymentAddress = ''
 
             /* Initialize deposit amount. */
             let depositAmount = 0.0
 
-            const currencyPrefix = 'bitcoin:'
+            let currencyPrefix
+
+            switch (this.paymentRequest.depositCoin) {
+            case 'BTC':
+                currencyPrefix = 'bitcoin:'
+                break
+            case 'DASH':
+                currencyPrefix = 'dash:'
+                break
+            }
 
             /* Validate deposit address. */
-            if (this.paymentRequest && this.paymentRequest.depositAddress) {
-                depositAddress = this.paymentRequest.depositAddress
+            if (this.paymentRequest && this.paymentRequest.paymentAddress) {
+                paymentAddress = this.paymentRequest.paymentAddress
             }
 
             /* Validate deposit amount. */
@@ -123,10 +140,11 @@ export default {
                 depositAmount = this.paymentRequest.depositAmount
             }
 
-            console.info('Updated deposit info:', depositAddress, depositAmount)
+            console.info('Updated deposit info:', paymentAddress, depositAmount)
 
             const paymentLabel = window.encodeURIComponent('Nexa Rocks!')
-            const paymentUrl = `${currencyPrefix}${depositAddress}?amount=${depositAmount}&label=${paymentLabel}`
+            const paymentUrl = `${currencyPrefix}${paymentAddress}?amount=${depositAmount}&label=${paymentLabel}`
+            console.log('Payment URL ->', paymentUrl)
 
             return paymentUrl
         },

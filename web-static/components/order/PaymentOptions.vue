@@ -12,7 +12,7 @@
                     :key="coin.id"
                 >
                     <div
-                        @click="loadAsset(coin)"
+                        @click="loadAsset(coin.id)"
                         class="flex flex-col p-3 items-center bg-gray-100 border border-gray-200 rounded-lg cursor-pointer shadow"
                     >
                         <img
@@ -41,7 +41,7 @@
             <div class="flex grid grid-cols-3 gap-7">
                 <div v-for="coin of stablecoins" :key="coin.id">
                     <div
-                        @click="loadAsset(coin)"
+                        @click="loadAsset(coin.id)"
                         class="flex flex-col p-3 items-center bg-gray-100 border border-gray-200 rounded-lg cursor-pointer shadow"
                     >
                         <img
@@ -167,7 +167,7 @@
 
         <hr v-if="isShowingPaymentMonitor" class="my-5" />
 
-        <PaymentMonitor
+        <OrderPaymentMonitor
             v-if="isShowingPaymentMonitor"
             :shiftStatus="shiftStatus"
             :paymentRequest="paymentRequest"
@@ -176,15 +176,9 @@
 </template>
 
 <script>
-/* Import component. */
-import PaymentMonitor from './PaymentMonitor'
-
 export default {
     props: {
         order: Object
-    },
-    components: {
-        PaymentMonitor
     },
     data: () => ({
         dataUrl: null,
@@ -217,8 +211,9 @@ export default {
         async loadAsset (_asset) {
             console.log('LOAD ASSET', _asset)
 
-            if (_asset.id === 'USDC') {
-                return this.loadNetworks(_asset.id)
+            // TODO: Add remaining
+            if (_asset === 'USDC') {
+                return this.loadNetworks(_asset)
             }
 
             /* Build request body. */
@@ -240,6 +235,7 @@ export default {
                 },
                 body: JSON.stringify(body)
             })
+            console.log('RAW RESPONSE', rawResponse)
 
             if (rawResponse) {
                 this.paymentRequest = await rawResponse.json()

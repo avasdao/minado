@@ -1,6 +1,6 @@
 <template>
     <main class="-mt-24 pb-8 flex flex-col gap-3 max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <OrderViewOrderIncentives />
+        <OrderIncentives />
 
         <section aria-labelledby="mt-48 quick-links-title">
             <div class="sm:w-3/4 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
@@ -457,7 +457,7 @@
                             </button>
                         </div>
 
-                        <OrderViewPaymentOptions
+                        <OrderPaymentOptions
                             v-if="isShowingPaymentOptions"
                             :order="order"
                         />

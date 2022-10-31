@@ -94,6 +94,7 @@ export default {
 
             /* Set (event) source. */
             const source = `https://stratum.nexa.rocks/v1/shares/${this.addressStub.slice(5)}`
+            console.log('SOURCE', source)
 
             /* Initialize shares streaming. */
             const shares = new EventSource(source)
@@ -116,7 +117,7 @@ export default {
 
             /* Handle message. */
             shares.onmessage = (_evt) => {
-                // console.log('ONMESSAGE (evt):', _evt)
+                console.log('ONMESSAGE (evt):', _evt)
 
                 try {
                     /* Parse data. */

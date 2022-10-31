@@ -57,6 +57,23 @@ const stratum = async function (req, res) {
         .put(pkg)
         .catch(err => console.error('LOGS ERROR:', err))
 
+    /* Set response id. */
+    id = body.id
+
+    /* Set (Stratum) response error. */
+    error = [
+        0,
+        '',
+        null,
+    ]
+
+    /* Build response package. */
+    pkg = {
+        id,
+        result,
+        error: error[0] ? error : null,
+    }
+
     /* Handle registration. */
     // TODO: Allow client to ping (for expiration refresh).
     if (body.method === 'register' && body.params) {
@@ -78,6 +95,11 @@ const stratum = async function (req, res) {
             /* Register SSE. */
             req.app.get(`/v1/shares/${address}`, sse[address].instance.init)
         }
+
+        return res.json({
+            ...pkg,
+            expiresAt: sse[address].expiresAt
+        })
     }
 
     /* Handle shares. */
@@ -151,23 +173,6 @@ const stratum = async function (req, res) {
             /* Send package. */
             sse[sseAddress].instance.send(pkg)
         }
-    }
-
-    /* Set response id. */
-    id = body.id
-
-    /* Set (Stratum) response error. */
-    error = [
-        0,
-        '',
-        null,
-    ]
-
-    /* Build response package. */
-    pkg = {
-        id,
-        result,
-        error: error[0] ? error : null,
     }
 
     /* Return package. */

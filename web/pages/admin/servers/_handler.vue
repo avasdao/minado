@@ -15,15 +15,8 @@
                             Server Administration
                         </h1>
 
-                        <AdminProfileView
-                            :profile="profile"
-                        />
-
-                        <AdminMinersPanel
-                            class="mt-3"
-                            :miners="miners"
-                            :profile="profile"
-                            @addMiner="addMiner"
+                        <AdminServersDetailView
+                            :server="server"
                         />
                     </section>
 
@@ -31,14 +24,14 @@
                     <div class="grid grid-cols-1 gap-4">
                         <button
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
-                            @click="addProfile"
+                            @click="addServer"
                         >
-                            Add New Profile
+                            Add New Server
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
-
-                        <BlockRewardsPanel />
+                        <AdminServersListView
+                            :servers="servers"
+                        />
                     </div>
                 </div>
             </div>
@@ -57,7 +50,7 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profileid: null
+        serverid: null
     }),
     head: () => ({
         title: 'Server Administration — Nexa Rocks!',
@@ -70,31 +63,31 @@ export default {
         ]
     }),
     watch: {
-        profileid: function (_profileid) {
-            console.log('PROFILE ID HAS CHANGED', _profileid)
+        serverid: function (_serverid) {
+            console.log('PROFILE ID HAS CHANGED', _serverid)
 
-            this.$store.dispatch('admin/loadMiners', _profileid)
+            this.$store.dispatch('admin/loadMiners', _serverid)
         }
     },
     computed: {
         ...mapGetters({
             miners: 'admin/getMiners',
-            profiles: 'admin/getProfiles'
+            servers: 'admin/getProfiles'
         }),
 
-        profile () {
-            /* Validate profiles. */
-            if (!this.profiles) {
+        server () {
+            /* Validate servers. */
+            if (!this.servers) {
                 return {}
             }
 
-            /* Find the active profile. */
-            const profile = this.profiles.find((_profile) => {
-                return _profile._id === this.profileid
+            /* Find the active server. */
+            const server = this.servers.find((_server) => {
+                return _server._id === this.serverid
             })
 
-            /* Return active profile. */
-            return profile
+            /* Return active server. */
+            return server
         }
     },
     created: function () {
@@ -102,8 +95,8 @@ export default {
         if (this.$route.params && this.$route.params.handler) {
             // TODO: Handle different stubs.
 
-            /* Set profile id. */
-            this.profileid = this.$route.params.handler
+            /* Set server id. */
+            this.serverid = this.$route.params.handler
         }
     },
     mounted: function () {
@@ -114,8 +107,8 @@ export default {
             console.log('add a miner') // eslint-disable-line no-console
         },
 
-        addProfile () {
-            console.log('add a profile') // eslint-disable-line no-console
+        addServer () {
+            console.log('add a server') // eslint-disable-line no-console
         }
     }
 }

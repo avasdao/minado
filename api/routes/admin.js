@@ -13,7 +13,7 @@ const magicAdmin = new Magic(process.env.MAGIC_LINK_KEY)
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/logs`)
 const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/miners`)
 const profilesDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/profiles`)
-// const sessionsDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/sessions`)
+const serversDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/servers`)
 
 /**
  * Administration Module
@@ -193,6 +193,22 @@ const admin = async function (req, res) {
                 })
             }
 
+        }
+
+        if (action === 'get_server') {
+            serverid = body.serverid
+
+            /* Request existing user. */
+            results = await serversDb
+                .get(serverid, {
+                    include_docs: true,
+                })
+                .catch(err => {
+                    console.error('DATA ERROR:', err)
+                })
+            console.log('SERVER RESULT (byId)', util.inspect(results, false, null, true))
+
+            return res.json(results)
         }
 
         if (action === 'add_profile') {

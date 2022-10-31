@@ -78,6 +78,7 @@ export default {
             /* Set miner id. */
             this.minerid = this.$route.params.handler
 
+            /* Load miner. */
             this.loadMiner()
         }
     },

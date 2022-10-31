@@ -44,13 +44,17 @@
 <script>
 import { mapGetters } from 'vuex'
 
+/* Set API endpoint. */
+const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+
 export default {
     middleware: [
         'admin.auth',
         'magic.auth'
     ],
     data: () => ({
-        serverid: null
+        serverid: null,
+        server: null
     }),
     head: () => ({
         title: 'Server Administration — Nexa Rocks!',
@@ -64,31 +68,15 @@ export default {
     }),
     watch: {
         serverid: function (_serverid) {
-            console.log('PROFILE ID HAS CHANGED', _serverid)
+            console.log('SERVER ID HAS CHANGED', _serverid)
 
-            this.$store.dispatch('admin/loadMiners', _serverid)
+            this.$store.dispatch('admin/loadServers', _serverid)
         }
     },
     computed: {
         ...mapGetters({
-            miners: 'admin/getMiners',
-            servers: 'admin/getProfiles'
-        }),
-
-        server () {
-            /* Validate servers. */
-            if (!this.servers) {
-                return {}
-            }
-
-            /* Find the active server. */
-            const server = this.servers.find((_server) => {
-                return _server._id === this.serverid
-            })
-
-            /* Return active server. */
-            return server
-        }
+            servers: 'admin/getServers'
+        })
     },
     created: function () {
         /* Validate handler. */
@@ -97,18 +85,40 @@ export default {
 
             /* Set server id. */
             this.serverid = this.$route.params.handler
+
+            /* Load server. */
+            this.loadServer()
         }
     },
     mounted: function () {
         //
     },
     methods: {
-        addMiner () {
-            console.log('add a miner') // eslint-disable-line no-console
-        },
-
         addServer () {
             console.log('add a server') // eslint-disable-line no-console
+        },
+
+        async loadServer () {
+            /* Request issuer. */
+            const didToken = this.$store.state.profile.didToken
+
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    didToken,
+                    action: 'get_server',
+                    serverid: this.serverid
+                })
+            })
+
+            const content = await rawResponse.json()
+            console.log('CONTENT (get_server):', content) // eslint-disable-line no-console
+
+            this.server = content
         }
     }
 }

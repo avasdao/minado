@@ -2,7 +2,7 @@
     <main class="md:grid md:grid-cols-3 md:gap-6">
         <div class="md:col-span-1">
             <h3 class="text-lg font-medium leading-6 text-gray-900">
-                Miner Information
+                Server Information
             </h3>
 
             <p class="mt-1 text-sm text-gray-500">
@@ -12,7 +12,7 @@
 
         <div class="mt-5 md:col-span-2 md:mt-0">
             <h1 class="px-3 py-1 text-2xl text-yellow-800 font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                {{miner ? miner._id : 'no miner'}}
+                {{server ? server._id : 'no server'}}
             </h1>
 
             <div class="mt-5 grid grid-cols-6 gap-6">
@@ -36,7 +36,7 @@
                     <input
                         type="text"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        v-model="serverid"
+                        :value="server ? server._id : 'no server'"
                     />
                 </div>
 
@@ -93,13 +93,13 @@
                 <section class="p-3 col-span-6 grid grid-cols-2 gap-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl border-4 border-yellow-600">
                     <div class="col-span-2">
                         <label for="hostname" class="block text-sm font-medium text-gray-700">
-                            Active Profile Id
+                            Active Server Id
                         </label>
 
                         <input
                             type="text"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            v-model="profileid"
+                            :value="server ? server._id : 'no server'"
                         />
                     </div>
 
@@ -112,7 +112,7 @@
                             type="text"
                             autocomplete="given-name"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="profile && profile.firstName"
+                            :value="server && server.firstName"
                             disabled
                         />
                     </div>
@@ -126,7 +126,7 @@
                             type="text"
                             autocomplete="family-name"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="profile && profile.lastName"
+                            :value="server && server.lastName"
                             disabled
                         />
                     </div>
@@ -140,7 +140,7 @@
                             type="text"
                             autocomplete="family-name"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="profile && profile.nickname"
+                            :value="server && server.nickname"
                             disabled
                         />
                     </div>
@@ -154,7 +154,7 @@
                             type="text"
                             autocomplete="family-name"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="profile && profile.email"
+                            :value="server && server.email"
                             disabled
                         />
                     </div>
@@ -168,11 +168,11 @@
                             type="text"
                             autocomplete="family-name"
                             class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="profile && profile.address"
+                            :value="server && server.address"
                             disabled
                         />
 
-                        <a v-if="profile && profile.address" :href="'https://explorer.nexa.org/address/' + profile.address" target="_blank" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
+                        <a v-if="server && server.address" :href="'https://explorer.nexa.org/address/' + server.address" target="_blank" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
                             open in explorer
                         </a>
                     </div>
@@ -193,7 +193,7 @@
 
                 <div class="mt-1 col-span-6">
                     <h2 class="pl-2 text-xs text-gray-500 font-medium uppercase">
-                        Launch miners
+                        Launch servers
                     </h2>
 
                     <textarea
@@ -218,7 +218,7 @@
                         Expires At: {{fullDate(expiresAt)}}
                     </div>
 
-                    <label for="expminer.createdAtiration" class="block text-sm font-medium text-gray-700">
+                    <label for="expserver.createdAtiration" class="block text-sm font-medium text-gray-700">
                         Set New Expiration
                     </label>
 
@@ -242,7 +242,7 @@
 
         <footer class="col-span-3 flex justify-end">
             <button
-                @click="updateMiner"
+                @click="updateServer"
                 class="px-3 py-1 text-xl font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg hover:text-yellow-800 bg-yellow-300"
             >
                 Update Miner
@@ -262,7 +262,7 @@ const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
 export default {
     props: {
-        miner: Object
+        server: Object
     },
     data: () => ({
         auth: null,
@@ -270,33 +270,28 @@ export default {
         expiration: null,
         hostname: null,
         location: null,
-        profile: null,
-        profileid: null,
-        serverid: null,
         pid: null,
         createdAt: null,
         updatedAt: null,
         expiresAt: null
     }),
     watch: {
-        miner: function (_miner) {
-            console.log('MINER CHANGED', _miner)
+        server: function (_server) {
+            console.log('MINER CHANGED', _server)
 
-            /* Validate miner. */
-            if (_miner) {
-                this.hostname = _miner.hostname
-                this.auth = _miner.auth
-                this.count = _miner.count
-                this.location = _miner.location
-                this.profileid = _miner.profileid
-                this.serverid = _miner.serverid
-                this.pid = _miner.pid
-                this.createdAt = _miner.createdAt
-                this.updatedAt = _miner.updatedAt
-                this.expiresAt = _miner.expiresAt
+            /* Validate server. */
+            if (_server) {
+                this.hostname = _server.hostname
+                this.auth = _server.auth
+                this.count = _server.count
+                this.location = _server.location
+                this.pid = _server.pid
+                this.createdAt = _server.createdAt
+                this.updatedAt = _server.updatedAt
+                this.expiresAt = _server.expiresAt
 
-                /* Load profile. */
-                this.loadProfile()
+                /* Load server. */
+                // this.loadServer()
             }
         }
     },
@@ -307,30 +302,28 @@ export default {
 
         cmdLaunchMiners () {
             const cpus = this.count || 0
-            const address = this.profile ? this.profile.address : ''
-            const nickname = this.profile ? this.profile.nickname : ''
+            const address = this.server ? this.server.address : ''
+            const nickname = this.server ? this.server.nickname : ''
 
             if (cpus > 0) {
-                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
+                return `/root/nexa-server -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
 sleep 1
 disown %1
 exit`
             } else {
-                return 'Please select a miner count'
+                return 'Please select a server count'
             }
         }
     },
     methods: {
-        async updateMiner () {
+        async updateServer () {
             /* Request issuer. */
-            const didToken = this.$store.state.profile.didToken
+            const didToken = this.$store.state.server.didToken
 
             const hostname = this.hostname
             const auth = this.auth
             const count = this.count
             const location = this.location
-            const profileid = this.profileid
-            const serverid = this.serverid
             const pid = this.pid
             const createdAt = this.createdAt
             const expiresAt = this.expiresAt
@@ -343,15 +336,13 @@ exit`
                 },
                 body: JSON.stringify({
                     didToken,
-                    action: 'update_miner',
-                    miner: {
-                        ...this.miner,
+                    action: 'update_server',
+                    server: {
+                        ...this.server,
                         hostname,
                         auth,
                         count,
                         location,
-                        profileid,
-                        serverid,
                         pid,
                         createdAt,
                         expiresAt
@@ -364,7 +355,7 @@ exit`
 
             this.$emit('loadMiner')
 
-            // alert('re-loaded miner')
+            // alert('re-loaded server')
         },
 
         fullDate (_timestamp) {
@@ -375,13 +366,13 @@ exit`
             return moment.unix(_timestamp).format('llll') + ' | ' + moment.unix(_timestamp).fromNow()
         },
 
-        async loadProfile () {
-            if (!this.profileid) {
+        async loadMiners () {
+            if (!this.server || !this.server._id) {
                 return
             }
 
             /* Request issuer. */
-            const didToken = this.$store.state.profile.didToken
+            const didToken = this.$store.state.server.didToken
 
             const rawResponse = await fetch(ENDPOINT, {
                 method: 'POST',
@@ -391,15 +382,15 @@ exit`
                 },
                 body: JSON.stringify({
                     didToken,
-                    action: 'get_profile',
-                    profileid: this.profileid
+                    action: 'get_miner',
+                    serverid: this.server._id
                 })
             })
 
             const content = await rawResponse.json()
-            console.log('CONTENT (get_profile):', content) // eslint-disable-line no-console
+            console.log('CONTENT (get_server):', content) // eslint-disable-line no-console
 
-            this.profile = content
+            // this.server = content
 
             return content
         },
@@ -421,23 +412,21 @@ exit`
         }
     },
     created: function () {
-        /* Validate miner. */
-        if (this.miner) {
-            this.hostname = this.miner.hostname
-            this.auth = this.miner.auth
-            this.count = this.miner.count
-            this.location = this.miner.location
-            this.profileid = this.miner.profileid
-            this.serverid = this.miner.serverid
-            this.pid = this.miner.pid
-            this.createdAt = this.miner.createdAt
-            this.updatedAt = this.miner.updatedAt
-            this.expiresAt = this.miner.expiresAt
+        /* Validate server. */
+        if (this.server) {
+            this.hostname = this.server.hostname
+            this.auth = this.server.auth
+            this.count = this.server.count
+            this.location = this.server.location
+            this.pid = this.server.pid
+            this.createdAt = this.server.createdAt
+            this.updatedAt = this.server.updatedAt
+            this.expiresAt = this.server.expiresAt
 
             this.expiration = ''
 
-            /* Load profile. */
-            this.loadProfile()
+            /* Load server. */
+            this.loadMiners()
         }
     },
     mounted: function () {

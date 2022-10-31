@@ -30,7 +30,7 @@ const loadMiners = async ({ rootState, commit }, _profileid) => {
         })
 
         content = await rawResponse.json()
-        // console.log('CONTENT (get_miners):', content)
+        console.log('CONTENT (get_miners):', content)
 
         /* Set notifications. */
         commit('SET_MINERS', content)

@@ -28,5 +28,5 @@ echo "Waiting for node to start..."
 echo
 
 sleep 90
-/root/nexa-cli getblockcount
+/root/nexa-cli -datadir=/root/.nexa-rocks getblockcount
 echo

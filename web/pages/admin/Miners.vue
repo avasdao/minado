@@ -138,7 +138,13 @@ export default {
                 return []
             }
 
-            return this.miners.slice(0, 3)
+            const miners = [...this.miners]
+
+            miners.sort(function (a, b) {
+                return a.expiresAt - b.expiresAt
+            })
+
+            return miners.slice(0, 3)
         }
     },
     created: function () {

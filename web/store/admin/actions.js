@@ -58,9 +58,9 @@ export default {
         return content
     },
 
-    loadMiners (_constructors) {
+    loadMiners (_constructors, _params) {
         // NOTE: Returns a promise.
-        return require('./_actions/loadMiners')(_constructors)
+        return require('./_actions/loadMiners')(_constructors, _params)
     },
 
     loadNotifs (_constructors) {

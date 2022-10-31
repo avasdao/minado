@@ -19,7 +19,7 @@
                             :profile="profile"
                         />
 
-                        <AdminMinersPanel
+                        <AdminMinersPanelView
                             class="mt-3"
                             :miners="miners"
                             :profile="profile"
@@ -57,7 +57,8 @@ export default {
         'magic.auth'
     ],
     data: () => ({
-        profileid: null
+        profileid: null,
+        miners: null
     }),
     head: () => ({
         title: 'Profile Administration — Nexa Rocks!',
@@ -70,15 +71,15 @@ export default {
         ]
     }),
     watch: {
-        profileid: function (_profileid) {
+        profileid: async function (_profileid) {
             console.log('PROFILE ID HAS CHANGED', _profileid)
 
-            this.$store.dispatch('admin/loadMiners', _profileid)
+            this.miners = await this.$store.dispatch('admin/loadMiners', _profileid)
         }
     },
     computed: {
         ...mapGetters({
-            miners: 'admin/getMiners',
+            // miners: 'admin/getMiners',
             profiles: 'admin/getProfiles'
         }),
 
@@ -97,13 +98,16 @@ export default {
             return profile
         }
     },
-    created: function () {
+    created: async function () {
         /* Validate handler. */
         if (this.$route.params && this.$route.params.handler) {
             // TODO: Handle different stubs.
 
             /* Set profile id. */
             this.profileid = this.$route.params.handler
+
+            this.miners = await this.$store.dispatch('admin/loadMiners', this.profileid)
+            console.log('PROFILE (miners):', this.miners)
         }
     },
     mounted: function () {

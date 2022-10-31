@@ -28,6 +28,42 @@
                     />
                 </div>
 
+                <div class="col-span-6 sm:col-span-2">
+                    <label for="siteid" class="block text-sm font-medium text-gray-700">
+                        Site Id
+                    </label>
+
+                    <input
+                        type="text"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        v-model="siteid"
+                    />
+                </div>
+
+                <div class="col-span-6 sm:col-span-2">
+                    <label for="hostname" class="block text-sm font-medium text-gray-700">
+                        PID
+                    </label>
+
+                    <input
+                        type="text"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        v-model="pid"
+                    />
+                </div>
+
+                <div class="col-span-6 sm:col-span-4">
+                    <label for="hostname" class="block text-sm font-medium text-gray-700">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        v-model="location"
+                    />
+                </div>
+
                 <div class="col-span-6 sm:col-span-3">
                     <label for="first-name" class="block text-sm font-medium text-gray-700">
                         Authorization
@@ -143,16 +179,28 @@
 
                 </section>
 
-                <div class="col-span-6 sm:col-span-4">
-                    <label for="hostname" class="block text-sm font-medium text-gray-700">
-                        PID
-                    </label>
+                <div class="mt-1 col-span-6">
+                    <h2 class="pl-2 text-xs text-gray-500 font-medium uppercase">
+                        Connecting
+                    </h2>
 
-                    <input
-                        type="text"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        v-model="pid"
-                    />
+                    <textarea
+                        rows="1"
+                        class="p-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        :value="cmdConn"
+                    ></textarea>
+                </div>
+
+                <div class="mt-1 col-span-6">
+                    <h2 class="pl-2 text-xs text-gray-500 font-medium uppercase">
+                        Launch miners
+                    </h2>
+
+                    <textarea
+                        rows="6"
+                        class="p-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        :value="cmdLaunchMiners"
+                    ></textarea>
                 </div>
 
                 <section class="col-span-6">
@@ -223,6 +271,7 @@ export default {
         location: null,
         profile: null,
         profileid: null,
+        siteid: null,
         pid: null,
         createdAt: null,
         updatedAt: null,
@@ -236,8 +285,10 @@ export default {
             if (_miner) {
                 this.hostname = _miner.hostname
                 this.auth = _miner.auth
+                this.count = _miner.count
                 this.location = _miner.location
                 this.profileid = _miner.profileid
+                this.siteid = _miner.siteid
                 this.pid = _miner.pid
                 this.createdAt = _miner.createdAt
                 this.updatedAt = _miner.updatedAt
@@ -249,7 +300,24 @@ export default {
         }
     },
     computed: {
-        //
+        cmdConn () {
+            return `./connect.sh ${this.location} ${this.auth}`
+        },
+
+        cmdLaunchMiners () {
+            const cpus = this.count || 0
+            const address = this.profile ? this.profile.address : ''
+            const nickname = this.profile ? this.profile.nickname : ''
+
+            if (cpus > 0) {
+                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
+sleep 1
+disown %1
+exit`
+            } else {
+                return 'Please select a miner count'
+            }
+        }
     },
     methods: {
         async updateMiner () {
@@ -258,8 +326,10 @@ export default {
 
             const hostname = this.hostname
             const auth = this.auth
+            const count = this.count
             const location = this.location
             const profileid = this.profileid
+            const siteid = this.siteid
             const pid = this.pid
             const createdAt = this.createdAt
             const expiresAt = this.expiresAt
@@ -277,8 +347,10 @@ export default {
                         ...this.miner,
                         hostname,
                         auth,
+                        count,
                         location,
                         profileid,
+                        siteid,
                         pid,
                         createdAt,
                         expiresAt
@@ -291,7 +363,7 @@ export default {
 
             this.$emit('loadMiner')
 
-            alert('re-loaded miner')
+            // alert('re-loaded miner')
         },
 
         fullDate (_timestamp) {
@@ -346,9 +418,10 @@ export default {
         if (this.miner) {
             this.hostname = this.miner.hostname
             this.auth = this.miner.auth
-            this.location = this.miner.location
             this.count = this.miner.count
+            this.location = this.miner.location
             this.profileid = this.miner.profileid
+            this.siteid = this.miner.siteid
             this.pid = this.miner.pid
             this.createdAt = this.miner.createdAt
             this.updatedAt = this.miner.updatedAt

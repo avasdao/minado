@@ -140,7 +140,7 @@
                                         rows="1"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdProv"
-                                    />
+                                    ></textarea>
                                 </div>
 
                                 <div class="mt-1">
@@ -152,7 +152,7 @@
                                         rows="1"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdConn"
-                                    />
+                                    ></textarea>
                                 </div>
 
                                 <div class="mt-1">
@@ -164,7 +164,7 @@
                                         rows="6"
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         :value="cmdLaunchMiners"
-                                    />
+                                    ></textarea>
                                 </div>
                             </div>
 
@@ -310,7 +310,7 @@ exit`
             let total = 0
 
             this.miners.forEach((_miner) => {
-                total += _miner.count
+                total += Number(_miner.count)
             })
 
             return total

@@ -11,10 +11,15 @@ apt update && apt upgrade -y
 echo
 echo "All libraries have been installed!"
 echo
+echo "Cleaning Nexa Rocks! data folder..."
+echo
+
+rm -rf .nexa-rocks
+
 echo "Installing Nexa Rocks! data folder..."
 echo
 
-tar xf nexa-rocks-97091.tar.gz
+tar xf nexa-rocks-104070.tar.gz
 
 echo "Nexa has been configured successfully!"
 echo

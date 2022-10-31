@@ -107,7 +107,7 @@ export default {
             this.profileid = this.$route.params.handler
 
             this.miners = await this.$store.dispatch('admin/loadMiners', this.profileid)
-            console.log('PROFILE (miners):', this.miners)
+            // console.log('PROFILE (miners):', this.miners)
         }
     },
     mounted: function () {

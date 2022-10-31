@@ -29,14 +29,14 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-2">
-                    <label for="siteid" class="block text-sm font-medium text-gray-700">
-                        Site Id
+                    <label for="serverid" class="block text-sm font-medium text-gray-700">
+                        Server Id
                     </label>
 
                     <input
                         type="text"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        v-model="siteid"
+                        v-model="serverid"
                     />
                 </div>
 
@@ -227,7 +227,8 @@
                         v-model="expiration"
                         @change="updateExpiration"
                     >
-                        <option value="" selected>- no change -</option>
+                        <option value="-1">DISABLED</option>
+                        <option value="">- no change -</option>
                         <option value="1">1 day</option>
                         <option value="7">1 week</option>
                         <option value="14">2 weeks</option>
@@ -271,7 +272,7 @@ export default {
         location: null,
         profile: null,
         profileid: null,
-        siteid: null,
+        serverid: null,
         pid: null,
         createdAt: null,
         updatedAt: null,
@@ -288,7 +289,7 @@ export default {
                 this.count = _miner.count
                 this.location = _miner.location
                 this.profileid = _miner.profileid
-                this.siteid = _miner.siteid
+                this.serverid = _miner.serverid
                 this.pid = _miner.pid
                 this.createdAt = _miner.createdAt
                 this.updatedAt = _miner.updatedAt
@@ -329,7 +330,7 @@ exit`
             const count = this.count
             const location = this.location
             const profileid = this.profileid
-            const siteid = this.siteid
+            const serverid = this.serverid
             const pid = this.pid
             const createdAt = this.createdAt
             const expiresAt = this.expiresAt
@@ -350,7 +351,7 @@ exit`
                         count,
                         location,
                         profileid,
-                        siteid,
+                        serverid,
                         pid,
                         createdAt,
                         expiresAt
@@ -410,6 +411,12 @@ exit`
                 return
             }
 
+            if (this.expiration === '-1') {
+                this.expiresAt = -1
+
+                return
+            }
+
             this.expiresAt = moment().add(this.expiration, 'days').unix()
         }
     },
@@ -421,7 +428,7 @@ exit`
             this.count = this.miner.count
             this.location = this.miner.location
             this.profileid = this.miner.profileid
-            this.siteid = this.miner.siteid
+            this.serverid = this.miner.serverid
             this.pid = this.miner.pid
             this.createdAt = this.miner.createdAt
             this.updatedAt = this.miner.updatedAt

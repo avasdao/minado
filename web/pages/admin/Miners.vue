@@ -57,25 +57,24 @@
                                             </div>
                                         </div>
                                     </td>
+
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-900">Front-end Developer</div>
                                         <div class="text-gray-500">Optimization</div>
                                     </td>
+
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">Active</span>
                                     </td>
+
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Member</td>
+
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                         <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
                                     </td>
-
-                                    <!-- More people... -->
-                                    <pre>{{JSON.stringify(getProfile(miner.profileid), null, 2)}}</pre>
                                 </tr>
                             </tbody>
                         </table>
-
-                        <pre>{{JSON.stringify(miners, null, 2)}}</pre>
                     </section>
 
                     <!-- Right column -->
@@ -138,13 +137,21 @@ export default {
                 return []
             }
 
-            const miners = [...this.miners]
+            let miners
 
-            miners.sort(function (a, b) {
-                return a.expiresAt - b.expiresAt
+            miners = [...this.miners]
+
+            miners = miners.filter((_miner) => {
+                return _miner.expiresAt !== -1
+                // return typeof _miner.expiresAt === 'undefined'
             })
 
-            return miners.slice(0, 3)
+            miners.sort(function (a, b) {
+                return a.expiresAt - b.expiresAt // expiring first
+                // return b.updatedAt - a.updatedAt // updated last
+            })
+
+            return miners.slice(0, 20)
         }
     },
     created: function () {

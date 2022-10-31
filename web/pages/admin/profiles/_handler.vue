@@ -15,11 +15,11 @@
                             Profile Administration
                         </h1>
 
-                        <AdminProfileView
+                        <AdminProfilesDetailView
                             :profile="profile"
                         />
 
-                        <AdminMinersPanelView
+                        <AdminProfilesMinersView
                             class="mt-3"
                             :miners="miners"
                             :profile="profile"
@@ -36,7 +36,9 @@
                             Add New Profile
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
+                        <AdminProfilesListView
+                            :profiles="profiles"
+                        />
 
                         <BlockRewardsPanel />
                     </div>

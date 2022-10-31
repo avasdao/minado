@@ -7,6 +7,9 @@ use double_sha256::{DoubleHash256};
 use crate::utils;
 
 pub fn test_shnorr() {
+    let sample1 = "hi there!";
+    println!("sample1 -> {:?}", sample1);
+    println!("sample1 -> {:?}", sample1.as_bytes());
     let message = hex::decode("db2c34f90bab877f9aa6b186dbfa145efcaefefd44b5c3bf336c25f4caa83b2b");
     let sk = secp256k1::SecretKey::from_str("dc0bc448ac583857e77076e5fbf53d48fc1e4ad7e606a8dc25ee85fff1a0005f").unwrap();
     // let signature = rust_schnorr::sign_message(&sk, &message);

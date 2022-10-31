@@ -92,6 +92,10 @@
                     <a v-if="address" :href="'https://explorer.nexa.org/address/' + address" target="_blank" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
                         open in explorer
                     </a>
+
+                    <router-link v-if="address" :to="'/' + address" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
+                        open in Rocks!
+                    </router-link>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">

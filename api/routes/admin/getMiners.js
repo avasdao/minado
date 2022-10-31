@@ -9,19 +9,39 @@ const minersDb = new PouchDB(`http://${process.env.COUCHDB_AUTH}@localhost:5984/
  * Get Miners
  */
 const getMiners = async (res, _body) => {
-    const profileid = _body.profileid
     let data
+    let profileid
+    let serverid
 
-    /* Request existing user. */
-    results = await minersDb
-        .query('api/byProfile', {
-            key: profileid,
-            include_docs: true,
-        })
-        .catch(err => {
-            console.error('DATA ERROR:', err)
-        })
-    console.log('PROFILES RESULT (byProfile)', util.inspect(results, false, null, true))
+    if (_body && _body.profileid) {
+        profileid = _body.profileid
+
+        /* Request existing user. */
+        results = await minersDb
+            .query('api/byProfile', {
+                key: profileid,
+                include_docs: true,
+            })
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('MINERS RESULT (byProfile)', util.inspect(results, false, null, true))
+    }
+
+    if (_body && _body.serverid) {
+        serverid = _body.serverid
+
+        /* Request existing user. */
+        results = await minersDb
+            .query('api/byServer', {
+                key: serverid,
+                include_docs: true,
+            })
+            .catch(err => {
+                console.error('DATA ERROR:', err)
+            })
+        console.log('MINERS RESULT (byServer)', util.inspect(results, false, null, true))
+    }
 
     /* Validate data. */
     if (results && results.rows.length !== 0) {

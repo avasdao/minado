@@ -91,6 +91,7 @@
                 </div>
 
                 <section class="p-3 col-span-6 grid grid-cols-2 gap-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl border-4 border-yellow-600">
+                    <pre>{{JSON.stringify(miners, null, 2)}}</pre>
                     <div class="col-span-2">
                         <label for="hostname" class="block text-sm font-medium text-gray-700">
                             Active Server Id
@@ -265,6 +266,8 @@ export default {
         server: Object
     },
     data: () => ({
+        miners: null,
+
         auth: null,
         count: null,
         expiration: null,
@@ -318,7 +321,7 @@ exit`
     methods: {
         async updateServer () {
             /* Request issuer. */
-            const didToken = this.$store.state.server.didToken
+            const didToken = this.$store.state.profile.didToken
 
             const hostname = this.hostname
             const auth = this.auth
@@ -372,7 +375,7 @@ exit`
             }
 
             /* Request issuer. */
-            const didToken = this.$store.state.server.didToken
+            const didToken = this.$store.state.profile.didToken
 
             const rawResponse = await fetch(ENDPOINT, {
                 method: 'POST',
@@ -382,15 +385,15 @@ exit`
                 },
                 body: JSON.stringify({
                     didToken,
-                    action: 'get_miner',
+                    action: 'get_miners',
                     serverid: this.server._id
                 })
             })
 
             const content = await rawResponse.json()
-            console.log('CONTENT (get_server):', content) // eslint-disable-line no-console
+            console.log('CONTENT (get_servers):', content) // eslint-disable-line no-console
 
-            // this.server = content
+            this.miners = content
 
             return content
         },

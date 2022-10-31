@@ -22,12 +22,11 @@
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <button
-                            class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
-                            @click="addServer"
+                        <router-link to="add"
+                            class="mx-3 px-3 py-1 text-2xl text-yellow-100 text-center font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
                         >
                             Add New Server
-                        </button>
+                        </router-link>
 
                         <AdminServersListView
                             :servers="servers"
@@ -94,10 +93,6 @@ export default {
         //
     },
     methods: {
-        addServer () {
-            console.log('add a server') // eslint-disable-line no-console
-        },
-
         async loadServer () {
             /* Request issuer. */
             const didToken = this.$store.state.profile.didToken

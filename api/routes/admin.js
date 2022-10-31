@@ -253,7 +253,30 @@ const admin = async function (req, res) {
                 .catch(err => {
                     console.error('DATA ERROR:', err)
                 })
-            console.log('PROFILES RESULT (add_miner)', util.inspect(results, false, null, true))
+            console.log('MINERS RESULT (add_miner)', util.inspect(results, false, null, true))
+        }
+
+        if (action === 'add_server') {
+            createdAt = updatedAt = moment().unix()
+
+            pkg = {
+                _id: body.location,
+                siteid: body.siteid,
+                hostname: null,
+                auth: null,
+                cores: null,
+                activeCores: 0,
+                createdAt,
+                updatedAt,
+            }
+
+            /* Add new server. */
+            results = await serversDb
+                .put(pkg)
+                .catch(err => {
+                    console.error('DATA ERROR:', err)
+                })
+            console.log('SERVERS RESULT (add_server)', util.inspect(results, false, null, true))
         }
 
         if (action === 'update_profile') {

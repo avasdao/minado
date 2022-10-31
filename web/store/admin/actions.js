@@ -135,5 +135,32 @@ export default {
         // console.log('CONTENT (add_miner):', content) // eslint-disable-line no-console
 
         return content
+    },
+
+    async addServer ({ rootState }, _params) {
+        const siteid = _params.siteid
+        const location = _params.location
+
+        /* Request issuer. */
+        const didToken = rootState.profile.didToken
+
+        const rawResponse = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                didToken,
+                action: 'add_server',
+                siteid,
+                location
+            })
+        })
+
+        const content = await rawResponse.json()
+        // console.log('CONTENT (add_server):', content) // eslint-disable-line no-console
+
+        return content
     }
 }

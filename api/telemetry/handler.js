@@ -57,12 +57,31 @@ const telemetry = async function (req, res) {
         .put(pkg)
         .catch(err => console.error('LOGS ERROR:', err))
 
+    /* Set response id. */
+    if (body.id) {
+        id = body.id
+    }
+
+    /* Set (Telemetry) response error. */
+    error = [
+        0,
+        '',
+        null,
+    ]
+
+    /* Build response package. */
+    pkg = {
+        id,
+        result,
+        error: error[0] ? error : null,
+    }
+
     /* Handle registration. */
     // TODO: Allow client to ping (for expiration refresh).
     if (body.method === 'register' && body.params) {
         /* Set address. */
         address = body.params.address.slice(5)
-        console.log('REGISTERING ADDRESS', address)
+        console.info('Registering address ->', address)
 
         if (sse[address]) {
             sse[address].isActive = true
@@ -151,28 +170,12 @@ const telemetry = async function (req, res) {
             /* Send package. */
             sse[sseAddress].instance.send(pkg)
         }
-    }
 
-    /* Set response id. */
-    id = body.id
-
-    /* Set (Telemetry) response error. */
-    error = [
-        0,
-        '',
-        null,
-    ]
-
-    /* Build response package. */
-    pkg = {
-        id,
-        result,
-        error: error[0] ? error : null,
+        return res.end('\n  ✔ telemetry-ok\n')
     }
 
     /* Return package. */
-    // return res.json(pkg)
-    return res.end('\n  ✔ telemetry-ok\n')
+    return res.json(pkg)
 }
 
 /* Export module. */

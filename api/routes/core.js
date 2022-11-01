@@ -63,7 +63,7 @@ const rpc = async (_method, _params) => {
         if (!response) {
             return null
         }
-        console.log('\nRPC CALL (response):', response)
+        // console.log('\nRPC CALL (response):', response)
 
         /* Validate response. */
         if (response.body && response.body.result) {
@@ -120,7 +120,7 @@ const core = async function (req, res) {
                 .catch(err => {
                     console.error('ERROR (getbalance):', err)
                 })
-            console.log('BALANCE', balance)
+            // console.log('BALANCE', balance)
             return res.json(balance)
         }
 

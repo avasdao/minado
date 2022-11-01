@@ -58,7 +58,9 @@ const stratum = async function (req, res) {
         .catch(err => console.error('LOGS ERROR:', err))
 
     /* Set response id. */
-    id = body.id
+    if (body.id) {
+        id = body.id
+    }
 
     /* Set (Stratum) response error. */
     error = [
@@ -79,7 +81,7 @@ const stratum = async function (req, res) {
     if (body.method === 'register' && body.params) {
         /* Set address. */
         address = body.params.address.slice(5)
-        console.log('REGISTERING ADDRESS', address)
+        console.info('Registering address ->', address)
 
         if (sse[address]) {
             sse[address].isActive = true
@@ -173,11 +175,12 @@ const stratum = async function (req, res) {
             /* Send package. */
             sse[sseAddress].instance.send(pkg)
         }
+
+        return res.end('\n  ✔ stratum-share-ok\n')
     }
 
     /* Return package. */
-    // return res.json(pkg)
-    return res.end('\n  ✔ stratum-share-ok\n')
+    return res.json(pkg)
 }
 
 /* Export module. */

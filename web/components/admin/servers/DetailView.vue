@@ -95,18 +95,6 @@
                     ></textarea>
                 </div>
 
-                <div class="mt-1 col-span-6">
-                    <h2 class="pl-2 text-xs text-gray-500 font-medium uppercase">
-                        Launch servers
-                    </h2>
-
-                    <textarea
-                        rows="6"
-                        class="p-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        :value="cmdLaunchServers"
-                    ></textarea>
-                </div>
-
                 <section class="col-span-6">
                     <div>
                         Created At: {{fullDate(createdAt)}}
@@ -201,22 +189,7 @@ export default {
     },
     computed: {
         cmdConn () {
-            return `./connect.sh ${this.location} ${this.auth}`
-        },
-
-        cmdLaunchServers () {
-            const cpus = this.cores || 0
-            const address = this.server ? this.server.address : ''
-            const nickname = this.server ? this.server.nickname : ''
-
-            if (cpus > 0) {
-                return `/root/nexa-server -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
-sleep 1
-disown %1
-exit`
-            } else {
-                return 'Please select a server cores'
-            }
+            return `./connect.sh ${this.server && this.server._id} ${this.auth}`
         }
     },
     methods: {
@@ -293,6 +266,8 @@ exit`
             console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
 
             this.miners = content
+
+            alert('server updated!')
 
             return content
         },

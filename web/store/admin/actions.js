@@ -138,9 +138,6 @@ export default {
     },
 
     async addServer ({ rootState }, _params) {
-        const siteid = _params.siteid
-        const location = _params.location
-
         /* Request issuer. */
         const didToken = rootState.profile.didToken
 
@@ -153,8 +150,7 @@ export default {
             body: JSON.stringify({
                 didToken,
                 action: 'add_server',
-                siteid,
-                location
+                ..._params
             })
         })
 

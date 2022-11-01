@@ -63,42 +63,40 @@
                                         </div>
 
                                         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Street address</label>
+                                            <label for="location" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                                Hostname
+                                            </label>
+
                                             <div class="mt-1 sm:col-span-2 sm:mt-0">
                                                 <input
                                                     type="text"
-                                                    name="street-address"
-                                                    id="street-address"
-                                                    autocomplete="street-address"
-                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <label for="city" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">City</label>
-                                            <div class="mt-1 sm:col-span-2 sm:mt-0">
-                                                <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
-                                            </div>
-                                        </div>
-
-                                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <label for="region" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">State / Province</label>
-                                            <div class="mt-1 sm:col-span-2 sm:mt-0">
-                                                <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
-                                            </div>
-                                        </div>
-
-                                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                                            <label for="postal-code" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">ZIP / Postal code</label>
-                                            <div class="mt-1 sm:col-span-2 sm:mt-0">
-                                                <input
-                                                    type="text"
-                                                    name="postal-code"
-                                                    id="postal-code"
-                                                    autocomplete="postal-code"
                                                     class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                                                    v-model="hostname"
                                                 />
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                            <label for="location" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                                Authorization
+                                            </label>
+
+                                            <div class="mt-1 sm:col-span-2 sm:mt-0">
+                                                <input
+                                                    type="text"
+                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                                                    v-model="auth"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                            <label for="site" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                                                # of Cores
+                                            </label>
+
+                                            <div class="mt-1 sm:col-span-2 sm:mt-0">
+                                                {{cores}}
                                             </div>
                                         </div>
                                     </div>
@@ -223,11 +221,13 @@ export default {
         'magic.auth'
     ],
     data: () => ({
+        auth: null,
+        hostname: null,
         location: null,
         siteid: null
     }),
     head: () => ({
-        title: 'Blank — Nexa Rocks!',
+        title: 'Add New Server — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -239,7 +239,20 @@ export default {
     computed: {
         ...mapGetters({
             // panelIsShowing: 'system/getPanelState'
-        })
+        }),
+
+        cores () {
+            switch (this.siteid) {
+            case '3cd5d763-b9f2-4bc4-af31-6c3ee786c572':
+                return 4 // The Vaalserberg
+            case '6cbbbd78-4d9e-4791-aca0-8906b7d6f173':
+                return 4 // Transfagarasan
+            case '386031c9-6128-4531-9fa9-cf53cdb500a0':
+                return 8 // Kékestető
+            default:
+                return 0
+            }
+        }
     },
     created: function () {
         //
@@ -251,12 +264,17 @@ export default {
         async addServer () {
             const pkg = {
                 siteid: this.siteid,
-                location: this.location
+                location: this.location,
+                hostname: this.hostname,
+                auth: this.auth,
+                cores: Number(this.cores)
             }
 
             /* Request new miner. */
             const response = await this.$store.dispatch('admin/addServer', pkg)
             console.log('ADD SERVER RESPONSE', pkg, response)
+
+            this.$router.push('/admin/servers')
         }
     }
 }

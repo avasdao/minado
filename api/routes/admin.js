@@ -266,8 +266,8 @@ const admin = async function (req, res) {
             pkg = {
                 _id: body.location,
                 siteid: body.siteid,
-                hostname: null,
-                auth: null,
+                hostname: body.hostname,
+                auth: body.auth,
                 cores: null,
                 activeCores: 0,
                 createdAt,

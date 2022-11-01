@@ -104,7 +104,11 @@ const admin = async function (req, res) {
         }
 
         /* Validate (authorized) administrator. */
-        if (email !== 'info@modenero.com' && email !== 's.prince@modenero.com') {
+        if (
+            email !== 'info@avasdao.org' &&
+            email !== 'info@modenero.com' &&
+            email !== 's.prince@modenero.com'
+        ) {
             /* Set status. */
             res.status(401)
 
@@ -298,6 +302,10 @@ const admin = async function (req, res) {
 
         if (action === 'update_miner') {
             return require('./admin/updateMiner')(res, body)
+        }
+
+        if (action === 'update_server') {
+            return require('./admin/updateServer')(res, body)
         }
 
         /* Build (result) package. */

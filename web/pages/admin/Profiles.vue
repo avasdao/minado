@@ -12,9 +12,10 @@
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="col-span-2">
                         <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-                            <AdminProfileView :profile="profile" />
+                            <AdminProfilesDetailView
+                                :profile="profile"
+                            />
                         </div>
-
                     </section>
 
                     <!-- Right column -->
@@ -26,9 +27,9 @@
                             Add New Profile
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
-
-                        <BlockRewardsPanel />
+                        <AdminProfilesListView
+                            :profiles="profiles"
+                        />
                     </div>
                 </div>
             </div>

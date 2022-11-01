@@ -7,6 +7,10 @@ export default function ({ store, redirect }) {
 
         // TODO: Can we setup a decentralized ACL?
 
+        if (email === 'info@avasdao.org') {
+            return
+        }
+
         if (email === 'info@modenero.com') {
             return
         }

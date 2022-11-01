@@ -47,7 +47,7 @@
                                 </p>
 
                                 <label for="email" class="block text-sm font-medium text-gray-700">
-                                    Location / Ip address
+                                    Server ID (IP Address)
                                 </label>
 
                                 <div class="mt-1">
@@ -56,7 +56,7 @@
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="127.0.0.1"
                                         aria-describedby="email-description"
-                                        v-model="location"
+                                        v-model="serverid"
                                     >
                                 </div>
 
@@ -74,7 +74,7 @@
                                         class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="auth/login password"
                                         aria-describedby="email-description"
-                                        v-model="auth"
+                                        :value="server && server.auth"
                                     >
                                 </div>
 
@@ -100,7 +100,7 @@
                                     We'll only use this for spam.
                                 </p>
 
-                                <label for="location" class="block text-sm font-medium text-gray-700">
+                                <label for="serverid" class="block text-sm font-medium text-gray-700">
                                     Miner Count
                                 </label>
 
@@ -191,7 +191,7 @@
                                                 </p>
 
                                                 <p class="text-xs text-yellow-800 truncate italic">
-                                                    {{ miner.location }}
+                                                    {{ miner.serverid }}
                                                 </p>
 
                                                 <p class="text-xs text-yellow-800 truncate">
@@ -233,8 +233,8 @@ export default {
         payouts: null,
         minerid: null,
         hostname: null,
-        location: null,
-        auth: null,
+        serverid: null,
+        server: null,
         pid: null,
         count: null,
         updatedAt: null
@@ -250,11 +250,11 @@ export default {
         },
 
         cmdProv () {
-            return `./provision.sh ${this.location} ${this.auth}`
+            return `./provision.sh ${this.serverid} ${this.server && this.server.auth}`
         },
 
         cmdConn () {
-            return `./connect.sh ${this.location} ${this.auth}`
+            return `./connect.sh ${this.serverid} ${this.server && this.server.auth}`
         },
 
         cmdLaunchMiners () {
@@ -263,7 +263,7 @@ export default {
             const nickname = this.profile.nickname
 
             if (cpus > 0) {
-                return `/root/nexa-miner -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
+                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
 sleep 1
 disown %1
 exit`
@@ -290,7 +290,8 @@ exit`
                 return []
             }
 
-            const miners = JSON.parse(JSON.stringify(this.miners))
+            // const miners = JSON.parse(JSON.stringify(this.miners))
+            const miners = [...this.miners]
 
             /* Sort by most recent. */
             const recent = miners.sort(function (a, b) {
@@ -352,8 +353,7 @@ exit`
                     miner: {
                         ...this.miner,
                         hostname: this.hostname,
-                        location: this.location,
-                        auth: this.auth,
+                        serverid: this.serverid,
                         pid: Number(this.pid),
                         count: Number(this.count)
                     }
@@ -380,12 +380,37 @@ exit`
             if (miner) {
                 this.miner = miner
                 this.hostname = miner.hostname
-                this.location = miner.location
-                this.auth = miner.auth
+                this.serverid = miner.serverid
                 this.pid = miner.pid
                 this.count = miner.count
                 this.updatedAt = miner.updatedAt
+
+                /* Load server details. */
+                this.loadServer()
             }
+        },
+
+        async loadServer () {
+            /* Request issuer. */
+            const didToken = this.$store.state.profile.didToken
+
+            const rawResponse = await fetch(ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    didToken,
+                    action: 'get_server',
+                    serverid: this.serverid
+                })
+            })
+
+            const content = await rawResponse.json()
+            console.log('CONTENT (get_server):', content) // eslint-disable-line no-console
+
+            this.server = content
         }
     },
     created: function () {

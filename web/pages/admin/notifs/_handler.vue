@@ -15,15 +15,8 @@
                             Notifications
                         </h1>
 
-                        <AdminProfileView
+                        <AdminProfilesDetailView
                             :profile="profile"
-                        />
-
-                        <AdminMinersPanel
-                            class="mt-3"
-                            :miners="miners"
-                            :profile="profile"
-                            @addMiner="addMiner"
                         />
                     </section>
 
@@ -33,12 +26,12 @@
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
                             @click="addProfile"
                         >
-                            Add New Profile
+                            Add New Notification
                         </button>
 
-                        <AdminProfilesList :profiles="profiles" />
-
-                        <BlockRewardsPanel />
+                        <AdminProfilesListView
+                            :profiles="profiles"
+                        />
                     </div>
                 </div>
             </div>

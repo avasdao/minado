@@ -40,18 +40,6 @@
                     />
                 </div>
 
-                <div class="col-span-6 sm:col-span-2">
-                    <label for="hostname" class="block text-sm font-medium text-gray-700">
-                        PID
-                    </label>
-
-                    <input
-                        type="text"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        v-model="pid"
-                    />
-                </div>
-
                 <div class="col-span-6 sm:col-span-4">
                     <label for="hostname" class="block text-sm font-medium text-gray-700">
                         Location
@@ -79,105 +67,20 @@
 
                 <div class="col-span-6 sm:col-span-3">
                     <label for="last-name" class="block text-sm font-medium text-gray-700">
-                        Count
+                        Supported Cores
                     </label>
 
                     <input
                         type="text"
                         autocomplete="family-name"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        v-model="count"
+                        v-model="cores"
                     />
                 </div>
 
                 <section class="p-3 col-span-6 grid grid-cols-2 gap-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-xl border-4 border-yellow-600">
+                    have an area to show Site details
                     <pre>{{JSON.stringify(miners, null, 2)}}</pre>
-                    <div class="col-span-2">
-                        <label for="hostname" class="block text-sm font-medium text-gray-700">
-                            Active Server Id
-                        </label>
-
-                        <input
-                            type="text"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server ? server._id : 'no server'"
-                        />
-                    </div>
-
-                    <div class="">
-                        <label for="first-name" class="px-3 py-1 block text-sm font-medium text-gray-700">
-                            First Name
-                        </label>
-
-                        <input
-                            type="text"
-                            autocomplete="given-name"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server && server.firstName"
-                            disabled
-                        />
-                    </div>
-
-                    <div class="">
-                        <label for="last-name" class="px-3 py-1 block text-sm font-medium text-gray-700">
-                            Last Name
-                        </label>
-
-                        <input
-                            type="text"
-                            autocomplete="family-name"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server && server.lastName"
-                            disabled
-                        />
-                    </div>
-
-                    <div class="">
-                        <label for="last-name" class="px-3 py-1 block text-sm font-medium text-gray-700">
-                            Nickname
-                        </label>
-
-                        <input
-                            type="text"
-                            autocomplete="family-name"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server && server.nickname"
-                            disabled
-                        />
-                    </div>
-
-                    <div class="">
-                        <label for="last-name" class="px-3 py-1 block text-sm font-medium text-gray-700">
-                            Email
-                        </label>
-
-                        <input
-                            type="text"
-                            autocomplete="family-name"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server && server.email"
-                            disabled
-                        />
-                    </div>
-
-                    <div class="col-span-2">
-                        <label for="last-name" class="px-3 py-1 block text-sm font-medium text-gray-700">
-                            Address
-                        </label>
-
-                        <input
-                            type="text"
-                            autocomplete="family-name"
-                            class="px-3 py-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            :value="server && server.address"
-                            disabled
-                        />
-
-                        <a v-if="server && server.address" :href="'https://explorer.nexa.org/address/' + server.address" target="_blank" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
-                            open in explorer
-                        </a>
-                    </div>
-
                 </section>
 
                 <div class="mt-1 col-span-6">
@@ -200,7 +103,7 @@
                     <textarea
                         rows="6"
                         class="p-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        :value="cmdLaunchMiners"
+                        :value="cmdLaunchServers"
                     ></textarea>
                 </div>
 
@@ -246,7 +149,7 @@
                 @click="updateServer"
                 class="px-3 py-1 text-xl font-medium bg-yellow-200 border-2 border-yellow-400 rounded-lg hover:text-yellow-800 bg-yellow-300"
             >
-                Update Miner
+                Update Server
             </button>
 
         </footer>
@@ -269,26 +172,24 @@ export default {
         miners: null,
 
         auth: null,
-        count: null,
+        cores: null,
         expiration: null,
         hostname: null,
         location: null,
-        pid: null,
         createdAt: null,
         updatedAt: null,
         expiresAt: null
     }),
     watch: {
         server: function (_server) {
-            console.log('MINER CHANGED', _server)
+            console.log('SERVER CHANGED', _server)
 
             /* Validate server. */
             if (_server) {
                 this.hostname = _server.hostname
                 this.auth = _server.auth
-                this.count = _server.count
+                this.cores = _server.cores
                 this.location = _server.location
-                this.pid = _server.pid
                 this.createdAt = _server.createdAt
                 this.updatedAt = _server.updatedAt
                 this.expiresAt = _server.expiresAt
@@ -303,8 +204,8 @@ export default {
             return `./connect.sh ${this.location} ${this.auth}`
         },
 
-        cmdLaunchMiners () {
-            const cpus = this.count || 0
+        cmdLaunchServers () {
+            const cpus = this.cores || 0
             const address = this.server ? this.server.address : ''
             const nickname = this.server ? this.server.nickname : ''
 
@@ -314,7 +215,7 @@ sleep 1
 disown %1
 exit`
             } else {
-                return 'Please select a server count'
+                return 'Please select a server cores'
             }
         }
     },
@@ -325,9 +226,8 @@ exit`
 
             const hostname = this.hostname
             const auth = this.auth
-            const count = this.count
+            const cores = Number(this.cores)
             const location = this.location
-            const pid = this.pid
             const createdAt = this.createdAt
             const expiresAt = this.expiresAt
 
@@ -344,9 +244,8 @@ exit`
                         ...this.server,
                         hostname,
                         auth,
-                        count,
+                        cores,
                         location,
-                        pid,
                         createdAt,
                         expiresAt
                     }
@@ -356,7 +255,7 @@ exit`
             const content = await rawResponse.json()
             console.log('CONTENT', content)
 
-            this.$emit('loadMiner')
+            // this.$emit('loadServer')
 
             // alert('re-loaded server')
         },
@@ -391,7 +290,7 @@ exit`
             })
 
             const content = await rawResponse.json()
-            console.log('CONTENT (get_servers):', content) // eslint-disable-line no-console
+            console.log('CONTENT (get_miners):', content) // eslint-disable-line no-console
 
             this.miners = content
 
@@ -419,16 +318,15 @@ exit`
         if (this.server) {
             this.hostname = this.server.hostname
             this.auth = this.server.auth
-            this.count = this.server.count
+            this.cores = this.server.cores
             this.location = this.server.location
-            this.pid = this.server.pid
             this.createdAt = this.server.createdAt
             this.updatedAt = this.server.updatedAt
             this.expiresAt = this.server.expiresAt
 
             this.expiration = ''
 
-            /* Load server. */
+            /* Load miners. */
             this.loadMiners()
         }
     },

@@ -5,14 +5,14 @@
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">
-                    Miner Details
+                    Sample Site
                 </h1>
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
                         <h1 class="text-4xl font-bold text-yellow-900">
-                            Miner Details
+                            Sample Site
                         </h1>
 
                         <main class="mx-auto max-w-7xl sm:px-6 sm:pt-8 lg:px-8">
@@ -24,16 +24,30 @@
                                         <!-- Image selector -->
                                         <div class="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                                             <div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
+
                                                 <button
-                                                    id="tabs-2-tab-1"
-                                                    class="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                                                    class="relative flex h-16 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
                                                     aria-controls="tabs-2-panel-1"
                                                     role="tab"
                                                     type="button"
                                                 >
                                                     <span class="sr-only"> Angled view </span>
                                                     <span class="absolute inset-0 overflow-hidden rounded-md">
-                                                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" alt="" class="h-full w-full object-cover object-center" />
+                                                        <img src="https://i.ibb.co/K7rJ5ny/image.png" alt="" class="h-full w-full object-cover object-center" />
+                                                    </span>
+                                                    <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
+                                                    <span class="ring-transparent pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2" aria-hidden="true"></span>
+                                                </button>
+
+                                                <button
+                                                    class="relative flex h-16 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                                                    aria-controls="tabs-2-panel-1"
+                                                    role="tab"
+                                                    type="button"
+                                                >
+                                                    <span class="sr-only"> Angled view </span>
+                                                    <span class="absolute inset-0 overflow-hidden rounded-md">
+                                                        <img src="https://i.ibb.co/9GZrXnK/image.png" alt="" class="h-full w-full object-cover object-center" />
                                                     </span>
                                                     <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
                                                     <span class="ring-transparent pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2" aria-hidden="true"></span>
@@ -46,7 +60,7 @@
                                         <div class="aspect-w-1 aspect-h-1 w-full">
                                             <!-- Tab panel, show/hide based on tab state. -->
                                             <div id="tabs-2-panel-1" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
-                                                <img :src="poster" alt="Angled front view with bag zipped and handles upright." class="h-full w-full object-cover object-center sm:rounded-lg" />
+                                                <img src="https://i.ibb.co/fkNh9Jg/image.png" alt="Angled front view with bag zipped and handles upright." class="h-full w-full object-cover object-center sm:rounded-lg" />
                                             </div>
 
                                             <!-- More images... -->
@@ -346,7 +360,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Miner Details — Nexa Rocks!',
+        title: 'Sample Site — Nexa Rocks!',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

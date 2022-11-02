@@ -1,21 +1,85 @@
 <template>
-    <main class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
-        <h1 class="text-4xl font-bold text-yellow-900">
-            Address Center
-        </h1>
+    <main class="p-5 flex flex-col space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+        <div class="flex flex-row justify-between">
+            <div>
+                <h1 class="text-4xl font-bold text-yellow-900">
+                    Monitoring Station
+                </h1>
+
+                <h2 class="text-2xl text-yellow-700 font-bold italic">
+                    {{address && address.slice(5)}}
+                </h2>
+            </div>
+
+            <img
+                :src="require('@/assets/lottie/58692-mining.gif')"
+                class="p-1 h-20 border-2 border-yellow-600 rounded-xl"
+            />
+        </div>
 
         <p class="text-yellow-900">
             Here is a comprehensive breakdown of your address activity on the Nexa network.
             You can drill down to the various charts for more details.
         </p>
 
-        <h2 class="italic">
-            {{address}}
-        </h2>
+        <div class="flex justify-end">
+            <h2
+                class="p-3 bg-indigo-100 border-2 border-indigo-200 rounded-2xl"
+                v-html="displayBalance"
+            ></h2>
+        </div>
 
-        <h2 class="p-3 text-3xl font-medium text-indigo-600 bg-indigo-200 border-4 border-indigo-400 rounded-2xl">
-            {{displayBalance}}
-        </h2>
+        <nav>
+            <div class="sm:hidden">
+                <label for="tabs" class="sr-only">Select a tab</label>
+                <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
+                <select id="tabs" name="tabs" class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                    <option>My Account</option>
+
+                    <option>Company</option>
+
+                    <option selected>Team Members</option>
+
+                    <option>Billing</option>
+                </select>
+            </div>
+
+            <div class="hidden sm:block">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+                        <a href="javascript://" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-base">
+                            <!--
+                    Heroicon name: mini/user
+
+                    Current: "text-indigo-500", Default: "text-gray-400 group-hover:text-gray-500"
+                -->
+                            <svg class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+
+                            <span>Transactions</span>
+                        </a>
+
+                        <a href="javascript://" class="border-indigo-500 text-indigo-600 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-base" aria-current="page">
+                            <svg class="text-indigo-500 -ml-0.5 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+
+                            <span>Financials</span>
+                        </a>
+
+                        <a href="javascript://" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-base">
+                            <svg class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path><path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path></svg>
+
+                            <span>Mining Shares</span>
+                        </a>
+
+                        <a href="javascript://" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 group inline-flex items-center py-4 px-1 border-b-2 font-medium text-base">
+                            <svg class="text-gray-400 group-hover:text-gray-500 -ml-0.5 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+
+                            <span>Notifications</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </nav>
 
         <section class="space-y-5">
             <div
@@ -100,7 +164,7 @@ import { mapGetters } from 'vuex'
 
 /* Import modules. */
 import moment from 'moment'
-import numeral from 'numeral'
+// import numeral from 'numeral'
 // import { v4 as uuidv4 } from 'uuid'
 
 export default {
@@ -123,10 +187,26 @@ export default {
 
         displayBalance () {
             if (!this.balance || !this.balance.confirmed) {
-                return '0.00 NEX'
+                return '<span class="text-3xl font-medium">0.00 NEX</span>'
             }
 
-            return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
+            // return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
+
+            const value = (this.balance.confirmed / 100.0).toFixed(2)
+            const decimals = value.slice(-3)
+            const base = value.slice(-6).slice(0, 3)
+            const kilo = value.slice(-9).slice(0, 3)
+            const mega = value.slice(-12).slice(0, 3)
+
+            return `<span class="text-3xl font-medium">
+                <span class="text-5xl text-indigo-500">${mega}</span>
+                <span class="text-yellow-600">,</span>
+                <span>${kilo}</span>
+                <span class="text-yellow-600">,</span>
+                <span>${base}</span>
+                <span class="text-2xl text-gray-400">${decimals}</span>
+                <span class="text-yellow-600"> NEX</span>
+            </span>`
         },
 
         displayTxHistory () {

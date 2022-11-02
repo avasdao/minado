@@ -8,18 +8,22 @@
 
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <!-- Address View -->
-                    <AppHandlerAddressView
-                        v-if="addressStub"
-                    />
+                    <section class="col-span-2">
+                        <!-- Address View -->
+                        <AppHandlerAddressView
+                            v-if="addressStub"
+                        />
 
-                    <!-- Right column -->
-                    <div class="grid grid-cols-1 gap-4">
                         <AppHandlerSharesBlock
                             :shares="shares"
                         />
+                    </section>
 
-                        <BlockRewardsPanel />
+                    <!-- Right column -->
+                    <div class="grid grid-cols-1 gap-4">
+                        <AppHandlerAddressFinance
+                            v-if="addressStub"
+                        />
                     </div>
                 </div>
             </div>

@@ -9,14 +9,23 @@
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
-                        <h1 class="text-4xl font-bold text-yellow-900">
-                            Pool Mining
-                        </h1>
+                        <div class="flex flex-row justify-between">
+                            <div>
+                                <h1 class="text-4xl font-bold text-yellow-900">
+                                    Pool Mining
+                                </h1>
 
-                        <p class="text-yellow-900">
-                            If you're interested in mining $NEX coins, but dont' have the CPU <em>(hash)</em>power to Solo mine, then Pool mining is perfect for you!
-                            You will earn a proportional share of each block reward <em>(10,000,000 NEX)</em>.
-                        </p>
+                                <p class="mt-3 text-yellow-900">
+                                    If you're interested in mining $NEX coins, but dont' have the CPU <em>(hash)</em>power to Solo mine, then Pool mining is perfect for you!
+                                    You will earn a proportional share of each block reward <em>(10,000,000 NEX)</em>.
+                                </p>
+                            </div>
+
+                            <img
+                                :src="require('@/assets/lottie/90472-saving-the-money.gif')"
+                                class="ml-20 p-1 h-20 border-2 border-yellow-600 rounded-xl"
+                            />
+                        </div>
 
                         <p class="text-yellow-900 font-medium">
                             Pool Payouts are sent after each block as a combination of $NEX coins and <router-link to="/$ROCKS" class="text-blue-500 font-medium hover:underline">$ROCKS</router-link> tokens.

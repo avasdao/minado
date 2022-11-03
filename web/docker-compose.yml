@@ -3,6 +3,7 @@ version: '3.7'
 services:
   app:
     build: .
+    image: nexa-rocks
     container_name: nexa-rocks
     restart: always
     ports:

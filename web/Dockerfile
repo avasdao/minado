@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:16.10
+FROM node:16
 
 # create destination directory
 RUN mkdir -p /usr/src/nuxt-app
@@ -7,8 +7,7 @@ WORKDIR /usr/src/nuxt-app
 
 # update and install dependency
 RUN apt update && apt upgrade -y
-RUN corepack enable
-RUN corepack prepare yarn@stable --activate
+RUN npm i -g yarn
 
 # copy the app, note .dockerignore
 COPY . /usr/src/nuxt-app/

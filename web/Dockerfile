@@ -11,7 +11,6 @@ RUN apt update && apt upgrade -y
 # copy the app, note .dockerignore
 COPY . /usr/src/nuxt-app/
 RUN yarn
-RUN yarn build
 RUN yarn generate
 
 EXPOSE 3000

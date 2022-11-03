@@ -7,7 +7,6 @@ WORKDIR /usr/src/nuxt-app
 
 # update and install dependency
 RUN apt update && apt upgrade -y
-RUN npm i -g yarn
 
 # copy the app, note .dockerignore
 COPY . /usr/src/nuxt-app/

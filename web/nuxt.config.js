@@ -2,6 +2,11 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  server: {
+    host: process.env.NUXT_HOST,
+    port: process.env.NUXT_PORT,
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Nexa Rocks! Solo, Pool & Cloud Mining NEXA Assets',

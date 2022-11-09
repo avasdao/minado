@@ -68,7 +68,8 @@ export default {
         //
     },
     created: function () {
-        //
+        console.log('CLOUD (isPanelOpen):', this.$store.state.system.isPanelOpen)
+        console.log('CLOUD (isPanelVisible):', this.$store.state.system.isPanelVisible)
     },
     mounted: function () {
         //

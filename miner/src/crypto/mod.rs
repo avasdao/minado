@@ -1,4 +1,5 @@
 use std::str::FromStr;
+use std::str::from_utf8;
 // use std::iter;
 // use secp256k1::{PublicKey, SecretKey};
 use sha2::{Sha256, Digest};
@@ -9,11 +10,46 @@ use crate::utils;
 pub fn test_shnorr() {
     let sample1 = "hi there!";
     println!("sample1 -> {:?}", sample1);
-    println!("sample1 -> {:?}", sample1.as_bytes());
+
+    let sample_bytes = sample1.as_bytes();
+    println!("sample2 -> {:?}", sample_bytes);
+
+    let sample_str = from_utf8(sample_bytes);
+    println!("sample3 -> {:?}", sample_str);
+
+    let sparkle_heart = vec![240, 159, 146, 150];
+    // let sparkle_heart = [240, 159, 146, 150];
+    let sparkle_heart = from_utf8(&sparkle_heart).unwrap();
+    assert_eq!("💖", sparkle_heart);
+
+    let random_str = from_utf8(&[240, 159, 146, 150]).unwrap();
+    println!("sample4 -> {:?}", random_str);
+
+    let test_str = from_utf8(&[240, 159, 146, 150]).unwrap();
+    println!("Sample data test -> {:?}", test_str);
+
     let message = hex::decode("db2c34f90bab877f9aa6b186dbfa145efcaefefd44b5c3bf336c25f4caa83b2b");
+    println!("message -> {:?}", message);
+    let safe_message = message.unwrap();
+    println!("safe_message -> {:?}", safe_message);
+    // println!("safer_message -> {:?}", safer_message);
+
+    let mut bytes = [0u8; 32];
+    assert_eq!(hex::decode_to_slice("db2c34f90bab877f9aa6b186dbfa145efcaefefd44b5c3bf336c25f4caa83b2b", &mut bytes as &mut [u8]), Ok(()));
+    println!("\nBytes: {:?}", &bytes);
+    println!("\nBytes: {:x?}", &bytes);
+
+    // let bytes_str1 = from_utf8(&bytes);
+    // println!("\nbytes_str1: {:?}", bytes_str1);
+    // println!("\nbytes_str1: {:x?}", bytes_str1);
+    // let bytes_str2 = from_utf8(&bytes).unwrap();
+    // println!("\nbytes_str2: {:?}", bytes_str2);
+    // println!("\nbytes_str2: {:x?}", bytes_str2);
+
     let sk = secp256k1::SecretKey::from_str("dc0bc448ac583857e77076e5fbf53d48fc1e4ad7e606a8dc25ee85fff1a0005f").unwrap();
-    // let signature = rust_schnorr::sign_message(&sk, &message);
-    let signature = rust_schnorr::sign_message(&sk, "hi there!");
+    // let signature = rust_schnorr::sign_message(&sk, safer_message.unwrap());
+    let signature = rust_schnorr::sign_message(&sk, test_str);
+    // let signature = rust_schnorr::sign_message(&sk, "hi there!");
 
     println!("\nSignature: {:?}", signature);
     println!("\nSignature: {:x?}", signature);

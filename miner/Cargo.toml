@@ -17,7 +17,7 @@ hex = "0.4.3"
 k256 = "0.11.2"
 rand = "0.8.3"
 rust-schnorr = { git = "https://github.com/arik-so/rust-schnorr.git", rev = "cf60802" }
-secp256k1 = "0.15.5"
+secp256k1 = "0.24.0"
 serde = "1.0.145"
 sha2 = "0.10.6"
 termcolor = "1.1.3"

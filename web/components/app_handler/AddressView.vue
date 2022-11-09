@@ -192,11 +192,19 @@ export default {
 
             // return numeral(this.balance.confirmed / 100.0).format('0,0.00') + ' NEX'
 
-            const value = (this.balance.confirmed / 100.0).toFixed(2)
+            let value
+
+            value = (this.balance.confirmed / 100.0).toFixed(2)
             const decimals = value.slice(-3)
-            const base = value.slice(-6).slice(0, 3)
-            const kilo = value.slice(-9).slice(0, 3)
-            const mega = value.slice(-12).slice(0, 3)
+
+            value = value.slice(0, -3)
+            const base = value.slice(-3).slice(0, 3)
+
+            value = value.slice(0, -3)
+            const kilo = value.slice(-3).slice(0, 3)
+
+            value = value.slice(0, -3)
+            const mega = value.slice(-3).slice(0, 3)
 
             return `<span class="text-3xl font-medium">
                 <span class="text-5xl text-indigo-500">${mega}</span>

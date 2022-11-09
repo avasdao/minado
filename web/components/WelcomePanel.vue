@@ -32,7 +32,7 @@
                 <div class="grid grid-cols-1 divide-y divide-gray-200">
                     <section class="flex flex-col items-center justify-center">
                         <h3 class="text-xs text-gray-400">
-                            Market Capitalization
+                            <span class="mx-1 text-red-400 italic">Projected</span> Market Capitalization
                         </h3>
 
                         <div v-html="displayMarketCap"></div>
@@ -56,8 +56,9 @@
                 </div>
 
                 <div @click="openArbitrage" class="group cursor-pointer flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
+                    <span class="-mb-1 text-red-400 text-xs font-normal italic">Projected</span>
                     <span class="text-gray-600 text-2xl tracking-widest">
-                        Market Value
+                         Market Value
                     </span>
 
                     <span class="text-2xl text-green-500">
@@ -167,8 +168,8 @@ export default {
                 return '$0.00'
             }
 
-            // const marketCap = numeral(this.$store.state.system.blockHeight * 10).format('$0,0.00')
-            const marketCap = numeral(this.blocks * 10).format('$0,0.00')
+            // const marketCap = numeral(this.blocks * 10).format('$0,0.00')
+            const marketCap = numeral(this.marketCap).format('$0,0.00')
 
             return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${marketCap}</span><span class="text-gray-500">USD</span></span>`
         },
@@ -221,17 +222,26 @@ export default {
         }
     },
     created: function () {
-        // this.decodeAddress()
-        this.getMiningInfo()
+        // this.$store.dispatch('system/setNexCap', 3918024)
 
-        this.marketValue = this.$store.state.system.nexusd
-        this.miningCost = this.$store.state.system.rocksusd
-        this.multiplier = this.marketValue / this.miningCost
+        this.init()
     },
     mounted: function () {
         //
     },
     methods: {
+        async init () {
+            this.marketCap = this.$store.state.system.nexCap
+
+            // this.decodeAddress()
+            await this.getMiningInfo() // NOTE: We need `blocks`.
+
+            // this.marketValue = this.$store.state.system.nexusd
+            this.marketValue = (this.marketCap / (this.blocks * 10))
+            // this.miningCost = this.$store.state.system.rocksusd
+            this.miningCost = (5.0 / this.$store.state.system.rpm)
+            this.multiplier = this.marketValue / this.miningCost
+        },
         test () {
             console.log('Starting test...')
 

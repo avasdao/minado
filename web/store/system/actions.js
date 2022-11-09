@@ -31,6 +31,10 @@ export default {
         }
     },
 
+    setNexCap ({ commit }, _nexCap) {
+        commit('SET_NEX_CAP', _nexCap)
+    },
+
     setSearchAddress ({ commit }, _searchAddress) {
         commit('SET_SEARCH_ADDRESS', _searchAddress)
     }

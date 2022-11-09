@@ -16,6 +16,10 @@ export default {
         state.searchAddress = _searchAddress
     },
 
+    SET_NEX_CAP (state, _nexCap) {
+        state.nexCap = _nexCap
+    },
+
     SET_PANEL_METADATA (state, _metadata) {
         state.panelMetadata = _metadata
     },

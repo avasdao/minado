@@ -222,7 +222,7 @@ export default {
         }
     },
     created: function () {
-        // this.$store.dispatch('system/setNexCap', 3918024)
+        this.$store.dispatch('system/setNexCap', 3429237)
 
         this.init()
     },

@@ -59,12 +59,12 @@ export const mutations = {
      * @param {Object} state
      */
     connect (state) {
-        // const target = 'electrum.nexa.org:20003'
-        const target = 'rostrum.devops.cash:20003'
+        // const target = 'electrum.nexa.org:20004'
+        const target = 'rostrum.devops.cash:20004'
 
         /* Initialize socket connection to Electrum/Rostrum server. */
         console.info('Connecting to Rostrum...') // eslint-disable-line no-console
-        state.socket = new WebSocket(`ws://${target}`)
+        state.socket = new WebSocket(`wss://${target}`)
     },
 
     add (state, text) {

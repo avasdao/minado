@@ -1,6 +1,6 @@
 {
   "name": "nexa-rocks-web",
-  "version": "22.10.17",
+  "version": "22.11.10",
   "license": "MIT",
   "scripts": {
     "dev": "nuxt",
@@ -24,6 +24,7 @@
     "numeral": "2.0.6",
     "nuxt": "2.15.8",
     "nuxt-highcharts": "2.0.4",
+    "nuxt-matomo": "1.2.4",
     "qrcode": "1.5.1",
     "uuid": "9.0.0",
     "vue": "2.7.12",

@@ -5956,7 +5956,7 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-gravatar@^1.8.2:
+gravatar@1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/gravatar/-/gravatar-1.8.2.tgz#f298642b1562ed685af2ae938dbe31ec0c542cc1"
   integrity sha512-GdRwLM3oYpFQKy47MKuluw9hZ2gaCtiKPbDGdcDEuYDKlc8eNnW27KYL9LVbIDzEsx88WtDWQm2ClBcsgBnj6w==
@@ -8446,6 +8446,11 @@ nuxt-highcharts@2.0.4:
   optionalDependencies:
     "@highcharts/map-collection" "^2.0.0"
     proj4 "^2.8.0"
+
+nuxt-matomo@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/nuxt-matomo/-/nuxt-matomo-1.2.4.tgz#2cd3f212996e0c35ade08f23563987438608e469"
+  integrity sha512-09cIWnj6v58CMbEDS+mVTnJ97BaO/fJaQDPk31sa27jejcD80bIvNowkAJMj4OcVWMeeIVTljClMHE6249cFtw==
 
 nuxt@2.15.8:
   version "2.15.8"

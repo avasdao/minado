@@ -113,6 +113,7 @@ export default {
     '@nuxtjs/pwa',
     // https://www.npmjs.com/package/nuxt-highcharts
     'nuxt-highcharts',
+    ['nuxt-matomo', { matomoUrl: '//matomo.avasdao.org/', siteId: 3 }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

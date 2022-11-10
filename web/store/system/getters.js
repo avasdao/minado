@@ -1,4 +1,12 @@
 export default {
+    getNexUsd (state) {
+        return state.nexUsd
+    },
+
+    getNexCap (state) {
+        return state.nexCap
+    },
+
     getSearchAddress (state) {
         return state.searchAddress
     },

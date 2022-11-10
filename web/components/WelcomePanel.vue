@@ -32,7 +32,7 @@
                 <div class="grid grid-cols-1 divide-y divide-gray-200">
                     <section class="flex flex-col items-center justify-center">
                         <h3 class="text-xs text-gray-400">
-                            <span class="mx-1 text-red-400 italic">Projected</span> Market Capitalization
+                            Market Capitalization
                         </h3>
 
                         <div v-html="displayMarketCap"></div>
@@ -56,7 +56,6 @@
                 </div>
 
                 <div @click="openArbitrage" class="group cursor-pointer flex flex-col justify-center px-6 py-5 text-sm font-medium text-center">
-                    <span class="-mb-1 text-red-400 text-xs font-normal italic">Projected</span>
                     <span class="text-gray-600 text-2xl tracking-widest">
                          Market Value
                     </span>
@@ -129,6 +128,8 @@
 <script>
 /* global miner */
 
+import { mapGetters } from 'vuex'
+
 /* Import modules. */
 import gravatar from 'gravatar'
 // import * as miner from 'wasm-miner'
@@ -145,6 +146,11 @@ export default {
         multiplier: null
     }),
     computed: {
+        ...mapGetters({
+            nexCap: 'system/getNexCap',
+            nexUsd: 'system/getNexUsd'
+        }),
+
         displayDifficulty () {
             if (!this.difficulty) {
                 return
@@ -164,14 +170,19 @@ export default {
         },
 
         displayMarketCap () {
-            if (!this.$store.state.system) {
-                return '$0.00'
+            /* Validate state and market cap. */
+            if (!this.$store.state.system || !this.nexCap) {
+                return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">$0.00</span><span class="text-gray-500">USD</span></span>'
             }
 
-            // const marketCap = numeral(this.blocks * 10).format('$0,0.00')
-            const marketCap = numeral(this.marketCap).format('$0,0.00')
+            /* Set market cap. */
+            const marketCap = this.nexCap // NOTE: Preserve responsiveness.
 
-            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${marketCap}</span><span class="text-gray-500">USD</span></span>`
+            /* Format market cap. */
+            const formattedCap = numeral(marketCap).format('$0,0.00')
+
+            /* Return (formatted) market cap. */
+            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${formattedCap}</span><span class="text-gray-500">USD</span></span>`
         },
 
         displayPoolHashrate () {
@@ -222,8 +233,7 @@ export default {
         }
     },
     created: function () {
-        this.$store.dispatch('system/setNexCap', 3429237)
-
+        /* Initialize panel. */
         this.init()
     },
     mounted: function () {
@@ -231,14 +241,29 @@ export default {
     },
     methods: {
         async init () {
-            this.marketCap = this.$store.state.system.nexCap
-
             // this.decodeAddress()
             await this.getMiningInfo() // NOTE: We need `blocks`.
 
-            // this.marketValue = this.$store.state.system.nexusd
-            this.marketValue = (this.marketCap / (this.blocks * 10))
-            // this.miningCost = this.$store.state.system.rocksusd
+            const rawResponse = await fetch('https://api.telr.io/v1/ticker/quote/NEX', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            const content = await rawResponse.json()
+            // console.log('CONTENT (ticker quote NEX):', content) // eslint-disable-line no-console
+
+            /* Set store price. */
+            this.$store.dispatch('system/setNexUsd', content.price)
+
+            /* Set store market cap. */
+            const marketCap = (content.price * (this.blocks * 10))
+            // console.log('MARKET CAP', marketCap)
+            this.$store.dispatch('system/setNexCap', marketCap)
+
+            this.marketValue = content.price
             this.miningCost = (5.0 / this.$store.state.system.rpm)
             this.multiplier = this.marketValue / this.miningCost
         },

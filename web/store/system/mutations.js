@@ -16,6 +16,10 @@ export default {
         state.searchAddress = _searchAddress
     },
 
+    SET_NEX_USD (state, _nexUsd) {
+        state.nexUsd = _nexUsd
+    },
+
     SET_NEX_CAP (state, _nexCap) {
         state.nexCap = _nexCap
     },

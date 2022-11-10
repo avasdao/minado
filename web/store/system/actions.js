@@ -31,6 +31,10 @@ export default {
         }
     },
 
+    setNexUsd ({ commit }, _nexUsd) {
+        commit('SET_NEX_USD', _nexUsd)
+    },
+
     setNexCap ({ commit }, _nexCap) {
         commit('SET_NEX_CAP', _nexCap)
     },

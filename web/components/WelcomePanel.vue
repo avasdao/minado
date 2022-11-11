@@ -244,7 +244,7 @@ export default {
             // this.decodeAddress()
             await this.getMiningInfo() // NOTE: We need `blocks`.
 
-            const rawResponse = await fetch('https://api.telr.io/v1/ticker/quote/NEX', {
+            const rawResponse = await fetch('https://api.nexa.exchange/v1/ticker/quote/NEX', {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',

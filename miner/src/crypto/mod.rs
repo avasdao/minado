@@ -48,7 +48,7 @@ pub fn test_shnorr() {
 
     let sk = secp256k1::SecretKey::from_str("dc0bc448ac583857e77076e5fbf53d48fc1e4ad7e606a8dc25ee85fff1a0005f").unwrap();
     // let signature = rust_schnorr::sign_message(&sk, safer_message.unwrap());
-    let signature = rust_schnorr::sign_message(&sk, test_str);
+    let signature = rust_schnorr::sign_message(&sk, &bytes);
     // let signature = rust_schnorr::sign_message(&sk, "hi there!");
 
     println!("\nSignature: {:?}", signature);

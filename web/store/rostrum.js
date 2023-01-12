@@ -110,7 +110,7 @@ export const mutations = {
 
 export const actions = {
     async init ({ state, commit }) {
-        if (!process.browser) {
+        if (!process.client) {
             return
         }
 

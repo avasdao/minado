@@ -42,7 +42,7 @@ export default {
     created: function () {
         // console.log('PROFILE PANEL (magic)', this.$magic)
 
-        if (process.browser) {
+        if (process.client) {
             console.log('PROCESS (browser):', process)
         }
 

@@ -146,7 +146,7 @@ export default {
 
         this.shares = []
 
-        if (process.browser) {
+        if (process.client) {
             /* Initialize Rostrum. */
             this.$store.dispatch('rostrum/init')
 

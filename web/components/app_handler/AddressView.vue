@@ -299,7 +299,7 @@ export default {
         }
     },
     created: function () {
-        if (process.browser) {
+        if (process.client) {
             this.init()
         }
     },

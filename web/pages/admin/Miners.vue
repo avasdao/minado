@@ -101,8 +101,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 /* Import modules. */
 import gravatar from 'gravatar'
 
@@ -112,7 +110,7 @@ const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 export default {
     middleware: [
         'admin.auth',
-        'magic.auth'
+        // 'magic.auth'
     ],
     data: () => ({
         profiles: null
@@ -128,9 +126,9 @@ export default {
         ]
     }),
     computed: {
-        ...mapGetters({
-            miners: 'admin/getMiners'
-        }),
+        // ...mapGetters({
+        //     miners: 'admin/getMiners'
+        // }),
 
         displayedMiners () {
             if (!this.miners) {

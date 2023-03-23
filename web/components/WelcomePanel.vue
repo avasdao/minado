@@ -128,8 +128,6 @@
 <script>
 /* global miner */
 
-import { mapGetters } from 'vuex'
-
 /* Import modules. */
 import gravatar from 'gravatar'
 // import * as miner from 'wasm-miner'
@@ -146,10 +144,10 @@ export default {
         multiplier: null
     }),
     computed: {
-        ...mapGetters({
-            nexCap: 'system/getNexCap',
-            nexUsd: 'system/getNexUsd'
-        }),
+        // ...mapGetters({
+        //     nexCap: 'system/getNexCap',
+        //     nexUsd: 'system/getNexUsd'
+        // }),
 
         displayDifficulty () {
             if (!this.difficulty) {

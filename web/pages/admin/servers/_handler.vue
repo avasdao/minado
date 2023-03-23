@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 /* Set API endpoint. */
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
@@ -72,11 +70,11 @@ export default {
             this.$store.dispatch('admin/loadServers', _serverid)
         }
     },
-    computed: {
-        ...mapGetters({
-            servers: 'admin/getServers'
-        })
-    },
+    // computed: {
+    //     ...mapGetters({
+    //         servers: 'admin/getServers'
+    //     })
+    // },
     created: function () {
         /* Validate handler. */
         if (this.$route.params && this.$route.params.handler) {

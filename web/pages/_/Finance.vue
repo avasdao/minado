@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     // middleware: 'magic.auth',
     data: () => ({
@@ -62,11 +60,6 @@ export default {
             }
         ]
     }),
-    computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        })
-    },
     created: function () {
         this.init()
     },

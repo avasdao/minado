@@ -23,24 +23,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     data: () => ({
         //
     }),
-    computed: {
-        ...mapGetters({
-            panelIsOpen: 'system/getPanelState'
-        })
-    },
     methods: {
         //
     },
     created: function () {
         // NOTE: This is a fail-safe to prevent the entire UI from
         //       being blocked by the side panel's background overlay.
-        this.$store.dispatch('system/closePanel')
+        // this.$store.dispatch('system/closePanel')
     },
     mounted: function () {
         //

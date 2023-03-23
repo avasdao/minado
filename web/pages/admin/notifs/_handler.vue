@@ -42,12 +42,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
-        'magic.auth'
+        // 'magic.auth'
     ],
     data: () => ({
         profileid: null
@@ -70,10 +68,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            miners: 'admin/getMiners',
-            profiles: 'admin/getProfiles'
-        }),
+        // ...mapGetters({
+        //     miners: 'admin/getMiners',
+        //     profiles: 'admin/getProfiles'
+        // }),
 
         profile () {
             /* Validate profiles. */

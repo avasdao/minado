@@ -213,8 +213,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
@@ -237,9 +235,9 @@ export default {
         ]
     }),
     computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        }),
+        // ...mapGetters({
+        //     // panelIsShowing: 'system/getPanelState'
+        // }),
 
         cores () {
             switch (this.siteid) {

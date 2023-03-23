@@ -65,12 +65,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
-        'magic.auth'
+        // 'magic.auth'
     ],
     data: () => ({
         profileid: null,
@@ -96,11 +94,11 @@ export default {
             }
         ]
     }),
-    computed: {
-        ...mapGetters({
-            profiles: 'admin/getProfiles'
-        })
-    },
+    // computed: {
+    //     ...mapGetters({
+    //         profiles: 'admin/getProfiles'
+    //     })
+    // },
     created: function () {
         this.init()
 

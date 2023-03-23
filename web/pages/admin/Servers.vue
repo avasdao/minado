@@ -150,12 +150,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
-        'magic.auth'
+        // 'magic.auth'
     ],
     data: () => ({
         //
@@ -171,9 +169,9 @@ export default {
         ]
     }),
     computed: {
-        ...mapGetters({
-            servers: 'admin/getServers'
-        }),
+        // ...mapGetters({
+        //     servers: 'admin/getServers'
+        // }),
 
         displayServers () {
             if (!this.servers) {

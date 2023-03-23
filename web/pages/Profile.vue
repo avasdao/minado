@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     head: () => ({
         title: 'My Profile — Nexa Rocks!',
@@ -78,10 +76,6 @@ export default {
         sexy: false
     }),
     computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        }),
-
         chartOptions () {
             const ctx = this
             return {

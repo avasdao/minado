@@ -7,7 +7,7 @@
                     <router-link to="/" class="flex flex-row items-center">
                         <span class="sr-only">Nexa Rocks</span>
 
-                        <img class="w-16 h-16" :src="require('../assets/logo.png')" />
+                        <img class="w-16 h-16" src="~/assets/logo.png" />
 
                         <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
                             Nexa Rocks!
@@ -230,7 +230,7 @@
                     <div class="pt-3 pb-2">
                         <div class="flex items-center justify-between px-4">
                             <div>
-                                <img class="h-12 w-auto" :src="require('@/assets/logo.png')" alt="Nexa Rocks! Logo" />
+                                <img class="h-12 w-auto" src="~/assets/logo.png" alt="Nexa Rocks! Logo" />
                             </div>
 
                             <div class="-mr-2">
@@ -363,11 +363,12 @@ export default {
     }),
     computed: {
         displayAvatar () {
-            if (this.$store.state.profile.authenticated) {
-                return gravatar.url(this.$store.state.profile.user.email)
-            } else {
-                return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
-            }
+            return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+            // if (this.$store.state.profile.authenticated) {
+            //     return gravatar.url(this.$store.state.profile.user.email)
+            // } else {
+            //     return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+            // }
         },
 
         displayEmail () {

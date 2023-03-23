@@ -3,27 +3,3 @@
         <h1>Transparency</h1>
     </main>
 </template>
-
-<script>
-import { mapGetters } from 'vuex'
-
-export default {
-    data: () => ({
-        //
-    }),
-    computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        })
-    },
-    methods: {
-        //
-    },
-    created: function () {
-        //
-    },
-    mounted: function () {
-        //
-    }
-}
-</script>

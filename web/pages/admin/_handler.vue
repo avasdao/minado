@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
@@ -66,10 +64,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            miners: 'admin/getMiners',
-            profiles: 'admin/getProfiles'
-        }),
+        // ...mapGetters({
+        //     miners: 'admin/getMiners',
+        //     profiles: 'admin/getProfiles'
+        // }),
 
         profile () {
             /* Validate profiles. */

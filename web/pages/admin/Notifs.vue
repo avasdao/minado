@@ -44,8 +44,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     middleware: [
         'admin.auth',
@@ -64,11 +62,11 @@ export default {
             }
         ]
     }),
-    computed: {
-        ...mapGetters({
-            notifs: 'admin/getNotifs'
-        })
-    },
+    // computed: {
+    //     ...mapGetters({
+    //         notifs: 'admin/getNotifs'
+    //     })
+    // },
     created: function () {
         this.init()
     },

@@ -160,8 +160,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 /* Import modules. */
 import moment from 'moment'
 // import numeral from 'numeral'
@@ -181,9 +179,9 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            address: 'rostrum/getAddress'
-        }),
+        // ...mapGetters({
+        //     address: 'rostrum/getAddress'
+        // }),
 
         displayBalance () {
             if (!this.balance || !this.balance.confirmed) {

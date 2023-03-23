@@ -161,8 +161,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     data: () => ({
         firstName: null,
@@ -170,10 +168,6 @@ export default {
         nickname: null
     }),
     computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        }),
-
         display0xAddress () {
             if (!this.$store.state.profile.user) {
                 return 'n/a'

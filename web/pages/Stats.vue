@@ -35,8 +35,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     data: () => ({
         //
@@ -51,11 +49,6 @@ export default {
             }
         ]
     }),
-    computed: {
-        ...mapGetters({
-            // panelIsShowing: 'system/getPanelState'
-        })
-    },
     created: function () {
         //
     },

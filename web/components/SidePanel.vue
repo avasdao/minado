@@ -67,18 +67,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     data: () => ({
         //
     }),
     computed: {
-        ...mapGetters({
-            panelIsOpen: 'system/getPanelState',
-            panelIsVisible: 'system/getPanelVisibility',
-            panelTab: 'system/getPanelTab'
-        }),
+        // ...mapGetters({
+        //     panelIsOpen: 'system/getPanelState',
+        //     panelIsVisible: 'system/getPanelVisibility',
+        //     panelTab: 'system/getPanelTab'
+        // }),
 
         displayTitle () {
             switch (this.panelTab) {

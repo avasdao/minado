@@ -129,7 +129,7 @@ export default {
             }
 
             /* Request email auth. */
-            this.$store.dispatch('profile/signin', { email: this.email })
+            // this.$store.dispatch('profile/signin', { email: this.email })
         }
     },
     created: function () {

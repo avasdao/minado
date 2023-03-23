@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 /* Set API endpoint. */
 const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
 
@@ -65,11 +63,11 @@ export default {
             }
         ]
     }),
-    computed: {
-        ...mapGetters({
-            miners: 'admin/getMiners'
-        })
-    },
+    // computed: {
+    //     ...mapGetters({
+    //         miners: 'admin/getMiners'
+    //     })
+    // },
     created: function () {
         /* Validate handler. */
         if (this.$route.params && this.$route.params.handler) {

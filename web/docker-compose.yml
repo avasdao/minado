@@ -3,9 +3,17 @@ version: '3.7'
 services:
   app:
     build: .
-    image: nexa-rocks
-    container_name: nexa-rocks
+    image: rocks
+    container_name: rocks
     restart: always
-    ports:
-      - '127.0.0.1:3000:3000'
-    command: 'npm run start'
+    network_mode: 'host'
+    # ports:
+    #   - '127.0.0.1:3000:3000'
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER} # change this to match your system's ENV
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD} # change this to match your system's ENV
+    logging: # apply better controls to Docker overlay folder
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '10m'

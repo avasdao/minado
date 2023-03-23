@@ -187,8 +187,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 /* Import modules. */
 import moment from 'moment'
 import numeral from 'numeral'
@@ -232,9 +230,9 @@ export default {
         sexy: false
     }),
     computed: {
-        ...mapGetters({
-            address: 'system/getPanelMetadata'
-        }),
+        // ...mapGetters({
+        //     address: 'system/getPanelMetadata'
+        // }),
 
         displayBalance () {
             if (!this.balance || !this.balance.confirmed) {

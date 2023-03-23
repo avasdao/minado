@@ -113,6 +113,9 @@ const schema = buildSchema(`
 
   "This is an ASSET type for the Docs."
   type Asset {
+    "A unique asset id."
+    id: String
+
     "Height at which the Asset Genesis was 1st confirmed by the network."
     genesisHeight: Int
 

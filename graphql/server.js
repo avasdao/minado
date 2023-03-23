@@ -353,28 +353,22 @@ const graphiql = {
 #    - validating queries
 #    - and testing queries
 #
-#  Sample queries from each (of 7) data categories shown below:
+#  Sample queries from each (of 5) data categories shown below:
 #
-#        Address:   Request transaction histories
+#        Assets:   Request transaction histories
 #                   and full balance details.
 #
-#          Block:   Request confirmation and transaction
+#          Miners:   Request confirmation and transaction
 #                   details.
 #
-#           Meta:   Request information from Meta (extended)
+#           Pools:   Request information from Meta (extended)
 #                   on-chain data.
 #
-#          Owner:   Request all available on-chain details for
+#          POW:   Request all available on-chain details for
 #                   a specific Owner ID.
 #
-#         Script:   Request on-chain metadata details stored
+#         Reports:   Request on-chain metadata details stored
 #                   in a transaction's 'OP_RETURN' script area.
-#
-#          Token:   Request asset registration/genesis information
-#                   and activity details.
-#
-#    Transaction:   Request full on-chain activity details,
-#                   including block confirmation.
 #
 ######################################################################
 

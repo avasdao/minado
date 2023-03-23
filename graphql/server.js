@@ -60,10 +60,15 @@ const schema = buildSchema(`
         script: [String],
     ): [Address]
 
-    "Retreive Asset information, including: hash, # of txs, etc."
+    "Retreive Asset information, including: hash, genesis height, etc."
     asset(
+        "Accepts a unique asset id."
+        id: [String],
+
+        "Accepts the genesis height."
 		genesisHeight: [Int],
 
+        "Accepts a transaction hash."
 		hash: [String],
 	): [Asset]
 

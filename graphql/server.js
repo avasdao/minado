@@ -353,22 +353,30 @@ const graphiql = {
 #    - validating queries
 #    - and testing queries
 #
-#  Sample queries from each (of 5) data categories shown below:
+#  Sample queries from each (of 6) data categories shown below:
 #
-#        Assets:   Request transaction histories
-#                   and full balance details.
+#    Affiliates:   View a complete list of ALL affliates registered with
+#                  the Nexa Rocks! platform.
 #
-#          Miners:   Request confirmation and transaction
-#                   details.
+#        Assets:   View a complete list (with full details) of ALL assets
+#                  supported by the Nexa Rocks! platform, including:
+#                    1. NEXA
+#                    2. ROCKS
+#                    3. AVAS
 #
-#           Pools:   Request information from Meta (extended)
-#                   on-chain data.
+#        Miners:   View a complete list of ALL miners "actively" connected to
+#                  the Nexa Rocks! platform.
 #
-#          POW:   Request all available on-chain details for
-#                   a specific Owner ID.
+#         Pools:   View a complete list of ALL pools/platforms registered with
+#                  the Nexa Rocks! platform.
 #
-#         Reports:   Request on-chain metadata details stored
-#                   in a transaction's 'OP_RETURN' script area.
+#       Reports:   Request on-chain metadata details stored
+#                  in a transaction's 'OP_RETURN' script area.
+#
+#       Stratum:   Primary connection point for all mining nodes, offering:
+#                    - high availablity
+#                    - global edge network
+#                    - v1 & v2 protocol support
 #
 ######################################################################
 

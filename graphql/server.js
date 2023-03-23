@@ -23,8 +23,8 @@ const PORT = 6000
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/logs`)
-const blocksDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/blocks`)
-const txsDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/txs`)
+const assetsDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/assets`)
+// const sharesDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/shares`)
 
 /* Initialize application. */
 const app = express()
@@ -48,7 +48,7 @@ app.get('/ip', (request, response) => response.send(request.ip))
 
 // NOTE: Construct a schema, using GraphQL schema language.
 const schema = buildSchema(`
-  "Welcome to the Nexa Rocks! GraphQL online query manager for Builders."
+  "Welcome to the Nexa Rocks! GraphQL online query manager for Miners."
   type Query {
 
     "Provides information about on-chain address: balance, first seen, # of transactions and more."
@@ -60,12 +60,12 @@ const schema = buildSchema(`
         script: [String],
     ): [Address]
 
-    "Retreive Block information, including: hash, # of txs, etc."
-    block(
-		height: [Int],
+    "Retreive Asset information, including: hash, # of txs, etc."
+    asset(
+		genesisHeight: [Int],
 
 		hash: [String],
-	): [Block]
+	): [Asset]
 
     "Retreive Metadata stored on-chain."
     meta(
@@ -109,6 +109,15 @@ const schema = buildSchema(`
 
     "The address type."
     type: String
+  }
+
+  "This is an ASSET type for the Docs."
+  type Asset {
+    "Height at which the Asset Genesis was 1st confirmed by the network."
+    genesisHeight: Int
+
+    "Immutable hash of the block data."
+    hash: String
   }
 
   "This is an BLOCK type for the Docs."
@@ -203,35 +212,35 @@ const rootValue = {
         }]
     },
 
-    block: async (_args) => {
+    asset: async (_args) => {
         /* Initialize blocks. */
-        const blocks = []
+        const assets = []
 
         /* Set heights. */
         const height = _args?.height
 
         /* Validate heights. */
         if (!height) {
-            return blocks
+            return assets
         }
 
         /* Handle each height. */
         for (let i = 0; i < height.length; i++) {
             /* Request block data. */
-            const block = await blocksDb
+            const asset = await assetsDb
                 .get(height[i])
                 .catch(err => {
                     console.error(err)
                     // TODO: Handle (logging) errors.
                 })
-            // console.log('BLOCK', block)
+            // console.log('ASSET', asset)
 
-            /* Add block to list. */
-            blocks.push(block)
+            /* Add asset to list. */
+            assets.push(block)
         }
 
-        /* Return blocks. */
-        return blocks
+        /* Return assets. */
+        return assets
     },
 
     meta: async (_args) => {
@@ -348,60 +357,45 @@ const graphiql = {
 #
 #  Welcome to the Nexa Rocks! GraphiQL
 #
-#  Application builders can make great use of this tool for:
-#    - writing queries
-#    - validating queries
-#    - and testing queries
+#  The Nexa Miners Community should make great use of this tool for:
+#    ✔ Submitting PoW shares & solutions
+#    ✔ Receiving affiliate credits
+#    ✔ Managing ROCKS activities
 #
-#  Sample queries from each (of 6) data categories shown below:
+#  Sample queries from each (of 4) data categories shown below:
 #
-#    Affiliates:   View a complete list of ALL affliates registered
-#                  with the Nexa Rocks! platform.
+#    Affiliate:    View a complete history of ALL affliate and payout
+#                  activities on the Nexa Rocks! platform.
 #
-#        Assets:   View a complete list (w/ details) of ALL assets
+#        Asset:    View a complete list (w/ details) of ALL assets
 #                  supported on Nexa Rocks!, featuring:
 #                    ✔ NEXA (nexa.org)
 #                    ✔ ROCKS (rocks.cash)
 #                    ✔ AVAS (avas.cash)
 #
-#        Miners:   View a complete list of ALL miners "actively"
-#                  connected to the Nexa Rocks! platform.
+#       Report:    Request real-time activity reports on mining
+#                  and minint details.
 #
-#         Pools:   View a complete list of ALL pools/platforms
-#                  registered with the Nexa Rocks! platform.
-#
-#       Reports:   Request on-chain metadata details stored
-#                  in a transaction's 'OP_RETURN' script area.
-#
-#       Stratum:   Primary connection point for all mining nodes,
-#                  offering enterprise-level services including:
-#                    ✔ High availablity
+#      Stratum:    Primary connection point for ALL mining nodes,
+#                  offering full support for v1 & v2 protocols:
+#                    ✔ Submit shares & solutions
 #                    ✔ Global edge network
-#                    ✔ v1 & v2 protocol support
+#                    ✔ 100% uptime SLA
 #
 ######################################################################
 
 {
-  # Sample address query
+  # Sample Affiliate query
   address(base58: "nexa:...") {
     base58
     script
     type
   }
 
-  # Sample block query
-  block(height: [227570, 227571, 227572]) {
-    height
+  # Sample Asset query
+  asset(id: ["nexa:tz1...", "nexa:tz2...", "nexa:tz3..."]) {
+    genesisHeight
     hash
-    size
-    txcount
-    time
-    mediantime
-    nonce
-    bits
-    difficulty
-    utxoCommitment
-    minerData
   }
 
   # Sample meta query

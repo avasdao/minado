@@ -15,7 +15,7 @@ export default new GraphQLObjectType({
         rewardid: { type: GraphQLString },
         affiliateid: { type: GraphQLString },
         amount: { type: GraphQLInt },
-        dateCreated: { type: GraphQLInt },
+        createdAt: { type: GraphQLInt },
     }),
     description: `A __Reward__ is earned from the effort(s) of an Affiliate.`,
 })

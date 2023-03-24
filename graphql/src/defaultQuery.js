@@ -2,7 +2,7 @@ export default `################################################################
 #
 #  Welcome to the Nexa Rocks! GraphiQL
 #
-#  The Nexa Miners Community should make great use of this tool for:
+#  The Nexa Mining Community should make great use of this tool for:
 #    ✔ Submitting PoW shares & solutions
 #    ✔ Receiving affiliate credits
 #    ✔ Managing ROCKS activities

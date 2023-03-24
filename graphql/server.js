@@ -12,9 +12,16 @@ import { useServer } from 'graphql-ws/lib/use/ws'
 import { ApolloServer } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import {
+    ApolloServerPluginLandingPageLocalDefault,
+    ApolloServerPluginLandingPageProductionDefault,
+} from '@apollo/server/plugin/landingPage/default'
 
 /* Import Schema. */
 import schema from './src/schema.js'
+
+/* Import default query. */
+import defaultQuery from './src/defaultQuery.js'
 
 /* Set (GraphQL) port. */
 const PORT = 6000
@@ -74,6 +81,19 @@ const server = new ApolloServer({
                 }
             },
         },
+
+        // Install a landing page plugin based on NODE_ENV
+        process.env.NODE_ENV === 'production'
+            ? ApolloServerPluginLandingPageProductionDefault({
+                footer: false,
+            })
+            : ApolloServerPluginLandingPageLocalDefault({
+                document: defaultQuery,
+                embed: {
+                    endpointIsEditable: false,
+                },
+                footer: false,
+            }),
     ],
 })
 

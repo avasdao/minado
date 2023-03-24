@@ -1,19 +1,11 @@
 /* Import types. */
-// import Type from '../types/Type.js'
+import AffiliateType from '../types/Affiliate.js'
 
-import {
-    GraphQLBoolean,
-    GraphQLFloat,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLInt,
-    GraphQLSchema,
-    GraphQLString,
-} from 'graphql'
-
+/**
+ * Affiliate
+ */
 export default {
-    type: GraphQLString,
+    type: AffiliateType,
     resolve: (parent, args, params) => {
         console.log('BLANK PARAMS:', params)
         return {
@@ -28,5 +20,5 @@ export default {
             createdAt: 1679699791,
         }
     },
-    description: `Blank description goes here.`,
+    description: `Request Affiliate program details, including: balances, bonuses and more...`,
 }

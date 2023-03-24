@@ -1,6 +1,8 @@
 /* Import types. */
 import AffiliateType from '../types/Affiliate.js'
 
+import { GraphQLList } from 'graphql'
+
 const SAMPLE_AFFILIATE = {
     affiliateid: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
     shortid: 'abc123',

@@ -10,11 +10,13 @@ import {
 } from 'graphql'
 
 export default new GraphQLObjectType({
-    name: 'Blank',
+    name: 'Asset',
     fields: () => ({
-        field1: { type: GraphQLString },
-        field2: { type: GraphQLInt },
+        assetid: { type: GraphQLString },
+        ownerid: { type: GraphQLString },
+        chainid: { type: GraphQLString },
+        amount: { type: GraphQLInt },
         createdAt: { type: GraphQLInt },
     }),
-    description: `A __Blank__ description goes here.`,
+    description: `An __Asset__ description goes here.`,
 })

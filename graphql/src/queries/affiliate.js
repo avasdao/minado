@@ -27,10 +27,7 @@ export default {
     args: {
         affiliateid: {
             type: GraphQLString,
-            defaultValue: {
-                affiliateid: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
-            },
-            description: `Provide one or more Affiliate IDs to retrieve.`,
+            description: `Provide one or more Affiliate IDs for data retrieval.`,
         },
     },
     resolve: (parent, args, params) => {

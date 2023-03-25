@@ -15,10 +15,9 @@ import {
 export default {
     type: GraphQLString,
     // args: {
-    //     affiliateid: {
+    //     fieldName: {
     //         type: GraphQLString,
-    //         defaultValue: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
-    //         description: `Provide one or more Affiliate IDs to retrieve.`,
+    //         description: `Field description goes here.`,
     //     },
     // },
     resolve: (parent, args, params) => {

@@ -19,24 +19,18 @@ const SAMPLE_AFFILIATE = {
     createdAt: 1679699791,
 }
 
-const GeoPoint = new GraphQLInputObjectType({
-    name: 'GeoPoint',
-    fields: {
-        affiliateid: { type: GraphQLString },
-    }
-})
-
 /**
  * Affiliate
  */
 export default {
     type: new GraphQLList(AffiliateType),
-    args: { affiliateid: {
-        // type: GraphQLInputType,
-        type: GraphQLString,
-        // defaultValue?: any;
-        // description?: ?string;
-    } },
+    args: {
+        affiliateid: {
+            type: GraphQLString,
+            defaultValue: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
+            description: `Provide one or more Affiliate IDs to retrieve.`,
+        },
+    },
     resolve: (parent, args, params) => {
         console.log('AFFILIATE PARENT:', parent)
         console.log('AFFILIATE ARGS:', args)

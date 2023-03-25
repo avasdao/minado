@@ -1,6 +1,7 @@
 import {
     GraphQLBoolean,
     GraphQLFloat,
+    GraphQLInputObjectType,
     GraphQLList,
     GraphQLNonNull,
     GraphQLObjectType,
@@ -9,8 +10,16 @@ import {
     GraphQLString,
 } from 'graphql'
 
+const GeoPoint = new GraphQLInputObjectType({
+    name: 'GeoPoint',
+    fields: {
+        affiliateid: { type: GraphQLString },
+    }
+})
+
 export default {
     type: GraphQLString,
+    // args: ...,
     resolve: (parent, args, params) => {
         // Datastore logic lives in blockchainController
         // return blockchainController.broadcast(args)

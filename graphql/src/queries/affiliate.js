@@ -9,6 +9,7 @@ import {
 
 const SAMPLE_AFFILIATE = {
     affiliateid: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
+    groupid: '773decc0-8f56-49af-a2fc-28ea1ebdf553',
     shortid: 'abc123',
     rewards: [{
         rewardid: 'fb73571c-b4c8-4489-a199-454e719b78bf',
@@ -28,6 +29,10 @@ export default {
         affiliateid: {
             type: GraphQLString,
             description: `Provide one or more Affiliate IDs for data retrieval.`,
+        },
+        groupid: {
+            type: GraphQLString,
+            description: `Provide one or more Group IDs for data retrieval.`,
         },
     },
     resolve: (parent, args, params) => {

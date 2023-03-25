@@ -20,7 +20,7 @@ const GeoPoint = new GraphQLInputObjectType({
 export default {
     type: GraphQLString,
     // args: ...,
-    resolve: (parent, args, params) => {
+    resolve: (_root, args, ctx) => {
         // Datastore logic lives in blockchainController
         // return blockchainController.broadcast(args)
         console.log('MUTATION PARAMS:', params)

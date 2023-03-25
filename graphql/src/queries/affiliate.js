@@ -35,10 +35,9 @@ export default {
             description: `Provide one or more Group IDs for data retrieval.`,
         },
     },
-    resolve: (parent, args, params) => {
-        console.log('AFFILIATE PARENT:', parent)
-        console.log('AFFILIATE ARGS:', args)
-        console.log('AFFILIATE PARAMS:', params)
+    resolve: (_root, args, ctx) => {
+        console.log('Affiliate (args):', args)
+
         return [SAMPLE_AFFILIATE]
     },
     description: `Request Affiliate program details, including: balances, bonuses and more...`,

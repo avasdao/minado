@@ -11,7 +11,7 @@ import {
 
 export default {
     type: GraphQLString,
-    resolve: (parent, args, params) => {
+    resolve: (_root, args, ctx) => {
         console.log('BLANK PARAMS:', params)
         return 'Blank created successfully!'
     },

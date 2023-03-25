@@ -14,7 +14,7 @@ import {
 
 export default {
     type: GraphQLString,
-    resolve: (parent, args, params) => {
+    resolve: (_root, args, ctx) => {
         console.log('ASSET PARAMS:', params)
         return 'This is a GENERIC asset!'
     },

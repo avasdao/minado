@@ -20,7 +20,7 @@ export default {
     //         description: `Field description goes here.`,
     //     },
     // },
-    resolve: (parent, args, params) => {
+    resolve: (_root, args, ctx) => {
         console.log('BLANK PARAMS:', params)
         return 'Blank created successfully!'
     },

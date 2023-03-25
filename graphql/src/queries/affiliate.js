@@ -18,13 +18,14 @@ const SAMPLE_AFFILIATE = {
 /**
  * Affiliate
  */
-export default {
+export default (_affiliateid) => ({
     type: new GraphQLList(AffiliateType),
     resolve: (parent, args, params) => {
-        console.log('BLANK PARENT:', parent)
-        console.log('BLANK ARGS:', args)
-        console.log('BLANK PARAMS:', params)
+        console.log('AFFILIATE ID:', _affiliateid)
+        console.log('AFFILIATE PARENT:', parent)
+        console.log('AFFILIATE ARGS:', args)
+        console.log('AFFILIATE PARAMS:', params)
         return [SAMPLE_AFFILIATE]
     },
     description: `Request Affiliate program details, including: balances, bonuses and more...`,
-}
+})

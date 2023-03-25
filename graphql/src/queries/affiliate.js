@@ -1,7 +1,11 @@
 /* Import types. */
 import AffiliateType from '../types/Affiliate.js'
 
-import { GraphQLList } from 'graphql'
+import {
+    GraphQLInputObjectType,
+    GraphQLList,
+    GraphQLString,
+ } from 'graphql'
 
 const SAMPLE_AFFILIATE = {
     affiliateid: '4ab47638-ba1b-4121-af48-39b2ca2c52f8',
@@ -15,17 +19,24 @@ const SAMPLE_AFFILIATE = {
     createdAt: 1679699791,
 }
 
+const GeoPoint = new GraphQLInputObjectType({
+    name: 'GeoPoint',
+    fields: {
+        affiliateid: { type: GraphQLString },
+    }
+})
+
 /**
  * Affiliate
  */
-export default (_affiliateid) => ({
+export default {
     type: new GraphQLList(AffiliateType),
+    args: { data: GeoPoint },
     resolve: (parent, args, params) => {
-        console.log('AFFILIATE ID:', _affiliateid)
         console.log('AFFILIATE PARENT:', parent)
         console.log('AFFILIATE ARGS:', args)
         console.log('AFFILIATE PARAMS:', params)
         return [SAMPLE_AFFILIATE]
     },
     description: `Request Affiliate program details, including: balances, bonuses and more...`,
-})
+}

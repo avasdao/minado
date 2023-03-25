@@ -31,7 +31,12 @@ const GeoPoint = new GraphQLInputObjectType({
  */
 export default {
     type: new GraphQLList(AffiliateType),
-    args: { data: GeoPoint },
+    args: { affiliateid: {
+        // type: GraphQLInputType,
+        type: GraphQLString,
+        // defaultValue?: any;
+        // description?: ?string;
+    } },
     resolve: (parent, args, params) => {
         console.log('AFFILIATE PARENT:', parent)
         console.log('AFFILIATE ARGS:', args)

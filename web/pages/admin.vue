@@ -11,35 +11,35 @@
                 <!-- Main 3 column grid -->
                 <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
                     <section class="col-span-2 grid grid-cols-2 gap-5">
-                        <router-link to="/admin/profiles" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                        <NuxtLink to="/admin/profiles" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Profiles
                             </h1>
-                        </router-link>
+                        </NuxtLink>
 
-                        <router-link to="/admin/orders" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                        <NuxtLink to="/admin/orders" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Orders
                             </h1>
-                        </router-link>
+                        </NuxtLink>
 
-                        <router-link to="/admin/miners" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                        <NuxtLink to="/admin/miners" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Miners
                             </h1>
-                        </router-link>
+                        </NuxtLink>
 
-                        <router-link to="/admin/servers" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                        <NuxtLink to="/admin/servers" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Servers
                             </h1>
-                        </router-link>
+                        </NuxtLink>
 
-                        <router-link to="/admin/notifs" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
+                        <NuxtLink to="/admin/notifs" class="p-3 bg-pink-200 border-4 border-pink-400 rounded-xl cursor-pointer hover:bg-pink-300">
                             <h1 class="text-3xl font-bold">
                                 Notifications
                             </h1>
-                        </router-link>
+                        </NuxtLink>
 
                     </section>
 

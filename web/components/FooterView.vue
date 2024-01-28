@@ -12,9 +12,9 @@
             </div>
 
             <div class="border-t border-gray-200 py-8 text-sm text-gray-500 text-center sm:text-right">
-                <router-link to="/guarantee">
+                <NuxtLink to="/guarantee">
                     100% Money-back Guarantee!
-                </router-link>
+                </NuxtLink>
             </div>
         </div>
 

@@ -36,7 +36,7 @@
                     </p>
 
                     <p class="mt-5 text-lg">
-                        Please visit our <router-link to="/help" class="text-blue-500 font-medium hover:underline">Support Center</router-link> for help with managing your wallet's UTXOs.
+                        Please visit our <NuxtLink to="/help" class="text-blue-500 font-medium hover:underline">Support Center</NuxtLink> for help with managing your wallet's UTXOs.
                     </p>
 
                     <p class="mt-3 text-lg">

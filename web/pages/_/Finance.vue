@@ -16,9 +16,9 @@
                                 Finance Center
                             </h1>
 
-                            <router-link :to="'/' + addressStub" class="flex items-center w-fit px-3 py-1 bg-yellow-400 border-2 border-yellow-600 rounded-lg">
+                            <NuxtLink :to="'/' + addressStub" class="flex items-center w-fit px-3 py-1 bg-yellow-400 border-2 border-yellow-600 rounded-lg">
                                 Back to Monitoring Station
-                            </router-link>
+                            </NuxtLink>
                         </div>
 
                         <p class="text-yellow-900">

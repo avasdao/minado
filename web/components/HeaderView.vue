@@ -4,7 +4,7 @@
             <div class="relative flex flex-wrap items-center justify-center lg:justify-between">
                 <!-- Logo -->
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
-                    <router-link to="/" class="flex flex-row items-center">
+                    <NuxtLink to="/" class="flex flex-row items-center">
                         <span class="sr-only">Nexa Rocks</span>
 
                         <img class="w-16 h-16" src="~/assets/logo.png" />
@@ -12,16 +12,16 @@
                         <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
                             Nexa Rocks!
                         </h1>
-                    </router-link>
+                    </NuxtLink>
                 </div>
 
                 <!-- Right section on desktop -->
                 <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5 gap-5">
-                    <router-link to="/transparency" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <NuxtLink to="/transparency" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Transparency</span>
 
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01"></path></svg>
-                    </router-link>
+                    </NuxtLink>
 
                     <button @click="openReferrals" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Referral Manager</span>
@@ -72,54 +72,54 @@
                         <!-- Admin Navigation -->
                         <div v-if="isAdmin" class="hidden lg:block lg:col-span-2">
                             <nav class="flex space-x-4">
-                                <router-link to="/admin" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
+                                <NuxtLink to="/admin" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
                                     Home
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/admin/profiles" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/profiles" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Profiles
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/admin/miners" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/miners" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Miners
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/admin/servers" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/servers" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Servers
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/admin/notifs" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/notifs" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Notifs
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/admin/orders" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/orders" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Orders
-                                </router-link>
+                                </NuxtLink>
                             </nav>
                         </div>
 
                         <!-- General Navigation -->
                         <div v-else class="hidden lg:block lg:col-span-2">
                             <nav class="flex space-x-4">
-                                <router-link to="/" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
+                                <NuxtLink to="/" class="text-white text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10" aria-current="page">
                                     Home
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/solo" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/solo" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Solo Mining
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/pool" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/pool" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Pool Mining
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/cloud" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/cloud" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Cloud Mining
-                                </router-link>
+                                </NuxtLink>
 
-                                <router-link to="/order" class="text-yellow-300 text-lg font-bold rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/order" class="text-yellow-300 text-lg font-bold rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Place an Order
-                                </router-link>
+                                </NuxtLink>
                             </nav>
                         </div>
 
@@ -256,25 +256,25 @@
                         </div>
 
                         <div class="mt-3 px-2 space-y-1">
-                            <router-link to="/" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Home
-                            </router-link>
+                            </NuxtLink>
 
-                            <router-link to="/order" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/order" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Place an Order
-                            </router-link>
+                            </NuxtLink>
 
-                            <router-link to="/solo" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/solo" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Solo Mining
-                            </router-link>
+                            </NuxtLink>
 
-                            <router-link to="/pool" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/pool" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Pool Mining
-                            </router-link>
+                            </NuxtLink>
 
-                            <router-link to="/cloud" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/cloud" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Cloud Mining
-                            </router-link>
+                            </NuxtLink>
                         </div>
                     </div>
 
@@ -315,13 +315,13 @@
                         </div>
 
                         <div v-if="$store.state.profile.authenticated" class="mt-3 px-2 space-y-1">
-                            <router-link to="/profile" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/profile" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 My Profile
-                            </router-link>
+                            </NuxtLink>
 
-                            <router-link to="/dashboard" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
+                            <NuxtLink to="/dashboard" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 My Dashboard
-                            </router-link>
+                            </NuxtLink>
 
                             <button @click="openReferrals" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
                                 Referrals

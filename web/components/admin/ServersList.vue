@@ -10,7 +10,7 @@
                     <ul role="list" class="-my-5 divide-y divide-gray-200">
 
                         <li class="py-4" v-for="server of recentNotifs" :key="server._id">
-                            <router-link :to="'/admin/servers/' + server._id" class="flex items-center space-x-4">
+                            <NuxtLink :to="'/admin/servers/' + server._id" class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
                                     <img
                                         class="h-8 w-8 rounded-full"
@@ -36,7 +36,7 @@
                                         Online {{timeAgo(server)}}
                                     </p>
                                 </div>
-                            </router-link>
+                            </NuxtLink>
                         </li>
                     </ul>
                 </div>

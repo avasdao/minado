@@ -22,11 +22,11 @@
 
                     <!-- Right column -->
                     <div class="grid grid-cols-1 gap-4">
-                        <router-link to="add"
+                        <NuxtLink to="add"
                             class="mx-3 px-3 py-1 text-2xl text-yellow-100 text-center font-medium bg-yellow-500 border-2 border-yellow-700 rounded-lg hover:text-yellow-50 hover:bg-yellow-400"
                         >
                             Add New Server
-                        </router-link>
+                        </NuxtLink>
 
                         <AdminServersListView
                             :servers="servers"

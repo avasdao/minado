@@ -93,9 +93,9 @@
                         open in explorer
                     </a>
 
-                    <router-link v-if="address" :to="'/' + address" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
+                    <NuxtLink v-if="address" :to="'/' + address" class="pl-3 text-sm text-blue-500 font-medium hover:underline">
                         open in Rocks!
-                    </router-link>
+                    </NuxtLink>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">

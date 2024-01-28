@@ -5,7 +5,7 @@
                 Quick links
             </h2>
 
-            <router-link to="/order" class="cursor-pointer rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500">
+            <NuxtLink to="/order" class="cursor-pointer rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500">
                 <div>
                     <span class="rounded-lg inline-flex p-3 bg-teal-50 text-teal-700 ring-4 ring-white">
                         <!-- Heroicon name: outline/clock -->
@@ -57,7 +57,7 @@
                         />
                     </svg>
                 </span>
-            </router-link>
+            </NuxtLink>
 
             <div class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500">
                 <div>

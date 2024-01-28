@@ -1,3 +1,26 @@
+<script setup lang="ts">
+/* global miner */
+
+/* Import modules. */
+import gravatar from 'gravatar'
+// import * as miner from 'wasm-miner'
+import numeral from 'numeral'
+
+
+const blocks = ref(null)
+const difficulty = ref(null)
+const networkhashps = ref(null)
+
+const marketValue = ref(null)
+const miningCost = ref(null)
+const multiplier = ref(null)
+
+
+
+
+
+</script>
+
 <template>
     <main aria-labelledby="profile-overview-title">
         <div class="rounded-lg bg-white overflow-hidden shadow">
@@ -6,13 +29,13 @@
             <div class="bg-white p-6">
                 <div class="sm:flex sm:items-center sm:justify-between">
                     <div class="sm:flex sm:space-x-5">
-                        <router-link to="/profile" class="flex-shrink-0">
+                        <NuxtLink to="/profile" class="flex-shrink-0">
                             <img
                                 class="mx-auto h-20 w-20 rounded-full"
                                 :src="displayAvatar"
                                 alt="profile / avatar"
                             />
-                        </router-link>
+                        </NuxtLink>
 
                         <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
                             <p class="text-sm font-medium text-gray-600">Nexa Rocks!</p>
@@ -124,220 +147,3 @@
         </div>
     </main>
 </template>
-
-<script>
-/* global miner */
-
-/* Import modules. */
-import gravatar from 'gravatar'
-// import * as miner from 'wasm-miner'
-import numeral from 'numeral'
-
-export default {
-    data: () => ({
-        blocks: null,
-        difficulty: null,
-        networkhashps: null,
-
-        marketValue: null,
-        miningCost: null,
-        multiplier: null
-    }),
-    computed: {
-        // ...mapGetters({
-        //     nexCap: 'system/getNexCap',
-        //     nexUsd: 'system/getNexUsd'
-        // }),
-
-        displayDifficulty () {
-            if (!this.difficulty) {
-                return
-            }
-
-            const strDifficulty = this.difficulty.toFixed(6)
-
-            return `<span class="text-lg font-medium"><span class="text-gray-500">0.</span><span class="px-1 text-indigo-700 text-2xl">${strDifficulty.slice(2, 5)}</span><span class="text-gray-500">${strDifficulty.slice(5)}</span></span>`
-        },
-
-        displayHashrate () {
-            if (!this.networkhashps) {
-                return
-            }
-
-            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${numeral(this.networkhashps / 1000000.0).format('0,0.00')}</span><span class="text-gray-500">MH/s</span></span>`
-        },
-
-        displayMarketCap () {
-            /* Validate state and market cap. */
-            if (!this.$store.state.system || !this.nexCap) {
-                return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">$0.00</span><span class="text-gray-500">USD</span></span>'
-            }
-
-            /* Set market cap. */
-            const marketCap = this.nexCap // NOTE: Preserve responsiveness.
-
-            /* Format market cap. */
-            const formattedCap = numeral(marketCap).format('$0,0.00')
-
-            /* Return (formatted) market cap. */
-            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${formattedCap}</span><span class="text-gray-500">USD</span></span>`
-        },
-
-        displayPoolHashrate () {
-            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">50,226</span><span class="text-gray-500">H/s</span></span>'
-        },
-
-        displayPlatformHashrate () {
-            return '<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">431,337</span><span class="text-gray-500">H/s</span></span>'
-        },
-
-        displayLastBlock () {
-            const timeVal = '28'
-            const timeUnits = 'mins'
-
-            return `<span class="text-lg font-medium"><span class="px-1 text-indigo-700 text-2xl">${timeVal}</span><span class="text-gray-500">${timeUnits} ago</span></span>`
-        },
-
-        displayAvatar () {
-            if (this.$store.state.profile.authenticated) {
-                return gravatar.url(this.$store.state.profile.user.email)
-            } else {
-                return require('@/assets/lottie/9994-name-profile-icon-animation-circle.gif')
-            }
-        },
-
-        displayMarketValue () {
-            if (!this.marketValue) {
-                return
-            }
-
-            return numeral(this.marketValue).format('$0,0.00[00]')
-        },
-
-        displayMiningCost () {
-            if (!this.miningCost) {
-                return
-            }
-
-            return numeral(this.miningCost).format('$0,0.00[00]')
-        },
-
-        displayMultiplier () {
-            if (!this.multiplier) {
-                return
-            }
-
-            return numeral(this.multiplier).format('0.[0]') + 'x'
-        }
-    },
-    created: function () {
-        /* Initialize panel. */
-        this.init()
-    },
-    mounted: function () {
-        //
-    },
-    methods: {
-        async init () {
-            // this.decodeAddress()
-            await this.getMiningInfo() // NOTE: We need `blocks`.
-
-            const rawResponse = await fetch('https://api.nexa.exchange/v1/ticker/quote/NEX', {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            const content = await rawResponse.json()
-            // console.log('CONTENT (ticker quote NEX):', content) // eslint-disable-line no-console
-
-            /* Set store price. */
-            this.$store.dispatch('system/setNexUsd', content.price)
-
-            /* Set store market cap. */
-            const marketCap = (content.price * (this.blocks * 10))
-            // console.log('MARKET CAP', marketCap)
-            this.$store.dispatch('system/setNexCap', marketCap)
-
-            this.marketValue = content.price
-            this.miningCost = (5.0 / this.$store.state.system.rpm)
-            this.multiplier = this.marketValue / this.miningCost
-        },
-        test () {
-            console.log('Starting test...')
-
-            /* Display welcome. */
-            miner.welcome('Anon')
-        },
-
-        openWebMining () {
-            console.log('openWebMining')
-            /* Request mining panel. */
-            this.$store.dispatch('system/openPanel', 'mining')
-
-            // /* Set placeholder. */
-            // const placeholder = 'nexa:<address-goes-here>'
-
-            // /* Request address. */
-            // const address = prompt(
-            //     'Please enter your NEXA address 👇',
-            //     placeholder
-            // )
-
-            // /* Handle canceled request. */
-            // if (address === null) {
-            //     return
-            // }
-
-            // /* Handle empty address. */
-            // if (address === '' || address === placeholder) {
-            //     return alert('🚨 A valid NEXA address is required to continue 🚨')
-            // }
-
-            // alert(`Web mining is coming soon..\n\n[ ${address} ] 👈`)
-        },
-
-        // decodeAddress() {
-        //     const bech32 = require('../libs/bech32')
-        //     console.log('BECH32', bech32);
-
-        //     const test = 'split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w'
-
-        //     const ret = bech32.decode(test, bech32.encodings.BECH32)
-        //     console.log('RET', ret)
-        // },
-
-        async getMiningInfo () {
-            const endpoint = 'https://api.nexa.rocks/v1/core/'
-            const rawResponse = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    action: 'getmininginfo',
-                    params: []
-                })
-            })
-
-            const content = await rawResponse.json()
-            // console.log('CONTENT', content)
-
-            /* Validate content. */
-            if (content) {
-                this.blocks = content.blocks
-                this.difficulty = content.difficulty
-                this.networkhashps = content.networkhashps
-            }
-        },
-
-        openArbitrage () {
-            /* Request referrals panel. */
-            this.$store.dispatch('system/openPanel', 'arbitrage')
-        }
-    }
-}
-</script>

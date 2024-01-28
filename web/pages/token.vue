@@ -34,7 +34,7 @@
                         </p>
 
                         <p class="text-yellow-900">
-                            $ROCKS are automatically converted 1-for-1 into $NEX coins after staking in the <router-link to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</router-link> for seven (7) days.
+                            $ROCKS are automatically converted 1-for-1 into $NEX coins after staking in the <NuxtLink to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</NuxtLink> for seven (7) days.
                         </p>
 
                         <p class="text-sm text-yellow-700 italic">

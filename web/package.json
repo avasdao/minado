@@ -1,6 +1,6 @@
 {
   "name": "nexa-rocks-web",
-  "version": "22.11.10",
+  "version": "24.1.27",
   "license": "MIT",
   "scripts": {
     "build": "nuxt build",
@@ -15,10 +15,10 @@
     "crypto-js": "4.1.1",
     "gravatar": "1.8.2",
     "moment": "2.29.4",
-    "nexajs": "23.3.19",
+    "nexajs": "23.12.29",
     "numeral": "2.0.6",
     "nuxt": "3.3.1",
-    "nuxt-highcharts": "2.0.4",
+    "nuxt-highcharts": "3.1.1",
     "pinia": "2.0.32",
     "pouchdb": "8.0.1",
     "qrcode": "1.5.1",

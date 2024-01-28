@@ -28,7 +28,7 @@
                         </div>
 
                         <p class="text-yellow-900 font-medium">
-                            Pool Payouts are sent after each block as a combination of $NEX coins and <router-link to="/$ROCKS" class="text-blue-500 font-medium hover:underline">$ROCKS</router-link> tokens.
+                            Pool Payouts are sent after each block as a combination of $NEX coins and <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> tokens.
                         </p>
 
                         <div class="grid grid-cols-3 gap-5">
@@ -110,7 +110,7 @@
                         </div>
 
                         <p class="text-sm text-yellow-700 italic">
-                            NOTE: <router-link to="/$ROCKS" class="text-blue-500 font-medium hover:underline">$ROCKS</router-link> are automatically converted 1-for-1 into $NEX coins after staking in the <router-link to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</router-link> for seven (7) days.
+                            NOTE: <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> are automatically converted 1-for-1 into $NEX coins after staking in the <NuxtLink to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</NuxtLink> for seven (7) days.
                         </p>
                     </section>
 

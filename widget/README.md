@@ -1,6 +1,6 @@
 # Nexa Rocks! Widget Center
 
-### https://widget.nexa.rocks
+### https://nexa.rocks/widgets
 
 ## Create a web server
 

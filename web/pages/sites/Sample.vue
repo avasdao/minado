@@ -165,7 +165,7 @@
                                         Not Active and Checked: "ring-2"
                                     -->
                                                         <div class="w-12 h-12 rounded-full border-2 border-gray-300 overflow-hidden shadow-sm">
-                                                            <img class="object-cover" :src="require('@/assets/nexa-logo.png')" />
+                                                            <img class="object-cover" src="~/assets/nexa-logo.png" />
                                                         </div>
 
                                                         <!--

@@ -17,7 +17,7 @@
         </p>
 
         <img
-            :src="require('@/assets/lottie/78285-original-httpslottiefilescom24811-saving-money.gif')"
+            src="~/assets/lottie/78285-original-httpslottiefilescom24811-saving-money.gif"
             class="rounded-xl border-4 border-yellow-500"
         />
     </main>

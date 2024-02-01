@@ -22,7 +22,7 @@
                             </div>
 
                             <img
-                                :src="require('@/assets/lottie/90472-saving-the-money.gif')"
+                                src="~/assets/lottie/90472-saving-the-money.gif"
                                 class="ml-20 p-1 h-20 border-2 border-yellow-600 rounded-xl"
                             />
                         </div>

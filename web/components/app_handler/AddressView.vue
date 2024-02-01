@@ -12,7 +12,7 @@
             </div>
 
             <img
-                :src="require('@/assets/lottie/58692-mining.gif')"
+                src="~/assets/lottie/58692-mining.gif"
                 class="p-1 h-20 border-2 border-yellow-600 rounded-xl"
             />
         </div>

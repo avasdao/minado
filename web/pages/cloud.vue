@@ -1,3 +1,26 @@
+<script setup lang="ts">
+useHead({
+    title: `Cloud Mining — Nexa Rocks!`,
+    meta: [
+        { name: 'description', content: `Nexa Studio makes building your next BIG idea effortless.` }
+    ],
+})
+
+/* Initialize stores. */
+import { useSystemStore } from '@/stores/system'
+const System = useSystemStore()
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="min-h-full">
         <HeaderView />
@@ -22,7 +45,7 @@
                             </div>
 
                             <img
-                                :src="require('@/assets/lottie/87192-money-cash-coin.gif')"
+                                src="~/assets/lottie/87192-money-cash-coin.gif"
                                 class="ml-20 p-1 h-20 border-2 border-yellow-600 rounded-xl"
                             />
                         </div>
@@ -45,34 +68,3 @@
         <FooterView />
     </main>
 </template>
-
-<script>
-export default {
-    head: () => ({
-        title: 'Cloud Mining — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
-    data: () => ({
-        //
-    }),
-    computed: {
-        //
-    },
-    methods: {
-        //
-    },
-    created: function () {
-        console.log('CLOUD (isPanelOpen):', this.$store.state.system.isPanelOpen)
-        console.log('CLOUD (isPanelVisible):', this.$store.state.system.isPanelVisible)
-    },
-    mounted: function () {
-        //
-    }
-}
-</script>

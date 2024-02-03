@@ -75,8 +75,9 @@ function passStringToWasm0(arg, malloc, realloc) {
 /**
 * @param {string} name
 */
-// export function welcome(name) {
-function welcome(name) {
+export function welcome(name) {
+console.log('WELCOME', name)
+name = 'Sally'
     const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
     wasm.welcome(ptr0, len0);
@@ -116,7 +117,8 @@ async function load(module, imports) {
 function getImports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_alert_3014ae832fe966df = function(arg0, arg1) {
+    imports.wbg.__wbg_alert_969ac0ca7e0c381e = function(arg0, arg1) {
+        console.log('WHHATTT??')
         alert(getStringFromWasm0(arg0, arg1));
     };
 
@@ -164,5 +166,5 @@ async function init(input) {
     return finalizeInit(instance, module);
 }
 
-// export { initSync }
-// export default init;
+export { initSync }
+export default init;

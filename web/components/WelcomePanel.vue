@@ -4,7 +4,7 @@
 /* Import modules. */
 import gravatar from 'gravatar'
 import numeral from 'numeral'
-
+import init from "../libs/miner.js"
 
 const blocks = ref(null)
 const difficulty = ref(null)
@@ -16,18 +16,23 @@ const multiplier = ref(null)
 
 
 const openWebMining = async () => {
-    console.log('WINDOW', window)
-    console.log('WINDOW.INIT', window.init)
+    // console.log('INIT', init)
+    // console.log('WINDOW', window)
+    // console.log('WINDOW.INIT', window.init)
 
     // Instantiate our wasm module
-    const miner = await init("./bin/miner_bg.wasm");
+    // const miner = await init('miner_bg.wasm')
+    const miner = await init()
     console.log('MINER', miner)
 
-    console.log('WELCOME', miner.welcome('Anon'))
+    console.log('MINER.WELCOME', miner.welcome)
+    miner.welcome('Anon')
 }
 
 
 </script>
+
+<Script ></Script>
 
 <template>
     <main aria-labelledby="profile-overview-title">

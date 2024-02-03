@@ -163,5 +163,8 @@ async function init(input) {
     return finalizeInit(instance, module);
 }
 
+window.miner = {}
+window.miner.init = init
+
 export { initSync }
 export default init;

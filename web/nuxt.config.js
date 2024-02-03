@@ -15,8 +15,8 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
             ],
             script: [
-                { src: '/bin/miner.js' },
                 { src: '/js/matomo.js' },
+                { src: '/js/miner.js' },
             ],
         },
     },

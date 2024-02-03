@@ -36,5 +36,9 @@ export default defineNuxtConfig({
 
         /* Add CORS headers to API. */
         '/api/**': { cors: true },
+
+        /* Add CORS headers to JS. */
+        // NOTE: Used for "remote" mining.
+        '/js/**': { cors: true },
     },
 })

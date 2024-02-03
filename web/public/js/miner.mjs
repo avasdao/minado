@@ -75,7 +75,8 @@ function passStringToWasm0(arg, malloc, realloc) {
 /**
 * @param {string} name
 */
-export function welcome(name) {
+// export function welcome(name) {
+function welcome(name) {
     const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
     wasm.welcome(ptr0, len0);

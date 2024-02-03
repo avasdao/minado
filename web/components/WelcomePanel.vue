@@ -16,7 +16,7 @@ const multiplier = ref(null)
 
 
 const openWebMining = async () => {
-    console.log('INIT', init)
+    console.log('WINDOW', window)
     console.log('WINDOW.INIT', window.init)
 
     // Instantiate our wasm module

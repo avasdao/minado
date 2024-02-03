@@ -76,8 +76,6 @@ function passStringToWasm0(arg, malloc, realloc) {
 * @param {string} name
 */
 export function welcome(name) {
-console.log('WELCOME', name)
-name = 'Sally'
     const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
     wasm.welcome(ptr0, len0);
@@ -118,7 +116,6 @@ function getImports() {
     const imports = {};
     imports.wbg = {};
     imports.wbg.__wbg_alert_969ac0ca7e0c381e = function(arg0, arg1) {
-        console.log('WHHATTT??')
         alert(getStringFromWasm0(arg0, arg1));
     };
 
@@ -151,7 +148,7 @@ function initSync(bytes) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('miner_bg.wasm', import.meta.url);
+        input = new URL('nexa_rocks_miner_bg.wasm', import.meta.url);
     }
     const imports = getImports();
 

@@ -3,7 +3,6 @@
 
 /* Import modules. */
 import gravatar from 'gravatar'
-// import * as miner from 'wasm-miner'
 import numeral from 'numeral'
 
 
@@ -16,7 +15,16 @@ const miningCost = ref(null)
 const multiplier = ref(null)
 
 
+const openWebMining = async () => {
+    console.log('INIT', init)
+    console.log('WINDOW.INIT', window.init)
 
+    // Instantiate our wasm module
+    const miner = await init("./bin/miner_bg.wasm");
+    console.log('MINER', miner)
+
+    console.log('WELCOME', miner.welcome('Anon'))
+}
 
 
 </script>

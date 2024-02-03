@@ -16,7 +16,7 @@ export default defineNuxtConfig({
             ],
             script: [
                 { src: '/js/matomo.js' },
-                { src: '/js/miner.js' },
+                { src: '/js/miner.mjs' },
             ],
         },
     },

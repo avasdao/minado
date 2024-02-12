@@ -3,8 +3,8 @@ import { GraphQLObjectType } from 'graphql'
 
 /* Import mutations. */
 import addAffiliate from './addAffiliate.js'
-import createOrder from './createOrder.js'
 import createSession from './createSession.js'
+import manageContract from './manageContract.js'
 
 /* Set name. */
 const name = 'Mutation'
@@ -12,8 +12,8 @@ const name = 'Mutation'
 /* Set (Mutation) fields. */
 const fields = {
     addAffiliate,
-    createOrder,
     createSession,
+    manageContract,
 }
 
 /* Set (Mutation) description. */

@@ -24,7 +24,7 @@ export default {
         // Datastore logic lives in blockchainController
         // return blockchainController.broadcast(args)
         console.log('MUTATION PARAMS:', params)
-        return 'Order created successfully!'
+        return 'Contract managed successfully!'
     },
-    description: `Create a new Order for an asset exchange.`,
+    description: `Manage a Contract for a miner.`,
 }

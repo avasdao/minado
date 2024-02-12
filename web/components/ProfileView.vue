@@ -168,13 +168,13 @@ export default {
         nickname: null
     }),
     computed: {
-        display0xAddress () {
-            if (!this.$store.state.profile.user) {
-                return 'n/a'
-            }
+        // display0xAddress () {
+        //     if (!this.$store.state.profile.user) {
+        //         return 'n/a'
+        //     }
 
-            return this.$store.state.profile.user.publicAddress
-        }
+        //     return this.$store.state.profile.user.publicAddress
+        // }
     },
     methods: {
         //

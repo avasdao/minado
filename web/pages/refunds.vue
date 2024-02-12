@@ -1,3 +1,26 @@
+<script setup lang="ts">
+useHead({
+    title: `Refunds — Nexa Rocks!`,
+    meta: [
+        { name: 'description', content: `The premiere token mining experience on Nexa.` }
+    ],
+})
+
+/* Initialize stores. */
+import { useSystemStore } from '@/stores/system'
+const System = useSystemStore()
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="min-h-full">
         <Header />
@@ -49,30 +72,3 @@
         <Footer />
     </main>
 </template>
-
-<script>
-export default {
-    data: () => ({
-        //
-    }),
-    head: () => ({
-        title: 'Blank — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
-    created: function () {
-        //
-    },
-    mounted: function () {
-        //
-    },
-    methods: {
-        //
-    }
-}
-</script>

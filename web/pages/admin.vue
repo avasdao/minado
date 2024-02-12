@@ -65,67 +65,67 @@
 </template>
 
 <script>
-export default {
-    middleware: [
-        'admin.auth',
-        // 'magic.auth'
-    ],
-    data: () => ({
-        profileid: null,
-        profile: null,
-        magic: null,
+// export default {
+//     middleware: [
+//         'admin.auth',
+//         // 'magic.auth'
+//     ],
+//     data: () => ({
+//         profileid: null,
+//         profile: null,
+//         magic: null,
 
-        miner: null,
-        miners: null,
+//         miner: null,
+//         miners: null,
 
-        hostname: null,
-        location: null,
-        auth: null,
-        pid: null,
-        count: null
-    }),
-    head: () => ({
-        title: 'Admin Center — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
-    // computed: {
-    //     ...mapGetters({
-    //         profiles: 'admin/getProfiles'
-    //     })
-    // },
-    created: function () {
-        this.init()
+//         hostname: null,
+//         location: null,
+//         auth: null,
+//         pid: null,
+//         count: null
+//     }),
+//     head: () => ({
+//         title: 'Admin Center — Nexa Rocks!',
+//         meta: [
+//             {
+//                 hid: 'description', // `vmid` for it as it will not work
+//                 name: 'description',
+//                 content: 'TBD..'
+//             }
+//         ]
+//     }),
+//     // computed: {
+//     //     ...mapGetters({
+//     //         profiles: 'admin/getProfiles'
+//     //     })
+//     // },
+//     created: function () {
+//         this.init()
 
-        const route = this.$route
-        const params = route.params
+//         const route = this.$route
+//         const params = route.params
 
-        /* Validate parameters. */
-        if (this.params) {
-            this.profileid = params.profileid
-            console.info('Active profile id', this.profileid) // eslint-disable-line no-console
+//         /* Validate parameters. */
+//         if (this.params) {
+//             this.profileid = params.profileid
+//             console.info('Active profile id', this.profileid) // eslint-disable-line no-console
 
-            /* Get miners. */
-            // this.getMiners()
-        }
-    },
-    mounted: function () {
-        //
-    },
-    methods: {
-        init () {
-            /* Request profiles. */
-            this.$store.dispatch('admin/loadProfiles')
-        },
+//             /* Get miners. */
+//             // this.getMiners()
+//         }
+//     },
+//     mounted: function () {
+//         //
+//     },
+//     methods: {
+//         init () {
+//             /* Request profiles. */
+//             this.$store.dispatch('admin/loadProfiles')
+//         },
 
-        addProfile () {
-            //
-        }
-    }
-}
+//         addProfile () {
+//             //
+//         }
+//     }
+// }
 </script>

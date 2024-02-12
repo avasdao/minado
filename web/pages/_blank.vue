@@ -1,8 +1,8 @@
 <script setup lang="ts">
 useHead({
-    title: `Blank — Nexa Studio`,
+    title: `Blank — Nexa Rocks!`,
     meta: [
-        { name: 'description', content: `Nexa Studio makes building your next BIG idea effortless.` }
+        { name: 'description', content: `The premiere token mining experience on Nexa.` }
     ],
 })
 

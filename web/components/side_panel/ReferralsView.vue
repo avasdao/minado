@@ -1,5 +1,5 @@
 <template>
-    <main class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+    <main class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
         <div>
             <span class="ml-3 text-sm uppercase font-bold text-yellow-600">
                 My Referral ID

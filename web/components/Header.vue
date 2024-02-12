@@ -1,6 +1,6 @@
 <template>
     <main class="pb-24 bg-gradient-to-r from-sky-800 to-cyan-600">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="relative flex flex-wrap items-center justify-center lg:justify-between">
                 <!-- Logo -->
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">

@@ -2,7 +2,7 @@
     <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 class="sr-only">Solo Mining</h1>
 
-        <section class="p-5 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+        <section class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
             <h1 class="text-4xl font-bold text-yellow-900">
                 Solo Mining
             </h1>

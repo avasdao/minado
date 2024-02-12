@@ -15,6 +15,7 @@ const fields = {
     affiliate,
     asset,
     hello,
+    token,
 }
 
 /* Set (Mutation) description. */

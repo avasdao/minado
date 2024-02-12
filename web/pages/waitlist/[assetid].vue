@@ -1,3 +1,34 @@
+<script setup lang="ts">
+useHead({
+    title: `Waitlist — Nexa Rocks!`,
+    meta: [
+        { name: 'description', content: `Add your request to one of the mining Waitlists.` }
+    ],
+})
+
+const Router = useRouter()
+
+const route = useRoute()
+console.log('ROUTE PARAMS', route.params)
+
+const assetid = route.params.assetid
+console.log('ASSET ID', assetid)
+
+/* Initialize stores. */
+import { useSystemStore } from '@/stores/system'
+const System = useSystemStore()
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="min-h-full">
         <Header />
@@ -6,15 +37,15 @@
 
             <div class="bg-gray-50 border-4 border-yellow-500 rounded-lg">
                 <div class="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <h2 class="sr-only">Checkout</h2>
+                    <h2 class="sr-only">Waitlist</h2>
 
                     <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
                         <div>
 
                             <div class="">
                                 <fieldset>
-                                    <legend class="text-lg font-medium text-gray-900">
-                                        We're sorry to see you go :(
+                                    <legend class="text-5xl font-light italic text-gray-700">
+                                        Join {{assetid}} Waitlist
                                     </legend>
 
                                     <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
@@ -466,31 +497,3 @@
         <Footer />
     </main>
 </template>
-
-<script>
-export default {
-    middleware: 'magic.auth',
-    data: () => ({
-        //
-    }),
-    head: () => ({
-        title: 'Blank — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
-    created: function () {
-        //
-    },
-    mounted: function () {
-        //
-    },
-    methods: {
-        //
-    }
-}
-</script>

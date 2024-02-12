@@ -1,6 +1,78 @@
+<script setup lang="ts">
+/* Define properties. */
+// https://vuejs.org/guide/components/props.html#props-declaration
+const props = defineProps({
+    panelIsVisible: Boolean,
+})
+
+
+// displayTitle () {
+//     switch (this.panelTab) {
+//     case 'address':
+//         return 'Address Dashboard'
+//     case 'arbitrage':
+//         return 'Arbitrage Portal'
+//     case 'help':
+//         return 'Support Center'
+//     case 'mining':
+//         return 'Web Mining Center'
+//     case 'referrals':
+//         return 'Referrals Manager'
+//     default:
+//         return 'Unknown Panel'
+//     }
+// }
+
+
+// closePanel () {
+//     this.$store.dispatch('system/closePanel')
+// },
+
+// openPanel () {
+//     this.$store.dispatch('system/openPanel')
+// },
+
+// togglePanel () {
+//     if (this.panelIsOpen) {
+//         this.closePanel()
+//     } else {
+//         this.openPanel()
+//     }
+// }
+
+const init = () => {
+
+    document.onkeydown = (evt) => {
+        evt = evt || window.event
+        let isEscape = false
+
+        if ('key' in evt) {
+            isEscape = (evt.key === 'Escape' || evt.key === 'Esc')
+        } else {
+            isEscape = (evt.keyCode === 27)
+        }
+
+        if (isEscape) {
+            this.closePanel()
+        }
+    }
+
+}
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <div
-        v-if="panelIsVisible"
+        v-if="props.panelIsVisible"
         class="relative z-10"
         aria-labelledby="slide-over-title"
         role="dialog"
@@ -65,73 +137,3 @@
         </div>
     </div>
 </template>
-
-<script>
-export default {
-    data: () => ({
-        //
-    }),
-    computed: {
-        // ...mapGetters({
-        //     panelIsOpen: 'system/getPanelState',
-        //     panelIsVisible: 'system/getPanelVisibility',
-        //     panelTab: 'system/getPanelTab'
-        // }),
-
-        displayTitle () {
-            switch (this.panelTab) {
-            case 'address':
-                return 'Address Dashboard'
-            case 'arbitrage':
-                return 'Arbitrage Portal'
-            case 'help':
-                return 'Support Center'
-            case 'mining':
-                return 'Web Mining Center'
-            case 'referrals':
-                return 'Referrals Manager'
-            default:
-                return 'Unknown Panel'
-            }
-        }
-    },
-    methods: {
-        noop () {},
-
-        closePanel () {
-            this.$store.dispatch('system/closePanel')
-        },
-
-        openPanel () {
-            this.$store.dispatch('system/openPanel')
-        },
-
-        togglePanel () {
-            if (this.panelIsOpen) {
-                this.closePanel()
-            } else {
-                this.openPanel()
-            }
-        }
-    },
-    created: function () {
-        //
-    },
-    mounted: function () {
-        document.onkeydown = (evt) => {
-            evt = evt || window.event
-            let isEscape = false
-
-            if ('key' in evt) {
-                isEscape = (evt.key === 'Escape' || evt.key === 'Esc')
-            } else {
-                isEscape = (evt.keyCode === 27)
-            }
-
-            if (isEscape) {
-                this.closePanel()
-            }
-        }
-    }
-}
-</script>

@@ -1,3 +1,26 @@
+<script setup lang="ts">
+useHead({
+    title: `$ROCKS — Nexa Rocks!`,
+    meta: [
+        { name: 'description', content: `The premiere token mining experience on Nexa.` }
+    ],
+})
+
+/* Initialize stores. */
+import { useSystemStore } from '@/stores/system'
+const System = useSystemStore()
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="min-h-full">
         <Header />
@@ -16,7 +39,7 @@
                         </h1>
 
                         <p class="text-yellow-900">
-                            These are the native tokens of the Nexa Rocks! mining pool which are paid out along with $NEX during regular payouts.
+                            The native tokens for Nexa Rocks!
                         </p>
 
                         <h2 class="text-2xl text-gray-600 font-medium">
@@ -24,22 +47,11 @@
                         </h2>
 
                         <ol class="list-disc pl-10">
-                            <li>Receive "spendable" $NEX with each payout</li>
-                            <li>Receive daily interest payouts ONLY for "active" $ROCKS <em>(to discourage HODLing)</em></li>
+                            <!-- <li>Receive "spendable" $NEX with each payout</li> -->
+                            <!-- <li>Receive daily interest payouts ONLY for "active" $ROCKS <em>(to discourage HODLing)</em></li> -->
                             <li>Vote on "public" pool proposals</li>
                         </ol>
 
-                        <p class="text-yellow-900">
-                            $ROCKS enable the pool to make "instant" $NEX payouts to miners.
-                        </p>
-
-                        <p class="text-yellow-900">
-                            $ROCKS are automatically converted 1-for-1 into $NEX coins after staking in the <NuxtLink to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</NuxtLink> for seven (7) days.
-                        </p>
-
-                        <p class="text-sm text-yellow-700 italic">
-                            NOTE: Daily interest is paid on $ROCKS UTXOs for up to 7-days.
-                        </p>
                     </section>
 
                     <!-- Right column -->
@@ -55,30 +67,3 @@
         <Footer />
     </main>
 </template>
-
-<script>
-export default {
-    data: () => ({
-        //
-    }),
-    head: () => ({
-        title: '$ROCKS — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'TBD..'
-            }
-        ]
-    }),
-    created: function () {
-        //
-    },
-    mounted: function () {
-        //
-    },
-    methods: {
-        //
-    }
-}
-</script>

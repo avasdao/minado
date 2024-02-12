@@ -1,3 +1,26 @@
+<script setup lang="ts">
+useHead({
+    title: `Solo Mining — Nexa Rocks!`,
+    meta: [
+        { name: 'description', content: `Learn how to setup and start solo mining Nexa (NEX) assets.` }
+    ],
+})
+
+/* Initialize stores. */
+import { useSystemStore } from '@/stores/system'
+const System = useSystemStore()
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="min-h-full">
         <Header />
@@ -25,33 +48,3 @@
         <Footer />
     </main>
 </template>
-
-<script>
-export default {
-    head: () => ({
-        title: 'Solo Mining — Nexa Rocks!',
-        meta: [
-            {
-                hid: 'description', // `vmid` for it as it will not work
-                name: 'description',
-                content: 'Learn how to setup and start solo mining Nexa (NEX) assets.'
-            }
-        ]
-    }),
-    data: () => ({
-        //
-    }),
-    computed: {
-        //
-    },
-    methods: {
-        //
-    },
-    created: function () {
-        //
-    },
-    mounted: function () {
-        //
-    }
-}
-</script>

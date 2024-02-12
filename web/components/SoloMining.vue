@@ -20,7 +20,7 @@
                 When we're done, we want your Nexa wallet to look similar to the image below 👇
             </p>
 
-            <img class="border-4 border-yellow-500 rounded-lg" src="~/assets/qt-mining-wallet.png" alt="Nexa (QT) Mining Wallet" />
+            <img class="border-4 border-yellow-500 rounded-lg" src="~/assets/solo/qt-mining-wallet.png" alt="Nexa (QT) Mining Wallet" />
 
             <h3 class="pt-5 text-2xl">
                 Prerequisites
@@ -265,7 +265,7 @@ After you start your miner, it could take several hours before you find your fir
                 When we're done, we want your Nexa mining setup to look similar to the image below.__ 👇
             </p>
 
-            <img class="border-4 border-yellow-500 rounded-lg" src="~/assets/found-a-block.png" alt="Found a Nexa mining block worth 10M NEX" />
+            <img class="border-4 border-yellow-500 rounded-lg" src="~/assets/solo/found-a-block.png" alt="Found a Nexa mining block worth 10M NEX" />
 
             <h2 class="pt-10 text-3xl">
                 Additional tips & resources

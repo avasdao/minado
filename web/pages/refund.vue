@@ -1,6 +1,6 @@
 <template>
     <main class="min-h-full">
-        <HeaderView />
+        <Header />
 
         <main class="-mt-24 pb-8 flex flex-col gap-3 max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
 
@@ -463,7 +463,7 @@
 
         </main>
 
-        <FooterView />
+        <Footer />
     </main>
 </template>
 

@@ -4,7 +4,7 @@
 /* Import modules. */
 import gravatar from 'gravatar'
 import numeral from 'numeral'
-import init from "../libs/miner.js"
+import init, { welcome } from "../libs/miner.js"
 
 const blocks = ref(null)
 const difficulty = ref(null)
@@ -14,19 +14,22 @@ const marketValue = ref(null)
 const miningCost = ref(null)
 const multiplier = ref(null)
 
+const displayAvatar = computed(() => {
+    return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+    // if (this.$store.state.profile.authenticated) {
+    //     return gravatar.url(this.$store.state.profile.user.email)
+    // } else {
+    //     return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+    // }
+})
 
 const openWebMining = async () => {
-    // console.log('INIT', init)
-    // console.log('WINDOW', window)
-    // console.log('WINDOW.INIT', window.init)
-
     // Instantiate our wasm module
     // const miner = await init('miner_bg.wasm')
     const miner = await init()
     console.log('MINER', miner)
 
-    console.log('MINER.WELCOME', miner.welcome)
-    miner.welcome('Anon')
+    welcome('Anon2')
 }
 
 
@@ -45,7 +48,7 @@ const openWebMining = async () => {
                         <NuxtLink to="/profile" class="flex-shrink-0">
                             <img
                                 class="mx-auto h-20 w-20 rounded-full"
-                                :src="displayAvatar"
+                                src="~/assets/lottie/9994-name-profile-icon-animation-circle.gif"
                                 alt="profile / avatar"
                             />
                         </NuxtLink>

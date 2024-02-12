@@ -1,6 +1,6 @@
 <template>
     <main class="min-h-full">
-        <HeaderView />
+        <Header />
 
         <section class="-mt-24 pb-8">
             <div class="max-w-3xl mx-auto lg:max-w-7xl">
@@ -22,7 +22,7 @@
             </div>
         </section>
 
-        <FooterView />
+        <Footer />
     </main>
 </template>
 

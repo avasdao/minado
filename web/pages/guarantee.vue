@@ -1,6 +1,6 @@
 <template>
     <main class="min-h-full">
-        <HeaderView />
+        <Header />
 
         <section class="-mt-24 pb-8">
             <section class="bg-purple-100 mx-auto max-w-7xl py-12 sm:px-2 lg:px-4 rounded-lg border-2 border-purple-300">
@@ -46,7 +46,7 @@
             </section>
         </section>
 
-        <FooterView />
+        <Footer />
     </main>
 </template>
 

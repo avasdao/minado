@@ -1,10 +1,10 @@
 <template>
     <main class="min-h-full">
-        <HeaderView />
+        <Header />
 
         <OrderFullView />
 
-        <FooterView />
+        <Footer />
     </main>
 </template>
 

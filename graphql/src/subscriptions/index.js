@@ -3,8 +3,8 @@ import { GraphQLObjectType } from 'graphql'
 import { PubSub } from 'graphql-subscriptions'
 
 /* Import subscriptions. */
-import block from './subscriptions/block.js'
-import greetings from './subscriptions/greetings.js'
+import block from './block.js'
+import greetings from './greetings.js'
 
 /* Initialize PubSub. */
 const pubsub = new PubSub()

@@ -2,9 +2,10 @@
 import { GraphQLObjectType } from 'graphql'
 
 /* Import mutations. */
-import affiliate from './queries/affiliate.js'
-import asset from './queries/asset.js'
-import hello from './queries/hello.js'
+import affiliate from './affiliate.js'
+import asset from './asset.js'
+import hello from './hello.js'
+import token from './token.js'
 
 /* Set name. */
 const name = 'Query'

@@ -5,6 +5,7 @@ import { PubSub } from 'graphql-subscriptions'
 /* Import subscriptions. */
 import block from './block.js'
 import greetings from './greetings.js'
+import miner from './miner.js'
 
 /* Initialize PubSub. */
 const pubsub = new PubSub()
@@ -32,6 +33,7 @@ const name = 'Subscription'
 const fields = {
     block: block(pubsub),
     greetings,
+    miner: miner(pubsub),
 }
 
 /* Set (Mutation) description. */

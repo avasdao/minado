@@ -1,0 +1,13 @@
+[{
+  "ticker": "ROCKS",
+  "name": "Nexa Rocks!",
+  "summary": "Official token of Nexa Rocks! — leading an all NEW class of fully permissionless and uncensorable Token Mining networks.",
+  "description": "$ROCKS is a fairly launched community & governance token.",
+  "legal": "Every $ROCKS holder is permitted to Vote (on-chain) on ALL public proposals created by the Nexa Rocks! community.",
+  "creator": "Ava's DAO",
+  "contact": { "address": "3455 Peachtree Rd NE, Suite #500, Atlanta, GA 30326", "email": "support@avasdao.org", "twitter.com": "@AvasDAO" },
+  "icon": "/icon.svg",
+  "category": "coin"
+},
+ "<signature-goes-here>"
+]

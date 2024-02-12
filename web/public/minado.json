@@ -1,0 +1,13 @@
+[{
+  "ticker": "MINADO",
+  "name": "Minado",
+  "summary": "Monthly Mining Contract",
+  "description": "Minado represent a monthly mining contract.",
+  "legal": "TBD",
+  "creator": "Ava's DAO",
+  "contact": { "address": "3455 Peachtree Rd NE, Suite #500, Atlanta, GA 30326", "email": "support@avasdao.org", "twitter.com": "@AvasDAO" },
+  "icon": "/icon.svg",
+  "category": "NFT"
+},
+ "<signature-goes-here>"
+]

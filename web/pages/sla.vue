@@ -29,7 +29,7 @@ const System = useSystemStore()
             <section class="bg-purple-100 mx-auto max-w-7xl py-12 sm:px-2 lg:px-4 rounded-lg border-2 border-purple-300">
                 <!-- <section class="overflow-hidden divide-y divide-gray-200 sm:divide-y-0"> -->
                 <h2 class="sr-only" id="support-center-title">
-                    7-day Money-back Guarantee!
+                    Servcie Level Agreement
                 </h2>
 
                 <div class="">
@@ -38,7 +38,7 @@ const System = useSystemStore()
                     </h2>
 
                     <h1 class="text-5xl">
-                        7-day Crypto-back Guarantee!
+                        Hashing Guarantee!
                     </h1>
 
                     <p class="mt-5 text-lg">

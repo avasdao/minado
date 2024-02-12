@@ -39,7 +39,7 @@
                     <div class="relative flex-shrink-0">
                         <button @click="toggleMenu" class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="sr-only">Open profile menu</span>
-                            <img class="p-1 h-8 w-8 rounded-full" :src="displayAvatar" alt="profile / avatar" />
+                            <img class="p-1 h-8 w-8 rounded-full" src="~/assets/lottie/9994-name-profile-icon-animation-circle.gif" alt="profile / avatar" />
                         </button>
 
                         <div

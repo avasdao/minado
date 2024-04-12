@@ -19,5 +19,5 @@ export default {
         console.log('SUBMISSION PARAMS:', params)
         return 'Candidate submitted successfully!'
     },
-    description: `Manage a Submission for a miner.`,
+    description: `Manage a Candidate Submission for a miner.`,
 }

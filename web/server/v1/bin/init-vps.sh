@@ -14,17 +14,17 @@ echo
 echo "  Cleaning Minado data folder..."
 echo
 
-rm -rf .nexa-rocks
+rm -rf .minado
 
 echo "  Installing Minado data folder..."
 echo
 
-tar xf nexa-rocks-104070.tar.gz
+tar xf minado-104070.tar.gz
 
 echo "  Nexa has been configured successfully!"
 echo
 
-/root/nexad -daemon -datadir=/root/.nexa-rocks
+/root/nexad -daemon -datadir=/root/.minado
 
 echo
 echo "  All done!"
@@ -33,5 +33,5 @@ echo "  Waiting for node to start..."
 echo
 
 sleep 90
-/root/nexa-cli -datadir=/root/.nexa-rocks getblockcount
+/root/nexa-cli -datadir=/root/.minado getblockcount
 echo

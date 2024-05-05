@@ -311,7 +311,7 @@ export default {
             const nickname = this.profile ? this.profile.nickname : ''
 
             if (cpus > 0) {
-                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.minado.io:443:${nickname}" &
+                return `/root/nexa-miner -datadir=/root/.minado -cpus=${cpus} -address="${address}" -pool="stratum.minado.io:443:${nickname}" &
 sleep 1
 disown %1
 exit`

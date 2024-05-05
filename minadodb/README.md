@@ -1,4 +1,4 @@
-# Nexa Rocks! Database
+# Minado Database
 
 A queriable database of the full Nexa blockchain.
 

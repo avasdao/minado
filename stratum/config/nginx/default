@@ -32,10 +32,10 @@ server {
 	#
 	# include snippets/snakeoil.conf;
 
-	server_name nexa.rocks www.nexa.rocks ;
+	server_name minado.io www.minado.io ;
 
-	ssl_certificate /etc/letsencrypt/live/nexa.rocks/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/nexa.rocks/privkey.pem;
+	ssl_certificate /etc/letsencrypt/live/minado.io/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/minado.io/privkey.pem;
 
 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 	ssl_prefer_server_ciphers on;
@@ -78,6 +78,6 @@ server {
 
 server {
 	listen 80;
-	server_name nexa.rocks;
+	server_name minado.io;
 	return 301 https://$host$request_uri;
 }

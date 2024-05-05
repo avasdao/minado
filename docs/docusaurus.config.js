@@ -6,9 +6,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Nexa Rocks!',
+  title: 'Minado',
   tagline: 'Solo, Pool & Cloud Mining NEXA Assets',
-  url: 'https://docs.nexa.rocks',
+  url: 'https://docs.minado.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -17,7 +17,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'avasdao', // Usually your GitHub org/user name.
-  projectName: 'nexa-rocks', // Usually your repo name.
+  projectName: 'minado', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -58,9 +58,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Nexa Rocks!',
+        title: 'Minado',
         logo: {
-          alt: 'Nexa Rocks! Logo',
+          alt: 'Minado Logo',
           src: 'img/logo.png',
         },
         items: [
@@ -72,12 +72,12 @@ const config = {
           },
           {
             to: '/blog',
-            // href: 'https://blog.nexa.rocks',
+            // href: 'https://blog.minado.io',
             label: 'Blog',
             position: 'left'
           },
           {
-            href: 'https://github.com/avasdao/nexa-rocks',
+            href: 'https://github.com/avasdao/minado',
             label: 'GitHub',
             position: 'right',
           },
@@ -117,16 +117,16 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: 'https://blog.nexa.rocks',
+                to: 'https://blog.minado.io',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/avasdao/nexa-rocks',
+                href: 'https://github.com/avasdao/minado',
               },
             ],
           },
         ],
-        copyright: `Copyright &copy; ${new Date().getFullYear()} Nexa Rocks! All rights reserved.`,
+        copyright: `Copyright &copy; ${new Date().getFullYear()} Minado All rights reserved.`,
       },
       prism: {
         theme: lightCodeTheme,

@@ -1,6 +1,6 @@
 export default `######################################################################
 #
-#  Welcome to the Nexa Rocks! GraphiQL
+#  Welcome to the Minado GraphiQL
 #
 #  The Nexa Mining Community should make great use of this tool for:
 #    ✔ Submitting PoW shares & solutions
@@ -10,10 +10,10 @@ export default `################################################################
 #  Sample queries from each (of 4) data categories shown below:
 #
 #    Affiliate:    View a complete history of ALL affliate and payout
-#                  activities on the Nexa Rocks! platform.
+#                  activities on the Minado platform.
 #
 #        Asset:    View a complete list (w/ details) of ALL assets
-#                  supported on Nexa Rocks!, featuring:
+#                  supported on Minado, featuring:
 #                    ✔ NEXA (nexa.org)
 #                    ✔ ROCKS (rocks.cash)
 #                    ✔ AVAS (avas.cash)

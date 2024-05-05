@@ -1,5 +1,5 @@
-# Nexa Rocks!
+# Minado
 
-### https://nexa.rocks
+### https://minado.io
 
 The premier Nexa (NEXA) mining pool and software suite.

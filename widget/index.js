@@ -1,4 +1,4 @@
-console.log('Welcome to Nexa Rocks! Widget')
+console.log('Welcome to Minado Widget')
 
 const init = async (_configFile) => {
     let config
@@ -23,7 +23,7 @@ window.onload = () => {
     let configFile
     let widget
 
-    widget = document.querySelector('#nexa-rocks-widget')
+    widget = document.querySelector('#minado-widget')
     console.log('WIDGET', widget)
 
     if (!widget) {

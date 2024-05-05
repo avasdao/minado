@@ -5,7 +5,7 @@ authors: [shomari]
 tags: [nexa, mining, party]
 ---
 
-Introducing our brand new (Alpha) website for Nexa Rocks!
+Introducing our brand new (Alpha) website for Minado!
 
 Regular blog authors can be added to `authors.yml`.
 

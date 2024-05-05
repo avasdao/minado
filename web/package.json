@@ -1,6 +1,6 @@
 {
-  "name": "nexa-rocks-web",
-  "version": "24.1.27",
+  "name": "minado-web",
+  "version": "24.5.4",
   "license": "MIT",
   "scripts": {
     "build": "nuxt build",

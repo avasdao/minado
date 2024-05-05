@@ -1,6 +1,6 @@
-# Nexa Rocks! Widget Center
+# Minado Widget Center
 
-### https://nexa.rocks/widgets
+### https://minado.io/widgets
 
 ## Create a web server
 

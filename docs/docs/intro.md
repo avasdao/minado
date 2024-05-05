@@ -10,7 +10,7 @@ Let's discover **Nexa Mining in less than 5 minutes**.
 
 Get started by **creating a new site**.
 
-Or **try Nexa Mining immediately** with **[nexa.rocks](https://nexa.rocks)**.
+Or **try Nexa Mining immediately** with **[minado.io](https://minado.io)**.
 
 ### What you'll need
 

@@ -3,8 +3,8 @@ version: '3.7'
 services:
   app:
     build: .
-    image: rocks
-    container_name: rocks
+    image: minado
+    container_name: minado
     restart: always
     network_mode: 'host'
     # ports:

@@ -19,7 +19,7 @@ export default `################################################################
 #                    ✔ AVAS (avas.cash)
 #
 #       Report:    Request real-time activity reports on mining
-#                  and minint details.
+#                  and minting details.
 #
 #      Stratum:    Primary connection point for ALL mining nodes,
 #                  offering full support for v1 & v2 protocols:
@@ -30,15 +30,20 @@ export default `################################################################
 ######################################################################
 
 {
-  # Sample address query
-  address(base58: "nexa:...") {
+  # Sample affiliate query
+  affiliate(base58: "nexa:...") {
     base58
     script
     type
   }
 
+  # Sample asset query
+  asset(id: "a-very-cool-assetid") {
+    id
+  }
+
   # Sample block query
-  block(height: [227570, 227571, 227572]) {
+  asset(height: [227570, 227571, 227572]) {
     height
     hash
     size
@@ -52,37 +57,15 @@ export default `################################################################
     minerData
   }
 
-  # Sample meta query
-  meta(id: "txidem-for-some-nft-pfp") {
+  # Sample report query
+  report(id: "txidem-for-some-nft-pfp") {
     id
   }
 
-  # Sample owner query
-  owner(id: "nexa:someone-with-too-many-nfts") {
+  # Sample stratum query
+  stratum(id: "nexa:someone-with-too-many-nfts") {
     id
   }
 
-  # Request specific data match based on OP_RETURN
-  # data stored on-chain.
-  # NOTE: 'FUZ' is the datacode for a CashFusion transaction.
-  script(id: "FUZ") {
-    id
-    txidem
-    owner {
-      id
-    }
-  }
-
-  # Sample token query
-  token(id: "a-very-cool-tokenid") {
-    id
-  }
-
-  # Sample transaction query
-  transaction(txid: "my-super-expensive-txid") {
-    txid
-    txidem
-    amount
-  }
 }
 `

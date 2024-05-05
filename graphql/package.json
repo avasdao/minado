@@ -1,10 +1,10 @@
 {
-  "name": "nexash-graphql",
-  "version": "23.3.12",
+  "name": "minado-graphql",
+  "version": "24.5.5",
   "description": "Manages GraphQL requests.",
   "main": "index.js",
   "type": "module",
-  "repository": "https://github.com/avasdao/nexash",
+  "repository": "https://github.com/avasdao/minado",
   "author": "Ava's DAO developers",
   "license": "MIT",
   "dependencies": {

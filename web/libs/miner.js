@@ -148,7 +148,7 @@ function initSync(bytes) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('nexa_rocks_miner_bg.wasm', import.meta.url);
+        input = new URL('minado_miner_bg.wasm', import.meta.url);
     }
     const imports = getImports();
 

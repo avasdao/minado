@@ -5,7 +5,7 @@ export default `################################################################
 #  The Nexa Mining Community should make great use of this tool for:
 #    ✔ Submitting PoW shares & solutions
 #    ✔ Receiving affiliate credits
-#    ✔ Managing ROCKS activities
+#    ✔ Managing $TOKEN activities
 #
 #  Sample queries from each (of 4) data categories shown below:
 #
@@ -15,7 +15,7 @@ export default `################################################################
 #        Asset:    View a complete list (w/ details) of ALL assets
 #                  supported on Minado, featuring:
 #                    ✔ NEXA (nexa.org)
-#                    ✔ ROCKS (rocks.cash)
+#                    ✔ NXY (nxy.cash)
 #                    ✔ AVAS (avas.cash)
 #
 #       Report:    Request real-time activity reports on mining

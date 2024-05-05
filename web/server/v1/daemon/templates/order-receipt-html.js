@@ -20,8 +20,8 @@ const htmlTemplate = (_msgDetails) => {
         <div style="text-align: center;">
             <hr />
 
-            <a href="https://nexa.rocks" style="text-decoration: none;">
-                https://nexa.rocks
+            <a href="https://minado.io" style="text-decoration: none;">
+                https://minado.io
             </a>
 
             <br />

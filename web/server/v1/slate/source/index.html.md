@@ -29,7 +29,7 @@ meta:
 
 # Introduction
 
-Welcome to the Nexa Rocks! API You can use our API to access Nexa Rocks! API endpoints, which can get information on various coins, tokens, and assets in our database.
+Welcome to the Minado API You can use our API to access Minado API endpoints, which can get information on various coins, tokens, and assets in our database.
 
 We have language bindings in JavaScript, Python, PHP and Rust! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 

@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     app: {
         /* Application Header */
         head: {
-            title: 'Nexa Rocks! Solo, Pool & Cloud Mining NEXA Assets',
+            title: 'Minado Solo, Pool & Cloud Mining NEXA Assets',
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },

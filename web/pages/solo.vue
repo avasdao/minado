@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `Solo Mining — Nexa Rocks!`,
+    title: `Solo Mining — Minado`,
     meta: [
         { name: 'description', content: `Learn how to setup and start solo mining Nexa (NEX) assets.` }
     ],

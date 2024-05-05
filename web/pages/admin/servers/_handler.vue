@@ -42,7 +42,7 @@
 
 <script>
 /* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+const ENDPOINT = 'https://api.minado.io/v1/admin'
 
 export default {
     middleware: [
@@ -54,7 +54,7 @@ export default {
         server: null
     }),
     head: () => ({
-        title: 'Server Administration — Nexa Rocks!',
+        title: 'Server Administration — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

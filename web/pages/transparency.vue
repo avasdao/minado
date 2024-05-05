@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `Transparency — Nexa Rocks!`,
+    title: `Transparency — Minado`,
     meta: [
         { name: 'description', content: `` }
     ],
@@ -40,7 +40,7 @@ const System = useSystemStore()
 
                         <p class="text-yellow-900">
                             Providing maximum transparency is paramount to our mission of building trust with our community of users.
-                            Please contact us if you have any additional questions about the data collected and provided by Nexa Rocks!
+                            Please contact us if you have any additional questions about the data collected and provided by Minado
                         </p>
 
                         <div class="bg-amber-800 py-24 sm:py-32 border-2 border-amber-600 rounded-xl shadow">

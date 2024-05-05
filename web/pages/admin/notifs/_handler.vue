@@ -51,7 +51,7 @@ export default {
         profileid: null
     }),
     head: () => ({
-        title: 'Notifications — Nexa Rocks!',
+        title: 'Notifications — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

@@ -11,12 +11,12 @@ apt install build-essential curl libtool autotools-dev autoconf automake pkg-con
 echo
 echo "  All libraries have been installed!"
 echo
-echo "  Cleaning Nexa Rocks! data folder..."
+echo "  Cleaning Minado data folder..."
 echo
 
 rm -rf .nexa-rocks
 
-echo "  Installing Nexa Rocks! data folder..."
+echo "  Installing Minado data folder..."
 echo
 
 tar xf nexa-rocks-104070.tar.gz

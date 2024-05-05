@@ -159,7 +159,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Server Manager — Nexa Rocks!',
+        title: 'Server Manager — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

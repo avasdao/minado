@@ -225,7 +225,7 @@ export default {
         siteid: null
     }),
     head: () => ({
-        title: 'Add New Server — Nexa Rocks!',
+        title: 'Add New Server — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

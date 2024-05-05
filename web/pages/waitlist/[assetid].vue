@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `Waitlist — Nexa Rocks!`,
+    title: `Waitlist — Minado`,
     meta: [
         { name: 'description', content: `Add your request to one of the mining Waitlists.` }
     ],

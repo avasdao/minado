@@ -24,8 +24,8 @@ const welcome = `
 <html>
 <body>
 
-<h2>Welcome to the Nexa Rocks! Stratum Server</h2>
-<h3>https://stratum.nexa.rocks</h3>
+<h2>Welcome to the Minado Stratum Server</h2>
+<h3>https://stratum.minado.io</h3>
 
 </body>
 </html>

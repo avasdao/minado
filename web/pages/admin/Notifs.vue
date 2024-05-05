@@ -53,7 +53,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Notifications Manager — Nexa Rocks!',
+        title: 'Notifications Manager — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

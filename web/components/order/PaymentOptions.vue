@@ -225,7 +225,7 @@ export default {
             console.log('PAYMENT REQUEST (body):', body)
 
             /* Set endpoint. */
-            const endpoint = 'https://api.nexa.rocks/v1/orders/'
+            const endpoint = 'https://api.minado.io/v1/orders/'
 
             const rawResponse = await fetch(endpoint, {
                 method: 'POST',
@@ -259,7 +259,7 @@ export default {
             }
 
             /* Set endpoint. */
-            const endpoint = 'https://api.nexa.rocks/v1/orders/'
+            const endpoint = 'https://api.minado.io/v1/orders/'
 
             const rawResponse = await fetch(endpoint, {
                 method: 'POST',

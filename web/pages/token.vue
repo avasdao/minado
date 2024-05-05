@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `$ROCKS — Nexa Rocks!`,
+    title: `$ROCKS — Minado`,
     meta: [
         { name: 'description', content: `The premiere token mining experience on Nexa.` }
     ],
@@ -39,7 +39,7 @@ const System = useSystemStore()
                         </h1>
 
                         <p class="text-yellow-900">
-                            The native tokens for Nexa Rocks!
+                            The native tokens for Minado
                         </p>
 
                         <h2 class="text-2xl text-gray-600 font-medium">

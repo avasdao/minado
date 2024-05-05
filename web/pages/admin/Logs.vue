@@ -63,7 +63,7 @@ export default {
         count: null
     }),
     head: () => ({
-        title: 'Log Manager — Nexa Rocks!',
+        title: 'Log Manager — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

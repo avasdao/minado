@@ -60,7 +60,7 @@ export default {
         count: null
     }),
     head: () => ({
-        title: 'Admin Center — Nexa Rocks!',
+        title: 'Admin Center — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

@@ -1,7 +1,7 @@
 {
-  "name": "nexa-rocks-daemon",
-  "version": "22.10.11",
-  "description": "Nexa Rocks! Daemon",
+  "name": "minado-daemon",
+  "version": "24.5.4",
+  "description": "Minado Daemon",
   "author": "Ava's DAO <support@avasdao.org>",
   "main": "index.js",
   "scripts": {

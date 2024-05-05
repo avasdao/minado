@@ -222,7 +222,7 @@
 import moment from 'moment'
 
 /* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+const ENDPOINT = 'https://api.minado.io/v1/admin'
 
 export default {
     props: {
@@ -263,7 +263,7 @@ export default {
             const nickname = this.profile.nickname
 
             if (cpus > 0) {
-                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.nexa.rocks:443:${nickname}" &
+                return `/root/nexa-miner -datadir=/root/.nexa-rocks -cpus=${cpus} -address="${address}" -pool="stratum.minado.io:443:${nickname}" &
 sleep 1
 disown %1
 exit`

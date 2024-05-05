@@ -142,7 +142,7 @@ export default {
 
             console.info('Updated deposit info:', paymentAddress, depositAmount)
 
-            const paymentLabel = window.encodeURIComponent('Nexa Rocks!')
+            const paymentLabel = window.encodeURIComponent('Minado')
             const paymentUrl = `${currencyPrefix}${paymentAddress}?amount=${depositAmount}&label=${paymentLabel}`
             console.log('Payment URL ->', paymentUrl)
 

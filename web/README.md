@@ -1,6 +1,6 @@
-# Nexa Rocks! (static website)
+# Minado (static website)
 
-### https://nexa.rocks
+### https://minado.io
 
 ## Build Setup
 

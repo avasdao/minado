@@ -1,7 +1,7 @@
 {
-  "name": "nexa-rocks-stratum",
-  "version": "22.10.17",
-  "description": "Nexa Rocks! API",
+  "name": "minado-stratum",
+  "version": "24.5.4",
+  "description": "Minado API",
   "author": "Ava's DAO <support@avasdao.org>",
   "main": "server.js",
   "scripts": {

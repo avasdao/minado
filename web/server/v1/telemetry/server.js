@@ -24,8 +24,8 @@ const welcome = `
 <html>
 <body>
 
-<h2>Welcome to the Nexa Rocks! Telemetry Server</h2>
-<h3>https://telemetry.nexa.rocks</h3>
+<h2>Welcome to the Minado Telemetry Server</h2>
+<h3>https://telemetry.minado.io</h3>
 
 </body>
 </html>

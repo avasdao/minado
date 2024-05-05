@@ -61,7 +61,7 @@ export default {
         miners: null
     }),
     head: () => ({
-        title: 'Profile Administration — Nexa Rocks!',
+        title: 'Profile Administration — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

@@ -1,7 +1,7 @@
 {
   "name": "nexa-rocks-telemetry",
-  "version": "22.10.20",
-  "description": "Nexa Rocks! API",
+  "version": "24.5.4",
+  "description": "Minado API",
   "author": "Ava's DAO <support@avasdao.org>",
   "main": "server.js",
   "scripts": {

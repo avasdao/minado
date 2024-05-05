@@ -358,7 +358,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Sample Site — Nexa Rocks!',
+        title: 'Sample Site — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

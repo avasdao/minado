@@ -1,9 +1,9 @@
 [{
   "ticker": "MINADO",
   "name": "Minado",
-  "summary": "Ministo (legendary OG miners) are available for hire at Nexa Rocks!",
-  "description": "Service agreement for the extraction of $TOKEN assets, by a certified Ministo specialist, from a designated Nexa Rocks! PoW mining facility.",
-  "legal": "Allows for one (1) Ministo to mine (non-stop), at a designated Nexa Rocks! PoW mining facility, from the start of the contract until the specified expiration date.",
+  "summary": "Ministo (legendary OG miners) are available for hire at Minado",
+  "description": "Service agreement for the extraction of $TOKEN assets, by a certified Ministo specialist, from a designated Minado PoW mining facility.",
+  "legal": "Allows for one (1) Ministo to mine (non-stop), at a designated Minado PoW mining facility, from the start of the contract until the specified expiration date.",
   "creator": "Ava's DAO",
   "contact": { "address": "3455 Peachtree Rd NE, Suite #500, Atlanta, GA 30326", "email": "support@avasdao.org", "twitter.com": "@AvasDAO" },
   "icon": "/minado.svg",

@@ -1,6 +1,6 @@
-# Nexa Rocks! API
+# Minado API
 
-### https://api.nexa.rocks (v1)
+### https://api.minado.io (v1)
 
 ## Endpoints
 
@@ -8,4 +8,4 @@
 
 `/v1/notifs`
 
-eg. https://api.nexa.rocks/v1/notifs
+eg. https://api.minado.io/v1/notifs

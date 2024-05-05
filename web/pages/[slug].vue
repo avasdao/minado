@@ -78,7 +78,7 @@ export default {
         },
 
         async streamShares () {
-            const endpoint = 'https://stratum.nexa.rocks/v1'
+            const endpoint = 'https://stratum.minado.io/v1'
             const rawResponse = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
@@ -97,7 +97,7 @@ export default {
             console.log('CONTENT (register):', content)
 
             /* Set (event) source. */
-            const source = `https://stratum.nexa.rocks/v1/shares/${this.addressStub.slice(5)}`
+            const source = `https://stratum.minado.io/v1/shares/${this.addressStub.slice(5)}`
             console.log('SOURCE', source)
 
             /* Initialize shares streaming. */

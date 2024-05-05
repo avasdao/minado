@@ -30,14 +30,14 @@ const txtTemplate = (_msgDetails) => {
         ${_msgDetails.txid}
 
         ________________________________________
-        https://nexa.rocks
+        https://minado.io
         brought to you with ❤️ from Ava's DAO
     `
 }
 
 const htmlTemplate = (_msgDetails) => {
     return `
-        <h2>Nexa Rocks! Event</h2>
+        <h2>Minado Event</h2>
 
         <p>
             i have a <strong>BOLD</strong> body!
@@ -54,8 +54,8 @@ const htmlTemplate = (_msgDetails) => {
         <div style="text-align: center;">
             <hr />
 
-            <a href="https://nexa.rocks" style="text-decoration: none;">
-                https://nexa.rocks
+            <a href="https://minado.io" style="text-decoration: none;">
+                https://minado.io
             </a>
 
             <br />
@@ -79,66 +79,66 @@ const notifs = async function (req, res) {
     try {
         body = req.body
         console.log('BODY', body)
-    
+
         /* Validate body. */
         if (!body) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing body parameter.'
             })
         }
-    
+
         address = body.address
         console.log('\nNotification address:', address)
-    
+
         /* Validate body. */
         if (!address) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Missing address parameter.'
             })
         }
-    
+
         result = await client.validateAddress(address)
         console.log('\nIs address valid:', result.isvalid, result)
-    
+
         /* Validate address. */
         if (!result.isvalid) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Your Nexa address is invalid.'
             })
         }
-    
+
         email = body.email
         console.log('\nNotification email:', email)
-    
+
         result = validator.isEmail(email)
         console.log('\nIs email valid:', result)
-    
+
         /* Validate email. */
         if (!result) {
             /* Set status. */
             res.status(400)
-    
+
             /* Return error. */
             return res.json({
                 error: 'Your email address is invalid.'
             })
         }
-    
+
         /* Generate id. */
         id = uuidv4()
-    
+
         /* Add record to database. */
         response = await notifsDb
             .put({
@@ -148,10 +148,10 @@ const notifs = async function (req, res) {
             })
             .catch(err => {
                 console.error(err)
-    
+
                 return res.json(err)
             })
-    
+
         /* Send response back to client. */
         res.json({
             id,

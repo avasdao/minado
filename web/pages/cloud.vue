@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `Cloud Mining — Nexa Rocks!`,
+    title: `Cloud Mining — Minado`,
     meta: [
         { name: 'description', content: `Nexa Studio makes building your next BIG idea effortless.` }
     ],

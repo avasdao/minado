@@ -53,7 +53,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Orders Manager — Nexa Rocks!',
+        title: 'Orders Manager — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

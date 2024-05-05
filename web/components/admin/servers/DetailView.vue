@@ -150,7 +150,7 @@
 import moment from 'moment'
 
 /* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+const ENDPOINT = 'https://api.minado.io/v1/admin'
 
 export default {
     props: {

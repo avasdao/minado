@@ -105,7 +105,7 @@
 import gravatar from 'gravatar'
 
 /* Set API endpoint. */
-const ENDPOINT = 'https://api.nexa.rocks/v1/admin'
+const ENDPOINT = 'https://api.minado.io/v1/admin'
 
 export default {
     middleware: [
@@ -116,7 +116,7 @@ export default {
         profiles: null
     }),
     head: () => ({
-        title: 'Miners Manager — Nexa Rocks!',
+        title: 'Miners Manager — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

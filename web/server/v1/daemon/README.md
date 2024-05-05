@@ -1,6 +1,6 @@
-# Nexa Rocks! API Daemon
+# Minado API Daemon
 
-### https://api.nexa.rocks (v1)
+### https://api.minado.io (v1)
 
 Manages scheduled jobs
 

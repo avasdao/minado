@@ -134,7 +134,7 @@ import numeral from 'numeral'
 
 export default {
     head: () => ({
-        title: 'Pool Mining — Nexa Rocks!',
+        title: 'Pool Mining — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work
@@ -180,7 +180,7 @@ export default {
     },
     methods: {
         async getMiningInfo () {
-            const endpoint = 'https://api.nexa.rocks/v1/core/'
+            const endpoint = 'https://api.minado.io/v1/core/'
 
             let content
             let rawResponse

@@ -12,7 +12,7 @@
 export default {
     middleware: 'magic.auth',
     head: () => ({
-        title: 'Order Mining Contracts — Nexa Rocks!',
+        title: 'Order Mining Contracts — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

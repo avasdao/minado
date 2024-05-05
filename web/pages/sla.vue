@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: `Refunds — Nexa Rocks!`,
+    title: `Refunds — Minado`,
     meta: [
         { name: 'description', content: `The premiere token mining experience on Nexa.` }
     ],

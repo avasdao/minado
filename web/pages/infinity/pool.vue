@@ -45,7 +45,7 @@ export default {
         //
     }),
     head: () => ({
-        title: 'Infinity Pool — Nexa Rocks!',
+        title: 'Infinity Pool — Minado',
         meta: [
             {
                 hid: 'description', // `vmid` for it as it will not work

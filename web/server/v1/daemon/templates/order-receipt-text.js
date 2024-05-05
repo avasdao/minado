@@ -13,7 +13,7 @@ const plaintextTemplate = (_msgDetails) => {
         ${_msgDetails.txid}
 
         ________________________________________
-        https://nexa.rocks
+        https://minado.io
         brought to you with ❤️ from Ava's DAO
     `
 }

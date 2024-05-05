@@ -617,7 +617,7 @@ export default {
                 return false
             }
 
-            const endpoint = 'https://api.nexa.rocks/v1/core/'
+            const endpoint = 'https://api.minado.io/v1/core/'
             const rawResponse = await fetch(endpoint, {
                 method: 'POST',
                 headers: {

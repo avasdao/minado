@@ -54,7 +54,7 @@ const openWebMining = async () => {
                         </NuxtLink>
 
                         <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
-                            <p class="text-sm font-medium text-gray-600">Nexa Rocks!</p>
+                            <p class="text-sm font-medium text-gray-600">Minado</p>
                             <p class="text-xl font-bold text-gray-900 sm:text-2xl">Welcome Guest</p>
                             <p class="text-sm font-medium text-gray-600">NEXA Premier Mining Pool</p>
                         </div>

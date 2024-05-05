@@ -85,7 +85,7 @@ const run = async function () {
 
             /* Send email. */
             const success = await _sendEmail(destination)
-            
+
             // TODO Handle email delivery success.
         })
 
@@ -105,15 +105,15 @@ const run = async function () {
     /* Initialize 5-second intervals. */
     setInterval(() => {
         _handleNotifs()
-        
+
         require('./handlers/paymentRequests')()
     }, 5000)
-    
+
     /* Initialize 15-second intervals. */
     setInterval(() => {
         _updateWallet()
     }, 15000)
-    
+
 
     // client.getInfo().then((help) => console.log(help))
 return
@@ -142,11 +142,11 @@ return
 }
 
 const _sendEmail = async (_dest) => {
-    const msgFrom = '"Nexa Rocks" <support@nexa.rocks>'
+    const msgFrom = '"Minado" <no-reply@minado.io>'
 
     const msgRecipient = _dest
 
-    const msgSubject = 'Nexa Rocks! Event'
+    const msgSubject = 'Minado Event'
 
     const msgDetails = {
         txid: 'd465b82e9d9e74a19b5ea0ac09308be93be8e5f3b46ad8ceb0da99005b7e9b2e',

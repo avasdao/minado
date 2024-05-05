@@ -5,12 +5,12 @@
                 <!-- Logo -->
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
                     <NuxtLink to="/" class="flex flex-row items-center">
-                        <span class="sr-only">Nexa Rocks</span>
+                        <span class="sr-only">Minado</span>
 
                         <img class="w-16 h-16" src="~/assets/logo.png" />
 
                         <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
-                            Nexa Rocks!
+                            Minado
                         </h1>
                     </NuxtLink>
                 </div>
@@ -230,7 +230,7 @@
                     <div class="pt-3 pb-2">
                         <div class="flex items-center justify-between px-4">
                             <div>
-                                <img class="h-12 w-auto" src="~/assets/logo.png" alt="Nexa Rocks! Logo" />
+                                <img class="h-12 w-auto" src="~/assets/logo.png" alt="Minado Logo" />
                             </div>
 
                             <div class="-mr-2">

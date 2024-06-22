@@ -1,0 +1,13 @@
+[{
+  "ticker": "MINISTO",
+  "name": "Ministo",
+  "summary": "Ministo (legendary OG miners) are available for hire at Ministo",
+  "description": "Service agreement for the extraction of $TOKEN assets, by a certified Ministo specialist, from a designated Ministo PoW mining facility.",
+  "legal": "Allows for one (1) Ministo to mine (non-stop), at a designated Ministo PoW mining facility, from the start of the contract until the specified expiration date.",
+  "creator": "Ava's DAO",
+  "contact": { "address": "3455 Peachtree Rd NE, Suite #500, Atlanta, GA 30326", "email": "support@avasdao.org", "twitter.com": "@AvasDAO" },
+  "icon": "/ministo.svg",
+  "category": "NFT"
+},
+ "<signature-goes-here>"
+]

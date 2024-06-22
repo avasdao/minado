@@ -1,11 +1,9 @@
-version: '3.3'
-
 services:
-  graphql:
+  stratum:
     build: .
-    image: graphql
-    container_name: graphql
-    restart: always
+    image: stratum
+    container_name: stratum
+    restart: unless-stopped
     network_mode: 'host'
     # ports:
     #   - '127.0.0.1:6000:3000'

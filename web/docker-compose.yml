@@ -1,11 +1,9 @@
-version: '3.7'
-
 services:
   app:
     build: .
     image: minado
     container_name: minado
-    restart: always
+    restart: unless-stopped
     network_mode: 'host'
     # ports:
     #   - '127.0.0.1:3000:3000'

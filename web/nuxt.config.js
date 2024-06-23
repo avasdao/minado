@@ -4,11 +4,11 @@ export default defineNuxtConfig({
     app: {
         /* Application Header */
         head: {
-            title: 'Minado Solo, Pool & Cloud Mining NEXA Assets',
+            title: 'Minado — #1 in CPU & GPU Mining Crypto Assets',
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                { hid: 'description', name: 'description', content: 'The premier NEXA mining pool offering solo, pool & cloud mining for ALL Nexa assets.' },
+                { hid: 'description', name: 'description', content: 'Minado is the leader in CPU & GPU mining crypto assets.' },
                 { name: 'format-detection', content: 'telephone=no' }
             ],
             link: [

@@ -4,7 +4,7 @@
 /* Import modules. */
 import gravatar from 'gravatar'
 import numeral from 'numeral'
-import init, { welcome } from "../libs/miner.js"
+import init, { welcome } from "../libs/ministo.js"
 
 const blocks = ref(null)
 const difficulty = ref(null)

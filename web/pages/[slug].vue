@@ -1,161 +1,158 @@
-<template>
-    <main class="min-h-full">
-        <Header />
+<script setup lang="ts">
+/* Import modules. */
 
-        <section class="-mt-24 pb-8">
-            <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="sr-only">Application Handler</h1>
+const route = useRoute()
 
-                <!-- Main 3 column grid -->
-                <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <section class="col-span-2">
-                        <!-- Address View -->
-                        <AppHandlerAddressView
-                            v-if="addressStub"
-                        />
+const addressStub = ref(null)
+const shares = ref([])
 
-                        <AppHandlerSharesBlock
-                            :shares="shares"
-                        />
-                    </section>
+/* Set (route) slug. */
+const slug = route?.params.slug
 
-                    <!-- Right column -->
-                    <div class="grid grid-cols-1 gap-4">
-                        <AppHandlerAddressFinance
-                            v-if="addressStub"
-                        />
-                    </div>
-                </div>
-            </div>
-        </section>
+const init = () => {
+    let params
 
-        <Footer />
-    </main>
-</template>
+    /* Set route. */
+    const route = this.$route
 
-<script>
-export default {
-    data: () => ({
-        addressStub: null,
-        shares: null
-    }),
-    computed: {
-        //
-    },
-    methods: {
-        init () {
-            let params
+    /* Validate route. */
+    if (route) {
+        params = route.params
+        console.log('PARAMS', params)
+    }
 
-            /* Set route. */
-            const route = this.$route
+    /* Validate application handler. */
+    if (params && params.handler) {
+        /* Set id of app handler. */
+        const id = params.handler
 
-            /* Validate route. */
-            if (route) {
-                params = route.params
-                console.log('PARAMS', params)
-            }
+        /* Handle Nexa address. */
+        if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
+            this.addressStub = params.handler
 
-            /* Validate application handler. */
-            if (params && params.handler) {
-                /* Set id of app handler. */
-                const id = params.handler
+            /* Set the application (active) address. */
+            return this.$store.dispatch('rostrum/setAddress', params.handler)
+        }
 
-                /* Handle Nexa address. */
-                if (id.slice(0, 7) === 'nexa:nq' || id.slice(0, 2) === 'nq') {
-                    this.addressStub = params.handler
+        // TODO: Add more handlers.
+        //         - first bits (short addresses)
+        //         - referall
+    }
 
-                    /* Set the application (active) address. */
-                    return this.$store.dispatch('rostrum/setAddress', params.handler)
-                }
+    /* Fallback to homepage. */
+    this.$router.push('/')
+}
 
-                // TODO: Add more handlers.
-                //         - first bits (short addresses)
-                //         - referall
-            }
-
-            /* Fallback to homepage. */
-            this.$router.push('/')
+const streamShares = async () => {
+    const endpoint = 'https://stratum.minado.io/v1'
+    const rawResponse = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
         },
-
-        async streamShares () {
-            const endpoint = 'https://stratum.minado.io/v1'
-            const rawResponse = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    method: 'register',
-                    params: {
-                        address: this.addressStub
-                    }
-                })
-            })
-
-            const content = await rawResponse.json()
-            console.log('CONTENT (register):', content)
-
-            /* Set (event) source. */
-            const source = `https://stratum.minado.io/v1/shares/${this.addressStub.slice(5)}`
-            console.log('SOURCE', source)
-
-            /* Initialize shares streaming. */
-            const shares = new EventSource(source)
-
-            /* Handle connection opening. */
-            shares.onopen = () => {
-                console.log('SHARES IS OPEN')
-
-                /* Emit message. */
-                // this.emit('open', msg)
+        body: JSON.stringify({
+            method: 'register',
+            params: {
+                address: this.addressStub
             }
+        })
+    })
 
-            /* Handle connection closing. */
-            shares.onclose = () => {
-                console.log('SHARES HAS CLOSED')
+    const content = await rawResponse.json()
+    console.log('CONTENT (register):', content)
 
-                /* Emit message. */
-                // this.emit('close', msg)
-            }
+    /* Set (event) source. */
+    const source = `https://stratum.minado.io/v1/shares/${this.addressStub.slice(5)}`
+    console.log('SOURCE', source)
 
-            /* Handle message. */
-            shares.onmessage = (_evt) => {
-                console.log('ONMESSAGE (evt):', _evt)
+    /* Initialize shares streaming. */
+    const shares = new EventSource(source)
 
-                try {
-                    /* Parse data. */
-                    const data = JSON.parse(_evt.data)
-                    console.log('EVENT SOCKET (data):', data)
+    /* Handle connection opening. */
+    shares.onopen = () => {
+        console.log('SHARES IS OPEN')
 
-                    this.shares.push(data)
+        /* Emit message. */
+        // this.emit('open', msg)
+    }
 
-                    /* Emit data. */
-                    // this.emit('update', data)
-                } catch (err) {
-                    console.error('EVENT SOCKET ERROR:', err)
-                    /* Emit error. */
-                    // this.emit('error', err)
-                }
-            }
+    /* Handle connection closing. */
+    shares.onclose = () => {
+        console.log('SHARES HAS CLOSED')
+
+        /* Emit message. */
+        // this.emit('close', msg)
+    }
+
+    /* Handle message. */
+    shares.onmessage = (_evt) => {
+        console.log('ONMESSAGE (evt):', _evt)
+
+        try {
+            /* Parse data. */
+            const data = JSON.parse(_evt.data)
+            console.log('EVENT SOCKET (data):', data)
+
+            this.shares.push(data)
+
+            /* Emit data. */
+            // this.emit('update', data)
+        } catch (err) {
+            console.error('EVENT SOCKET ERROR:', err)
+            /* Emit error. */
+            // this.emit('error', err)
         }
-    },
-    created: function () {
-        /* Initialize handler. */
-        this.init()
-
-        this.shares = []
-
-        if (process.client) {
-            /* Initialize Rostrum. */
-            this.$store.dispatch('rostrum/init')
-
-            /* Start mining streams. */
-            this.streamShares()
-        }
-    },
-    mounted: function () {
-        //
     }
 }
+
+onMounted(() => {
+    console.log('Mounted!')
+
+    if (process.client) {
+        /* Initialize Rostrum. */
+        // this.$store.dispatch('rostrum/init')
+
+        /* Start mining streams. */
+        // this.streamShares()
+    }
+})
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
 </script>
+
+<template>
+    <main class="-mt-48 pb-8">
+        <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h1 class="sr-only">Application Handler</h1>
+
+            <section class="flex flex-col gap-6 leading-8">
+                <h1 class="text-5xl font-light text-amber-300 italic tracking-widest">
+                    Application Handler
+                </h1>
+
+                <h3 class="text-3xl font-bold">
+                    ( {{ slug }} )
+                </h3>
+
+                <p class="w-2/3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe ipsam pariatur explicabo eveniet neque natus, molestias corrupti tenetur rerum dolorem deleniti aliquam tempore porro aut a eum quas officiis mollitia!
+                </p>
+
+                <p class="w-2/3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe ipsam pariatur explicabo eveniet neque natus, molestias corrupti tenetur rerum dolorem deleniti aliquam tempore porro aut a eum quas officiis mollitia!
+                </p>
+
+                <p class="w-2/3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe ipsam pariatur explicabo eveniet neque natus, molestias corrupti tenetur rerum dolorem deleniti aliquam tempore porro aut a eum quas officiis mollitia!
+                </p>
+
+            </section>
+
+            <!-- TODO -->
+        </div>
+    </main>
+</template>

@@ -1,3 +1,166 @@
+<script setup lang="ts">
+/* Import modules. */
+import gravatar from 'gravatar'
+
+/* Define properties. */
+// https://vuejs.org/guide/components/props.html#props-declaration
+const props = defineProps({
+    data: {
+        type: [Object],
+    },
+})
+
+/* Initialize route. */
+const route = useRoute()
+
+/* Initialize router. */
+const router = useRouter()
+
+/* Initialize stores. */
+import { useProfileStore } from '@/stores/profile'
+import { useSystemStore } from '@/stores/system'
+import { useWalletStore } from '@/stores/wallet'
+const Profile = useProfileStore()
+const System = useSystemStore()
+const Wallet = useWalletStore()
+
+const search = ref(null)
+const isMenuOpen = ref(false)
+const isMenuVisible = ref(false)
+const isAdmin = ref(false)
+
+const displayAvatar = computed(() => {
+    return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+    // if (System.state.profile.authenticated) {
+    //     return gravatar.url(System.state.profile.user.email)
+    // } else {
+    //     return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
+    // }
+})
+
+const displayEmail = computed(() => {
+    if (!Profile.user) {
+        return 'not signed in'
+    }
+
+    return Profile.user.email
+})
+
+const init = () => {
+    /* Validate admin path. */
+    isAdmin.value = route.path.slice(0, 6) === '/admin'
+}
+
+const checkAddress = async () => {
+    let address
+
+    /* Validate search. */
+    if (!this.search) {
+        return
+    }
+
+    /* Set address (to lowercase). */
+    address = this.search ? this.search.toLowerCase() : null
+    // console.log('ADDRESS', address)
+
+    /* Validate address length. */
+    if (address.length < 40) {
+        return
+    }
+
+    /* Normalize address. */
+    if (address.slice(0, 5) !== 'nexa:') {
+        address = 'nexa:' + address
+    }
+    console.log('ADDRESS (norm):', address)
+
+    const { isvalid } = await System.validateAddress(address)
+    console.log('ADDRESS IS VALID', isvalid)
+
+    /* Request address panel. */
+    System.dispatch('system/openPanel', {
+        tab: 'address',
+        metadata: address
+    })
+}
+
+const openMenu = () => {
+    this.isMenuVisible = true
+    setTimeout(() => {
+        this.isMenuOpen = true
+    }, 0)
+}
+
+const closeMenu = () => {
+    this.isMenuOpen = false
+    setTimeout(() => {
+        this.isMenuVisible = false
+    }, 150)
+}
+
+const toggleMenu = () => {
+    if (System.state.profile.authenticated) {
+        if (this.isMenuOpen) {
+            this.closeMenu()
+        } else {
+            this.openMenu()
+        }
+    } else {
+        this.openMyProfile()
+    }
+}
+
+const openMyProfile = () => {
+    /* Close menu. */
+    this.closeMenu()
+
+    /* Open profile. */
+    router.push('/profile')
+}
+
+const openMyDashboard = () => {
+    /* Close menu. */
+    this.closeMenu()
+
+    /* Open dashboard. */
+    this.$router.push('/dashboard')
+}
+
+const signOut = () => {
+    /* Close menu. */
+    this.closeMenu()
+
+    /* Sign out. */
+    System.dispatch('profile/signout')
+}
+
+const openReferrals = () => {
+    /* Close menu. */
+    this.closeMenu()
+
+    /* Request referrals panel. */
+    System.dispatch('system/openPanel', 'referrals')
+}
+
+const openHelp = () => {
+    /* Close menu. */
+    this.closeMenu()
+
+    /* Request help panel. */
+    System.dispatch('system/openPanel', 'help')
+}
+
+// onMounted(() => {
+//     console.log('Mounted!')
+//     // Now it's safe to perform setup operations.
+// })
+
+// onBeforeUnmount(() => {
+//     console.log('Before Unmount!')
+//     // Now is the time to perform all cleanup operations.
+// })
+</script>
+
 <template>
     <main class="pb-24 bg-gradient-to-r from-sky-800 to-cyan-600">
         <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -9,9 +172,15 @@
 
                         <img class="w-16 h-16" src="~/assets/logo.png" />
 
-                        <h1 class="hidden lg:block ml-3 text-6xl text-gray-200 font-light">
-                            Minado
-                        </h1>
+                        <div class="hidden lg:block ml-3 flex flex-col gap-2">
+                            <h1 class="text-6xl text-gray-200 font-light">
+                                Minado
+                            </h1>
+
+                            <h3 class="text-xs text-amber-400 font-medium tracking-widest">
+                                CPU &amp; GPU Mining Crypto Assets
+                            </h3>
+                        </div>
                     </NuxtLink>
                 </div>
 
@@ -117,8 +286,8 @@
                                     Cloud Mining
                                 </NuxtLink>
 
-                                <NuxtLink to="/order" class="text-yellow-300 text-lg font-bold rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    Place an Order
+                                <NuxtLink to="/register" class="text-yellow-300 text-lg font-bold rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                    Register A Project
                                 </NuxtLink>
                             </nav>
                         </div>
@@ -260,8 +429,8 @@
                                 Home
                             </NuxtLink>
 
-                            <NuxtLink to="/order" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
-                                Place an Order
+                            <NuxtLink to="/register" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
+                                Register A Project
                             </NuxtLink>
 
                             <NuxtLink to="/solo" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
@@ -349,150 +518,3 @@
         </div>
     </main>
 </template>
-
-<script>
-/* Import modules. */
-import gravatar from 'gravatar'
-
-export default {
-    data: () => ({
-        search: null,
-        isMenuOpen: null,
-        isMenuVisible: null,
-        isAdmin: null
-    }),
-    computed: {
-        displayAvatar () {
-            return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
-            // if (this.$store.state.profile.authenticated) {
-            //     return gravatar.url(this.$store.state.profile.user.email)
-            // } else {
-            //     return '~/assets/lottie/9994-name-profile-icon-animation-circle.gif'
-            // }
-        },
-
-        displayEmail () {
-            if (!this.$store.state.profile.user) {
-                return 'not signed in'
-            }
-
-            return this.$store.state.profile.user.email
-        }
-    },
-    methods: {
-        async checkAddress () {
-            let address
-
-            /* Validate search. */
-            if (!this.search) {
-                return
-            }
-
-            /* Set address (to lowercase). */
-            address = this.search ? this.search.toLowerCase() : null
-            // console.log('ADDRESS', address)
-
-            /* Validate address length. */
-            if (address.length < 40) {
-                return
-            }
-
-            /* Normalize address. */
-            if (address.slice(0, 5) !== 'nexa:') {
-                address = 'nexa:' + address
-            }
-            console.log('ADDRESS (norm):', address)
-
-            const { isvalid } = await this.$utils.validateAddress(address)
-            console.log('ADDRESS IS VALID', isvalid)
-
-            /* Request address panel. */
-            this.$store.dispatch('system/openPanel', {
-                tab: 'address',
-                metadata: address
-            })
-        },
-
-        openMenu () {
-            this.isMenuVisible = true
-            setTimeout(() => {
-                this.isMenuOpen = true
-            }, 0)
-        },
-
-        closeMenu () {
-            this.isMenuOpen = false
-            setTimeout(() => {
-                this.isMenuVisible = false
-            }, 150)
-        },
-
-        toggleMenu () {
-            if (this.$store.state.profile.authenticated) {
-                if (this.isMenuOpen) {
-                    this.closeMenu()
-                } else {
-                    this.openMenu()
-                }
-            } else {
-                this.openMyProfile()
-            }
-        },
-
-        openMyProfile () {
-            /* Close menu. */
-            this.closeMenu()
-
-            /* Open profile. */
-            this.$router.push('/profile')
-        },
-
-        openMyDashboard () {
-            /* Close menu. */
-            this.closeMenu()
-
-            /* Open dashboard. */
-            this.$router.push('/dashboard')
-        },
-
-        signOut () {
-            /* Close menu. */
-            this.closeMenu()
-
-            /* Sign out. */
-            this.$store.dispatch('profile/signout')
-        },
-
-        openReferrals () {
-            /* Close menu. */
-            this.closeMenu()
-
-            /* Request referrals panel. */
-            this.$store.dispatch('system/openPanel', 'referrals')
-        },
-
-        openHelp () {
-            /* Close menu. */
-            this.closeMenu()
-
-            /* Request help panel. */
-            this.$store.dispatch('system/openPanel', 'help')
-        }
-    },
-    created: function () {
-        /* Initialize menu. */
-        this.isMenuOpen = false
-        this.isMenuVisible = false
-
-        /* Request route. */
-        const route = this.$route
-        // console.log('ROUTE', route)
-
-        /* Verify we're in the adminstrative area. */
-        this.isAdmin = route.path.slice(0, 6) === '/admin'
-    },
-    mounted: function () {
-        //
-    }
-}
-</script>

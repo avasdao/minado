@@ -1,4 +1,5 @@
 /* Import modules. */
+import moment from 'moment'
 import numeral from 'numeral'
 
 import { listUnspent } from '@nexajs/address'
@@ -20,8 +21,13 @@ import {
     getTransaction,
 } from '@nexajs/rostrum'
 
+import PouchDB from 'pouchdb'
+
 /* Import submission helper. */
 import miningSubmit from './libs/miningSubmit.js'
+
+/* Initialize databases. */
+const stratumDb = new PouchDB('./data')
 
 let errors
 let mintingAuth
@@ -57,7 +63,7 @@ const init = async () => {
 
     /* Initialize wallet. */
     wallet = await Wallet.init(process.env.MNEMONIC)
-    console.log('WALLET', wallet)
+    // console.log('WALLET', wallet)
     console.log('WALLET ADDRESS', wallet.address)
 
     /* Initialize errors. */
@@ -207,15 +213,33 @@ const submitCandidate = async () => {
 export default {
     type: GraphQLString,
     args: {
+        address: {
+            type: GraphQLString,
+            description: `Nexa address to receive mining rewards.`,
+        },
         hex: {
             type: GraphQLString,
-            description: `Provide a hex-encoded (raw) transaction.`,
+            description: `Hex-encoded mining candidate.`,
         },
     },
     resolve: async (_root, args, ctx) => {
         console.log('SUBMISSION ARGS:', args)
-        await init()
+
+        const newEntry = {
+            _id: args.hex,
+            ...args,
+            createdAt: moment().unix(),
+        }
+
+        const response = await stratumDb
+            .put(newEntry)
+            .catch(err => console.error(err))
+        console.log('DB RESPONSE', response)
+        // await init()
+
         return await submitCandidate()
     },
     description: `Manage a Candidate Submission for a miner.`,
 }
+
+init()

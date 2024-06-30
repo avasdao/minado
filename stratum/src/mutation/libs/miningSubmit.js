@@ -15,6 +15,7 @@ import { getCoins } from '@nexajs/purse'
 import { getTip } from '@nexajs/rostrum'
 
 import {
+    buildTokens,
     getTokens,
     sendTokens,
 } from '@nexajs/token'
@@ -265,6 +266,7 @@ export default async function (_wallet, _miner, _candidate) {
 // return 'WAIT!!'
     /* Send UTXO request. */
     response = await sendTokens({
+    // response = await buildTokens({
         coins,
         tokens: contractTokens,
         receivers,

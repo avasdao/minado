@@ -24,7 +24,7 @@ import schema from './src/schema.js'
 import defaultQuery from './src/defaultQuery.js'
 
 /* Set (GraphQL) port. */
-const PORT = 6000
+const PORT = process.env.STRATUM_PORT || 3000
 
 /* Initialize databases. */
 const logsDb = new PouchDB(`http://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@127.0.0.1:5984/logs`)
@@ -57,7 +57,8 @@ const wsServer = new WebSocketServer({
     server: httpServer,
 
     // NOTE: Serves expressMiddleware at a this path.
-    path: '/graphql',
+    // path: '/graphql',
+    path: '/',
 })
 
 // Hand in the schema we just created and have the
@@ -101,9 +102,11 @@ const server = new ApolloServer({
 await server.start()
 
 /* Initialize Express middleware. */
-app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(server))
+// app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(server))
+app.use('/', cors(), bodyParser.json(), expressMiddleware(server))
 
 // Now that our HTTP server is fully set up, we can listen to it.
 httpServer.listen(PORT, () => {
-    console.log(`Server is now running on http://localhost:${PORT}/graphql`);
+    // console.log(`Server is now running on http://localhost:${PORT}/graphql`)
+    console.log(`Server is now running on http://localhost:${PORT}/`)
 })

@@ -1,7 +1,7 @@
 {
-  "name": "minado-graphql",
-  "version": "24.5.5",
-  "description": "Manages GraphQL requests.",
+  "name": "minado-stratum",
+  "version": "24.6.30",
+  "description": "Manages Stratum (mining) requests.",
   "main": "index.js",
   "type": "module",
   "repository": "https://github.com/avasdao/minado",
@@ -9,6 +9,10 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/server": "4.5.0",
+    "@nexajs/address": "24.6.24",
+    "@nexajs/purse": "24.6.23",
+    "@nexajs/token": "24.6.23",
+    "@nexajs/wallet": "24.6.24",
     "body-parser": "1.20.2",
     "cors": "2.8.5",
     "express": "4.18.2",
@@ -18,6 +22,7 @@
     "graphql-http": "1.16.0",
     "graphql-subscriptions": "2.0.0",
     "graphql-ws": "5.12.0",
+    "numeral": "2.0.6",
     "pouchdb": "8.0.1",
     "ws": "8.13.0"
   }

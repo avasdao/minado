@@ -64,6 +64,7 @@ const init = async () => {
     /* Initialize wallet. */
     wallet = await Wallet.init(process.env.MNEMONIC)
     // console.log('WALLET', wallet)
+    console.log('MNEMONIC', process.env.MNEMONIC)
     console.log('WALLET ADDRESS', wallet.address)
 
     /* Initialize errors. */
@@ -217,9 +218,13 @@ export default {
             type: GraphQLString,
             description: `Nexa address to receive mining rewards.`,
         },
-        hex: {
+        candidate: {
             type: GraphQLString,
             description: `Hex-encoded mining candidate.`,
+        },
+        nonce: {
+            type: GraphQLString,
+            description: `Mining nonce (integer).`,
         },
     },
     resolve: async (_root, args, ctx) => {

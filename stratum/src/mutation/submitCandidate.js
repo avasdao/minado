@@ -62,10 +62,15 @@ const init = async () => {
     let miningAddress
     let miningUnspent
 
+    /* Set mnemonic (seed phrase). */
+    // NOTE: We MUST sanitize this variable, e.g. when reading Flux Cloud "Secrets".
+    const mnemonic = process.env.MNEMONIC?.replace(/['"]+/g, '')
+    console.log('process.env.MNEMONIC', process.env.MNEMONIC)
+    console.log('MNEMONIC', mnemonic)
+
     /* Initialize wallet. */
-    wallet = await Wallet.init(process.env.MNEMONIC)
+    wallet = await Wallet.init(mnemonic)
     // console.log('WALLET', wallet)
-    console.log('MNEMONIC', process.env.MNEMONIC)
     console.log('WALLET ADDRESS', wallet.address)
 
     /* Initialize errors. */

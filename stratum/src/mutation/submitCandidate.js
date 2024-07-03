@@ -1,4 +1,5 @@
 /* Import modules. */
+import BigInt from 'graphql-bigint'
 import moment from 'moment'
 import numeral from 'numeral'
 
@@ -215,16 +216,16 @@ export default {
     type: GraphQLString,
     args: {
         address: {
-            type: GraphQLString,
+            type: new GraphQLNonNull(GraphQLString),
             description: `Nexa address to receive mining rewards.`,
         },
         candidate: {
-            type: GraphQLString,
+            type: new GraphQLNonNull(GraphQLString),
             description: `Hex-encoded mining candidate.`,
         },
         nonce: {
-            type: GraphQLString,
-            description: `Mining nonce (integer).`,
+            type: new GraphQLNonNull(BigInt),
+            description: `Mining nonce (big integer).`,
         },
     },
     resolve: async (_root, args, ctx) => {

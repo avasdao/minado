@@ -4,11 +4,11 @@ export default defineNuxtConfig({
     app: {
         /* Application Header */
         head: {
-            title: 'Minado — #1 in CPU & GPU Mining Crypto Assets',
+            title: 'Minado — CPU & GPU Crypto $TOKEN Mining',
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                { hid: 'description', name: 'description', content: 'Minado is the leader in CPU & GPU mining crypto assets.' },
+                { hid: 'description', name: 'description', content: 'Minado is the leader in CPU & GPU token mining of crypto assets.' },
                 { name: 'format-detection', content: 'telephone=no' }
             ],
             link: [

@@ -178,7 +178,7 @@ const openHelp = () => {
                             </h1>
 
                             <h3 class="text-xs text-amber-400 font-medium tracking-widest">
-                                CPU &amp; GPU Mining Crypto Assets
+                                CPU &amp; GPU Crypto $TOKEN Mining
                             </h3>
                         </div>
                     </NuxtLink>

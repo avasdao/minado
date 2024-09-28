@@ -1,11 +1,4 @@
 <script setup lang="ts">
-useHead({
-    title: 'Minado — #1 in CPU & GPU Mining Crypto Assets',
-    meta: [
-        { name: 'description', content: 'Minado is the leader in CPU & GPU token mining crypto assets.' }
-    ],
-})
-
 /* Initialize stores. */
 import { useProfileStore } from '@/stores/profile'
 import { useSystemStore } from '@/stores/system'

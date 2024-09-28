@@ -2,7 +2,7 @@
 useHead({
     title: `Blank — Minado`,
     meta: [
-        { name: 'description', content: `Minado is the leader in CPU & GPU mining crypto assets.` }
+        { name: 'description', content: `Minado is the leader in CPU & GPU token mining of crypto assets.` }
     ],
 })
 

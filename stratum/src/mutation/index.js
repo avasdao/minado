@@ -3,7 +3,7 @@ import { GraphQLObjectType } from 'graphql'
 
 /* Import mutations. */
 // import addAffiliate from './addAffiliate.js'
-import createSession from './createSession.js'
+// import createSession from './createSession.js'
 // import manageContract from './manageContract.js'
 import submitCandidate from './submitCandidate.js'
 
@@ -13,14 +13,14 @@ const name = 'Mutation'
 /* Set (Mutation) fields. */
 const fields = {
     // addAffiliate,
-    createSession,
+    // createSession,
     // manageContract,
     submitCandidate,
 }
 
 /* Set (Mutation) description. */
 const description = `
-Make authenticated requests to the entire suite of Nexa Exchange on-chain services.
+Make authenticated requests to the entire suite of Minido token mining services.
 `.trim()
 
 /**

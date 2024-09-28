@@ -1,0 +1,13 @@
+[{
+  "ticker": "GEM",
+  "name": "Minado Gemstone",
+  "summary": "",
+  "description": "",
+  "legal": "",
+  "creator": "Ava's DAO",
+  "contact": { "address": "3455 Peachtree Rd NE, Suite #500, Atlanta, GA 30326", "email": "support@avasdao.org", "twitter.com": "@AvasDAO" },
+  "icon": "/ministo.svg",
+  "category": "NFT"
+},
+ "<signature-goes-here>"
+]

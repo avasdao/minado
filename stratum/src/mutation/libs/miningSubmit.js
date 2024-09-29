@@ -1,36 +1,52 @@
 /* Import modules. */
-import {
-    decodeAddress,
-    encodeAddress,
-} from '@nexajs/address'
-
-import {
-    ripemd160,
-    sha256,
-} from '@nexajs/crypto'
-
-/* Import library modules. */
+import { encodeAddress } from '@nexajs/address'
+import { hash160 } from '@nexajs/crypto'
 import { getCoins } from '@nexajs/purse'
-
-import { getTip } from '@nexajs/rostrum'
-
 import {
     buildTokens,
     getTokens,
     sendTokens,
 } from '@nexajs/token'
-
 import {
     binToHex,
     hexToBin,
 } from '@nexajs/utils'
-
-/* Import (individual) modules. */
 import {
     encodeDataPush,
     encodeNullData,
     OP,
 } from '@nexajs/script'
+
+/* Set (REST) API endpoints. */
+const ROSTRUM_ENDPOINT = 'https://nexa.sh/v1/rostrum'
+
+/* Set constants. */
+const ROSTRUM_METHOD = 'POST'
+
+/* Initialize globals. */
+let body
+let response
+
+const headers = new Headers()
+headers.append('Content-Type', 'application/json')
+
+const getTip = async (_address) => {
+    body = JSON.stringify({
+        request: 'blockchain.headers.tip',
+        params: _address,
+    })
+
+    // NOTE: Native `fetch` requires Node v21+.
+    response = await fetch(ROSTRUM_ENDPOINT, {
+        method: ROSTRUM_METHOD,
+        headers,
+        body,
+    }).catch(err => console.error(err))
+    response = await response.json()
+    // console.log('RESPONSE', response)
+
+    return response
+}
 
 // nexa:tp0jg4h6gj5gcj5rrf9h6xclxstk52dr72yyttmrn6umrjyd6sqqqsy86tk9q
 const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd40000' // NXY
@@ -154,11 +170,11 @@ export default async function (_wallet, _miner, _candidate) {
     console.info('\nDELEGATE TEMPLATE', binToHex(lockingScript))
 
     /* Calculate script hash. */
-    scriptHash = ripemd160(sha256(lockingScript))
+    scriptHash = hash160(lockingScript)
     console.log('\nTEMPLATE HASH', binToHex(scriptHash))
 
     /* Calculate delegate constraint. */
-    delegateConstraint = ripemd160(sha256(contractScript))
+    delegateConstraint = hash160(contractScript)
     console.log('DELEGATE CONSTRAINT', binToHex(delegateConstraint))
 
     /* Build script public key. */
@@ -265,7 +281,7 @@ export default async function (_wallet, _miner, _candidate) {
     // console.log('LOCK TIME', lockTime)
 // return 'WAIT!!'
     /* Send UTXO request. */
-    response = await sendTokens({
+    txResult = await sendTokens({
     // response = await buildTokens({
         coins,
         tokens: contractTokens,
@@ -273,18 +289,13 @@ export default async function (_wallet, _miner, _candidate) {
         lockTime,
         sequence: 0x01,
     })
-    console.log('Send UTXO (response):', response)
+    console.log('TX RESULT', txResult)
 
-    try {
-        txResult = JSON.parse(response)
-        console.log('TX RESULT', txResult)
-
-        if (txResult.error) {
-            console.error(txResult.error)
-        }
-    } catch (err) {
-        console.error(err)
+    /* Validate transaction error. */
+    if (txResult.error) {
+        console.error(txResult.error)
     }
 
+    /* Return transaction result. */
     return txResult
 }

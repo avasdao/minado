@@ -1,51 +1,9 @@
 /* Import modules. */
+import CryptoJS from 'crypto-js'
 import GraphQLBigInt from 'graphql-bigint'
 import moment from 'moment'
 import numeral from 'numeral'
-
-import { listUnspent } from '@nexajs/address'
-
-import { randomBytes } from '@nexajs/crypto'
-
-import { Wallet } from '@nexajs/wallet'
-
-import {
-    binToHex,
-    hexToBin,
-    reverseHex,
-} from '@nexajs/utils'
-
-import CryptoJS from 'crypto-js'
-
-import {
-    getAddressHistory,
-    getTransaction,
-} from '@nexajs/rostrum'
-
 import PouchDB from 'pouchdb'
-
-/* Import submission helper. */
-import miningSubmit from './libs/miningSubmit.js'
-
-/* Initialize databases. */
-const sharesDb = new PouchDB(`https://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@${process.env.COUCHDB_ENDPOINT}/shares`)
-
-
-let errors
-let mintingAuth
-let txidem
-let wallet
-
-/* Initialize mining handlers. */
-let isMining
-let enclave
-
-/* Initialize constants. */
-const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd40000'
-
-
-
-
 import {
     GraphQLBoolean,
     GraphQLFloat,
@@ -57,6 +15,83 @@ import {
     GraphQLSchema,
     GraphQLString,
 } from 'graphql'
+
+import { listUnspent } from '@nexajs/address'
+import { randomBytes } from '@nexajs/crypto'
+import {
+    binToHex,
+    hexToBin,
+    reverseHex,
+} from '@nexajs/utils'
+import { Wallet } from '@nexajs/wallet'
+
+/* Import submission helper. */
+import miningSubmit from './libs/miningSubmit.js'
+
+/* Set (REST) API endpoints. */
+const ROSTRUM_ENDPOINT = 'https://nexa.sh/v1/rostrum'
+
+/* Set constants. */
+const ROSTRUM_METHOD = 'POST'
+
+/* Initialize globals. */
+let body
+let response
+
+const headers = new Headers()
+headers.append('Content-Type', 'application/json')
+
+const getAddressHistory = async (_address) => {
+    body = JSON.stringify({
+        request: 'blockchain.address.get_history',
+        params: _address,
+    })
+
+    // NOTE: Native `fetch` requires Node v21+.
+    response = await fetch(ROSTRUM_ENDPOINT, {
+        method: ROSTRUM_METHOD,
+        headers,
+        body,
+    }).catch(err => console.error(err))
+    response = await response.json()
+    // console.log('RESPONSE', response)
+
+    return response
+}
+
+const getTransaction = async (_id) => {
+    body = JSON.stringify({
+        request: 'blockchain.transaction.get',
+        params: [_id, true],
+    })
+
+    // NOTE: Native `fetch` requires Node v21+.
+    response = await fetch(ROSTRUM_ENDPOINT, {
+        method: ROSTRUM_METHOD,
+        headers,
+        body,
+    }).catch(err => console.error(err))
+    response = await response.json()
+    // console.log('RESPONSE', response)
+
+    return response
+}
+
+/* Initialize databases. */
+const sharesDb = new PouchDB(`https://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@${process.env.COUCHDB_ENDPOINT}/shares`)
+
+/* Initialize globals. */
+let errors
+let mintingAuth
+let txidem
+let wallet
+
+/* Initialize mining handlers. */
+let isMining
+let enclave
+
+/* Initialize constants. */
+const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd40000'
 
 const init = async () => {
     /* Initialize locals. */

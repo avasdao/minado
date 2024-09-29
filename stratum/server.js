@@ -26,9 +26,6 @@ import defaultQuery from './src/defaultQuery.js'
 /* Set (GraphQL) port. */
 const PORT = process.env.STRATUM_PORT || 3000
 
-/* Initialize databases. */
-const sharesDb = new PouchDB(`https://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@${process.env.COUCHDB_ENDPOINT}/shares`)
-
 /* Initialize Express application. */
 const app = express()
 

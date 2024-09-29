@@ -28,7 +28,8 @@ import PouchDB from 'pouchdb'
 import miningSubmit from './libs/miningSubmit.js'
 
 /* Initialize databases. */
-const stratumDb = new PouchDB('./data')
+const sharesDb = new PouchDB(`https://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@${process.env.COUCHDB_ENDPOINT}/shares`)
+
 
 let errors
 let mintingAuth
@@ -237,7 +238,7 @@ export default {
             createdAt: moment().unix(),
         }
 
-        const response = await stratumDb
+        const response = await sharesDb
             .put(newEntry)
             .catch(err => console.error(err))
         console.log('DB RESPONSE', response)

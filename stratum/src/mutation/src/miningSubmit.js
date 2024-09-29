@@ -56,7 +56,6 @@ const POLYMORPH_HEX = '76009c630500f2052a010320fd0051023905148c26e10aa399c5e2d4f
 /* Initialize globals. */
 let coins
 let contractAddress
-let contractCoins
 let contractTokens
 let contractUnspent
 let nullData
@@ -68,7 +67,6 @@ let prefix
 let miningAddress
 let providerAddress
 let receivers
-let response
 let tokenid
 let tokenidHex
 let tokens
@@ -80,50 +78,28 @@ let txResult
  *
  */
 export default async function (_wallet, _miner, _candidate) {
-    let allCoins
     let allTokens
-    let argsData
-    let baseServiceFee
-    let blockHeight
-    let blockHeightScript
-    let contractCoins
     let contractScript
-    let constraintData
-    let constraintHash
-
     let delegateConstraint
-
-    let fee
     let headersTip
     let lockingScript
     let lockTime
-
     let namespace
-
-    let providerPubKeyHash
-
-    let rate
-
-    let scriptData
     let scriptHash
     let scriptPubKey
-    let sellerPubKeyHash
-    let tradeCeiling
-    let tradeFloor
-
     let unlockingScript
     let unspentTokens
-    let userData
 
     console.log('WALLET', _wallet)
 
+    /* Set prefix. */
     prefix = 'nexa'
 
     /* Build script public key. */
     scriptPubKey = new Uint8Array([
         OP.ZERO, // groupid or empty stack item
         OP.ONE, // script template (type)
-        ...encodeDataPush(hexToBin(_miner)), // FIXME why convert???
+        ...encodeDataPush(hexToBin(_miner)),
     ])
     console.info('\nSCRIPT PUBLIC KEY', binToHex(scriptPubKey))
 
@@ -146,6 +122,7 @@ export default async function (_wallet, _miner, _candidate) {
 
     /* Set namespace. */
     // NOTE: We MUST truncate the OP_RETURN prefix.
+// FIXME Use `utf8ToBin`
     namespace = encodeNullData('POLYPOW01').slice(2)
     console.log('NAMESPACE', binToHex(namespace))
 
@@ -182,7 +159,8 @@ export default async function (_wallet, _miner, _candidate) {
         OP.ZERO, // groupid or empty stack item
         ...encodeDataPush(scriptHash), // script hash
         OP.ZERO, // arguments hash or empty stack item
-        // NOTE: Insert other constraints here...
+
+        // NOTE: Insert additional constraints here...
         ...encodeDataPush(delegateConstraint), // *** DELEGATE CONSTRAINT MUST BE THE LAST DATA PUSH, LEFT AT THE TOP OF THE STACK ***
     ])
     console.info('\nSCRIPT PUBLIC KEY', binToHex(scriptPubKey))
@@ -226,6 +204,7 @@ export default async function (_wallet, _miner, _candidate) {
     if (contractTokens.length) {
         // FOR DEV PURPOSES ONLY -- take the LARGEST input
         contractTokens = [contractTokens.sort((a, b) => Number(b.tokens) - Number(a.tokens))[0]]
+
         // FOR DEV PURPOSES ONLY -- add scripts
         contractTokens[0].locking = lockingScript
         contractTokens[0].unlocking = unlockingScript
@@ -240,7 +219,6 @@ export default async function (_wallet, _miner, _candidate) {
             (totalValue, unspentOutput) => (totalValue + unspentOutput.tokens), BigInt(0)
         )
     console.log('\nUNSPENT TOKENS', unspentTokens)
-
 
     /* Initialize receivers. */
     receivers = []
@@ -279,17 +257,18 @@ export default async function (_wallet, _miner, _candidate) {
 
     lockTime = headersTip.height
     // console.log('LOCK TIME', lockTime)
-// return 'WAIT!!'
+
     /* Send UTXO request. */
-    txResult = await sendTokens({
-    // response = await buildTokens({
+    // txResult = await sendTokens({
+    response = await buildTokens({
         coins,
         tokens: contractTokens,
         receivers,
         lockTime,
         sequence: 0x01,
     })
-    console.log('TX RESULT', txResult)
+return console.log('RAW TX', response)
+    // console.log('TX RESULT', txResult)
 
     /* Validate transaction error. */
     if (txResult.error) {

@@ -1,11 +1,8 @@
 /* Import modules. */
 import PouchDB from 'pouchdb'
 
-/* Initialize databases. */
-const stratumDb = new PouchDB('./data')
-
 /* Import types. */
-// import Type from '../types/Type.js'
+import ReportType from '../types/Report.js'
 
 import {
     GraphQLBoolean,
@@ -19,33 +16,58 @@ import {
 } from 'graphql'
 
 export default {
-    // type: new GraphQLList(AffiliateType),
-    type: new GraphQLList(GraphQLString),
-    // type: GraphQLString,
+    type: new GraphQLList(ReportType),
     args: {
         height: {
-            type: GraphQLInt,
+            type: new GraphQLNonNull(GraphQLInt),
             description: `Retrieves all mining submissions at the specified block height.`,
         },
     },
-    resolve: async (_root, args, ctx) => {
-        console.log('REPORT ARGS:', args)
-
+    resolve: async (_root, _args, _ctx) => {
         /* Initialize locals. */
+        let blockHeight
+        let response
         let results
 
-        results = await stratumDb.allDocs()
-            .catch(err => console.error)
-        console.log('STRATUM DB RESULTS', results)
+        /* Set height. */
+        blockHeight = _args.height
 
-        // TODO Validate results.
+        /* Validate block height. */
+        if (!blockHeight) {
+            return []
+        }
 
-        // results = results.rows
-        results = results.rows.map(_entry => {
-            return JSON.stringify(_entry, null, 2)
+        /* Initialize databases. */
+        const sharesDb = new PouchDB(`https://${process.env.COUCHDB_USER}:${process.env.COUCHDB_PASSWORD}@${process.env.COUCHDB_ENDPOINT}/shares_${blockHeight}`)
+
+        /* Request ALL block entries. */
+        response = await sharesDb
+            .allDocs({
+                include_docs: true,
+            })
+            .catch(err => console.error(err))
+        console.log('RESPONSE', response)
+
+        /* Validate response. */
+        if (!response) {
+            return []
+        }
+
+        /* Parse results. */
+        results = response.rows.map(_entry => {
+            const doc = _entry.doc
+
+            /* Sanitize document. */
+            delete doc._id
+            delete doc._rev
+
+            /* Return document. */
+            return doc
         })
+        console.log('RESULTS', results)
 
+        /* Return results. */
         return results
     },
-    description: `Blank description goes here.`,
+    description: `Report on ALL shares collected for a given __Block__.`,
 }

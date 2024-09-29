@@ -2,7 +2,6 @@
 import CryptoJS from 'crypto-js'
 import GraphQLBigInt from 'graphql-bigint'
 import moment from 'moment'
-import numeral from 'numeral'
 import PouchDB from 'pouchdb'
 import {
     GraphQLBoolean,
@@ -26,7 +25,7 @@ import {
 import { Wallet } from '@nexajs/wallet'
 
 /* Import submission helper. */
-import miningSubmit from './libs/miningSubmit.js'
+import miningSubmit from './src/miningSubmit.js'
 
 /* Set (REST) API endpoints. */
 const ROSTRUM_ENDPOINT = 'https://nexa.sh/v1/rostrum'
@@ -99,9 +98,8 @@ const init = async () => {
     let miningUnspent
 
     /* Initialize wallet. */
+    // nexa:nqtsq5g5s2ekh5wwcwzvs6470tt6v2ar0dvh7qjj9jsnl3sk
     wallet = await Wallet.init(process.env.MNEMONIC)
-    // console.log('WALLET', wallet)
-    console.log('MNEMONIC', process.env.MNEMONIC)
     console.log('WALLET ADDRESS', wallet.address)
 
     /* Initialize errors. */
@@ -220,8 +218,8 @@ const submitCandidate = async () => {
 
     /* Validate response. */
     if (response.result) {
+        /* Set transaction idem. */
         txidem = response.result
-
     }
 
     /* Validate error. */

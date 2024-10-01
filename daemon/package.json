@@ -1,13 +1,12 @@
 {
-  "name": "daemon",
-  "version": "24.6.29",
+  "name": "minado-daemon",
+  "version": "24.9.30",
   "main": "index.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@bitauth/libauth": "1.19.1",
     "moment": "2.29.4",
-    "nexajs": "23.12.5",
+    "nexajs": "24.9.25",
     "numeral": "2.0.6",
     "uuid": "9.0.0"
   }

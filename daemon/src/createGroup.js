@@ -111,9 +111,9 @@ export default async (isLive = false) => {
     console.log('OUTPOINT', outpoint)
 
     params = {
-        ticker: 'STUDIO',
-        name: `Studio Time + Collection`,
-        uri: 'https://nexa.studio/studio.json',
+        ticker: 'CRYSTAL',
+        name: `Minado Crystal`,
+        uri: 'https://minado.io/crystal.json',
         hash: reverseHex('af84241f6a8975094efb1072fc927d27af71dba3d27d6d63f437fa42aa9909c4'),
         decimals: 0,
     }

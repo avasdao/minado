@@ -6,7 +6,11 @@ import {
     listUnspent,
 } from '@nexajs/address'
 
-import { sha256 } from '@nexajs/crypto'
+import {
+    derivePublicKeyCompressed,
+    hash160,
+    sha256,
+} from '@nexajs/crypto'
 
 import {
     encodePrivateKeyWif,
@@ -41,23 +45,8 @@ import {
 
 import { Wallet } from '@nexajs/wallet'
 
-/* Libauth helpers. */
-import {
-    instantiateRipemd160,
-    instantiateSecp256k1,
-} from '@bitauth/libauth'
-
 import _broadcast from './wallet/broadcast.ts'
 import _setEntropy from './wallet/setEntropy.ts'
-
-let ripemd160
-let secp256k1
-
-;(async () => {
-    /* Instantiate Libauth crypto interfaces. */
-    ripemd160 = await instantiateRipemd160()
-    secp256k1 = await instantiateSecp256k1()
-})()
 
 /* Set ($STUDIO) token id. */
 const STUDIO_TOKENID = '9732745682001b06e332b6a4a0dd0fffc4837c707567f8cbfe0f6a9b12080000'
@@ -176,16 +165,16 @@ export const useWalletStore = defineStore('wallet', {
             wif = encodePrivateKeyWif({ hash: sha256 }, _state._wallet.privateKey, 'mainnet')
 
             /* Hash (contract) script. */
-            scriptHash = ripemd160.hash(sha256(STAKELINE_V1_SCRIPT))
+            scriptHash = hash160(STAKELINE_V1_SCRIPT)
             console.log('SCRIPT HASH:', scriptHash)
 
             /* Derive the corresponding public key. */
-            publicKey = secp256k1.derivePublicKeyCompressed(_state._wallet.privateKey)
+            publicKey = derivePublicKeyCompressed(_state._wallet.privateKey)
 
             /* Hash the public key hash according to the P2PKH/P2PKT scheme. */
             constraintData = encodeDataPush(publicKey)
 
-            constraintHash = ripemd160.hash(sha256(constraintData))
+            constraintHash = hash160(constraintData)
             // console.log('CONSTRAINT HASH:', constraintHash)
 
             /* Build script public key. */
@@ -369,18 +358,18 @@ export const useWalletStore = defineStore('wallet', {
             /* Encode Private Key WIF. */
             wif = encodePrivateKeyWif({ hash: sha256 }, this._wallet.privateKey, 'mainnet')
 
-            scriptHash = ripemd160.hash(sha256(STAKELINE_V1_SCRIPT))
+            scriptHash = hash160(STAKELINE_V1_SCRIPT)
             console.log('SCRIPT HASH', binToHex(scriptHash))
 
             /* Derive the corresponding public key. */
-            publicKey = secp256k1.derivePublicKeyCompressed(this._wallet.privateKey)
+            publicKey = derivePublicKeyCompressed(this._wallet.privateKey)
             console.log('PUBLIC KEY', binToHex(publicKey))
 
             /* Hash the public key hash according to the P2PKH/P2PKT scheme. */
             constraintData = encodeDataPush(publicKey)
             console.log('PUBLIC KEY (push):', binToHex(constraintData))
 
-            constraintHash = ripemd160.hash(sha256(constraintData))
+            constraintHash = hash160(constraintData)
             console.log('CONTRAINT HASH', binToHex(constraintHash))
 
             console.log('STUDIO (slice):', binToHex(encodeNullData('STUDIO')));

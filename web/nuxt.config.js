@@ -41,4 +41,7 @@ export default defineNuxtConfig({
         // NOTE: Used for "remote" mining.
         '/js/**': { cors: true },
     },
+
+    /* Set compatibility date. */
+    compatibilityDate: '2024-09-30',
 })

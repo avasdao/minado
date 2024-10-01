@@ -23,6 +23,30 @@ const displayAvatar = computed(() => {
     // }
 })
 
+const displayLastBlock = computed(() => {
+    return 'LAST BLOCK---'
+})
+
+const displayDifficulty = computed(() => {
+    return 'DIFFICULTY---'
+})
+
+const displayHashrate = computed(() => {
+    return 'HASHRATE---'
+})
+
+const displayPoolHashrate = computed(() => {
+    return 'POOL HASHRATE---'
+})
+
+const displayPlatformHashrate = computed(() => {
+    return 'PLATFORM HASHRATE---'
+})
+
+const displayMarketCap = computed(() => {
+    return 'MARKET CAP---'
+})
+
 const openWebMining = async () => {
     // Instantiate our wasm module
     // const miner = await init('miner_bg.wasm')
@@ -34,8 +58,6 @@ const openWebMining = async () => {
 
 
 </script>
-
-<Script ></Script>
 
 <template>
     <main aria-labelledby="profile-overview-title">
@@ -100,7 +122,8 @@ const openWebMining = async () => {
                     </span>
 
                     <span class="text-2xl text-green-500">
-                        {{displayMarketValue}}
+                        <!-- {{displayMarketValue}} -->
+                        0
                         <sup class="text-xs opacity-50">USD</sup>
                     </span>
 
@@ -115,7 +138,8 @@ const openWebMining = async () => {
 
                         <div class="relative flex justify-center">
                             <div class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-1.5 text-xl font-bold leading-5 text-rose-500 shadow transform duration-300 ease-in group-hover:bg-rose-600 group-hover:text-rose-100 group-hover:text-2xl">
-                                <span>{{displayMultiplier}}</span>
+                                <!-- <span>{{displayMultiplier}}</span> -->
+                                 0
                             </div>
                         </div>
                     </div>
@@ -125,7 +149,8 @@ const openWebMining = async () => {
                     </span>
 
                     <span class="text-2xl text-green-500">
-                        {{displayMiningCost}}
+                        <!-- {{displayMiningCost}} -->
+                         0
                         <sup class="text-xs opacity-50">USD</sup>
                     </span>
 

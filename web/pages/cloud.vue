@@ -23,9 +23,7 @@ const System = useSystemStore()
 
 <template>
     <main class="min-h-full">
-        <Header />
-
-        <section class="-mt-24 pb-8">
+        <section class="-mt-48 pb-8">
             <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">Cloud Mining</h1>
 
@@ -64,7 +62,5 @@ const System = useSystemStore()
                 </div>
             </div>
         </section>
-
-        <Footer />
     </main>
 </template>

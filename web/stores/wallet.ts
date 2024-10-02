@@ -1,43 +1,31 @@
 /* Import modules. */
 import { defineStore } from 'pinia'
 
-import {
-    encodeAddress,
-    listUnspent,
-} from '@nexajs/address'
-
+import { encodeAddress } from '@nexajs/address'
 import {
     derivePublicKeyCompressed,
     hash160,
     sha256,
 } from '@nexajs/crypto'
-
 import {
     encodePrivateKeyWif,
     mnemonicToEntropy,
 } from '@nexajs/hdnode'
-
 import { getCoins } from '@nexajs/purse'
-
 import {
     getOutpoint,
     getTip,
-    getTokenInfo,
     getTransaction,
-    subscribeAddress,
-} from '@nexajs/rostrum'
-
+} from '@nexajs/provider'
 import {
     encodeDataPush,
     encodeNullData,
     OP,
 } from '@nexajs/script'
-
 import {
     getTokens,
     sendToken,
 } from '@nexajs/token'
-
 import {
     binToHex,
     hexToBin,

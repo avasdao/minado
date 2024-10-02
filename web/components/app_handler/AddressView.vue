@@ -179,10 +179,6 @@ export default {
         }
     },
     computed: {
-        // ...mapGetters({
-        //     address: 'rostrum/getAddress'
-        // }),
-
         displayBalance () {
             if (!this.balance || !this.balance.confirmed) {
                 return '<span class="text-3xl font-medium">0.00 NEX</span>'

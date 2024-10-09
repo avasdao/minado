@@ -124,11 +124,11 @@ const init = () => {
                             </div>
 
                             <section class="p-5 mr-2">
-                                <SidePanelAddressView v-if="panelTab === 'address'" />
-                                <SidePanelArbitrageView v-if="panelTab === 'arbitrage'" />
-                                <SidePanelHelpView v-if="panelTab === 'help'" />
-                                <SidePanelMiningView v-if="panelTab === 'mining'" />
-                                <SidePanelReferralsView v-if="panelTab === 'referrals'" />
+                                <DrawerAddressView v-if="panelTab === 'address'" />
+                                <DrawerArbitrageView v-if="panelTab === 'arbitrage'" />
+                                <DrawerHelpView v-if="panelTab === 'help'" />
+                                <DrawerMiningView v-if="panelTab === 'mining'" />
+                                <DrawerReferralsView v-if="panelTab === 'referrals'" />
                             </section>
                         </div>
                     </div>

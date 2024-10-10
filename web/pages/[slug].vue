@@ -125,18 +125,22 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="-mt-48 pb-8">
+    <main class="-mt-16 pb-8 flex flex-col gap-4">
         <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
             <h1 class="sr-only">Application Handler</h1>
 
             <section class="flex flex-col gap-6 leading-8">
-                <h1 class="text-5xl font-light text-amber-300 italic tracking-widest">
+                <h1 class="text-5xl font-light text-amber-300 tracking-widest">
                     Application Handler
                 </h1>
 
-                <h3 class="text-3xl font-bold">
-                    ( {{ slug }} )
+                <h3 class="text-xl font-bold tracking-widest">
+                    ( {{slug}} )
                 </h3>
+
+                <p class="w-2/3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe ipsam pariatur explicabo eveniet neque natus, molestias corrupti tenetur rerum dolorem deleniti aliquam tempore porro aut a eum quas officiis mollitia!
+                </p>
 
                 <p class="w-2/3">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe ipsam pariatur explicabo eveniet neque natus, molestias corrupti tenetur rerum dolorem deleniti aliquam tempore porro aut a eum quas officiis mollitia!

@@ -2,61 +2,39 @@
 import { defineStore } from 'pinia'
 
 import { encodeAddress } from '@nexajs/address'
-import {
-    derivePublicKeyCompressed,
-    hash160,
-    sha256,
-} from '@nexajs/crypto'
-import {
-    encodePrivateKeyWif,
-    mnemonicToEntropy,
-} from '@nexajs/hdnode'
-import { getCoins } from '@nexajs/purse'
-import {
-    getOutpoint,
-    getTip,
-    getTransaction,
-} from '@nexajs/provider'
+import { hash160 } from '@nexajs/crypto'
+import { mnemonicToEntropy } from '@nexajs/hdnode'
+import { sendCoins } from '@nexajs/purse'
 import {
     encodeDataPush,
-    encodeNullData,
     OP,
 } from '@nexajs/script'
 import {
-    getTokens,
-    sendToken,
-} from '@nexajs/token'
-import {
-    binToHex,
-    hexToBin,
-} from '@nexajs/utils'
+    Wallet,
+    WalletStatus,
+} from '@nexajs/wallet'
 
-import { Wallet } from '@nexajs/wallet'
-
-import _broadcast from './wallet/broadcast.ts'
+/* Import (local) modules. */
 import _setEntropy from './wallet/setEntropy.ts'
 
-/* Set ($STUDIO) token id. */
-const STUDIO_TOKENID = '9732745682001b06e332b6a4a0dd0fffc4837c707567f8cbfe0f6a9b12080000'
-
-const TX_GAS_AMOUNT = 1000 // 10.00 NEXA
-
-/* Build (contract) script. */
-const STAKELINE_V1_SCRIPT = new Uint8Array([
-    OP.FROMALTSTACK,
-        OP.DROP,
-    OP.FROMALTSTACK,
-        OP.CHECKSEQUENCEVERIFY,
-        OP.DROP,
-    OP.FROMALTSTACK,
-        OP.CHECKSIGVERIFY,
-])
+/* Set constants. */
+// FIXME Move these constants to System.
+const FEE_AMOUNT = 1000
+const MAX_INPUTS_ALLOWED = 250
+const GROUP_TYPE_TEMPLATE = 'TEMPLATE'
 
 /**
  * Wallet Store
  */
 export const useWalletStore = defineStore('wallet', {
     state: () => ({
+        /**
+         * Assets
+         *
+         * Will hold ALL assets that the wallet manages.
+         */
+        _assets: null,
+
         /**
          * Entropy
          * (DEPRECATED -- MUST REMAIN SUPPORTED INDEFINITELY)
@@ -94,6 +72,21 @@ export const useWalletStore = defineStore('wallet', {
         _keychain: null,
 
         /**
+         * Networks
+         *
+         * Manages all Layer1 Networks, Layer1+ (Plus) Supernets,
+         * and Layer1 (EVM) MetaNets "managed by" the Nexa Core blockchain.
+         */
+        _networks: [
+            'METANEXA', // Nexa (MetaNet)
+            'METANXY',  // Nxy  (MetaNet)
+            'METATELR', // TΞLR (MetaNet)
+            'NEXA',     // Nexa (Core/Base Network)
+            'NXY',      // Nxy  (Supernet)
+            'TELR',     // TΞLR (Supernet)
+        ],
+
+        /**
          * Wallet
          *
          * Currently active wallet object.
@@ -102,89 +95,76 @@ export const useWalletStore = defineStore('wallet', {
     }),
 
     getters: {
-        /* Return NexaJS wallet instance. */
-        wallet(_state) {
-            return _state._wallet
-        },
+        /* Return (abbreviated) wallet status. */
+        abbr(_state) {
+            if (!_state._wallet) {
+                return null
+            }
 
-        /* Return wallet status. */
-        isReady(_state) {
-            return _state.wallet?.isReady
+            return _state._wallet.abbr
         },
 
         /* Return wallet status. */
         address(_state) {
-            return _state.wallet?.address
-        },
-
-        /* Return wallet status. */
-        assets(_state) {
-            return _state.wallet?.assets
-        },
-
-        /* Return wallet status. */
-        balances(_state) {
-            // FIXME: Update library to expose data OR
-            //        refactor to `markets`.
-            return _state.wallet?._balances
-        },
-
-        /**
-         * Stakeline
-         *
-         * Generates a stakeline contract.
-         */
-        stakeline(_state) {
-            /* Validate private key. */
-            if (!_state._wallet?.privateKey) {
+            if (!_state._wallet) {
                 return null
             }
 
-            /* Initialize locals. */
-            let constraintData
-            let constraintHash
-            let nexaAddress
-            let publicKey
-            let scriptHash
-            let scriptPubKey
-            let wif
+            return _state._wallet.address
+        },
 
-            /* Encode Private Key WIF. */
-            wif = encodePrivateKeyWif({ hash: sha256 }, _state._wallet.privateKey, 'mainnet')
+        asset(_state) {
+            if (!this.assets || !this.wallet) {
+                return null
+            }
 
-            /* Hash (contract) script. */
-            scriptHash = hash160(STAKELINE_V1_SCRIPT)
-            console.log('SCRIPT HASH:', scriptHash)
+            return this.assets[this.wallet.assetid]
+        },
 
-            /* Derive the corresponding public key. */
-            publicKey = derivePublicKeyCompressed(_state._wallet.privateKey)
+        assets(_state) {
+            if (_state._assets) {
+                return _state._assets
+            }
 
-            /* Hash the public key hash according to the P2PKH/P2PKT scheme. */
-            constraintData = encodeDataPush(publicKey)
+            if (!_state._wallet) {
+                return null
+            }
 
-            constraintHash = hash160(constraintData)
-            // console.log('CONSTRAINT HASH:', constraintHash)
+            return _state._wallet.assets
+        },
 
-            /* Build script public key. */
-            scriptPubKey = new Uint8Array([
-                OP.ZERO, // script template
-                ...encodeDataPush(scriptHash), // script hash
-                ...encodeDataPush(constraintHash),  // arguments hash
-                ...encodeDataPush(hexToBin('010040')), // relative-time block (512 seconds ~8.5mins)
-                // ...encodeDataPush(hexToBin('a90040')), // relative-time block (86,528 seconds ~1day)
-                // ...encodeDataPush(hexToBin('c71340')), // relative-time block (2,592,256 seconds ~30days)
-                ...encodeNullData('STUDIO').slice(1), // // NOTE: Remove `OP_RETURN` prefix.
-            ])
+        /* Return wallet status. */
+        isLoading(_state) {
+            if (!_state._wallet) {
+                return true
+            }
 
-            /* Encode the public key hash into a P2PKH nexa address. */
-            nexaAddress = encodeAddress(
-                'nexa',
-                'TEMPLATE',
-                scriptPubKey,
-            )
-            console.info('\n  Nexa address:', nexaAddress)
+            return _state._wallet.isLoading
+        },
 
-            return nexaAddress
+        /* Return wallet status. */
+        isReady(_state) {
+            if (!_state._wallet) {
+                return false
+            }
+
+            if (_state._wallet._entropy) {
+                return true
+            }
+
+            return _state._wallet.isReady
+        },
+
+        networks(_state) {
+            return _state._networks
+        },
+
+        wallet(_state) {
+            return _state._wallet
+        },
+
+        WalletStatus() {
+            return WalletStatus
         },
     },
 
@@ -201,20 +181,44 @@ export const useWalletStore = defineStore('wallet', {
             console.info('Initializing wallet...')
 
             if (this._entropy === null) {
-                throw new Error('Missing wallet entropy.')
+                this._wallet = 'NEW' // FIXME TEMP NEW WALLET FLAG
+                // throw new Error('Missing wallet entropy.')
+                return console.error('Missing wallet entropy.')
             }
 
             /* Request a wallet instance (by mnemonic). */
             this._wallet = await Wallet.init(this._entropy, true)
-            console.log('(Initialized) wallet', this._wallet)
+            console.info('(Initialized) wallet', this.wallet)
+
+            // this._assets = { ...this.wallet.assets } // cloned assets
+
+            /* Set (default) asset. */
+            this.wallet.setAsset('0')
+
+            /* Handle balance updates. */
+            this.wallet.on('balances', async (_assets) => {
+                // console.log('Wallet Balances (onChanges):', _assets)
+
+                /* Close asset locally. */
+// FIXME Read ASSETS directly from library (getter).
+                this._assets = { ..._assets }
+            })
         },
 
+        /**
+         * Create Wallet
+         *
+         * Create a fresh wallet.
+         *
+         * @param _entropy A 32-byte (hex-encoded) random value.
+         */
         createWallet(_entropy) {
             /* Validate entropy. */
             // NOTE: Expect HEX value to be 32 or 64 characters.
-            if (_entropy.length !== 32 && _entropy.length !== 64) {
+            if (_entropy?.length !== 32 && _entropy?.length !== 64) {
                 console.error(_entropy, 'is NOT valid entropy.')
 
+                /* Clear (invalid) entropy. */
                 _entropy = null
             }
 
@@ -223,6 +227,58 @@ export const useWalletStore = defineStore('wallet', {
 
             /* Initialize wallet. */
             this.init()
+        },
+
+        getNetwork(_networkid) {
+            if (
+                this.wallet &&
+                this.wallet.publicKey &&
+                this.networks.includes(_networkid.toUpperCase())
+            ) {
+                /* Initialize locals. */
+                let publicKeyHash
+                let scriptData
+                let scriptPubkey
+
+                /* Initialize network handler (object). */
+                const network = {}
+
+                /* Set network ID. */
+                network.id = _networkid.toUpperCase()
+
+                /* Set address prefix. */
+                network.prefix = _networkid.toLowerCase()
+
+                /* Set (Script PUSH) public key. */
+                scriptData = encodeDataPush(this.wallet.publicKey)
+
+                /* Set public key hash. */
+                publicKeyHash = hash160(scriptData)
+
+                /* Set script pubkey. */
+                scriptPubkey = new Uint8Array([
+                    OP.ZERO,
+                    OP.ONE,
+                    ...encodeDataPush(publicKeyHash),
+                ])
+
+                /* Set address. */
+                network.address = encodeAddress(
+                    network.prefix,
+                    GROUP_TYPE_TEMPLATE,
+                    scriptPubkey
+                )
+
+                /* Return network. */
+                return network
+            } else {
+                /* Return empty network (object). */
+                return {
+                    id: null,
+                    hrf: null,
+                    address: null,
+                }
+            }
         },
 
         async transfer(_receiver, _satoshis) {
@@ -236,229 +292,75 @@ export const useWalletStore = defineStore('wallet', {
             }
         },
 
-        /**
-         * Activate Stakeline
-         *
-         * Creates a transaction and broadcasts on-chain.
-         */
-        async activateStakeline(_amount) {
-            let headersTip
-            let nexaAddress
-            let publicKey
-            let publicKeyHash
+        async consolidate() {
+            console.log('start the consolidation ... to', this.address)
+
+            /* Initialize locals. */
+            let amount
+            let coins
             let receivers
             let response
-            let scriptCoins
-            let scriptData
-            let scriptPubKey
-            let scriptTokens
-            let txResult
-            let wif
+            let sendAmount
+            let tokens
 
-            console.info('\n  Nexa address:', this.address)
+            coins = this.wallet.coins
+            console.log('COINS-1', coins.length, coins)
 
-            /* Encode Private Key WIF. */
-            wif = encodePrivateKeyWif({ hash: sha256 }, this._wallet.privateKey, 'mainnet')
+            /* Validate number of coin inputs. */
+            if (coins.length > MAX_INPUTS_ALLOWED) {
+                /* Sort coins descending values. */
+                coins = coins.sort((a, b) => {
+                    /* Calculate comparison. */
+                    const compare = b.satoshis - a.satoshis
 
-            /* Reques header's tip. */
-            headersTip = await getTip()
-            console.log('HEADERS TIP', headersTip)
+                    /* Compare values. */
+                    if (compare > BigInt(0)) {
+                        return 1
+                    } else if (compare < BigInt(0)) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                })
 
-            scriptCoins = await getCoins(wif, scriptPubKey)
-                .catch(err => console.error(err))
-            console.log('\n  Script Coins:', scriptCoins)
-
-            scriptTokens = await getTokens(wif, scriptPubKey)
-                .catch(err => console.error(err))
-            console.log('\n  Script Tokens:', scriptTokens)
-
-            scriptTokens = scriptTokens.filter(_token => {
-                return _token.tokenidHex === STUDIO_TOKENID
-            })
-
-            receivers = [
-                {
-                    address: this.stakeline,
-                    tokenid: STUDIO_TOKENID,
-                    tokens: _amount,
-                },
-                {
-                    address: this.stakeline,
-                    satoshis: BigInt(TX_GAS_AMOUNT),
-                },
-            ]
-
-            // FIXME: FOR DEV PURPOSES ONLY
-            receivers.push({
-                address: this.address,
-            })
-            console.log('\n  Receivers:', receivers)
-
-            // lockTime = headersTip.height
-            // return console.log('LOCK TIME', lockTime)
-
-            /* Send UTXO request. */
-            response = await sendToken(scriptCoins, scriptTokens, receivers)
-            console.log('Send UTXO (response):', response)
-
-            try {
-                txResult = JSON.parse(response)
-                console.log('TX RESULT', txResult)
-
-                if (txResult.error) {
-                    console.error(txResult.message)
-                }
-
-                return txResult
-            } catch (err) {
-                console.error(err)
+                /* Trim coins to MAX ALLOWED inputs. */
+                coins = coins.slice(0, MAX_INPUTS_ALLOWED)
             }
-        },
+            console.log('COINS-2', coins.length, coins)
 
-        /**
-         * Closeout
-         *
-         * Redeem your assets AFTER the stakeline expires.
-         */
-        async closeout(_redeemToken) {
-            console.log('REDEEM TOKEN', _redeemToken)
+            tokens = this.wallet.tokens
+            console.log('TOKENS', tokens)
 
-            let coinOutpoint
-            let constraintData
-            let constraintHash
-            let contractAddress
-            let headersTip
-            let lockTime
-            let outpointDetails
-            let outpointTx
-            let publicKey
-            let receivers
-            let redeemCoin
-            let redeemToken
-            let response
-            let scriptCoins
-            let scriptHash
-            let scriptPubKey
-            let scriptTokens
-            let txResult
-            let wif
-
-            /* Encode Private Key WIF. */
-            wif = encodePrivateKeyWif({ hash: sha256 }, this._wallet.privateKey, 'mainnet')
-
-            scriptHash = hash160(STAKELINE_V1_SCRIPT)
-            console.log('SCRIPT HASH', binToHex(scriptHash))
-
-            /* Derive the corresponding public key. */
-            publicKey = derivePublicKeyCompressed(this._wallet.privateKey)
-            console.log('PUBLIC KEY', binToHex(publicKey))
-
-            /* Hash the public key hash according to the P2PKH/P2PKT scheme. */
-            constraintData = encodeDataPush(publicKey)
-            console.log('PUBLIC KEY (push):', binToHex(constraintData))
-
-            constraintHash = hash160(constraintData)
-            console.log('CONTRAINT HASH', binToHex(constraintHash))
-
-            console.log('STUDIO (slice):', binToHex(encodeNullData('STUDIO')));
-
-
-            /* Reques header's tip. */
-            headersTip = await getTip()
-
-            /* Build script public key. */
-            scriptPubKey = new Uint8Array([
-                OP.ZERO, // script template
-                ...encodeDataPush(scriptHash), // script hash
-                ...encodeDataPush(constraintHash),  // arguments hash
-                ...encodeDataPush(hexToBin('010040')), // relative-time block (512 seconds ~8.5mins)
-                // ...encodeDataPush(hexToBin('a90040')), // relative-time block (86,528 seconds ~1day)
-                // ...encodeDataPush(hexToBin('c71340')), // relative-time block (2,592,256 seconds ~30days)
-                ...encodeNullData('STUDIO').slice(1), // // NOTE: Remove `OP_RETURN` prefix.
-            ])
-
-            /* Encode the public key hash into a P2PKH nexa address. */
-            contractAddress = encodeAddress(
-                'nexa',
-                'TEMPLATE',
-                scriptPubKey,
+            amount = coins.reduce(
+                (acc, coin) => acc + coin.satoshis, BigInt(0)
             )
-            console.info('CONTRACT ADDRESS', contractAddress)
+            console.log('CONSOLIDATION AMOUNT', amount)
 
-            outpointDetails = await getOutpoint(_redeemToken.outpoint)
-                .catch(err => console.error(err))
+            sendAmount = amount - (BigInt(FEE_AMOUNT) * BigInt(coins.length))
+            console.log('SEND AMOUNT', sendAmount)
 
-            outpointTx = await getTransaction(outpointDetails.tx_hash)
-                .catch(err => console.error(err))
+            if (sendAmount < 0) {
+                return alert(`Oops! There IS NOT enough value to consolidate these coins.`)
+            }
 
-            coinOutpoint = outpointTx.vout.find(_output => {
-                return _output.value_satoshi === TX_GAS_AMOUNT
-            })
-
-            scriptCoins = await getCoins(wif, scriptPubKey)
-                .catch(err => console.error(err))
-            console.log('\n  Script Coins:', scriptCoins)
-
-            scriptTokens = await getTokens(wif, scriptPubKey)
-                .catch(err => console.error(err))
-            console.log('\n  Script Tokens:', scriptTokens)
-
-            redeemToken = scriptTokens.find(_token => {
-                return _token.outpoint === _redeemToken.outpoint
-            })
-
-            redeemCoin = scriptCoins.find(_coin => {
-                return _coin.outpoint === coinOutpoint.outpoint_hash
-            })
-
+            /* Set receivers. */
             receivers = [
                 {
                     address: this.address,
-                    tokenid: STUDIO_TOKENID,
-                    tokens: redeemToken.tokens,
+                    satoshis: sendAmount,
                 },
+                {
+                    address: this.address,
+                }
             ]
-
-            // FIXME: FOR DEV PURPOSES ONLY
-            receivers.push({
-                address: this.address,
-            })
-            console.log('\n  Receivers:', receivers)
-
-            lockTime = headersTip.height
-            // return console.log('LOCK TIME', lockTime)
+            console.log('RECEIVERS', receivers)
 
             /* Send UTXO request. */
-            response = await sendToken({
-                coins: [redeemCoin],
-                tokens: [redeemToken],
-                receivers,
-                lockTime,
-                sequence: 0x400001, // set (timestamp) flag + 1 (512-second) cycle
-                // sequence: 0x4000a9, // set (timestamp) flag + 169 (512-second) cycles
-                // sequence: 0x4013c7, // set (timestamp) flag + 5,063 (512-second) cycles
-                locking: STAKELINE_V1_SCRIPT,
-            })
-            console.log('Send UTXO (response):', response)
+            response = await sendCoins(coins, receivers)
+            // console.log('Consolidate UTXOs (response)', response)
 
-            try {
-                txResult = JSON.parse(response)
-                console.log('TX RESULT', txResult)
-
-                if (txResult.error) {
-                    console.error(txResult.message)
-                }
-
-                // expect(txResult.result).to.have.length(64)
-                return txResult
-            } catch (err) {
-                console.error(err)
-            }
-        },
-
-        broadcast(_receivers) {
-            /* Broadcast to receivers. */
-            return _broadcast.bind(this)(_receivers)
+            /* Return response. */
+            return response
         },
 
         setEntropy(_entropy) {

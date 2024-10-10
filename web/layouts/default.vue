@@ -81,7 +81,7 @@ onMounted(() => {
 <template>
     <Header />
 
-    <div class="pt-32">
+    <div class="-pt-24 px-3">
         <slot />
     </div>
 

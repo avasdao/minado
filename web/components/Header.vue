@@ -162,7 +162,7 @@ const openHelp = () => {
 </script>
 
 <template>
-    <main class="pb-24 bg-gradient-to-r from-sky-800 to-cyan-600">
+    <main class="pb-24 bg-gradient-to-r from-fuchsia-900 to-fuchsia-800">
         <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="relative flex flex-wrap items-center justify-center lg:justify-between">
                 <!-- Logo -->
@@ -177,7 +177,7 @@ const openHelp = () => {
                                 Minado
                             </h1>
 
-                            <h3 class="text-xs text-amber-400 font-medium tracking-widest">
+                            <h3 class="text-xs text-amber-200 font-medium tracking-widest">
                                 CPU &amp; GPU Crypto $TOKEN Mining
                             </h3>
                         </div>
@@ -186,19 +186,19 @@ const openHelp = () => {
 
                 <!-- Right section on desktop -->
                 <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5 gap-5">
-                    <NuxtLink to="/transparency" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <NuxtLink to="/transparency" class="flex-shrink-0 p-1 text-fuchsia-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Transparency</span>
 
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01"></path></svg>
                     </NuxtLink>
 
-                    <button @click="openReferrals" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button @click="openReferrals" class="flex-shrink-0 p-1 text-fuchsia-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Referral Manager</span>
 
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"></path></svg>
                     </button>
 
-                    <button @click="openHelp" class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
+                    <button @click="openHelp" class="flex-shrink-0 p-1 text-fuchsia-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="sr-only">Support Center</span>
 
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
@@ -245,23 +245,23 @@ const openHelp = () => {
                                     Home
                                 </NuxtLink>
 
-                                <NuxtLink to="/admin/profiles" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/profiles" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Profiles
                                 </NuxtLink>
 
-                                <NuxtLink to="/admin/miners" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/miners" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Miners
                                 </NuxtLink>
 
-                                <NuxtLink to="/admin/servers" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/servers" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Servers
                                 </NuxtLink>
 
-                                <NuxtLink to="/admin/notifs" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/notifs" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Notifs
                                 </NuxtLink>
 
-                                <NuxtLink to="/admin/orders" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/admin/orders" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Orders
                                 </NuxtLink>
                             </nav>
@@ -274,20 +274,20 @@ const openHelp = () => {
                                     Home
                                 </NuxtLink>
 
-                                <NuxtLink to="/solo" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/solo" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Solo Mining
                                 </NuxtLink>
 
-                                <NuxtLink to="/pool" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/pool" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Pool Mining
                                 </NuxtLink>
 
-                                <NuxtLink to="/cloud" class="text-cyan-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
+                                <NuxtLink to="/cloud" class="text-fuchsia-100 text-lg font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
                                     Cloud Mining
                                 </NuxtLink>
 
                                 <NuxtLink to="/register" class="text-yellow-300 text-lg font-bold rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10">
-                                    Register A Project
+                                    Register An Asset
                                 </NuxtLink>
                             </nav>
                         </div>
@@ -324,7 +324,7 @@ const openHelp = () => {
                     <button
                         @click="openMenu"
                         type="button"
-                        class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-cyan-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
+                        class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-fuchsia-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
                         aria-expanded="false"
                     >
                         <span class="sr-only">Open main menu</span>
@@ -405,7 +405,7 @@ const openHelp = () => {
                             <div class="-mr-2">
                                 <button
                                     type="button"
-                                    class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
+                                    class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-fuchsia-500"
                                     @click="closeMenu"
                                 >
                                     <span class="sr-only">Close menu</span>
@@ -430,7 +430,7 @@ const openHelp = () => {
                             </NuxtLink>
 
                             <NuxtLink to="/register" class="block rounded-md px-3 py-2 text-lg text-blue-500 font-medium hover:bg-gray-100 hover:text-gray-800">
-                                Register A Project
+                                Register An Asset
                             </NuxtLink>
 
                             <NuxtLink to="/solo" class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800">
@@ -463,7 +463,7 @@ const openHelp = () => {
                                 </div>
                             </div>
 
-                            <button type="button" class="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <button type="button" class="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500">
                                 <span class="sr-only">View notifications</span>
                                 <!-- Heroicon name: outline/bell -->
                                 <svg class="h-6 w-6"

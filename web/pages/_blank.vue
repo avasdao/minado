@@ -22,7 +22,7 @@ const System = useSystemStore()
 </script>
 
 <template>
-    <main class="-mt-48 pb-8 max-w-5xl mx-auto flex flex-col gap-4">
+    <main class="-mt-20 pb-8 max-w-5xl mx-auto flex flex-col gap-4">
         <h1 class="text-5xl font-medium">
             Blank
         </h1>

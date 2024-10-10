@@ -109,7 +109,7 @@ const closeout = async () => {
 </script>
 
 <template>
-    <main class="-mt-48 pb-8 max-w-3xl mx-auto lg:max-w-7xl">
+    <main class="-mt-20 pb-8 max-w-3xl mx-auto lg:max-w-7xl">
         <h1 class="sr-only">Register An Asset</h1>
 
         <!-- Main 3 column grid -->

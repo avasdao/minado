@@ -23,7 +23,7 @@ const System = useSystemStore()
 
 <template>
     <main class="min-h-full">
-        <section class="-mt-48 pb-8">
+        <section class="-mt-20 pb-8">
             <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="sr-only">
                     Transparency

@@ -27,6 +27,8 @@ import { useWalletStore } from '@/stores/wallet'
 const Mining = useMiningStore()
 const Wallet = useWalletStore()
 
+const router = useRouter()
+
 const errors = ref(null)
 const mintingAuth = ref(null)
 const txidem = ref(null)
@@ -43,8 +45,9 @@ const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd4
 const RECONNECTION_DELAY = 3000
 const CONNECTION_PING_DELAY = 30000
 
-/* Initialize confetti. */
+/* Initialize globals. */
 let jsConfetti
+let initRounds
 
 const toggleSolo = () => {
     alert(`Oops! You MUST have at least 20 $NXY in your wallet to pay the transaction fee and receive the mining reward.\n\nPlease check your balance and try again...`)
@@ -60,9 +63,11 @@ const toggleFiat = () => {
  * TBD...
  */
 const init = async () => {
-// console.log('WALLET ADDRESS', Wallet.address)
+console.log('WALLET ADDRESS', Wallet.address)
     /* Validate (wallet) address. */
-    if (!Wallet.address) {
+    if (!Wallet.address && initRounds < 10) {
+        initRounds++
+
         return setTimeout(init, 100)
     }
 
@@ -131,7 +136,28 @@ const calcSubmission = (_miner, _outpointHash, _candidate) => {
 }
 
 const startMiner = async () => {
-    console.log('STARTING MINER...')
+    /* Validate wallet. */
+    if (!Wallet.address) {
+        alert('Oops! You MUST create OR import a wallet to continue.')
+
+        /* Go to wallet. */
+        router.push('/wallet')
+
+        return // stop
+    }
+
+    console.log('COINS', Wallet.wallet.coins)
+    /* Validate wallet. */
+    if (Wallet.wallet.coins.length === 0) {
+        alert('Oops! You MUST deposit at least 100 $NEXA to cover Solo Mining transaction fees.')
+
+        /* Go to wallet. */
+        router.push('/wallet')
+
+        return // stop
+    }
+
+    console.info('Starting miner...')
 
     /* Initialize locals. */
     let candidate
@@ -413,6 +439,8 @@ console.log('START MONITOR')
 }
 
 onMounted(() => {
+    initRounds = 0
+
     init()
 
     // setTimeout(init, 3000) // FIXME: TEMP FOR DEV ONLY

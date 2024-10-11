@@ -22,20 +22,21 @@ const System = useSystemStore()
 </script>
 
 <template>
-    <main class="-mt-20 pb-8 max-w-3xl mx-auto lg:max-w-7xl">
-        <h1 class="sr-only">Solo Mining</h1>
+    <main class="-mt-20 pb-8 min-h-full">
+        <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h1 class="sr-only">Solo Mining</h1>
 
-        <!-- Main 3 column grid -->
-        <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-            <section class="col-span-2">
-                <SoloMining />
-            </section>
+            <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
+                <section class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+                    <SoloMining />
+                </section>
 
-            <!-- Right column -->
-            <div class="grid grid-cols-1 gap-4">
-                <PayoutsBlock />
+                <!-- Right column -->
+                <div class="grid grid-cols-1 gap-4">
+                    <PayoutsBlock />
 
-                <BlockRewardsPanel />
+                    <BlockRewardsPanel />
+                </div>
             </div>
         </div>
     </main>

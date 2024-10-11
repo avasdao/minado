@@ -1,126 +1,124 @@
 <template>
-    <main class="min-h-full">
-        <section class="-mt-20 pb-8">
-            <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="sr-only">Pool Mining</h1>
+    <main class="-mt-20 pb-8 min-h-full">
+        <div class="max-w-3xl mx-auto px-3 sm:px-6 lg:max-w-7xl lg:px-8">
+            <h1 class="sr-only">Pool Mining</h1>
 
-                <!-- Main 3 column grid -->
-                <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-                    <section class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
-                        <div class="flex flex-row justify-between">
-                            <div>
-                                <h1 class="text-4xl font-bold text-yellow-900">
-                                    Pool Mining
-                                </h1>
+            <!-- Main 3 column grid -->
+            <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
+                <section class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
+                    <div class="flex flex-row justify-between">
+                        <div>
+                            <h1 class="text-4xl font-bold text-yellow-900">
+                                Pool Mining
+                            </h1>
 
-                                <p class="mt-3 text-yellow-900">
-                                    If you're interested in mining $NEX coins, but dont' have the CPU <em>(hash)</em>power to Solo mine, then Pool mining is perfect for you!
-                                    You will earn a proportional share of each block reward <em>(10,000,000 NEX)</em>.
-                                </p>
-                            </div>
-
-                            <img
-                                src="~/assets/lottie/90472-saving-the-money.gif"
-                                class="ml-20 p-1 h-20 border-2 border-yellow-600 rounded-xl"
-                            />
+                            <p class="mt-3 text-yellow-900">
+                                If you're interested in mining $NEX coins, but dont' have the CPU <em>(hash)</em>power to Solo mine, then Pool mining is perfect for you!
+                                You will earn a proportional share of each block reward <em>(10,000,000 NEX)</em>.
+                            </p>
                         </div>
 
-                        <p class="text-yellow-900 font-medium">
-                            Pool Payouts are sent after each block as a combination of $NEX coins and <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> tokens.
-                        </p>
-
-                        <div class="grid grid-cols-3 gap-5">
-                            <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                    Block Height
-                                </h3>
-
-                                <h2 class="text-2xl text-yellow-800 font-medium">
-                                    {{displayBlocks}}
-                                </h2>
-                            </div>
-
-                            <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                    Mining Difficulty
-                                </h3>
-
-                                <h2 class="text-2xl text-yellow-800 font-medium">
-                                    {{displayDifficulty}}
-                                </h2>
-                            </div>
-
-                            <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                    Network Hashrate
-                                </h3>
-
-                                <h2 class="text-2xl text-yellow-800 font-medium">
-                                    {{displayHashrate}}
-                                </h2>
-                            </div>
-                        </div>
-
-                        <hr class="border-t border-yellow-600" />
-
-                        <div class="grid grid-cols-1 gap-5">
-                            <div class="flex gap-5">
-                                <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                    <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                        Mining ID
-                                    </h3>
-
-                                    <h2 class="text-2xl text-yellow-800 font-medium">
-                                        0x{{miningid}}
-                                    </h2>
-                                </div>
-
-                                <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                    <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                        nBits
-                                    </h3>
-
-                                    <h2 class="text-2xl text-yellow-800 font-medium">
-                                        0x{{nBits}}
-                                    </h2>
-                                </div>
-                            </div>
-
-                            <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                    Header Commitment
-                                </h3>
-
-                                <h2 class="text-xl text-yellow-800 font-medium">
-                                    0x{{headerCommitment}}
-                                </h2>
-                            </div>
-
-                            <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
-                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
-                                    Pool Address
-                                </h3>
-
-                                <a @click="loadPoolAddress" class="text-xl text-blue-500 font-medium hover:underline cursor-pointer">
-                                    {{poolAddress}}
-                                </a>
-                            </div>
-                        </div>
-
-                        <p class="text-sm text-yellow-700 italic">
-                            NOTE: <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> are automatically converted 1-for-1 into $NEX coins after staking in the <NuxtLink to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</NuxtLink> for seven (7) days.
-                        </p>
-                    </section>
-
-                    <!-- Right column -->
-                    <div class="grid grid-cols-1 gap-4">
-                        <PayoutsBlock />
-
-                        <BlockRewardsPanel />
+                        <img
+                            src="~/assets/lottie/90472-saving-the-money.gif"
+                            class="ml-20 p-1 h-20 border-2 border-yellow-600 rounded-xl"
+                        />
                     </div>
+
+                    <p class="text-yellow-900 font-medium">
+                        Pool Payouts are sent after each block as a combination of $NEX coins and <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> tokens.
+                    </p>
+
+                    <div class="grid grid-cols-3 gap-5">
+                        <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                            <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                Block Height
+                            </h3>
+
+                            <h2 class="text-2xl text-yellow-800 font-medium">
+                                {{displayBlocks}}
+                            </h2>
+                        </div>
+
+                        <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                            <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                Mining Difficulty
+                            </h3>
+
+                            <h2 class="text-2xl text-yellow-800 font-medium">
+                                {{displayDifficulty}}
+                            </h2>
+                        </div>
+
+                        <div class="p-3 flex flex-col items-center bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                            <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                Network Hashrate
+                            </h3>
+
+                            <h2 class="text-2xl text-yellow-800 font-medium">
+                                {{displayHashrate}}
+                            </h2>
+                        </div>
+                    </div>
+
+                    <hr class="border-t border-yellow-600" />
+
+                    <div class="grid grid-cols-1 gap-5">
+                        <div class="flex gap-5">
+                            <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                    Mining ID
+                                </h3>
+
+                                <h2 class="text-2xl text-yellow-800 font-medium">
+                                    0x{{miningid}}
+                                </h2>
+                            </div>
+
+                            <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                                <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                    nBits
+                                </h3>
+
+                                <h2 class="text-2xl text-yellow-800 font-medium">
+                                    0x{{nBits}}
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                            <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                Header Commitment
+                            </h3>
+
+                            <h2 class="text-xl text-yellow-800 font-medium">
+                                0x{{headerCommitment}}
+                            </h2>
+                        </div>
+
+                        <div class="p-3 flex flex-col w-fit bg-yellow-200 border-2 border-yellow-400 rounded-lg">
+                            <h3 class="text-xs text-yellow-600 font-medium uppercase">
+                                Pool Address
+                            </h3>
+
+                            <a @click="loadPoolAddress" class="text-xl text-blue-500 font-medium hover:underline cursor-pointer">
+                                {{poolAddress}}
+                            </a>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-yellow-700 italic">
+                        NOTE: <NuxtLink to="/token" class="text-blue-500 font-medium hover:underline">$ROCKS</NuxtLink> are automatically converted 1-for-1 into $NEX coins after staking in the <NuxtLink to="/quarry" class="text-blue-500 font-medium hover:underline">Quarry</NuxtLink> for seven (7) days.
+                    </p>
+                </section>
+
+                <!-- Right column -->
+                <div class="grid grid-cols-1 gap-4">
+                    <PayoutsBlock />
+
+                    <BlockRewardsPanel />
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </template>
 

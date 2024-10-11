@@ -34,12 +34,14 @@ const txidem = ref(null)
 /* Initialize mining handlers. */
 const enclave = ref(null)
 const isMining = ref(false)
+const isWaitingForBlock = ref(false)
 const useConfetti = ref(true)
 
 /* Initialize constants. */
 const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd40000'
 
 const RECONNECTION_DELAY = 3000
+const CONNECTION_PING_DELAY = 30000
 
 /* Initialize confetti. */
 let jsConfetti
@@ -58,10 +60,6 @@ const toggleFiat = () => {
  * TBD...
  */
 const init = async () => {
-    /* Initialize locals. */
-    let miningAddress
-    let miningUnspent
-
 // console.log('WALLET ADDRESS', Wallet.address)
     /* Validate (wallet) address. */
     if (!Wallet.address) {
@@ -76,50 +74,9 @@ const init = async () => {
 
     /* Request wallet history. */
     // FIXME: This should already be saved somewhere??
-    const history = await getAddressHistory(Wallet.address)
-        .catch(err => console.error(err))
-    console.log('MY HISTORY', history)
-
-    /* Request enclave (mining) details. */
-    enclave.value = await $fetch('https://enclave.nxy.cash/v1/mining')
-        .catch(err => console.error(err))
-    console.log('ENCLAVE', enclave.value)
-
-    /* Validate enclave. */
-    if (!enclave.value) {
-        return alert('ERROR! Nxy Mining Enclave is currently unavailable. Please try again later..')
-    }
-
-    /* Validate minting authority. */
-    if (enclave.value?.authority) {
-        /* Set minting authority. */
-        mintingAuth.value = enclave.value.authority
-
-        return // exit function
-    }
-
-    /* Validate minting authority. */
-    if (enclave.value?.address) {
-        /* Set mining address. */
-        miningAddress = enclave.value.address
-        console.log('MINING ADDRESS', miningAddress)
-    }
-
-    /* Validate mining address. */
-    if (!miningAddress) {
-        throw new Error('Oops! There is NO mining address available.')
-    }
-
-    /* Request unspent of mining address. */
-    miningUnspent = await listUnspent(miningAddress)
-        .catch(err => console.error(err))
-    // console.log('MINING UNSPENT', miningUnspent)
-
-    /* Find latest minting authority. */
-    mintingAuth.value = miningUnspent.find(_unspent => {
-        return _unspent.tokenidHex === NXY_ID_HEX && _unspent.tokens < BigInt(0)
-    })
-    console.log('MINTING AUTH', mintingAuth.value)
+    // const history = await getAddressHistory(Wallet.address)
+    //     .catch(err => console.error(err))
+    // console.log('MY HISTORY', history)
 }
 
 /**
@@ -180,6 +137,8 @@ const startMiner = async () => {
     let candidate
     let errMsg
     let miner
+    let miningAddress
+    let miningUnspent
     let mySubmission
     let outpointHash
     let provider
@@ -202,14 +161,59 @@ const startMiner = async () => {
 
     // TODO Record candidates to (local) logs (for auditing).
 
-    if (!mintingAuth.value?.outpoint) {
+    /* Request enclave (mining) details. */
+    enclave.value = await $fetch('https://enclave.nxy.cash/v1/mining')
+        .catch(err => console.error(err))
+    console.log('ENCLAVE', enclave.value)
+
+    /* Validate enclave. */
+    if (!enclave.value) {
+        return alert('ERROR! Nxy Mining Enclave is currently unavailable. Please try again later..')
+    }
+
+    /* Validate minting authority. */
+    if (enclave.value?.authority) {
+        /* Set minting authority. */
+        mintingAuth.value = enclave.value.authority
+
+        return // exit function
+    }
+
+    /* Validate minting authority. */
+    if (enclave.value?.address) {
+        /* Set mining address. */
+        miningAddress = enclave.value.address
+        console.log('MINING ADDRESS', miningAddress)
+    }
+
+    /* Validate mining address. */
+    if (!miningAddress) {
+        throw new Error('Oops! There is NO mining address available.')
+    }
+
+    /* Request unspent of mining address. */
+    // miningUnspent = await listUnspent(miningAddress)
+    //     .catch(err => console.error(err))
+    // console.log('MINING UNSPENT', miningUnspent)
+
+    /* Validate enclave UTXO. */
+    if (enclave.value?.utxo) {
+        mintingAuth.value = enclave.value.utxo
+    }
+    /* Find latest minting authority. */
+    // mintingAuth.value = miningUnspent.find(_unspent => {
+    //     return _unspent.tokenidHex === NXY_ID_HEX && _unspent.tokens < BigInt(0)
+    // })
+    console.log('MINTING AUTH', mintingAuth.value)
+
+    if (!mintingAuth.value?.outpointHash) {
         return alert('Loading mining parameters are STILL loading...')
     }
 
     /* Set flag. */
     isMining.value = true
 
-    outpointHash = mintingAuth.value.outpoint
+    outpointHash = mintingAuth.value.outpointHash
     console.log('OUTPOINT HASH', outpointHash)
 
     mySubmission = calcSubmission(miner, outpointHash, candidate)
@@ -249,27 +253,42 @@ const startMiner = async () => {
                 confettiNumber: 300,
             })
         }
+
+        /* Automtically restart mining (after a successful reward). */
+        setTimeout(startMiner, 30000)
     }
 
     /* Validate error. */
     if (response.error) {
         /* Validate error message. */
-        if (response.error.message?.includes('Script failed an OP_VERIFY operation')) {
-            errMsg = 'Candidate failed! Please try again...'
+        if (
+            response.error.includes('Script failed an OP_VERIFY operation') ||
+            response.error.message?.includes('Script failed an OP_VERIFY operation')
+        ) {
+            /* Automtically restart mining (after an error or failure). */
+            setTimeout(startMiner, 3000)
+
+            errMsg = 'Your attempt failed! Will automatically retry in a few seconds...'
 
             errors.value.push(errMsg)
             return console.error(errMsg)
         }
 
-        if (response.error.message?.includes('non-BIP68-final')) {
-            errMsg = 'Please wait until the next Nexa block to submit your next Reward candidate.'
+        if (
+            response.error.includes('non-BIP68-final') ||
+            response.error.message?.includes('non-BIP68-final')
+        ) {
+            /* Set flag. */
+            isWaitingForBlock.value = true
+
+            errMsg = 'Mining is paused, please wait... Mining will automatically resume immediately AFTER the current $NXY reward is processed.'
 
             errors.value.push(errMsg)
             return console.error(errMsg)
         }
 
         /* Display (unknown) error. */
-        alert(response.error?.message || response.error)
+        alert('UNKNOWN ERROR!\n\n' + (response.error?.message || response.error))
     }
 }
 
@@ -314,7 +333,7 @@ console.log('START MONITOR')
         // shouldRetry: () => true,
         // retryAttempts: Infinity,
         // retryAttempts: 3,
-        keepAlive: 10000,
+        keepAlive: CONNECTION_PING_DELAY,
         on: {
             connected: async (_socket) => {
                 isReconnecting = false
@@ -347,10 +366,17 @@ console.log('START MONITOR')
                 })
 
                 for await (const event of subscription) {
-                    console.log('SUBSCRIPTION EVENT', event?.data?.block || event?.data || event)
+                    console.log('SUBSCRIPTION EVENT',
+                        isWaitingForBlock.value,
+                        event?.data?.block || event?.data || event)
 
-                    if (!subscription) {
-                        console.error('NO SUBSCRIPTION!!')
+                    /* Validate waiting flag. */
+                    if (isWaitingForBlock.value === true) {
+                        /* Set flag. */
+                        isWaitingForBlock.value = false
+
+                        /* Start miner. */
+                        startMiner()
                     }
                 }
 
@@ -402,149 +428,145 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <main class="w-full flex flex-col space-y-4">
         <h1 class="sr-only">Solo Mining</h1>
 
-        <section class="px-3 py-2 flex flex-col col-span-2 space-y-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg shadow">
-            <div class="mx-auto mt-8 max-w-7xl px-0 sm:mt-0 lg:px-8">
+        <section class="w-full lg:col-span-2 flex flex-col gap-3">
+            <ChooseTokenAsset />
 
-                <ChooseTokenAsset />
+            <MiningGlobalStats :mintingAuth="mintingAuth" />
 
-                <MiningGlobalStats :mintingAuth="mintingAuth" />
+            <button
+                @click="startMiner"
+                class="group px-5 py-5 bg-green-500 border border-green-700 rounded-xl shadow"
+                :class="[ isMining ? 'opacity-30 cursor-not-allowed' : 'hover:bg-green-400' ]"
+                :disabled="isMining"
+            >
+                <span
+                    class="text-5xl text-amber-100 font-medium"
+                    :class="[ isMining ? '' : 'group-hover:text-green-900' ]"
+                >
+                    Start Mining
+                </span>
+            </button>
 
-                <section class="w-full lg:col-span-2 flex flex-col gap-3 order-1 lg:order-2 truncate">
+            <div v-if="txidem" class="col-span-2 mb-3 px-3 py-2 flex flex-col gap-3 bg-gray-800 border-t-2 border-amber-300 rounded-lg shadow">
+                <h3 class="text-gray-100 text-base font-medium">
+                    Congratulations!
+                    <br />You received a mining reward!
+                </h3>
 
-                    <button
-                        @click="startMiner"
-                        class="group px-5 py-5 bg-green-500 border border-green-700 rounded-xl shadow hover:bg-green-400"
-                        :class="[ isMining ? 'opacity-30' : '' ]"
-                        :disabled="isMining"
-                    >
-                        <span class="text-5xl text-amber-100 font-medium group-hover:text-green-900">
-                            Start Mining
-                        </span>
-                    </button>
+                <div class="">
+                    <h4 class="text-xs uppercase text-amber-200 font-medium tracking-wider">
+                        Transaction Idem
+                    </h4>
 
-                    <div v-if="txidem" class="col-span-2 mb-3 px-3 py-2 flex flex-col gap-3 bg-gray-800 border-t-2 border-amber-300 rounded-lg shadow">
-                        <h3 class="text-gray-100 text-base font-medium">
-                            Congratulations!
-                            <br />You received a mining reward!
-                        </h3>
+                    <div class="w-full flex flex-row gap-1 items-center truncate">
+                        <NuxtLink :to="'https://explorer.nexa.org/tx/' + txidem" target="_blank" class="w-full text-lg text-blue-200 font-medium truncate">
+                            {{txidem}}
+                        </NuxtLink>
 
-                        <div class="">
-                            <h4 class="text-xs uppercase text-amber-200 font-medium tracking-wider">
-                                Transaction Idem
-                            </h4>
-
-                            <div class="w-full flex flex-row gap-1 items-center truncate">
-                                <NuxtLink :to="'https://explorer.nexa.org/tx/' + txidem" target="_blank" class="w-full text-lg text-blue-200 font-medium truncate">
-                                    {{txidem}}
-                                </NuxtLink>
-
-                                <svg class="w-10 h-auto text-blue-200" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
-                                </svg>
-                            </div>
-                        </div>
+                        <svg class="w-10 h-auto text-blue-200" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                        </svg>
                     </div>
-
-                    <div v-if="errors && errors.length">
-                        <div class="rounded-md bg-red-50 p-4">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-                                            clip-rule="evenodd"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-red-800 tracking-wide">
-                                        There were {{errors.length}} error(s) with your submission
-                                    </h3>
-
-                                    <div class="mt-2 text-sm text-red-700">
-                                        <ul role="list" class="list-disc space-y-1 pl-5">
-                                            <li v-for="error of errors" :key="error">
-                                                {{error}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="my-3 px-3 flex items-center justify-between gap-3">
-
-                        <span class="flex flex-grow flex-col">
-                            <span class="text-base font-medium leading-6 text-gray-800 tracking-wider">
-                                Enable SOLO mining?
-                            </span>
-
-                            <span class="text-sm text-gray-500" id="availability-description">
-                                Receive the FULL reward for every accepted solution.
-                                <em class="block text-xs text-rose-500 tracking-wider">(requires small amount of $NXY to pay transaction fee)</em>
-                            </span>
-                        </span>
-
-                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button
-                            @click="toggleSolo"
-                            type="button"
-                            class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                            role="switch"
-                            aria-checked="false"
-                            aria-labelledby="availability-label"
-                            aria-describedby="availability-description"
-                        >
-                            <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
-                            <span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-                        </button>
-                    </div>
-
-                    <div class="my-3 px-3 flex items-center justify-between gap-3">
-
-                        <span class="flex flex-grow flex-col">
-                            <span class="text-base font-medium leading-6 text-gray-800 tracking-wider">
-                                Display in FIAT?
-                            </span>
-
-                            <span class="text-sm text-gray-500" id="availability-description">
-                                Display ALL monetary values in your local currency.
-                            </span>
-                        </span>
-
-                        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-                        <button
-                            @click="toggleFiat"
-                            type="button"
-                            class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                            role="switch"
-                            aria-checked="false"
-                            aria-labelledby="availability-label"
-                            aria-describedby="availability-description"
-                        >
-                            <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
-                            <span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-                        </button>
-                    </div>
-
-                </section>
-
-                <div class="mt-20 grid lg:grid-cols-5 gap-5">
-
-                    <section class="lg:col-span-3 flex flex-col gap-12 order-2 lg:order-1">
-                        <MiningLocalStats />
-                        <MiningPoolStats />
-                    </section>
-
                 </div>
-
             </div>
+
+            <div v-if="errors && errors.length">
+                <div class="rounded-md bg-red-50 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                    clip-rule="evenodd"
+                                />
+                            </svg>
+                        </div>
+
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800 tracking-wide">
+                                There were {{errors.length}} error(s) with your submission
+                            </h3>
+
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul role="list" class="list-disc space-y-1 pl-5">
+                                    <li v-for="error of errors" :key="error">
+                                        {{error}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-3 px-3 flex items-center justify-between gap-3">
+
+                <span class="flex flex-grow flex-col">
+                    <span class="text-base font-medium leading-6 text-gray-800 tracking-wider">
+                        Enable SOLO mining?
+                    </span>
+
+                    <span class="text-sm text-gray-500" id="availability-description">
+                        Receive the FULL reward for every accepted solution.
+                        <em class="block text-xs text-rose-500 tracking-wider">(requires small amount of $NXY to pay transaction fee)</em>
+                    </span>
+                </span>
+
+                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                <button
+                    @click="toggleSolo"
+                    type="button"
+                    class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                    role="switch"
+                    aria-checked="false"
+                    aria-labelledby="availability-label"
+                    aria-describedby="availability-description"
+                >
+                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                    <span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+            </div>
+
+            <div class="my-3 px-3 flex items-center justify-between gap-3">
+
+                <span class="flex flex-grow flex-col">
+                    <span class="text-base font-medium leading-6 text-gray-800 tracking-wider">
+                        Display in FIAT?
+                    </span>
+
+                    <span class="text-sm text-gray-500" id="availability-description">
+                        Display ALL monetary values in your local currency.
+                    </span>
+                </span>
+
+                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                <button
+                    @click="toggleFiat"
+                    type="button"
+                    class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                    role="switch"
+                    aria-checked="false"
+                    aria-labelledby="availability-label"
+                    aria-describedby="availability-description"
+                >
+                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                    <span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                </button>
+            </div>
+
+        </section>
+
+        <section class="mt-20 grid lg:grid-cols-5 gap-5">
+
+            <div class="lg:col-span-3 flex flex-col gap-12">
+                <MiningLocalStats />
+                <MiningPoolStats />
+            </div>
+
         </section>
     </main>
 </template>

@@ -138,7 +138,7 @@ const calcSubmission = (_miner, _outpointHash, _candidate) => {
 const startMiner = async () => {
     /* Validate wallet. */
     if (!Wallet.address) {
-        alert('Oops! You MUST create OR import a wallet to continue.')
+        alert('Oops! You MUST first create OR import a Nexa wallet to begin mining.')
 
         /* Go to wallet. */
         router.push('/wallet')
@@ -149,7 +149,7 @@ const startMiner = async () => {
     console.log('COINS', Wallet.wallet.coins)
     /* Validate wallet. */
     if (Wallet.wallet.coins.length === 0) {
-        alert('Oops! You MUST deposit at least 100 $NEXA to cover Solo Mining transaction fees.')
+        alert('Oops! You MUST deposit at least 100 $NEXA to pay for Solo Mining transaction fees.')
 
         /* Go to wallet. */
         router.push('/wallet')

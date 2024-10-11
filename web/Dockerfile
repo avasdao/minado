@@ -1,18 +1,15 @@
-# Dockerfile
 FROM node:22-slim
 
-# create destination directory
-RUN mkdir -p /usr/src/nuxt-app
-WORKDIR /usr/src/nuxt-app
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-# update and install dependency
-RUN apt update && apt upgrade -y
+COPY package.json /usr/src/app/package.json
+RUN yarn install --silent
 
-# copy the app, note .dockerignore
-COPY . /usr/src/nuxt-app/
-RUN yarn
-RUN yarn generate
+COPY . /usr/src/app
+RUN yarn run build
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["node", ".output/server/index.mjs"]

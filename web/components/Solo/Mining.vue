@@ -44,6 +44,8 @@ const NXY_ID_HEX = '5f2456fa44a88c4a831a4b7d1b1f34176a29a3f28845af639eb9b1c88dd4
 
 const RECONNECTION_DELAY = 3000
 const CONNECTION_PING_DELAY = 30000
+const SHORT_MINING_DELAY = 1000
+const LONG_MINING_DELAY = 5000
 
 /* Initialize globals. */
 let jsConfetti
@@ -292,7 +294,7 @@ const startMiner = async () => {
             response.error.message?.includes('Script failed an OP_VERIFY operation')
         ) {
             /* Automtically restart mining (after an error or failure). */
-            setTimeout(startMiner, 3000)
+            setTimeout(startMiner, SHORT_MINING_DELAY)
 
             errMsg = 'Your attempt failed! Will automatically retry in a few seconds...'
 
@@ -302,10 +304,12 @@ const startMiner = async () => {
 
         if (
             response.error.includes('txn-already-in-mempool') ||
-            response.error.message?.includes('txn-already-in-mempool')
+            response.error.message?.includes('txn-already-in-mempool') ||
+            response.error.includes('group-token-imbalance') ||
+            response.error.message?.includes('group-token-imbalance')
         ) {
             /* Automtically restart mining (after an error or failure). */
-            setTimeout(startMiner, 5000)
+            setTimeout(startMiner, LONG_MINING_DELAY)
 
             errMsg = 'Your attempt failed! Will automatically retry in a few seconds...'
 

@@ -301,6 +301,19 @@ const startMiner = async () => {
         }
 
         if (
+            response.error.includes('txn-already-in-mempool') ||
+            response.error.message?.includes('txn-already-in-mempool')
+        ) {
+            /* Automtically restart mining (after an error or failure). */
+            setTimeout(startMiner, 5000)
+
+            errMsg = 'Your attempt failed! Will automatically retry in a few seconds...'
+
+            errors.value.push(errMsg)
+            return console.error(errMsg)
+        }
+
+        if (
             response.error.includes('non-BIP68-final') ||
             response.error.message?.includes('non-BIP68-final')
         ) {

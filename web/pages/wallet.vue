@@ -151,7 +151,7 @@ onMounted(() => {
 
     <WalletSetup v-else-if="!Wallet.isReady" />
 
-    <main v-else class="grid grid-cols-1 lg:grid-cols-7 gap-8">
+    <main v-else class="-mt-20 pb-8 grid grid-cols-1 lg:grid-cols-7 gap-8">
         <div class="col-span-4">
             <section @click="setTab('assets')" class="cursor-pointer group px-5 py-3 bg-gradient-to-b from-sky-100 to-sky-50 border-t border-x border-sky-400 rounded-t-lg rounded-x-lg shadow-md hover:bg-sky-100">
                 <div class="flex flex-row w-full justify-between items-center mb-1" :class="[ isShowingAssets ? 'visible' : 'hidden' ]">

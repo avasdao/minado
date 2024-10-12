@@ -1,193 +1,348 @@
 <script setup>
 /* Import modules. */
-import { copyToClipboard } from '@nexajs/app'
-import QRCode from 'qrcode'
-
-/* Define properties. */
-const props = defineProps({
-    isFullScreen: Boolean,
-})
+import numeral from 'numeral'
 
 /* Initialize stores. */
-import { useSystemStore } from '@/stores/system'
 import { useWalletStore } from '@/stores/wallet'
-const System = useSystemStore()
+import { useSystemStore } from '@/stores/system'
 const Wallet = useWalletStore()
+const System = useSystemStore()
 
-const ADDRESS_POLLING_DELAY = 100
+const activeTab = ref(null)
 
-const dataUrl = ref(null)
-const depositAmount = ref(null)
-
-const isShowingCurrencyOptions = ref(false)
-
-/**
- * Update QR Code
- *
- * Uses BIP-21 to encode a data URI.
- */
- const updateQrCode = async () => {
-    if (!Wallet.address) {
-        return setTimeout(() => {
-            updateQrCode()
-        }, ADDRESS_POLLING_DELAY)
+const assets = computed(() => {
+    if (!Wallet.assets) {
+        return []
     }
 
-    let bip21Url
+    /* Initialize filtered list. */
+    const filtered = []
 
-    /* Handle (user-defined) amount. */
-    if (Wallet.nex > 0) {
-        bip21Url = `${Wallet.address}?amount=${Wallet.nex}`
+    /* Handle assets. */
+    Object.keys(Wallet.assets).map(_assetid => {
+        if (_assetid === '0' || _assetid.length === 64) {
+            const asset = { ...Wallet.assets[_assetid] }
+
+            asset.id = _assetid
+
+            filtered.push(asset)
+        }
+    })
+
+    /* Return filtered. */
+    return filtered
+})
+
+const collections = computed(() => {
+    if (!Wallet.assets) {
+        return []
+    }
+
+    /* Initialize filtered list. */
+    const filtered = []
+
+    /* Handle assets. */
+    Object.keys(Wallet.assets).map(_assetid => {
+        if (_assetid.length === 128) {
+            const asset = { ...Wallet.assets[_assetid] }
+
+            asset.id = _assetid
+
+            filtered.push(asset)
+        }
+    })
+
+    /* Return filtered. */
+    return filtered
+})
+
+const coinAmount = computed(() => {
+    if (!Wallet.coins) {
+        return '0.00'
+    }
+
+    /* Initialize locals. */
+    let total
+
+    total = Wallet.coins.reduce(
+        (totalSatoshis, coin) => (totalSatoshis + coin.satoshis), BigInt(0)
+    )
+
+    return numeral(parseFloat(total) / 100.0).format('0,0.00[00000000]')
+})
+
+const coinAmountUsd = computed(() => {
+    if (!Wallet.coins) {
+        return '0.00'
+    }
+
+    /* Initialize locals. */
+    let satoshis
+    let mex
+    let mexUsd
+
+    satoshis = Wallet.coins.reduce(
+        (totalSatoshis, coin) => (totalSatoshis + coin.satoshis), BigInt(0)
+    )
+
+    /* Calculate (NEX) total. */
+    mex = (parseInt(satoshis) / 1e8)
+
+    /* Calculate (MEX) total. */
+    mexUsd = mex * System.usd
+
+    /* Handle UI (value) formatting. */
+    if (mexUsd >= 10.0) {
+        /* Return formatted value. */
+        return numeral(mexUsd).format('$0,0.00')
     } else {
-        bip21Url = Wallet.address
+        /* Return formatted value. */
+        return numeral(mexUsd).format('$0,0.00[00]')
     }
-    console.log('Wallet.address', Wallet.address)
-    console.log('bip21Url', bip21Url)
+})
 
-    /* Set data URL. */
-    dataUrl.value = await QRCode.toDataURL(bip21Url)
+const displayTokenName = (_tokenid) => {
+    if (!Wallet.assets || !Wallet.assets[_tokenid]?.name) {
+        return 'Unknown Asset'
+    }
+
+    return Wallet.assets[_tokenid].name
 }
 
-const clipboardHandler = () => {
-    /* Copy address to clipboard. */
-    if (copyToClipboard(Wallet.address)) {
-        alert(`[ ${Wallet.address} ] has been copied to the clipboard.`)
+const displayDecimalAmount = (_token) => {
+    // console.log('_token', _token)
+
+    /* Initialize locals. */
+    let decimalValue
+    let bigIntValue
+
+    /* Handle UI (value) formatting. */
+    if (_token.group === '0') {
+        decimalValue = _token.satoshis * BigInt(1e4)
     } else {
-        alert(`Oops! Unfortunately, something went wrong.`)
+        /* Validate amount type. */
+        if (typeof _token.amount !== 'bigint') {
+            decimalValue = BigInt(0)
+        } else {
+            decimalValue = _token.amount * BigInt(1e4)
+        }
     }
+
+    /* Handle UI (value) formatting. */
+    if (_token?.decimal_places > 0) {
+        bigIntValue = decimalValue / BigInt(10**_token.decimal_places)
+    } else {
+        bigIntValue = decimalValue
+    }
+
+    /* Return formatted value. */
+    return numeral(parseFloat(bigIntValue) / 1e4).format('0,0[.]00[0000]')
+}
+
+const displayDecimalAmountUsd = (_token) => {
+    // console.log('_token', _token)
+    let amount
+
+    /* Set amount. */
+    amount = _token.fiat?.USD || 0.00
+
+    /* Handle amount. */
+    if (amount >= 10.0) {
+        /* Return formatted value. */
+        return numeral(amount).format('$0,0.00')
+    } else {
+        /* Return formatted value. */
+        return numeral(amount).format('$0,0.00[0000]')
+    }
+}
+
+const displayIcon = (_token) => {
+    /* Initialize locals. */
+    let parentid
+    let tokenid
+
+    /* Validate token. */
+    if (!_token) {
+        return null
+    }
+
+    /* Validate token ID. */
+    if (_token.token_id_hex) {
+        /* Set parent id. */
+        parentid = _token.token_id_hex.slice(0, 64)
+
+        /* Set token id. */
+        tokenid = _token.token_id_hex
+    }
+
+    /* Handle icon URL. */
+    if (!_token.iconUrl || _token.iconUrl === '') {
+        /* Validate Studio Time + Collection. */
+        if (parentid === '9732745682001b06e332b6a4a0dd0fffc4837c707567f8cbfe0f6a9b12080000') {
+            return `https://nexa.garden/token/${tokenid}/public` // Nexa Garden
+        }
+
+        /* Validate NiftyArt. */
+        if (parentid === 'cacf3d958161a925c28a970d3c40deec1a3fe06796fe1b4a7b68f377cdb90000') {
+            return `https://niftyart.cash/nftyc/${tokenid}/cardf.jpeg` // NiftyArt
+            // return `https://niftyart.cash/nftyc/${tokenid}/public.jpeg` // NiftyArt
+        }
+
+        /* Return null. */
+        return null
+    }
+
+    /* Return icon URL. */
+    return _token.iconUrl || null
+}
+
+const loadCollection = async () => {
+    /* Initialize locals. */
+    let collectible
+    let info
+    let tokenid
+
+    /* Handle wallet assets. */
+    Object.keys(Wallet.assets).forEach(async _assetid => {
+        console.log('ASSET ID', _assetid)
+
+        if (_assetid.length === 128) {
+            collectible = Wallet.assets[_assetid]
+            console.log('COLLECTIBLE', collectible)
+
+            tokenid = collectible.token_id_hex
+
+            info = await $fetch(`https://eternaldb.org/_token/${tokenid}`)
+                .catch(err => console.error(err))
+            console.log('COLLETIBLE INFO', info)
+        }
+    })
+
+}
+
+const init = () => {
+    // console.log('ASSETS', Wallet.assets)
+
+    /* Set active tab. */
+    // TODO Save last tab.
+    activeTab.value = 'assets'
+
+    // loadCollection()
 }
 
 onMounted(() => {
-    /* Update the QR code. */
-    updateQrCode()
-
-    console.log('PROPS', typeof props.isFullScreen, props.isFullScreen)
+    init()
 })
 
 // onBeforeUnmount(() => {
 //     console.log('Before Unmount!')
 //     // Now is the time to perform all cleanup operations.
 // })
-
 </script>
 
 <template>
-    <main class="" :class="[ props.isFullScreen === true ? 'grid lg:grid-cols-2 gap-8' : '' ]">
-        <NuxtLink :to="Wallet.address">
-            <section class="w-full px-3 py-2 my-5 bg-amber-500 border-2 border-amber-700 rounded-lg shadow">
-                <h2 class="text-lg sm:text-xl text-amber-700 font-medium text-center uppercase">
-                    Your Deposit Address
-                </h2>
+    <main class="flex flex-col gap-5">
+        <div class="border-b border-gray-200">
+            <nav class="-mb-px flex space-x-8 text-center" aria-label="Tabs">
+                <button @click="activeTab = 'assets'" class="w-1/2 text-indigo-600 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" aria-current="page" :class="[ activeTab === 'assets' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700']">
+                    <span class="text-lg">
+                        Assets
+                    </span>
 
-                <h3 :to="Wallet.address"
-                    class="flex justify-center text-lg text-amber-900 font-medium truncate"
-                >
-                    {{Wallet.abbr}}
-                </h3>
+                    <span class="bg-indigo-100 text-indigo-600 ml-1 sm:ml-3 rounded-full py-0.5 px-2.5 text-xs font-medium">
+                        {{assets?.length}}
+                    </span>
+                </button>
 
-                <div class="flex justify-center">
-                    <img
-                        :src="dataUrl"
-                        class="my-5 w-full h-auto border-2 border-amber-900 rounded-lg shadow-md"
-                    />
+                <!-- Current: "", Default: "" -->
+                <button @click="activeTab = 'collections'" class="w-1/2 text-gray-500 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" :class="[ activeTab === 'collections' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-700']">
+                    <span class="text-lg">
+                        Collections
+                    </span>
+
+                    <!-- Current: "bg-indigo-100 text-indigo-600", Default: "bg-gray-100 text-gray-900" -->
+                    <span class="bg-gray-100 text-gray-900 ml-1 sm:ml-3 rounded-full py-0.5 px-2.5 text-xs font-medium">
+                        {{collections?.length}}
+                    </span>
+                </button>
+            </nav>
+        </div>
+
+        <div v-if="activeTab === 'assets'" class="flex flex-col gap-5">
+            <div
+                v-for="token in assets" :key="token.id"
+                @click="Wallet.wallet.setAsset(token.id)"
+                class="flex flex-row justify-between items-end pl-1 pr-3 pt-2 pb-1 sm:py-3 bg-gradient-to-b from-amber-100 to-amber-50 border border-amber-300 rounded-lg shadow hover:bg-amber-200 cursor-pointer"
+            >
+                <div class="w-1/2 flex flex-row items-start">
+                    <img :src="displayIcon(token)" class="-mt-0.5 mr-1 h-12 w-auto p-2 opacity-80" />
+
+                    <div class="flex flex-col">
+                        <h3 class="text-base text-amber-800 font-medium uppercase truncate">
+                            {{displayTokenName(token.id)}}
+                        </h3>
+
+                        <span class="sm:hidden text-lg font-medium text-amber-600">
+                            {{displayDecimalAmount(token)}}
+                        </span>
+                        <span class="hidden sm:flex text-xl font-medium text-amber-600">
+                            {{displayDecimalAmount(token)}}
+                        </span>
+                    </div>
                 </div>
 
-                <p class="px-0 sm:px-5 text-sm text-amber-900 text-center">
-                    Scan the QR code shown above or click the image to open your preferred wallet.
-                </p>
-            </section>
-        </NuxtLink>
+                <h3 class="w-1/2 flex flex-col items-end font-medium text-amber-700">
+                    <sup class="text-xs">
+                        USD
+                    </sup>
 
-        <section>
-            <label for="combobox" class="block text-lg font-medium leading-6 text-gray-900">
-                Choose a deposit currency:
-            </label>
-
-            <div class="relative mt-2">
-                <input
-                    id="combobox"
-                    type="text"
-                    class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-2xl sm:leading-6"
-                    role="combobox"
-                    aria-controls="options"
-                    aria-expanded="false"
-                    value="Nexa">
-
-                <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-
-                <ul v-if="isShowingCurrencyOptions" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" id="options" role="listbox">
-                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option" tabindex="-1">
-                        <span class="block truncate font-semobold">Nexa</span>
-
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </li>
-
-                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option" tabindex="-1">
-                        <div class="flex items-center">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-6 w-6 flex-shrink-0 rounded-full">
-                            <!-- Selected: "font-semibold" -->
-                            <span class="ml-3 truncate">Tether - USDT</span>
-                        </div>
-
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </li>
-
-                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option" tabindex="-1">
-                        <span class="block truncate">Bitcoin</span>
-
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </li>
-
-                    <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option" tabindex="-1">
-                        <span class="block truncate">Bitcoin Cash</span>
-
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </li>
-
-                </ul>
+                    <span class="-mt-3 sm:hidden text-2xl">
+                        {{displayDecimalAmountUsd(token)}}
+                    </span>
+                    <span class="-mt-3 hidden sm:flex text-3xl">
+                        {{displayDecimalAmountUsd(token)}}
+                    </span>
+                </h3>
             </div>
+        </div>
 
-            <input
-                class="w-full my-3 px-3 py-1 text-xl sm:text-2xl bg-yellow-200 border-2 border-yellow-400 rounded-md shadow"
-                type="number"
-                v-model="depositAmount"
-                placeholder="Enter a (USD) amount"
-            />
+        <div v-else class="flex flex-col gap-5">
+            <div
+                v-for="token in collections" :key="token.id"
+                @click="Wallet.wallet.setAsset(token.id)"
+                class="flex flex-row justify-between items-end pl-1 pr-3 pt-2 pb-1 sm:py-3 bg-gradient-to-b from-amber-100 to-amber-50 border border-amber-300 rounded-lg shadow hover:bg-amber-200 cursor-pointer"
+            >
+                <div class="w-1/2 flex flex-row items-start">
+                    <img :src="displayIcon(token)" class="-mt-0.5 mr-1 h-12 w-auto p-2 opacity-80" />
 
-            <div class="mb-5 flex flex-row gap-3">
-                <button
-                    @click="clipboardHandler"
-                    class="w-full block px-3 py-1 text-2xl font-medium bg-blue-200 border-2 border-blue-400 rounded-md shadow hover:bg-blue-300"
-                >
-                    Copy
-                </button>
+                    <div class="flex flex-col">
+                        <h3 class="text-base text-amber-800 font-medium uppercase truncate">
+                            {{displayTokenName(token.id)}}
+                        </h3>
 
-                <button
-                    class="w-full block px-3 py-1 text-2xl font-medium bg-blue-200 border-2 border-blue-400 rounded-md shadow hover:bg-blue-300"
-                >
-                    Share
-                </button>
+                        <span class="sm:hidden text-lg font-medium text-amber-600">
+                            {{displayDecimalAmount(token)}}
+                        </span>
+                        <span class="hidden sm:flex text-xl font-medium text-amber-600">
+                            {{displayDecimalAmount(token)}}
+                        </span>
+                    </div>
+                </div>
+
+                <h3 class="w-1/2 flex flex-col items-end font-medium text-amber-700">
+                    <sup class="text-xs">
+                        USD
+                    </sup>
+
+                    <span class="-mt-3 sm:hidden text-2xl">
+                        {{displayDecimalAmountUsd(token)}}
+                    </span>
+                    <span class="-mt-3 hidden sm:flex text-3xl">
+                        {{displayDecimalAmountUsd(token)}}
+                    </span>
+                </h3>
             </div>
-     </section>
+        </div>
+
     </main>
 </template>

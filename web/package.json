@@ -1,6 +1,6 @@
 {
   "name": "minado-web",
-  "version": "25.1.13",
+  "version": "25.2.13",
   "license": "MIT",
   "scripts": {
     "build": "nuxt build",
@@ -26,6 +26,7 @@
     "pouchdb": "9.0.0",
     "qr-scanner": "1.4.2",
     "qrcode": "1.5.1",
+    "simple-analytics-vue": "3.0.2",
     "typescript": "5.6.3",
     "uuid": "10.0.0"
   },
@@ -36,6 +37,6 @@
   },
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=21.0.0"
   }
 }
